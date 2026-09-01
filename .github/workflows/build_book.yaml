@@ -33,8 +33,15 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install R dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install required R packages
+        run: Rscript -e 'install.packages(c("knitr", "rmarkdown"), repos = Sys.getenv("RSPM"))'
+
+      - name: Install Chinese TeX support
+        run: |
+          tlmgr="$HOME/.TinyTeX/bin/x86_64-linux/tlmgr"
+          "$tlmgr" option repository https://mirrors.tuna.tsinghua.edu.cn/CTAN/systems/texlive/tlnet
+          "$tlmgr" update --self
+          "$tlmgr" install collection-langchinese fontsetup newcomputermodern selnolig tabularray underscore
 
       - name: Render PDF
         run: quarto render --to pdf

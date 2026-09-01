@@ -108,7 +108,7 @@ caption_helper <- function(txt) {
 # function: make terms table ---------------------------------------------------
 
 terms_zh <- read.delim(
-  "terms-zh.tsv",
+  "data/terms-zh.tsv",
   header = FALSE,
   sep = "\t",
   quote = "",
