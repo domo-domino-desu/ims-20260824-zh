@@ -1,7 +1,7 @@
-1.  **Area under the curve, Part I.** What percent of a standard normal distribution $N(\mu=0, \sigma=1)$ is found in each region denoted by a $Z$ inequality below?
-    Be sure to draw a graph.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
+1.  **曲线下面积，第一部分。** 在标准正态分布 $N(\mu=0, \sigma=1)$ 中，由以下 $Z$ 不等式表示的每个区域所占的百分比是多少？
+    务必画出图形。
+    在上文中，我们使用 R 计算了正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
 
     a.  $Z < -1.35$
 
@@ -13,10 +13,10 @@
 
 \vfill
 
-2.  **Area under the curve, Part II.** What percent of a standard normal distribution $N(\mu=0, \sigma=1)$ is found in each region denoted by a $Z$ inequality below?
-    Be sure to draw a graph.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
+2.  **曲线下面积，第二部分。** 在标准正态分布 $N(\mu=0, \sigma=1)$ 中，由以下 $Z$ 不等式表示的每个区域所占的百分比是多少？
+    务必画出图形。
+    在上文中，我们使用 R 计算了正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
 
     a.  $Z > -1.13$
 
@@ -28,255 +28,252 @@
 
 \vfill
 
-3.  **GRE scores, Z scores.** Sophia who took the Graduate Record Examination (GRE) scored 160 on the Verbal Reasoning section and 157 on the Quantitative Reasoning section.
-    The mean score for Verbal Reasoning section for all test takers was 151 with a standard deviation of 7, and the mean score for the Quantitative Reasoning was 153 with a standard deviation of 7.67.
-    Suppose that both distributions are nearly normal.
-    Use the information to compute each of the following.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
+3.  **GRE 成绩，z 统计量。** Sophia 参加了研究生入学考试（GRE），在文字推理部分得了 160 分，在定量推理部分得了 157 分。
+    所有考生的文字推理部分均值为 151 分，标准差为 7；定量推理部分均值为 153 分，标准差为 7.67。
+    假设两个分布都近似正态。
+    利用上述信息计算下列各项。
+    在上文中，我们使用 R 计算了正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
 
-    a.  Write down the short-hand for each of the two normal distributions.
+    a.  写出这两个正态分布的简记方式。
 
-    b.  What is Sophia's Z score on the Verbal Reasoning section?
-        On the Quantitative Reasoning section?
-        Draw a standard normal distribution curve and mark the two Z scores.
+    b.  Sophia 在文字推理部分的 z 统计量是多少？在定量推理部分的 z 统计量是多少？
+        画一个标准正态分布曲线，并标出这两个 z 统计量。
 
-    c.  What do the Z scores tell you?
+    c.  这些 z 统计量告诉了你什么信息？
 
-    d.  Relative to others, which section did Sophia do better on?
+    d.  相对于其他人，Sophia 在哪一部分表现得更好？
 
-    e.  Find her percentile scores for each of the two exams.
+    e.  分别找出她在这两次考试中的百分位数。
 
-    f.  What percent of the test takers did better than her on the Verbal Reasoning section?
-        On the Quantitative Reasoning section?
+    f.  在文字推理部分，有多少百分比的考生比她表现更好？
+        在定量推理部分呢？
 
-    g.  Explain why simply comparing raw scores from the two sections could lead to an incorrect conclusion as to which section a student did better on.
+    g.  解释为什么简单地比较这两个部分的原始分数，可能会在判断学生哪一部分表现更好时得出错误结论。
 
-    h.  If the distributions of the scores on these exams are not nearly normal, would your answers to parts (b) - (f) change?
-        Explain your reasoning.
-
+    h.  如果这些考试的分数分布不是近似正态的，你对 部分的答案会改变吗？
+        解释你的推理。
 
 \vfill
 
 \clearpage
 
-4.  **Triathlon times, Z scores.** In triathlons, it is common for racers to be placed into age and gender groups.
-    Two friends, Leo and Mary, both completed the Hermosa Beach Triathlon, where Leo competed in the "Men, Ages 30 - 34" group and Mary competed in the "Women, Ages 25 - 29" group.
-    Leo completed the race in 1:22:28 (4948 seconds), while Mary completed the race in 1:31:53 (5513 seconds).
-    We can see that Leo finished faster, but they are curious about how they did within their respective groups.
-    Can you help them?
-    Below is some information on the performance of their groups.
-    Use the information to compute each of the following.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
-    
+4.  **铁人三项时间，z 统计量。** 在铁人三项比赛中，选手通常被编入不同的年龄和性别组。
+    两位朋友，Leo 和 Mary，都完成了埃尔莫萨海滩铁人三项赛，Leo 在“男性，30-34 岁”组别比赛，Mary 在“女性，25-29 岁”组别比赛。
+    Leo 以 1:22:28（4948 秒）完成比赛，而 Mary 以 1:31:53（5513 秒）完成。
+    我们可以看到 Leo 完成得更快，但他们很好奇自己在各自组别内的表现如何。
+    你能帮助他们吗？
+    以下是关于他们组别表现的一些信息。
+    利用这些信息计算下列各项。
+    在上文中，我们使用 R 计算了正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
+
     \vspace{-1mm}
 
-    -   The finishing times of the "Men, Ages 30 - 34" group has a mean of 4313 seconds with a standard deviation of 583 seconds.
+    -   “男性，30-34 岁”组的完赛时间均值为 4313 秒，标准差为 583 秒。
 
-    -   The finishing times of the "Women, Ages 25 - 29" group has a mean of 5261 seconds with a standard deviation of 807 seconds.
+    -   “女性，25-29 岁”组的完赛时间均值为 5261 秒，标准差为 807 秒。
 
-    -   The distributions of finishing times for both groups are approximately Normal.\
-        Remember: a better performance corresponds to a faster finish.
+    -   两个组的完赛时间分布都近似正态。\
+        请记住：更好的表现对应着更快的完赛时间。
 
-    a.  Write down the short-hand for the two normal distributions.
+    a.  写出这两个正态分布的简记方式。
 
-    b.  What are the Z scores for each of Leo's and Mary's finishing times?
-        What do the Z scores tell you?
+    b.  Leo 和 Mary 的完赛时间的 z 统计量各是多少？
+        这些 z 统计量告诉了你什么？
 
-    c.  Did Leo or Mary rank better in their respective group?
-        Explain your reasoning.
+    c.  Leo 和 Mary 谁在自己的组别中排名更靠前？
+        解释你的推理。
 
-    d.  What percent of the triathletes did Leo finish faster than in his group?
+    d.  Leo 比其所在组别中百分之多少的铁人三项选手完成得更快？
 
-    e.  What percent of the triathletes did Mary finish faster than in her group?
+    e.  Mary 比其所在组别中百分之多少的铁人三项选手完成得更快？
 
-    f.  If the distributions of finishing times are not nearly normal, would your answers to parts (b) -- (e) change?
-        Explain your reasoning.
-
-\vfill
-
-5.  **GRE scores, cutoffs.** Consider the previous two distributions for GRE scores: $N(\mu=151, \sigma=7)$ for the Verbal Reasoning part of the exam and $N(\mu=153, \sigma=7.67)$ for the Quantitative Reasoning part.
-    Use the information to compute each of the following.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
-
-    a.  The score of a student who scored in the $80^{th}$ percentile on the Quantitative Reasoning section.
-
-    b.  The score of a student who scored worse than 70% of test takers in the Verbal Reasoning section.
+    f.  如果完赛时间的分布不是近似正态的，你对 部分的答案会改变吗？
+        解释你的推理。
 
 \vfill
 
-6.  **Triathlon times, cutoffs.** Recall the two different distributions for triathlon times: $N(\mu=4313, \sigma=583)$ for "Men, Ages 30 - 34" and $N(\mu=5261, \sigma=807)$ for the "Women, Ages 25 - 29" group.
-    Times are listed in seconds.
-    Use this information to compute each of the following.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
+5.  **GRE 分数，临界值。** 考虑之前提到的两个 GRE 分数分布：考试的文字推理部分为 $N(\mu=151, \sigma=7)$，定量推理部分为 $N(\mu=153, \sigma=7.67)$。
+    利用该信息计算下列各项。
+    在上文中，我们使用了 R 来计算正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
 
-    a.  The cutoff time for the fastest 5% of athletes in the men's group, i.e., those who took the shortest 5% of time to finish.
+    a.  一名在定量推理部分得分处于第 $80^{th}$ 百分位数的学生的分数。
 
-    b.  The cutoff time for the slowest 10% of athletes in the women's group.
+    b.  一名在言语推理部分得分比 70% 的考生差的学生的分数。
 
 \vfill
 
-7.  **LA weather, Fahrenheit.** The average daily high temperature in June in LA is 77$^\circ$ F with a standard deviation of 5$^\circ$ F.
-    Suppose that the temperatures in June closely follow a normal distribution.
-    Use the information to compute each of the following.
-    In the text above, we used R to calculate normal probabilities.
-    You might choose to use a different source, such as a [Shiny App](https://openintro.shinyapps.io/dist_calc/) or a normal table.
+6.  **铁人三项时间，临界值。** 回顾两个不同的铁人三项时间分布：“男性，30-34 岁”组为 $N(\mu=4313, \sigma=583)$，“女性，25-29 岁”组为 $N(\mu=5261, \sigma=807)$。
+    时间以秒为单位列出。
+    利用该信息计算下列各项。
+    在上文中，我们使用了 R 来计算正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
 
-    a.  What is the probability of observing an 83$^\circ$ F temperature or higher in LA during a randomly chosen day in June?
+    a.  男子组中最快的 5% 运动员（即完成时间最短的 5% 的运动员）的临界时间。
 
-    b.  How cool are the coldest 10% of the days (days with lowest high temperature) during June in LA?
+    b.  女性组中最慢的 10% 运动员的临界时间
+
+\vfill
+
+7.  **洛杉矶天气，华氏度。** 洛杉矶六月的日最高气温的平均数为 77$^\circ$ F，标准差为 5$^\circ$ F。
+    假设六月的温度紧密服从正态分布。
+    利用该信息计算下列各项。
+    在上文中，我们使用了 R 来计算正态概率。
+    你也可以选择使用其他来源，例如 [Shiny App](https://openintro.shinyapps.io/dist_calc/) 或正态分布表。
+
+    a.  在六月随机选择的一天，在洛杉矶观测到 83$^\circ$ F 或更高温度的概率是多少？
+
+    b.  洛杉矶六月份最冷的 10% 的日子（最高温度最低的日子）有多冷？
 
 \vfill
 
 \clearpage
 
-8.  **CAPM.** The Capital Asset Pricing Model (CAPM) is a financial model that assumes returns on a portfolio are normally distributed.
-    Suppose a portfolio has an average annual return of 14.7% (i.e., an average gain of 14.7%) with a standard deviation of 33%.
-    A return of 0% means the value of the portfolio doesn't change, a negative return means that the portfolio loses money, and a positive return means that the portfolio gains money.
+8.  **CAPM。** 资本资产定价模型（CAPM）是一个假设投资组合收益率服从正态分布的金融模型。
+    假设一个投资组合的平均年收益率为 14.7%（即平均收益为 14.7%），标准差为 33%。收益率为 0% 意味着投资组合的价值没有变化，负收益率意味着投资组合亏损，而正收益率意味着投资组合盈利。
 
-    a.  What percent of years does this portfolio lose money, i.e., have a return less than 0%?
+    a.  该投资组合在百分之多少的年份会亏损，即收益率小于 0%?
 
-    b.  What is the cutoff for the highest 15% of annual returns with this portfolio?
-
-\vfill
-
-9.  **LA weather, Celsius.** Recall the set-up that average daily high temperature in June in LA is 77$^\circ$ F with a standard deviation of 5$^\circ$ F, and it can be assumed that the high temperatures follow a normal distribution.
-    We use the following equation to convert $^\circ$F (Fahrenheit) to $^\circ$C (Celsius): $C = (F - 32) \times \frac{5}{9}.$
-
-    a.  Write the probability model for the distribution of temperature in $^\circ$C in June in LA.
-
-    b.  What is the probability of observing a 28$^\circ$ C (which roughly corresponds to 83$^\circ$ F) temperature or higher in June in LA?
-        Calculate using the $^\circ$C model from part (a).
-
-    c.  Did you get the same answer or different answers in part (b) of this question and part (a) of the previous question on the LA weather?
-        Are you surprised?
-        Explain.
-
-    d.  Estimate the IQR of the temperatures (in $^\circ$C) in June in LA.
+    b.  该投资组合年回报率最高的 15% 的临界值
 
 \vfill
 
-10. **Find the SD.** Find the standard deviation of the distribution in the following situations.
+9.  **洛杉矶天气，摄氏度。** 回顾之前的设定：洛杉矶六月的日最高气温的平均数为 77$^\circ$ F，标准差为 5$^\circ$ F，并且可以假设最高气温服从正态分布。
+    我们使用以下公式将 $^\circ$F（华氏度）转换为 $^\circ$C（摄氏度）：$C = (F - 32) \times \frac{5}{9}.$
 
-    a.  MENSA is an organization whose members have IQs in the top 2% of the population.
-        IQs are normally distributed with mean 100, and the minimum IQ score required for admission to MENSA is 132.
+    a.  写出洛杉矶六月温度（以 $^\circ$C 为单位）分布的概率模型。
 
-    b.  Cholesterol levels for women aged 20 to 34 follow an approximately normal distribution with mean 185 milligrams per deciliter (mg/dl).
-        Women with cholesterol levels above 220 mg/dl are considered to have high cholesterol and about 18.5% of women fall into this category.
+    b.  在洛杉矶的六月，观测到 28$^\circ$ C（大约对应 83$^\circ$ F）或更高温度的概率是多少？
+        使用 部分中的 $^\circ$C 模型计算。
+
+    c.  在本问题的 部分和上一个关于洛杉矶天气问题的 部分中，你得到的是相同还是不同的答案？
+        你感到惊讶吗？
+        请解释。
+
+    d.  估计洛杉矶六月温度（以 $^\circ$C 为单位）的四分位距（IQR）。
 
 \vfill
 
-11. **Chronic illness.** In 2013, the Pew Research Foundation reported that "45% of U.S. adults report that they live with one or more chronic conditions".
-    However, this value was based on a sample, so it may not be a perfect estimate for the population parameter of interest on its own.
-    The study reported a standard error of about 1.2%, and a normal model may reasonably be used in this setting.
+10. **求标准差。** 在以下情况下求分布的标准差。
 
-    a.  Create a 95% confidence interval for the proportion of U.S. adults who live with one or more chronic conditions.
-        Also interpret the confidence interval in the context of the study.
+    a.  MENSA 是一个其成员 IQ 处于人群最高 2% 的组织。
+        IQ 服从均值为 100 的正态分布，加入 MENSA 所需的最低 IQ 分数为 132。
+
+    b.  20 至 34 岁女性的胆固醇水平近似服从正态分布，均值为 185 毫克每分升。
+        胆固醇水平高于 220 mg/dl 的女性被认为患有高胆固醇，约有 18.5% 的女性属于这一类别。
+
+\vfill
+
+11. **慢性疾病。** 2013 年，皮尤研究基金会报告称“45% 的美国成年人报告称他们患有一种或多种慢性疾病”。
+    然而，该值基于样本，因此其本身可能不是对感兴趣的总体参数的完美估计。
+    研究报告的标准误约为 1.2%，并且在此情况下可以合理地使用正态模型。
+
+    a.  创建一个患有一种或多种慢性疾病的美国成年人比例的 95% 置信区间。
+        同时，在研究背景下解释该置信区间。
         [@data:pewdiagnosis:2013]
 
-    b.  Identify each of the following statements as true or false.
-        Provide an explanation to justify each of your answers.
+    b.  判断以下每个陈述的真假。
+        给出解释来论证你的每个答案。
 
-        i.  We can say with certainty that the confidence interval from part (a) contains the true percentage of U.S. adults who suffer from a chronic illness.
+        i.  我们可以肯定地说， 部分中的置信区间包含了患有慢性疾病的美国成年人真实百分比。
 
-        ii. If we repeated this study 1,000 times and constructed a 95% confidence interval for each study, then approximately 950 of those confidence intervals would contain the true fraction of U.S. adults who suffer from chronic illnesses.
+        ii. 如果我们重复这项研究 1000 次，并为每次研究构建一个 95% 置信区间，那么这些置信区间中大约有 950 个将包含患有慢性疾病的美国成年人的真实比例。
 
-        iii. The poll provides statistically discernible evidence (at the $\alpha = 0.05$ level) that the percentage of U.S. adults who suffer from chronic illnesses is below 50%.
+        iii. 该调查提供了统计上可辨识的证据（在 $\alpha = 0.05$ 水平上），表明患有慢性疾病的美国成年人百分比低于 50%.
 
-        iv. Since the standard error is 1.2%, only 1.2% of people in the study communicated uncertainty about their answer.
+        iv. 由于标准误是 1.2%，研究中只有 1.2% 的人对自己的答案表达了不确定性。
 
 \vfill
 
 \clearpage
 
-12. **Social media users and news, mathematical model.** A poll conducted in 2022 found that 50% of U.S. adults (i.e., a proportion of 0.5) get news from social media sometimes or often.
-    The standard error for this estimate was 0.5% (i.e., 0.005), and a normal distribution may be used to model the sample proportion.
+12. **社交媒体用户与新闻，数学模型。** 2022年进行的一项调查发现，50% 的美国成年人（即比例为 0.5）有时或经常从社交媒体获取新闻。
+    该估计值的标准误为 0.5%（即 0.005），并且可以使用正态分布对样本比例进行建模。
     [@data:socialmedianews:2022]
 
-    a.  Construct a 99% confidence interval for the fraction of U.S. adults who get news on social media sometimes or often, and interpret the confidence interval in context.
+    a.  构造一个有时或经常在社交媒体上获取新闻的美国成年人比例的 99% 置信区间，并在问题背景下解释该置信区间。
 
-    b.  Identify each of the following statements as true or false.
-        Provide an explanation to justify each of your answers.
+    b.  判断以下每个陈述是对还是错。
+        请给出解释来论证你的每个答案。
 
-        i.  The data provide statistically discernible evidence that more than half of U.S. adults users get news through social media sometimes or often.
-            Use a discernibility level of $\alpha = 0.01$.
+        i.  这些数据提供了统计上可辨识的证据，表明超过一半的美国成年用户有时或经常通过社交媒体获取新闻。
+            使用可辨识水平 $\alpha = 0.01$。
 
-        ii. Since the standard error is 0.5%, we can conclude that 99.5% of all U.S. adults users were included in the study.
+        ii. 由于标准误是 0.5%，我们可以得出结论，所有美国成年用户中有 99.5% 被纳入了这项研究。
 
-        iii. If we want to reduce the standard error of the estimate, we should collect less data.
+        iii.如果我们想降低估计值的标准误，我们应该收集更少的数据。
 
-        iv. If we construct a 90% confidence interval for the percentage of U.S. adults who get news through social media sometimes or often, the resulting confidence interval will be wider than a corresponding 99% confidence interval.
-
-\vfill
-
-13. **Interpreting a Z score from a sample proportion.** Suppose that you conduct a hypothesis test about a population proportion and calculate the Z score to be 0.47.
-    Which of the following is the best interpretation of this value?
-    For the problems which are not a good interpretation, indicate the statistical idea being described.[^_13-ex-foundations-mathematical-1]
-
-    a.  The probability is 0.47 that the null hypothesis is true.
-
-    b.  If the null hypothesis were true, the probability would be 0.47 of obtaining a sample proportion as far as observed from the hypothesized value of the population proportion.
-
-    c.  The sample proportion is 0.47 standard errors greater than the hypothesized value of the population proportion.
-
-    d.  The sample proportion is equal to 0.47 times the standard error.
-
-    e.  The sample proportion is 0.47 away from the hypothesized value of the population.
-
-    f.  The sample proportion is 0.47.
+        iv. 如果我们为有时或经常通过社交媒体获取新闻的美国成年人百分比构造一个 90% 置信区间，所得的置信区间将比相应的 99% 置信区间更宽。
 
 \vfill
 
-14. **Mental health.** The General Social Survey asked the question: "For how many days during the past 30 days was your mental health, which includes stress, depression, and problems with emotions, not good?" Based on responses from 1,151 US residents, the survey reported a 95% confidence interval of 3.40 to 4.24 days in 2010.
+13. **解读来自样本比例的 z 统计量。** 假设你对一个总体比例进行假设检验，并计算出 z 统计量为 0.47。
+    以下哪一项是对该值的最佳解释？
+    对于不是最佳解释的选项，指出它们所描述的统计概念。[^_13-ex-foundations-mathematical-1]
 
-    a.  Interpret this interval in context of the data.
+    a.  原假设为真的概率是 0.47。
 
-    b.  What does "95% confident" mean?
-        Explain in the context of the application.
+    b.  如果原假设为真，那么获得一个与总体比例的假设值相差如观测值那样远的样本比例的概率将是 0.47。
 
-    c.  Suppose the researchers think a 99% confidence level would be more appropriate for this interval.
-        Will this new interval be smaller or wider than the 95% confidence interval?
+    c.  样本比例比总体比例的假设值大 0.47 个标准误。
 
-    d.  If a new survey were to be done with 500 Americans, do you think the standard error of the estimate be larger, smaller, or about the same.
+    d.  样本比例等于 0.47 乘以标准误。
+
+    e.  样本比例距离总体的假设值 0.47。
+
+    f.  样本比例是 0.47。
+
+\vfill
+
+14. **心理健康。** 综合社会调查提出了一个问题：“在过去 30 天里，有多少天你的心理健康（包括压力、抑郁和情绪问题）不好？” 基于 1,151 名美国居民的回复，该调查报告了 2010 年的 95% 置信区间为 3.40 至 4.24 天。
+
+    a.  结合数据背景解释这个区间。
+
+    b.  “95% confident" mean?” 是什么意思？
+        结合应用背景进行解释。
+
+    c.  假设研究人员认为 99% 的置信水平更适合这个区间。
+        这个新区间会比 95% 的置信区间更宽吗？
+
+    d.  如果要对 500 名美国人进行一项新调查，你认为估计值的标准误会变大、变小，还是大致相同？
 
 \vfill
 
 \clearpage
 
-15. **Repeated water samples.** A nonprofit wants to understand the fraction of households that have elevated levels of lead in their drinking water.
-    They expect at least 5% of homes will have elevated levels of lead, but not more than about 30%.
-    They randomly sample 800 homes and work with the owners to retrieve water samples, and they compute the fraction of these homes with elevated lead levels.
-    They repeat this 1,000 times and build a distribution of sample proportions.
+15. **重复水样检测。** 一个非营利组织想了解饮用水中铅含量超标的家庭比例。
+    他们预计至少 5% 的家庭铅含量超标，但不超过约 30%。
+    他们随机抽取 800 户家庭，与房主合作获取水样，然后计算这些家庭中铅含量超标的比例。
+    他们重复此过程 1,000 次，并构建一个样本比例的分布。
 
-    a.  What is this distribution called?
+    a.  这个分布叫什么？
 
-    b.  Would you expect the shape of this distribution to be symmetric, right skewed, or left skewed?
-        Explain your reasoning.
+    b.  你预期这个分布的形状是对称的、右偏的还是左偏的？
+        解释你的理由。
 
-    c.  What is the name of the variability of this distribution.
+    c.  这个分布的变异性叫什么名字？
 
-    d.  Suppose the researchers' budget is reduced, and they are only able to collect 250 observations per sample, but they can still collect 1,000 samples.
-        They build a new distribution of sample proportions.
-        How will the variability of this new distribution compare to the variability of the distribution when each sample contained 800 observations?
+    d.  假设研究人员的预算缩减，他们每个样本只能收集 250 个观测，但他们仍然可以收集 1,000 个样本。
+        他们构建了一个新的样本比例分布。
+        这个新分布的变异性与每个样本包含 800 个观测时的分布变异性相比如何？
 
 \vspace{10mm}
 
-16. **Repeated student samples.** Of all freshman at a large college, 16% made the dean's list in the current year.
-    As part of a class project, students randomly sample 40 students and check if those students made the list.
-    They repeat this 1,000 times and build a distribution of sample proportions.
+16. **重复学生样本。** 在一所大型学院的所有新生中，16% 的学生在本年度入选了院长名单。
+    作为一个课堂项目的一部分，学生们随机抽取 40 名学生，并检查这些学生是否在名单上。
+    他们重复此过程 1,000 次，并构建一个样本比例的分布。
 
-    a.  What is this distribution called?
+    a.  这个分布叫什么？
 
-    b.  Would you expect the shape of this distribution to be symmetric, right skewed, or left skewed?
-        Explain your reasoning.
+    b.  你预期这个分布的形状是对称的、右偏的还是左偏的？
+        解释你的理由。
 
-    c.  What is the name of the variability of this distribution?
+    c.  这个分布的变异性叫什么名字？
 
-    d.  Suppose the students decide to sample again, this time collecting 90 students per sample, and they again collect 1,000 samples.
-        They build a new distribution of sample proportions.
-        How will the variability of this new distribution compare to the variability of the distribution when each sample contained 40 observations?
+    d.  假设学生们决定再次抽样，这次每个样本收集 90 名学生，并且他们再次收集了 1,000 个样本。
+        他们构建了一个新的样本比例分布。
+        这个新分布的变异性与每个样本包含 40 个观测时的分布变异性相比如何？
 
-[^_13-ex-foundations-mathematical-1]: This exercise was inspired by discussion on Dr. Allan Rossman's blog [Ask Good Questions](https://askgoodquestions.blog/).
+[^_13-ex-foundations-mathematical-1]: 本题的灵感来自 Allan Rossman 博士的博客 [Ask Good Questions](https://askgoodquestions.blog/) 上的讨论。

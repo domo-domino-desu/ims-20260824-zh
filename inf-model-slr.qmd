@@ -1,4 +1,4 @@
-# Inference for linear regression with a single predictor {#sec-inf-model-slr}
+# 单预测变量线性回归的推断 {#sec-inf-model-slr}
 
 ```{r}
 #| include: false
@@ -6,23 +6,25 @@
 source("_common.R")
 ```
 
-\chaptermark{Inference for regression with a single predictor}
+
+
+\chaptermark{单预测变量回归的推断}
 
 \vspace{-3mm}
 
 ::: {.chapterintro data-latex=""}
-We now bring together ideas of inferential analyses with the descriptive models seen in [Chapter -@sec-model-slr].
-In particular, we will use the least squares regression line to test whether there is a relationship between two continuous variables.
-Additionally, we will build confidence intervals which quantify the slope of the linear regression line.
-The setting is now focused on predicting a numeric response variable (for linear models) or a binary response variable (for logistic models), we continue to ask questions about the variability of the model from sample to sample.
-The sampling variability will inform the conclusions about the population that can be drawn.
+现在，我们将推断分析的思想与 [第 -@sec-model-slr 章] 中看到的描述性模型结合起来。
+具体来说，我们将使用最小二乘回归线来检验两个连续变量之间是否存在关联。
+此外，我们将构建置信区间来量化线性回归线的斜率。
+现在的重点在于预测数值型响应变量（对于线性模型）或二分响应变量（对于逻辑斯谛模型），我们继续探讨模型因样本不同而产生的变异性问题。
+抽样变异性将为我们得出有关总体的结论提供依据。
 
-Many of the inferential ideas are remarkably similar to those covered in previous chapters.
-The technical conditions for linear models are typically assessed graphically, although independence of observations continues to be of utmost importance.
+许多推断思想与前面章节所涵盖的内容非常相似。
+线性模型的技术条件通常通过图形来评估，尽管观测的独立性仍然至关重要。
 
-We encourage the reader to think broadly about the models at hand without putting too much dependence on the exact p-values that are reported from the statistical software.
-Inference on models with multiple explanatory variables can suffer from data snooping which results in false positive claims.
-We provide some guidance and hope the reader will further their statistical learning after working through the material in this text.
+我们鼓励读者对所处理的模型进行宽泛的思考，不要过于依赖统计软件报告的确切 p 值。
+对包含多个解释变量的模型进行推断可能会受到数据窥探的影响，从而导致假阳性结论。
+我们提供了一些指导，并希望读者在学完本书的材料后能进一步深入学习统计学。
 :::
 
 ```{r}
@@ -30,34 +32,34 @@ We provide some guidance and hope the reader will further their statistical lear
 terms_chp_24 <- c("inference with single predictor regression")
 ```
 
+
+
 \vspace{-7mm}
 
-## Case study: Sandwich store
+## 案例研究：三明治店
 
-### Observed data
+### 观测数据
 
-We start the chapter with a hypothetical example describing the linear relationship between dollars spent advertising for a chain sandwich restaurant and monthly revenue.
-The hypothetical example serves the purpose of illustrating how a linear model varies from sample to sample.
-Because we have made up the example and the data (and the entire population), we can take many many samples from the population to visualize the variability.
-Note that in real life, we always have exactly one sample (that is, one dataset), and through the inference process, we imagine what might have happened had we taken a different sample.
-The change from sample to sample leads to an understanding of how the single observed dataset is different from the population of values, which is typically the fundamental goal of inference.
+我们以一个假设的例子开始本章，该例子描述了一家连锁三明治店的广告支出金额与月收入之间的线性关系。
+这个假设例子的目的是说明线性模型如何因样本不同而变化。
+由于我们编造了这个例子和数据（以及整个总体），我们可以从总体中抽取大量样本来可视化这种变异性。
+请注意，在现实生活中，我们总是恰好只有一个样本（即一个数据集），而通过推断过程，我们想象如果抽取了不同的样本可能会发生什么。
+从一个样本到另一个样本的变化，有助于我们理解单一观测到的数据集与取值总体的差异，这通常是推断的根本目标。
 
 \clearpage
 
-Consider the following hypothetical population of all of the sandwich stores of a particular chain seen in @fig-sandpop.
-In this made-up world, the CEO actually has all the relevant data, which is why they can plot it here.
-The CEO is omniscient and can write down the population model which describes the true population relationship between the advertising dollars and revenue.
-There appears to be a linear relationship between advertising dollars and revenue (both in \$1,000).
+考虑 @fig-sandpop 中所示的某个特定连锁品牌所有三明治店的假设总体。
+在这个虚构的世界里，CEO 实际上拥有所有相关数据，这就是他们能在此绘制出这些数据的原因。
+这位 CEO 是全知的，能够写下描述广告支出与收入之间真实总体关系的总体模型。
+广告支出与收入之间似乎存在线性关系（均以千美元计）。
 
 ```{r}
 #| label: fig-sandpop
 #| fig-cap: |
-#|   Revenue as a linear model of advertising dollars for a population of sandwich
-#|   stores, in thousands of dollars.
+#|   三明治店总体中，收入关于广告支出的线性模型（单位：千美元）。
 #| fig-alt: |
-#|   Scatterplot with advertising amount on the x-axis and revenue on the y-axis.
-#|   A linear model is superimposed. The points show a reasonably strong and
-#|   positive linear trend.
+#|   横轴为广告支出金额、纵轴为收入的散点图。
+#|   叠加了一条线性模型线。数据点呈现出较强且正向的线性趋势。
 set.seed(4747)
 popsize <- 1000
 ad <- rnorm(popsize, 4, 1)
@@ -70,30 +72,32 @@ ggplot(sandwich, aes(x = ad, y = rev)) +
   scale_x_continuous(labels = label_dollar(suffix = "K")) +
   scale_y_continuous(labels = label_dollar(suffix = "K")) +
   labs(
-    x = "Amount spent on advertising",
-    y = "Revenue",
-    title = "Chain sandwich store",
-    subtitle = "Hypothetical population"
+    x = "广告支出金额",
+    y = "收入",
+    title = "连锁三明治店",
+    subtitle = "假设总体"
   ) +
   coord_cartesian(ylim = c(0, 65))
 ```
 
-You may remember from @sec-model-slr that the population model is: $$y = \beta_0 + \beta_1 x + \varepsilon.$$
 
-Again, the omniscient CEO (with the full population information) can write down the true population model as: $$\texttt{expected revenue} = 11.23 + 4.8 \times \texttt{advertising}.$$
 
-### Variability of the statistic
+你可能还记得，在 [第 -@sec-model-slr 章] 中，总体模型是：$$y = \beta_0 + \beta_1 x + \varepsilon.$$
 
-Unfortunately, in our scenario, the CEO is not willing to part with the full set of data, but they will allow potential franchise buyers to see a small sample of the data in order to help the potential buyer decide whether set up a new franchise.
-The CEO is willing to give each potential franchise buyer a random sample of data from 20 stores.
+同样，全知的 CEO（拥有完整的总体信息）可以将真实的总体模型写为：$$\texttt{expected revenue} = 11.23 + 4.8 \times \texttt{advertising}.$$
 
-As with any numerical characteristic which describes a subset of the population, the estimated slope of a sample will vary from sample to sample.
-Consider the linear model which describes revenue (in \$1,000) based on advertising dollars (in \$1,000).
+### 统计量的变异性
 
-The least squares regression model uses the data to find a sample linear fit: $$\hat{y} = b_0 + b_1 x.$$
+遗憾的是，在我们的情景中，CEO 不愿意提供完整的数据集，但他们允许潜在加盟商查看一小部分数据样本，以帮助潜在加盟商决定是否开设新的加盟店。
+CEO 愿意给每位潜在的加盟商一份来自 20 家店铺的随机数据样本。
 
-Two random samples of 20 stores shows different least squares regression lines in @fig-sand-samp-1 and @fig-sand-samp-2, depending on which observations are selected.
-Both trends are similar to those seen in @fig-sandpop, which describes the population.
+与描述总体子集的任何数值特征一样，样本的斜率估计值也会因样本而异。
+考虑描述收入（单位：千美元）基于广告支出（单位：千美元）的线性模型。
+
+最小二乘回归模型利用数据找到样本的线性拟合：$$\hat{y} = b_0 + b_1 x.$$
+
+两个各包含 20 家店的随机样本在 @fig-sand-samp-1 和 @fig-sand-samp-2 中显示了不同的最小二乘回归线，具体取决于选中的观测。
+这两个趋势都与 @fig-sandpop 中描述总体的趋势相似。
 
 ```{r}
 set.seed(470)
@@ -105,18 +109,18 @@ sandwich_many <- sandwich |>
   rep_sample_n(size = 20, replace = FALSE, reps = 50)
 ```
 
+
 ```{r}
 #| label: fig-sand-samp
 #| fig-cap: |
-#|   Two random samples of 20 stores from the entire population. A linear
-#|   trend between advertising and revenue is observed in both.
+#|   从整个总体中抽取的两个随机样本，每个样本包含 20 家店。在两个样本中
+#|   都观察到了广告支出与收入之间的线性趋势。
 #| fig-subcap:
-#|   - First sample.
-#|   - Second sample.
+#|   - 第一个样本。
+#|   - 第二个样本。
 #| fig-alt: |
-#|   For two random samples of 20 stores, scatterplots with advertising amount on
-#|   the x-axis and revenue on the y-axis. Linear models are superimposed.
-#|   The points in each plot show reasonably strong and positive linear trends.
+#|   对于两个各包含 20 家店的随机样本，横轴为广告支出金额、纵轴为收入的散点图。
+#|   叠加了线性模型。每个图中的数据点都呈现出较强且正向的线性趋势。
 #| layout-ncol: 2
 #| out-width: 100%
 #| fig-width: 5
@@ -136,10 +140,10 @@ ggplot(sandwich2, aes(x = ad, y = rev)) +
   scale_x_continuous(labels = label_dollar(suffix = "K")) +
   scale_y_continuous(labels = label_dollar(suffix = "K")) +
   labs(
-    x = "Amount spent on advertising",
-    y = "Revenue",
-    title = "Chain sandwich store",
-    subtitle = "Random sample of 20 stores"
+    x = "广告支出金额",
+    y = "收入",
+    title = "连锁三明治店",
+    subtitle = "20 家店的随机样本"
   ) +
   coord_cartesian(ylim = c(0, 65))
 
@@ -159,36 +163,36 @@ ggplot(sandwich3, aes(x = ad, y = rev)) +
   scale_x_continuous(labels = label_dollar(suffix = "K")) +
   scale_y_continuous(labels = label_dollar(suffix = "K")) +
   labs(
-    x = "Amount spent on advertising",
-    y = "Revenue",
-    title = "Chain sandwich store",
-    subtitle = "Another random sample of 20 stores"
+    x = "广告支出金额",
+    y = "收入",
+    title = "连锁三明治店",
+    subtitle = "另一个包含 20 家店的随机样本"
   ) +
   coord_cartesian(ylim = c(0, 65))
 ```
 
+
+
 \vspace{-5mm}
 
-@fig-sand-samp12 shows the two samples and the least squares regressions from @fig-sand-samp on the same plot.
-We can see that the two lines are different.
-That is, there is **variability** in the regression line from sample to sample.
-The concept of the sampling variability is something you've seen before, but in this lesson, you will focus on the variability of the line often measured through the variability of a single statistic: **the slope of the line**.
+@fig-sand-samp12 将 @fig-sand-samp 中的两个样本及其最小二乘回归线展示在同一张图上。
+我们可以看到两条线是不同的。
+也就是说，回归线在样本之间存在**变异性**。
+抽样变异性的概念你之前已经见过，但在本节中，你将重点关注回归线的变异性，这通常通过单一统计量的变异性来度量：**回归线的斜率**。
 
 ```{r}
 #| include: false
 terms_chp_24 <- c(terms_chp_24, "variability of the slope")
 ```
 
+
 ```{r}
 #| label: fig-sand-samp12
 #| fig-cap: |
-#|   The linear models from the two random samples are quite similar,
-#|   but not exactly the same.
+#|   两个随机样本拟合得到的线性模型非常相似，但并不完全相同。
 #| fig-alt: |
-#|   For two different random samples, superimposed onto the same plot,
-#|   scatterplot with advertising amount on the x-axis and revenue on the y-axis.
-#|   Two linear models are plotted to demonstrate that the lines are very similar,
-#|   yet they are not the same.
+#|   将两个不同的随机样本叠加在同一张图上，横轴为广告支出金额、纵轴为收入的散点图。
+#|   绘制了两条线性模型线，表明这两条线非常相似，但并不完全相同。
 #| fig-asp: 0.5
 ggplot() +
   geom_point(
@@ -227,29 +231,28 @@ ggplot() +
   scale_x_continuous(labels = label_dollar(suffix = "K")) +
   scale_y_continuous(labels = label_dollar(suffix = "K")) +
   labs(
-    x = "Amount spent on advertising",
-    y = "Revenue",
-    title = "Chain sandwich store",
-    subtitle = "Two random samples of 20 stores"
+    x = "广告支出金额",
+    y = "收入",
+    title = "连锁三明治店",
+    subtitle = "两个包含 20 家店的随机样本"
   ) +
   coord_cartesian(ylim = c(0, 65))
 ```
 
-@fig-slopes shows least squares lines fit to many more random samples of 20 from the population.
+
+
+@fig-slopes 展示了从总体中抽取更多包含 20 家店的随机样本所拟合的最小二乘回归线。
 
 \vspace{-5mm}
 
 ```{r}
 #| label: fig-slopes
 #| fig-cap: |
-#|   If repeated samples of size 20 are taken from the entire population, each
-#|   linear model will be slightly different. The red line provides the linear fit to
-#|   the entire population.
+#|   如果从整个总体中重复抽取大小为20的样本，每个线性模型都会略有不同。
+#|   红线表示基于整个总体的线性拟合。
 #| fig-alt: |
-#|   An x-y coordinate system with least squares regression lines from many
-#|   random samples of size 20 (no points are plotted). The lines vary around the
-#|   true population line. On the x-axis is advertising amount; on the y-axis
-#|   is revenue.
+#|   一个x-y坐标系，展示了来自多个大小为20的随机样本的最小二乘回归线（未绘制数据点）。
+#|   这些线围绕真实的总体回归线波动。x轴表示广告支出，y轴表示营收。
 #| fig-asp: 0.5
 ggplot() +
   geom_smooth(
@@ -272,31 +275,29 @@ ggplot() +
   scale_x_continuous(labels = label_dollar(suffix = "K")) +
   scale_y_continuous(labels = label_dollar(suffix = "K")) +
   labs(
-    x = "Amount spent on advertising",
-    y = "Revenue",
-    title = "Chain sandwich store",
-    subtitle = "Many random samples of 20 stores"
+    x = "广告支出金额",
+    y = "营收",
+    title = "连锁三明治店",
+    subtitle = "20家门店的多个随机样本"
   ) +
   coord_cartesian(ylim = c(0, 65))
 ```
 
+
+
 \clearpage
 
-You might notice in @fig-slopes that the $\hat{y}$ values given by the lines are much more consistent in the middle of the dataset than at the ends.
-The reason is that the data itself anchors the lines in such a way that the line must pass through the center of the data cloud.
-The effect of the fan-shaped lines is that predicted revenue for advertising close to \$4,000 will be much more precise than the revenue predictions made for \$1,000 or \$7,000 of advertising.
+读者可能会在图 @fig-slopes 中注意到，由这些回归线给出的 $\hat{y}$ 值在数据集中间部分比在两端更为集中。原因是数据本身起到了锚定作用，使得回归线必须穿过数据云的中心。这些呈扇形展开的回归线意味着，对于接近4000美元的广告支出，其营收预测将比1000美元或7000美元广告支出的预测精确得多。
 
-The distribution of slopes (for samples of size $n=20$) can be seen in @fig-sand20lm.
+斜率的分布（针对样本量 $n=20$）可见于图 @fig-sand20lm。
 
 ```{r}
 #| label: fig-sand20lm
 #| fig-cap: |
-#|   Variability of slope estimates from many different samples of stores,
-#|   each of size 20.
+#|   来自多个不同门店样本（每个样本大小为20）的斜率估计值的变异性。
 #| fig-alt: |
-#|   Histogram of the slope values from many random samples of size 20.
-#|   The slope estimates vary from about 2.1 to 8. The histogram is reasonably
-#|   bell-shaped.
+#|   来自多个大小为20的随机样本的斜率值直方图。
+#|   斜率估计值大约在2.1到8之间变化。直方图大致呈钟形。
 sandwich_many_lm <- sandwich_many |>
   group_by(replicate) |>
   do(tidy(lm(rev ~ ad, data = .))) |>
@@ -305,41 +306,32 @@ sandwich_many_lm <- sandwich_many |>
 ggplot(sandwich_many_lm, aes(x = estimate)) +
   geom_histogram(binwidth = 0.5) +
   labs(
-    x = "Slope estimate",
-    y = "Count",
-    title = "Chain sandwich store",
-    subtitle = "Many random samples of 20 stores"
+    x = "斜率估计值",
+    y = "计数",
+    title = "连锁三明治店",
+    subtitle = "20家门店的多个随机样本"
   )
 ```
 
-Recall, the example described in this introduction is hypothetical.
-That is, we created an entire population in order to demonstrate how the slope of a line would vary from sample to sample.
-The tools in this textbook are designed to evaluate only one single sample of data.
-With actual studies, we do not have repeated samples, so we are not able to use repeated samples to visualize the variability in slopes.
-We have seen variability in samples throughout this text, so it should not come as a surprise that different samples will produce different linear models.
-However, it is nice to visually consider the linear models produced by different slopes.
-Additionally, as with measuring the variability of previous statistics (e.g., $\overline{X}_1 - \overline{X}_2$ or $\hat{p}_1 - \hat{p}_2$), the histogram of the sample statistics can provide information related to inferential considerations.
 
-In the following sections, the distribution (i.e., histogram) of $b_1$ (the estimated slope coefficient) will be constructed in the same three ways that, by now, may be familiar to you.
-First (in @sec-randslope), the distribution of $b_1$ when $\beta_1 = 0$ is constructed by randomizing (permuting) the response variable.
-Next (in @sec-bootbeta1), we can bootstrap the data by taking random samples of size $n$ from the original dataset.
-And last (in @sec-mathslope), we use mathematical tools to describe the variability using the $t$-distribution that was first encountered in @sec-one-mean-math.
+
+请记住，本节引言中描述的例子是假设性的。也就是说，我们构建了整个总体，目的是演示回归线的斜率在不同样本间是如何变化的。本教材中的工具旨在仅对单一的数据样本进行评估。在实际研究中，我们没有重复样本，因此无法利用重复样本来可视化斜率的变异性。在全书各处我们早已见过样本的变异性，因此不同样本会产生不同的线性模型并不令人意外。不过，直观地观察由不同斜率拟合出的线性模型也是很有价值的。此外，正如衡量先前统计量（如 $\overline{X}_1 - \overline{X}_2$ 或 $\hat{p}_1 - \hat{p}_2$）的变异性一样，样本统计量的直方图也能为统计推断提供相关信息。
+
+在接下来的几节中，我们将以三种可能早已为读者所熟悉的方式来构建 $b_1$（估计的斜率系数）的分布（即直方图）。首先（在 @sec-randslope 中），当 $\beta_1 = 0$ 时，$b_1$ 的分布是通过随机化（置换）响应变量来构建的。接着（在 @sec-bootbeta1 中），我们通过从原始数据集中抽取大小为 $n$ 的随机样本来实施自助法。最后（在 @sec-mathslope 中），我们使用数学工具，借助首次在 @sec-one-mean-math 中遇到的 $t$ 分布来描述变异性。
 
 \clearpage
 
-## Randomization test for the slope {#sec-randslope}
+## 斜率的随机化检验 {#sec-randslope}
 
 \index{randomization test for the slope}
 
-Consider data on 100 randomly selected births gathered originally from the US Department of Health and Human Services.
-Some of the variables are plotted in @fig-babyweight.
+考虑最初从美国卫生与公众服务部收集的100例随机选择的出生数据。部分变量绘制于图 @fig-babyweight。
 
-The scientific research interest at hand will be in determining the linear relationship between weight of baby at birth (in lbs) and number of weeks of gestation.
-The dataset is quite rich and deserves exploring, but for this example, we will focus only on the weight of the baby.
+当前的研究兴趣在于确定婴儿出生体重（磅）与妊娠周数之间的线性关系。该数据集相当丰富，值得深入探索，但在此例中，我们仅关注婴儿的体重。
 
 ::: {.data data-latex=""}
-The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
-We will work with a random sample of 100 observations from these data.
+[`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据集可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+我们将使用这些数据中的100个随机观测样本。
 :::
 
 ```{r}
@@ -347,17 +339,13 @@ We will work with a random sample of 100 observations from these data.
 terms_chp_24 <- c(terms_chp_24, "randomization test for the slope")
 ```
 
+
 ```{r}
 #| label: fig-babyweight
 #| fig-cap: |
-#|   Weight of baby at birth (in lbs) as plotted by four other birth variables
-#|   (mother's weight gain, mother's age, number of hospital visits, and weeks
-#|   gestation).
+#|   婴儿出生体重（磅）相对于其他四个出生变量（母亲增重、母亲年龄、产检次数和妊娠周期）的散点图。
 #| fig-alt: |
-#|   Four different scatterplots, all with weight of baby on the y-axis.
-#|   On the x-axis are weight gained by mother, mother's age, number of hospital
-#|   visits, and weeks gestation. Weeks gestation and weight of baby show the
-#|   strongest linear relationship (which is positive).
+#|   四幅不同的散点图，y轴均为婴儿体重。x轴分别是母亲增重、母亲年龄、产检次数和妊娠周期。妊娠周期与婴儿体重的线性关系（正相关）最强。
 set.seed(47)
 births14_100 <- births14 |>
   drop_na() |>
@@ -365,58 +353,55 @@ births14_100 <- births14 |>
 
 p_gained <- ggplot(births14_100) +
   geom_jitter(aes(y = weight, x = gained)) +
-  xlab("Weight gained by mother") +
-  ylab("Weight of baby")
+  xlab("母亲增重") +
+  ylab("婴儿体重")
 p_mage <- ggplot(births14_100) +
   geom_jitter(aes(y = weight, x = mage)) +
-  xlab("Mother's age") +
-  ylab("Weight of baby")
+  xlab("母亲年龄") +
+  ylab("婴儿体重")
 p_visits <- ggplot(births14_100) +
   geom_jitter(aes(y = weight, x = visits)) +
-  xlab("Number of hospital visits during pregnancy") +
-  ylab("Weight of baby")
+  xlab("孕期产检次数") +
+  ylab("婴儿体重")
 p_weeks <- ggplot(births14_100) +
   geom_jitter(aes(x = weeks, y = weight)) +
-  xlab("Weeks of gestation") +
-  ylab("Weight of baby")
+  xlab("妊娠周期（周）") +
+  ylab("婴儿体重")
 
 p_gained + p_mage + p_visits + p_weeks + plot_layout(ncol = 2)
 ```
 
-As you have seen previously, statistical inference typically relies on setting a null hypothesis which is hoped to be subsequently rejected.
-In the linear model setting, we might hope to have a linear relationship between `weeks` and `weight` in settings where `weeks` gestation is known and `weight` of baby needs to be predicted.
 
-The relevant hypotheses for the linear model setting can be written in terms of the population slope parameter.
-Here the population refers to a larger population of births in the US.
 
--   $H_0: \beta_1= 0$, there is no linear relationship between `weight` and `weeks`.
--   $H_A: \beta_1 \ne 0$, there is some linear relationship between `weight` and `weeks`.
+正如之前所见，统计推断通常依赖于设立一个原假设，并希望随后能拒绝它。
+在线性模型设定中，当已知妊娠`weeks`且需要预测婴儿`weight`时，我们希望`weeks`和`weight`之间存在线性关系。
 
-Recall that for the randomization test, we permute one variable to eliminate any existing relationship between the variables.
-That is, we set the null hypothesis to be true, and we measure the natural variability in the data due to sampling but **not** due to variables being correlated.
-@fig-permweightScatter-1 shows the observed data and @fig-permweightScatter-2 shows one permutation of the `weight` variable.
-The careful observer can see that each of the observed values for `weight` (and for `weeks`) exist in both the original data plot as well as the permuted `weight` plot, but the `weight` and `weeks` gestation are no longer matched for a given birth.
-That is, each `weight` value is randomly assigned to a new `weeks` gestation.
+线性模型设定下的相关假设可以用总体斜率参数来表述。
+这里的总体指的是美国更大的出生人口总体。
 
-By repeatedly permuting the response variable, any pattern in the linear model that is observed is due only to random chance (and not an underlying relationship).
-The randomization test compares the slopes calculated from the permuted response variable with the observed slope.
-If the observed slope is inconsistent with the slopes from permuting, we can conclude that there is some underlying relationship (and that the slope is not merely due to random chance).
+-   $H_0: \beta_1= 0$，`weight`和`weeks`之间没有线性关系。
+-   $H_A: \beta_1 \ne 0$，`weight`和`weeks`之间存在某种线性关系。
+
+回顾随机化检验，我们通过置换其中一个变量来消除变量之间任何已存在的关联。
+也就是说，我们设定原假设为真，然后测量仅由抽样引起（而**非**由变量相关引起）的数据中的自然变异性。
+@fig-permweightScatter-1 显示了观测数据，@fig-permweightScatter-2 显示了一次对`weight`变量的置换结果。
+细心的观察者可以看到，`weight`（以及`weeks`）的每个观测值既存在于原始数据图中，也存在于置换后的`weight`图中，但对于某个特定的出生记录，`weight`和妊娠`weeks`不再匹配。
+也就是说，每个`weight`值被随机分配到了一个新的妊娠`weeks`。
+
+通过反复置换响应变量，在线性模型中观察到的任何模式都仅由随机机会（而非潜在关联）导致。
+随机化检验将根据置换后的响应变量计算出的斜率与观测斜率进行比较。
+如果观测斜率与置换后得到的斜率不一致，我们就可以得出结论：变量之间存在某种潜在的关联（且斜率并非仅仅由随机机会产生）。
 
 ```{r}
 #| label: fig-permweightScatter
 #| fig-cap: |
-#|   Permutation removes the linear relationship between `weight` and `weeks`.
-#|   Repeated permutations allow for quantifying the variability in the slope
-#|   under the condition that there is no linear relationship (i.e., that the
-#|   null hypothesis is true).
+#|   置换消除了`weight`和`weeks`之间的线性关系。
+#|   通过反复置换，我们可以在不存在线性关系（即原假设为真）的条件下，量化斜率的变异性。
 #| fig-subcap:
-#|   - Original data.
-#|   - Permuted data.
+#|   - 原始数据。
+#|   - 置换后的数据。
 #| fig-alt: |
-#|   Two scatterplots, both with length of gestation on the x-axis and weight
-#|   of baby on the y-axis. The left panel is the original data. The right panel
-#|   is data where the weight of the baby has been permuted across the
-#|   observations.
+#|   两幅散点图，x轴均为妊娠时长，y轴均为婴儿体重。左图是原始数据。右图是将婴儿体重在各观测间置换后的数据。
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-width: 5
@@ -424,31 +409,33 @@ set.seed(4747)
 ggplot(births14_100) +
   geom_point(aes(x = weeks, y = weight)) +
   labs(
-    x = "Length of gestation (weeks)",
-    y = "Weight of baby (lbs)",
-    title = "Original data"
+    x = "妊娠时长（周）",
+    y = "婴儿体重（磅）",
+    title = "原始数据"
   )
 
 ggplot(births14_100) +
   geom_point(aes(x = weeks, y = sample(weight))) +
   labs(
-    x = "Length of gestation (weeks)",
-    y = "Permuted weight of baby (lbs)",
-    title = "Permuted data"
+    x = "妊娠时长（周）",
+    y = "置换后的婴儿体重（磅）",
+    title = "置换后的数据"
   )
 ```
 
-### Observed data
 
-We will continue to use the births data to investigate the linear relationship between `weight` and `weeks` gestation.
-Note that the least squares model (see @sec-model-slr) describing the relationship is given in @tbl-ls-births.
-The columns in @tbl-ls-births are further described in @sec-mathslope.
+
+### 观测数据
+
+我们将继续使用出生数据来研究`weight`和妊娠`weeks`之间的线性关系。
+请注意，描述该关系的最小二乘模型（参见 [第 -@sec-model-slr 章]）在 @tbl-ls-births 中给出。
+@tbl-ls-births 中的各列将在 @sec-mathslope 中进一步描述。
 
 ```{r}
 #| label: tbl-ls-births
 #| tbl-cap: |
-#|   The least squares estimates of the intercept and slope are given in
-#|   the estimate column. The observed slope is 0.335.
+#|   截距和斜率的最小二乘估计值在 estimate 列中给出。
+#|   观测到的斜率为 0.335。
 #| tbl-pos: H
 lm(weight ~ weeks, data = births14_100) |>
   tidy() |>
@@ -462,25 +449,22 @@ lm(weight ~ weeks, data = births14_100) |>
   column_spec(2:5, width = "5em")
 ```
 
-### Variability of the statistic
 
-After permuting the data, the least squares estimate of the line can be computed.
-Repeated permutations and slope calculations describe the variability in the line (i.e., in the slope) due only to the natural variability and not due to a relationship between `weight` and `weeks` gestation.
-@fig-permweekslm shows two different permutations of `weight` and the resulting linear models.
+
+### 统计量的变异性
+
+在对数据进行置换后，可以计算该直线的最小二乘估计。对这种置换和斜率计算的重复，描述了仅由自然变异性（而非 `weight` 与孕周 `weeks` 之间的关联）所导致的直线（即斜率）的变异性。@fig-permweekslm 展示了 `weight` 的两种不同置换及其产生的线性模型。
 
 ```{r}
 #| label: fig-permweekslm
 #| fig-cap: |
-#|   Two permutations of `weight` with slightly different least
-#|   squares regression lines.
+#|   `weight` 的两次置换及其稍有不同的最小二乘回归线。
 #| fig-subcap:
-#|   - First permutation.
-#|   - Second permutation.
+#|   - 第一次置换。
+#|   - 第二次置换。
 #| fig-alt: |
-#|   Two scatterplots, both with length of gestation on the x-axis and
-#|   weight of baby on the y-axis. Each plot includes data where the weight of
-#|   the baby has been permuted across the observations. The two different
-#|   permutations produce slightly different least squares regression lines.
+#|   两个散点图，x 轴均为孕周，y 轴均为婴儿体重。每个图包含的数据中，
+#|   婴儿体重已在各观测间进行了置换。两种不同的置换产生了稍有不同的最小二乘回归线。
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-width: 5
@@ -504,20 +488,20 @@ ggplot(births14_100, aes(x = weeks, y = sample(weight))) +
   )
 ```
 
-As you can see, sometimes the slope of the permuted data is positive, sometimes it is negative.
-Because the randomization happens under the condition of no underlying relationship (because the response variable is completely mixed with the explanatory variable), we expect to see the center of the randomized slope distribution to be zero.
 
-### Observed statistic vs. null statistics
+
+如图所示，置换数据的斜率有时为正，有时为负。由于随机化是在不存在潜在关联的条件下进行的（因为响应变量已与解释变量完全混合），我们预期随机化斜率分布的中心为零。
+
+### 观测统计量与原假设下的统计量
 
 ```{r}
 #| label: fig-nulldistBirths
 #| fig-cap: |
-#|   Histogram of slopes given different permutations of the `weight` variable.
-#|   The vertical red line is at the observed value of the slope, 0.335.
+#|   `weight` 变量不同置换下得到的斜率直方图。
+#|   红色竖线位于观测斜率值 0.335 处。
 #| fig-alt: |
-#|   Histogram of slopes describing the linear model from permuted weight
-#|   regressed on weeks gestation. The permuted slopes range from -0.15 to +0.15
-#|   and are nowhere near the observed slope value of 0.335.
+#|   描述由置换后的体重对孕周进行回归的线性模型所得斜率的直方图。
+#|   置换斜率的范围大约从 -0.15 到 +0.15，与观测到的斜率值 0.335 相差甚远。
 #| fig-asp: 0.48
 perm_slope <- births14_100 |>
   specify(weight ~ weeks) |>
@@ -536,34 +520,34 @@ ggplot(data = perm_slope, aes(x = stat)) +
   labs(x = "Randomly generated slopes", y = "Count")
 ```
 
-\vspace{-2mm}
 
-As we can see from @fig-nulldistBirths, a slope estimate as extreme as the observed slope estimate (the red line) never happened in many repeated permutations of the `weight` variable.
-That is, if indeed there were no linear relationship between `weight` and `weeks`, the natural variability of the slopes would produce estimates between approximately -0.15 and +0.15.
-We reject the null hypothesis.
-Therefore, we believe that the slope observed on the original data is not just due to natural variability and indeed, there is a linear relationship between `weight` of baby and `weeks` gestation for births in the US.
 
 \vspace{-2mm}
 
-## Bootstrap confidence interval for the slope {#sec-bootbeta1}
+从 @fig-nulldistBirths 可以看出，在 `weight` 变量的多次重复置换中，从未出现过像观测到的斜率估计值（红色竖线）那样极端的斜率估计值。也就是说，如果 `weight` 和 `weeks` 之间确实不存在线性关联，斜率的自然变异性产生的估计值大约会在 -0.15 到 +0.15 之间。我们拒绝原假设。因此，我们认为在原始数据上观测到的斜率不仅仅是自然变异性的结果，事实上，对于美国的新生儿，婴儿 `weight` 与孕周 `weeks` 之间存在线性关联。
+
+\vspace{-2mm}
+
+## 斜率的自助法置信区间 {#sec-bootbeta1}
 
 \index{bootstrap CI for the slope}
 
-As we have seen in previous chapters, we can use bootstrapping to estimate the sampling distribution of the statistic of interest (here, the slope) without the null assumption of no relationship (which was the condition in the randomization test).
-Because interest is now in creating a CI, there is no null hypothesis, so there won't be any reason to permute either of the variables.
+正如我们在前几章所见，我们可以使用自助法来估计感兴趣的统计量（此处为斜率）的抽样分布，而无需"不存在关联"的原假设（这是在随机化检验中使用的条件）。由于现在的重点是构建置信区间，不再有原假设，因此也就没有任何理由去置换任何一个变量。
 
 ```{r}
 #| include: false
 terms_chp_24 <- c(terms_chp_24, "bootstrap CI for the slope")
 ```
 
-### Observed data
 
-Returning to the births data, we may want to consider the relationship between `mage` (mother's age) and `weight`.
-Is `mage` a good predictor of `weight`?
-And if so, what is the relationship?
-That is, what is the slope that models average `weight` of baby as a function of `mage` (mother's age)?
-The linear model regressing `weight` on `mage` is provided in @tbl-ls-births-mage.
+
+### 观测数据
+
+回到出生数据，我们可能要探讨 `mage`（母亲年龄）和 `weight` 之间的关联。
+`mage` 是 `weight` 的一个好预测变量吗？
+如果是的话，它们之间的关联是怎样的？
+也就是说，即将婴儿平均 `weight` 建模为 `mage`（母亲年龄）的函数时，斜率是多少？
+将 `weight` 对 `mage` 进行线性回归的结果如 @tbl-ls-births-mage 所示。
 
 ```{r}
 #| echo: false
@@ -576,19 +560,16 @@ births_many_BS <- births14_100 |>
   rep_sample_n(size = 100, replace = TRUE, reps = 50)
 ```
 
+
+
 \vspace{-3mm}
 
 ```{r}
 #| label: fig-magePlot
 #| fig-cap: |
-#|   Using the original data, the weight of baby as a linear model of
-#|   mother's age. Notice that the relationship between mother's age and weight
-#|   of baby is not as strong as the relationship we saw previously between
-#|   weeks gestation and weight of baby.
+#|   使用原始数据，以母亲年龄的线性模型拟合婴儿体重。请注意，母亲年龄与婴儿体重的关联不如我们先前看到的孕周与婴儿体重的关联那么强。
 #| fig-alt: |
-#|   Scatterplot with mother's age on the x-axis and baby's weight on the
-#|   y-axis. A linear model is superimposed. The points show a weak positive
-#|   linear trend.
+#|   散点图，x轴为母亲年龄，y轴为婴儿体重。图中叠加了一条线性模型线。数据点呈现微弱的正线性趋势。
 #| fig-asp: 0.5
 ggplot(births14_100) +
   geom_point(aes(x = mage, y = weight)) +
@@ -601,11 +582,11 @@ ggplot(births14_100) +
   labs(x = "Mother's age", y = "Weight of baby")
 ```
 
+
 ```{r}
 #| label: tbl-ls-births-mage
 #| tbl-cap: |
-#|   The least squares estimates of the intercept and slope are given in
-#|   the estimate column. The observed slope is 0.036.
+#|   截距和斜率的最小二乘估计值在 estimate 列中给出。观测到的斜率为 0.036。
 #| tbl-pos: H
 lm(weight ~ mage, data = births14_100) |>
   tidy() |>
@@ -619,34 +600,25 @@ lm(weight ~ mage, data = births14_100) |>
   column_spec(2:5, width = "5em")
 ```
 
-### Variability of the statistic
 
-Because the focus here is *not* on a null distribution, we sample with replacement $n = 100$ observations from the original dataset.
-Recall that with bootstrapping the resample always has the same number of observations as the original dataset in order to mimic the process of taking a sample from the population.
-When sampling in the linear model case, consider each observation to be a single dot.
-If the dot is resampled, both the `weight` and the `mage` measurement are observed.
-The measurements are linked to the dot (i.e., to the birth in the sample).
+
+### 统计量的变异性
+
+因为此处的重点*不*在于原假设分布，所以我们从原始数据集中有放回地抽取 $n = 100$ 个观测。
+回忆一下，自助法的再抽样观测数总是与原数据集相同，这是为了模拟从总体中抽取样本的过程。
+在线性模型情形下进行抽样时，将每个观测视为一个点。
+如果这个点被再次抽取，那么 `weight` 和 `mage` 的测量值都会被观测到。
+这些测量值与该点（即样本中的某次出生）是绑定在一起的。
 
 ```{r}
 #| label: fig-birth2BS
 #| fig-cap: |
-#|   Original and one bootstrap sample of the births data. It is difficult to
-#|   differentiate between the two plots, as (within a single bootstrap sample)
-#|   the observations which have been resampled twice are plotted as points on
-#|   top of one another. The red circles represent points in the original data
-#|   which were not included in the bootstrap sample. The blue circles represent
-#|   a data point that was repeatedly resampled (and is therefore darker) in the
-#|   bootstrap sample. The green circles represent a particular structure to the
-#|   data which is observed in both the original and bootstrap samples.
+#|   出生数据的原始数据和一个自助样本。两个图很难区分，因为（在单个自助样本中）被重复抽取两次的观测点会相互重叠绘制。红色圆圈代表原始数据中未被纳入自助样本的点。蓝色圆圈代表自助样本中被重复抽取（因此颜色更深）的数据点。绿色圆圈代表在原始样本和自助样本中都观察到的一种特定的数据结构。
 #| fig-subcap:
-#|   - Original data.
-#|   - Bootstrapped data.
+#|   - 原始数据。
+#|   - 自助样本数据。
 #| fig-alt: |
-#|   Two scatterplots, both with mother's age on the x-axis and baby's weight
-#|   on the y-axis. The left plot is the original data. The right plot is the
-#|   bootstrapped data. Comparing the bootstrapped points to the original points,
-#|   we can see that some observations were sampled more than once, and some
-#|   observations were not selected for the bootstrap sample at all.
+#|   两张散点图，x轴均为母亲年龄，y轴均为婴儿体重。左图是原始数据。右图是自助样本数据。将自助样本点与原始点进行比较，我们可以看到有些观测被抽取了不止一次，而有些观测则完全未被自助样本选中。
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-width: 5
@@ -693,21 +665,20 @@ ggplot(births5) +
   geom_point(x = 39, y = 9, pch = 1, size = 8)
 ```
 
-@fig-birth2BS-1 shows the original data as compared with a single bootstrap sample in @fig-birth2BS-2, resulting in (slightly) different linear models.
-The red circles represent points in the original data which were not included in the bootstrap sample.
-The blue circles represent a point that was repeatedly resampled (and is therefore darker) in the bootstrap sample.
-The green circles represent a particular structure to the data which is observed in both the original and bootstrap samples.
-By repeatedly resampling, we can see dozens of bootstrapped slopes on the same plot in @fig-birthBS.
+@fig-birth2BS-1 显示了原始数据，而 @fig-birth2BS-2 则显示了一个自助样本，两者得到的线性模型（略有）不同。
+红圈代表原始数据中未包含在自助样本中的点。
+蓝圈代表在自助样本中被重复重采样（因此颜色更深）的点。
+绿圈代表一种在原始数据和自助样本中均能观察到的特定数据结构。
+通过重复重采样，我们可以在 @fig-birthBS 的同一张图中看到数十条自助斜率。
 
 ```{r}
 #| label: fig-birthBS
 #| fig-cap: |
-#|   Repeated bootstrap resamples of size 100 are taken from the original data. Each
-#|   of the bootstrapped linear models is slightly different.
+#|   从原始数据中抽取了大小为 100 的重复自助样本。每个
+#|   自助线性模型都略有不同。
 #| fig-alt: |
-#|   An x-y coordinate system with least squares regression lines from many
-#|   bootstrap samples (no points are plotted). The lines vary around the observed
-#|   population line. On the x-axis is mother's age; on the y-axis is baby's weight.
+#|   一个带有来自许多自助样本的最小二乘回归线的 x-y 坐标系
+#|   （未绘制点）。这些线围绕观察到的总体线波动。x 轴是母亲年龄；y 轴是婴儿体重。
 ggplot(births_many_BS, aes(x = mage, y = weight, group = replicate)) +
   geom_smooth(
     method = "lm",
@@ -716,27 +687,27 @@ ggplot(births_many_BS, aes(x = mage, y = weight, group = replicate)) +
     fullrange = TRUE
   ) +
   labs(
-    x = "Mother's age",
-    y = "Weight of baby"
+    x = "母亲年龄",
+    y = "婴儿体重"
   )
 ```
 
-Recall that in order to create a confidence interval for the slope, we need to find the range of values that the statistic (here the slope) takes on from different bootstrap samples.
-@fig-mageBSslopes is a histogram of the relevant bootstrapped slopes.
-We can see that a 95% bootstrap percentile interval for the true population slope is given by (-0.01, 0.081).
-We are 95% confident that for the model describing the population of births, predicting weight of baby from mother's age, a one unit increase in `mage` (in years) is associated with an increase in predicted average baby `weight` of between -0.01 and 0.081 pounds. Notice that the CI contains zero, so the true relationship *might* be null!
+
+
+回想一下，为了构建斜率的置信区间，我们需要找出该统计量（此处为斜率）在不同自助样本中的取值范围。
+@fig-mageBSslopes 是相关自助斜率的直方图。
+我们可以看到，真实总体斜率的 95% 自助法百分位数区间为 (-0.01, 0.081)。
+我们有 95% 的把握认为，对于描述出生总体、从母亲年龄预测婴儿体重的模型，`mage`（以年为单位）每增加一个单位，预测的婴儿平均`weight`的增加量在 -0.01 到 0.081 磅之间。注意，该置信区间包含零，因此真实关系*可能*为零！
 
 ```{r}
 #| label: fig-mageBSslopes
 #| fig-cap: |
-#|   The original births data on baby's weight and mother's age is
-#|   bootstrapped 1,000 times. The histogram provides a sense for the
-#|   variability of the slope of the linear model from sample to sample.
+#|   关于婴儿体重和母亲年龄的原始出生数据被自助法重采样了 1,000 次。
+#|   该直方图直观展示了线性模型斜率在样本间的变异性。
 #| fig-alt: |
-#|   Histogram of the slopes computed from many bootstrapped samples.
-#|   The bootstrap samples range from -0.05 (with the 2.5 percentile at -0.01) to
-#|   +0.1 (with the 97.5 percentile at 0.081). The bootstrapped slopes form a
-#|   histogram that is reasonably symmetric and bell-shaped.
+#|   根据许多自助样本计算的斜率的直方图。
+#|   自助样本的斜率范围从 -0.05（2.5 百分位数在 -0.01）到
+#|   +0.1（97.5 百分位数在 0.081）。自助斜率形成的直方图大致对称且呈钟形。
 set.seed(47)
 births_many_BS_1000 <- births14_100 |>
   rep_sample_n(size = 100, replace = TRUE, reps = 1000)
@@ -771,90 +742,86 @@ ggplot(births_many_lm_BS, aes(x = estimate)) +
     "text",
     x = lower,
     y = 35,
-    label = "2.5 percentile\n-0.01",
+    label = "2.5 百分位数\n-0.01",
     size = 5
   ) +
   annotate(
     "text",
     x = upper,
     y = 35,
-    label = "97.5 percentile\n0.081",
+    label = "97.5 百分位数\n0.081",
     size = 5
   ) +
   labs(
-    x = "Bootstrapped values of the slope for predicting weight of baby from mother's age",
+    x = "利用母亲年龄预测婴儿体重的斜率的自助值",
     y = NULL
   ) +
   theme(axis.text.y = element_blank())
 ```
 
 
+
 ::: {.workedexample data-latex=""}
-Using @fig-mageBSslopes, calculate the bootstrap estimate for the standard error of the slope.
-Using the bootstrap standard error, find a 95% bootstrap SE confidence interval for the true population slope, and interpret the interval in context.
+利用 @fig-mageBSslopes，计算斜率标准误的自助估计。
+利用自助标准误，求出真实总体斜率的 95% 自助标准误置信区间，并在上下文中解释该区间。
 
 ------------------------------------------------------------------------
 
-Notice that most of the bootstrapped slopes fall between -0.01 and +0.08 (a range of 0.09).
-Using the empirical rule (that with bell-shaped distributions, most observations are within two standard errors of the center), the standard error of the slopes is approximately 0.0225.
-The critical value for a 95% confidence interval is $z^\star = 1.96$ which leads to a confidence interval of $b_1 \pm 1.96 \cdot SE \rightarrow 0.036 \pm 1.96 \cdot 0.0225 \rightarrow (-0.0081, 0.0801).$ The bootstrap SE confidence interval is almost identical to the bootstrap percentile interval.
-In context, we are 95% confident that for the model describing the population of births, predicting weight of baby from mother's age, a one unit increase in `mage` (in years) is associated with an increase in predicted average baby `weight` of between -0.0081 and 0.0801 pounds.
+请注意，大多数自助斜率落在 -0.01 到 +0.08 之间（范围为 0.09）。
+利用经验法则（即在钟形分布中，大多数观测值落在中心的两个标准误范围内），斜率的标准误约为 0.0225。
+95% 置信水平的临界值为 $z^\star = 1.96$，由此得到置信区间为 $b_1 \pm 1.96 \cdot SE \rightarrow 0.036 \pm 1.96 \cdot 0.0225 \rightarrow (-0.0081, 0.0801)$。自助法标准误置信区间与自助法百分位数区间几乎相同。
+在此语境下，我们有 95% 的把握认为，对于描述出生总体、从母亲年龄预测婴儿体重的模型，`mage`（以年为单位）每增加一个单位，预测的婴儿平均`weight`的增加量在 -0.0081 到 0.0801 磅之间。
 :::
 
-## Mathematical model for testing the slope {#sec-mathslope}
+## 检验斜率的数学模型 {#sec-mathslope}
 
-When certain technical conditions apply, it is convenient to use mathematical approximations to test and estimate the slope parameter.
-The approximations will build on the t-distribution which was described in @sec-inference-one-mean.
-The mathematical model is often correct and is usually easy to implement computationally.
-The validity of the technical conditions will be considered in detail in @sec-tech-cond-linmod.
+当某些技术条件适用时，使用数学近似来检验和估计斜率参数会很方便。
+该近似法将建立在 [第 -@sec-inference-one-mean 章] 中描述的 t 分布之上。
+数学模型通常是有效的，并且在计算上通常易于实现。
+技术条件的有效性将在 @sec-tech-cond-linmod 中详细讨论。
 
-In this section, we discuss uncertainty in the estimates of the slope and y-intercept for a regression line.
-Just as we identified standard errors for point estimates in previous chapters, we start by discussing standard errors for the slope and y-intercept estimates.
+在本节中，我们将讨论回归线斜率和 y 截距估计值的不确定性。
+正如我们在前几章中为点估计确定了标准误一样，我们首先讨论斜率和 y 截距估计值的标准误。
 
-### Observed data
+### 观测数据
 
-**Midterm elections and unemployment**
+**中期选举与失业率**
 
-Elections for members of the United States House of Representatives occur every two years, coinciding every four years with the U.S.
-Presidential election.
-The set of House elections occurring during the middle of a Presidential term are called midterm elections.
-In America's two-party system (the vast majority of House members through history have been either Republicans or Democrats), one political theory suggests the higher the unemployment rate, the worse the President's party will do in the midterm elections.
-In 2020 there were 232 Democrats, 198 Republicans, and 1 Libertarian in the House.
+美国众议院议员选举每两年举行一次，每四年与美国总统大选同时举行一次。在总统任期中期举行的众议院选举称为中期选举。
+在美国的两党制下（历史上绝大多数众议员不是共和党人就是民主党人），有一种政治理论认为，失业率越高，总统所属党派在中期选举中表现越差。
+2020年，众议院中有232名民主党人、198名共和党人和1名自由党人。
 
-To assess the validity of the claim related to unemployment and voting patterns, we can compile historical data and look for a connection.
-We consider every midterm election from 1898 to 2018, with the exception of the elections during the Great Depression.
-The House of Representatives is made up of 435 voting members.
+为了评估关于失业率与投票模式之间关联的说法的有效性，我们可以整理历史数据并寻找关联。
+我们考察了从1898年到2018年的每一次中期选举，但排除了大萧条时期的选举。
+众议院由435名有投票权的议员组成。
 
 ::: {.data data-latex=""}
-The [`midterms_house`](http://openintrostat.github.io/openintro/reference/midterms_house.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`midterms_house`](http://openintrostat.github.io/openintro/reference/midterms_house.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-@fig-unemploymentAndChangeInHouse shows these data and the least-squares regression line:
+@fig-unemploymentAndChangeInHouse 展示了这些数据以及最小二乘回归线：
 
 $$
 \begin{aligned}
-&\texttt{percent change in House seats for President's party}  \\
-&\qquad\qquad= -7.36 - 0.89 \times \texttt{(unemployment rate)}
+&\texttt{总统所在政党众议院席位的百分比变化}  \\
+&\qquad\qquad= -7.36 - 0.89 \times \texttt{(失业率)}
 \end{aligned}
 $$
 
-We consider the percent change in the number of seats of the President's party (e.g., percent change in the number of seats for Republicans in 2018) against the unemployment rate.
+我们将总统所属党派席位数的百分比变化（例如，2018年共和党席位数的百分比变化）与失业率进行对比分析。
 
-Examining the data, there are no clear deviations from linearity or substantial outliers (see @sec-resids for a discussion on using residuals to visualize how well a linear model fits the data).
-While the data are collected sequentially, a separate analysis was used to check for any apparent correlation between successive observations; no such correlation was found.
+观察数据，没有发现明显偏离线性关系的情况，也没有明显的离群值（关于如何使用残差来可视化线性模型对数据的拟合程度，请参见 @sec-resids 的讨论）。
+虽然数据是按顺序收集的，但我们通过单独的分析检查了连续观测值之间是否存在明显的相关性；并未发现此种相关性。
 
 ```{r}
 #| label: fig-unemploymentAndChangeInHouse
 #| fig-cap: |
-#|   The percent change in House seats for the President's party in each election
-#|   from 1898 to 2010 plotted against the unemployment rate. The two points for the
-#|   Great Depression have been removed, and a least squares regression line has been
-#|   fit to the data.
+#|   1898年至2010年每次选举中总统所属党派众议院席位百分比变化与失业率的散点图。
+#|   大萧条时期的两个数据点已被移除，并为数据拟合了一条最小二乘回归线。
 #| fig-alt: |
-#|   Scatterplot with percent unemployed on the x-axis and percent change in
-#|   House seats for the President's party on the y-axis. Each point represents a
-#|   different President's midterm and is colored according to their political party
-#|   (Democrat or Republican). The relationship is moderate and negative.
+#|   散点图，x 轴为失业百分比，y 轴为总统所属党派众议院席位百分比变化。
+#|   每个点代表一次不同的总统中期选举，并根据其所属政党（民主党或共和党）着色。
+#|   两者关系为中等强度的负相关。
 #| out-width: 100%
 #| fig-asp: 0.5
 years_to_label <- c(2019, 2003, 1995, 1983, 2011, 1899)
@@ -883,10 +850,10 @@ midterms_house_with_labels |>
     breaks = c(-30, -20, -10, 0, 10)
   ) +
   labs(
-    x = "Percent unemployed",
-    y = "Percent change in House seats\nfor the President's party",
-    color = "Party",
-    shape = "Party"
+    x = "失业率",
+    y = "总统所属党派\n众议院席位百分比变化",
+    color = "政党",
+    shape = "政党"
   ) +
   geom_text(
     data = midterms_house_with_labels |> filter(year %in% years_to_label),
@@ -903,55 +870,41 @@ midterms_house_with_labels |>
   )
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-The data for the Great Depression (1934 and 1938) were removed because the unemployment rate was 21% and 18%, respectively.
-Do you agree that they should be removed for this investigation?
-Why or why not?[^24-inf-model-slr-1]
+大萧条时期（1934 年和 1938 年）的失业率分别达到 21% 和 18%。
+你是否同意在本研究中将它们移除？为什么同意或为什么不同意？[^24-inf-model-slr-1]
 :::
 
-[^24-inf-model-slr-1]: The answer to this question relies on the idea that statistical data analysis is somewhat of an art.
-    That is, in many situations, there is no "right" answer.
-    As you do more and more analyses on your own, you will come to recognize the nuanced understanding which is needed for a particular dataset.
-    In terms of the Great Depression, we will provide two contrasting considerations.
-    Each of these points would have very high leverage on any least-squares regression line, and years with such high unemployment may not help us understand what would happen in other years where the unemployment is only modestly high.
-    On the other hand, the Depression years are exceptional cases, and we would be discarding important information if we exclude them from a final analysis.
+[^24-inf-model-slr-1]: 这个问题的答案基于这样一种观念：统计分析在某种程度上是一门艺术。也就是说，在很多情况下，并没有“正确”答案。随着你自己进行越来越多的分析，你会逐渐认识到理解特定数据集所需要的细致考量。就大萧条时期而言，我们将提供两种对立的考量。这些点（大萧条年份）中的每一个点对任何最小二乘回归线都会产生非常高的杠杆，并且失业率如此之高的年份可能无助于我们理解失业率只是适度偏高的其他年份会发生什么。另一方面，大萧条年份是特例，如果我们将它们从最终分析中排除，就会丢弃重要信息。
 
-There is a negative slope in the line shown in @fig-unemploymentAndChangeInHouse.
-However, this slope (and the y-intercept) are only estimates of the parameter values.
-We might wonder, is this convincing evidence that the "true" linear model has a negative slope?
-That is, do the data provide strong evidence that the political theory is accurate, where the unemployment rate is a useful predictor of the midterm election?
-We can frame this investigation into a statistical hypothesis test:
+在 @fig-unemploymentAndChangeInHouse 所示的直线中，斜率为负。然而，这个斜率（以及 y 截距）只是参数值的估计值。我们可能会想，这是否构成了有说服力的证据，表明“真实”线性模型的斜率为负？也就是说，数据是否提供了强有力的证据，证明该政治理论是准确的，即失业率是预测中期选举结果的一个有用预测变量？我们可以将这一研究构建为如下的统计假设检验：
 
--   $H_0$: $\beta_1 = 0$. The true linear model has slope zero.
--   $H_A$: $\beta_1 \neq 0$. The true linear model has a slope different than zero. The unemployment is predictive of whether the President's party wins or loses seats in the House of Representatives.
+-   $H_0$: $\beta_1 = 0$. 真实线性模型的斜率为零。
+-   $H_A$: $\beta_1 \neq 0$. 真实线性模型的斜率不为零。失业率能够预测总统所在政党在众议院中是赢得还是失去席位。
 
-We would reject $H_0$ in favor of $H_A$ if the data provide strong evidence that the true slope parameter is different than zero.
-To assess the hypotheses, we identify a standard error for the estimate, compute an appropriate test statistic, and identify the p-value.
+如果数据提供了强有力的证据表明真实斜率参数不为零，我们就拒绝 $H_0$ 而支持 $H_A$。为了评估这些假设，我们需要确定该估计值的标准误，计算合适的检验统计量，并确定 p 值。
 
 \clearpage
 
-### Variability of the statistic
+### 统计量的变异性
 
-Just like other point estimates we have seen before, we can compute a standard error and test statistic for $b_1$.
-We will generally label the test statistic using a $T$, since it follows the $t$-distribution.
+正如我们之前见过的其他点估计一样，我们可以计算 $b_1$ 的标准误和检验统计量。我们通常用 $T$ 来标记检验统计量，因为它服从 $t$ 分布。
 
 \index{T score!slope}
 
-We will rely on statistical software to compute the standard error and leave the explanation of how this standard error is determined to a second or third statistics course.
-@tbl-midtermUnempRegTable shows software output for the least squares regression line in @fig-unemploymentAndChangeInHouse.
-The row labeled `unemp` includes all relevant information about the slope estimate (i.e., the coefficient of the unemployment variable, the related SE, the T statistic, and the corresponding p-value).
+我们将依赖统计软件来计算标准误，而将标准误如何确定的解释留待第二门或第三门统计学课程。@tbl-midtermUnempRegTable 显示了 @fig-unemploymentAndChangeInHouse 中最小二乘回归线的软件输出结果。标记为 `unemp` 的行包含了关于斜率估计的所有相关信息（即失业率变量的系数、相关的标准误、t 统计量以及相应的 p 值）。
 
 ```{r}
 #| include: false
 terms_chp_24 <- c(terms_chp_24, "t-distribution for slope")
 ```
 
+
 ```{r}
 #| label: tbl-midtermUnempRegTable
 #| tbl-cap: |
-#|   Output from statistical software for the regression line modeling the
-#|   midterm election losses for the President's party as a response to
-#|   unemployment.
+#|   对以失业率为预测变量、总统所在政党中期选举席位损失为结果变量的回归线，统计软件的输出结果。
 #| tbl-pos: H
 d <- midterms_house
 th <- !d$year %in% c(1935, 1939)
@@ -967,68 +920,65 @@ lm(house_change ~ unemp, d[th, ]) |>
   column_spec(2:5, width = "5em")
 ```
 
+
 ::: {.workedexample data-latex=""}
-What do the first and second columns of @tbl-midtermUnempRegTable represent?
+@tbl-midtermUnempRegTable 的第一列和第二列代表什么？
 
 ------------------------------------------------------------------------
 
-The entries in the first column represent the least squares estimates, $b_0$ and $b_1$, and the values in the second column correspond to the standard errors of each estimate.
-Using the estimates, we could write the equation for the least square regression line as
+第一列中的条目代表最小二乘估计值 $b_0$ 和 $b_1$，第二列中的值对应每个估计值的标准误。利用这些估计值，我们可以将最小二乘回归线的方程写为：
 
 $$ \hat{y} = -7.36 - 0.89 x $$
 
-where $\hat{y}$ in this case represents the predicted change in the number of seats for the president's party, and $x$ represents the unemployment rate.
+其中 $\hat{y}$ 在此表示总统所在政党席位数的预测变化，$x$ 表示失业率。
 :::
 
-We previously used a $t$-test statistic for hypothesis testing in the context of numerical data.
-Regression is very similar.
-In the hypotheses we consider, the null value for the slope is 0, so we can compute the test statistic using the T score formula:
+我们之前在数值数据背景下使用 $t$ 检验统计量进行假设检验。回归分析非常相似。在我们考虑的假设中，斜率的原假设值为 0，因此我们可以使用 t 统计量公式计算检验统计量：
 
 $$
-T \ = \ \frac{\text{estimate} - \text{null value}}{\text{SE}} = \ \frac{-0.89 - 0}{0.835} = \ -1.07
+T \ = \ \frac{\text{估计值} - \text{零值}}{\text{SE}} = \ \frac{-0.89 - 0}{0.835} = \ -1.07
 $$
 
-The T score we calculated corresponds to the third column of @tbl-midtermUnempRegTable.
+我们计算出的 t 统计量对应于 @tbl-midtermUnempRegTable 的第三列。
 
 ::: {.workedexample data-latex=""}
-Use @tbl-midtermUnempRegTable to determine the p-value for the hypothesis test.
+使用 @tbl-midtermUnempRegTable 来确定该假设检验的 p 值。
 
 ------------------------------------------------------------------------
 
-The last column of the table gives the p-value for the two-sided hypothesis test for the coefficient of the unemployment rate 0.2961. That is, the data do not provide convincing evidence that a higher unemployment rate has any correspondence with smaller or larger losses for the President's party in the House of Representatives in midterm elections. If there was no linear relationship between the two variables (i.e., if $\beta_1 = 0)$, then we would expect to see linear models as or more extreme that the observed model roughly 30% of the time.
+表格的最后一列给出了失业率系数的双侧假设检验 p 值 0.2961。也就是说，数据并未提供有说服力的证据表明，更高的失业率与中期选举中总统所在政党在众议院席位更多或更少的损失存在任何关联。如果两个变量之间不存在线性关系（即，如果 $\beta_1 = 0$），那么我们看到与观测模型同样极端或更极端的线性模型的概率约为 30%。
 :::
 
 \clearpage
 
-### Observed statistic vs. null statistics
+### 观测统计量与原假设统计量
 
-As the final step in a mathematical hypothesis test for the slope, we use the information provided to make a conclusion about whether the data could have come from a population where the true slope was zero (i.e., $\beta_1 = 0$).
-Before evaluating the formal hypothesis claim, sometimes it is important to check your intuition.
-Based on everything we have seen in the examples above describing the variability of a line from sample to sample, ask yourself if the linear relationship given by the data could have come from a population in which the slope was truly zero.
+作为斜率数学假设检验的最后一步，我们利用所提供的信息来得出一个结论：数据是否可能来自一个真实斜率为零（即 $\beta_1 = 0$）的总体。
+在评估正式的假设论断之前，有时检查一下自己的直觉是很重要的。
+根据我们上面描述回归线因样本而异的变异性例子中所看到的一切，问问自己：数据给出的线性关系，是否可能来自一个真实斜率为零的总体。
 
 ::: {.workedexample data-latex=""}
-Examine @fig-elmhurstScatterWLine, which relates the Elmhurst College aid and student family income.
-Are you convinced that the slope is discernibly different from zero?
-That is, do you think a formal hypothesis test would reject the claim that the true slope of the line should be zero?
+检查 @fig-elmhurstScatterWLine，该图展示了埃尔姆赫斯特学院助学金与学生家庭收入的关系。
+你是否确信斜率明显异于零？
+也就是说，你认为正式的假设检验会拒绝“该直线的真实斜率应为零”的论断吗？
 
 ------------------------------------------------------------------------
 
-While the relationship between the variables is not perfect, there is an evident decreasing trend in the data.
-Such a distinct trend suggests that the hypothesis test will reject the null claim that the slope is zero.
+尽管变量之间的关系并非完美，但数据中存在明显的下降趋势。
+这种明显的趋势表明，假设检验将拒绝斜率为零的原假设。
 :::
 
 ::: {.data data-latex=""}
-The [`elmhurst`](http://openintrostat.github.io/openintro/reference/elmhurst.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`elmhurst`](http://openintrostat.github.io/openintro/reference/elmhurst.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-The tools in this section help you go beyond a visual interpretation of the linear relationship toward a formal mathematical claim about whether the slope estimate is meaningfully different from 0 to suggest that the true population slope is different from 0.
+本节的工具帮助你超越对线性关系的视觉解读，转向一个正式的数学论断：斜率估计值是否有意义地异于 0，从而表明真实的总体斜率不同于 0。
 
 ```{r}
 #| label: tbl-rOutputForIncomeAidLSRLineInInferenceSection
 #| tbl-cap: |
-#|   Summary of least squares fit for the Elmhurst College data, where we
-#|   are predicting the gift aid by the university based on the family
-#|   income of students.
+#|   埃尔姆赫斯特学院数据的最小二乘回归拟合摘要，其中我们根据学生家庭收入
+#|   来预测大学提供的助学金。
 #| tbl-pos: H
 elmhurst |>
   mutate(
@@ -1047,125 +997,122 @@ elmhurst |>
   column_spec(2:5, width = "5em")
 ```
 
+
+
 \vspace{-5mm}
 
 ::: {.guidedpractice data-latex=""}
-@tbl-rOutputForIncomeAidLSRLineInInferenceSection shows statistical software output from fitting the least squares regression line shown in @fig-elmhurstScatterWLine.
-Use the output to formally evaluate the following hypotheses.[^24-inf-model-slr-2]
+@tbl-rOutputForIncomeAidLSRLineInInferenceSection 显示了拟合 @fig-elmhurstScatterWLine 中所示最小二乘回归线的统计软件输出。
+使用该输出来正式评估以下假设。[^24-inf-model-slr-2]
 
--   $H_0$: The true coefficient for family income is zero.
--   $H_A$: The true coefficient for family income is not zero.
+-   $H_0$：家庭收入的真实系数为零。
+-   $H_A$：家庭收入的真实系数不为零。
 :::
 
-[^24-inf-model-slr-2]: We look in the second row corresponding to the family income variable.
-    We see the point estimate of the slope of the line is -0.0431, the standard error of this estimate is 0.0108, and the $t$-test statistic is $T = -3.98$.
-    The p-value corresponds exactly to the two-sided test we are interested in: 0.0002.
-    The p-value is so small that we reject the null hypothesis and conclude that family income and financial aid at Elmhurst College for freshman entering in the year 2011 are negatively correlated and the true slope parameter is indeed less than 0, just as we believed in our analysis of @fig-elmhurstScatterWLine.
+[^24-inf-model-slr-2]: 我们查看对应家庭收入变量的第二行。
+    我们看到该直线的斜率的点估计为 -0.0431，该估计值的标准误为 0.0108，$t$ 检验统计量为 $T = -3.98$。
+    p 值正好对应我们感兴趣的双侧检验：0.0002。
+    p 值非常小，因此我们拒绝原假设，并得出结论：对于 2011 年入学的埃尔姆赫斯特学院新生，家庭收入与经济资助呈负相关，并且真实的斜率参数确实小于 0，正如我们在分析 @fig-elmhurstScatterWLine 时所认为的那样。
 
 \vspace{-5mm}
 
 ::: {.important data-latex=""}
-**Inference for regression.**
+**回归推断。**
 
-We usually rely on statistical software to identify point estimates, standard errors, test statistics, and p-values in practice.
-However, be aware that software will not generally check whether the method is appropriate, meaning we must still verify conditions are met.
-See @sec-tech-cond-linmod.
+在实践中，我们通常依赖统计软件来确定点估计、标准误、检验统计量和 p 值。
+但是，请注意，软件通常不会检查方法是否适用，这意味着我们仍然必须验证条件是否满足。
+参见 @sec-tech-cond-linmod。
 :::
 
 \clearpage
 
-## Mathematical model, interval for the slope
+## 数学模型，斜率的区间
 
-Similar to how we can conduct a hypothesis test for a model coefficient using regression output, we can also construct confidence intervals for the slope and intercept coefficients.
+就像我们可以利用回归输出对模型系数进行假设检验一样，我们也可以为斜率和截距系数构建置信区间。
 
 ::: {.important data-latex=""}
-**Confidence intervals for coefficients.**
+**系数的置信区间。**
 
-Confidence intervals for model coefficients (e.g., the intercept or the slope) can be computed using the $t$-distribution:
+模型系数（例如截距或斜率）的置信区间可以使用$t$分布计算：
 
 $$ b_i \ \pm\ t_{df}^{\star} \times SE_{b_{i}} $$
 
-where $t_{df}^{\star}$ is the appropriate $t^{\star}$ cutoff corresponding to the confidence level with the model's degrees of freedom, $df = n - 2$.
+其中$t_{df}^{\star}$是对应于置信水平且具有模型自由度（$df = n - 2$）的适当$t^{\star}$临界值。
 :::
 
 ::: {.workedexample data-latex=""}
-Compute the 95% confidence interval for the coefficient using the regression output from @tbl-rOutputForIncomeAidLSRLineInInferenceSection.
+使用 @tbl-rOutputForIncomeAidLSRLineInInferenceSection 中的回归输出，计算该系数的 95% 置信区间。
 
 ------------------------------------------------------------------------
 
-The point estimate is -0.0431 and the standard error is $SE = 0.0108$.
-When constructing a confidence interval for a model coefficient, we generally use a $t$-distribution.
-The degrees of freedom for the distribution are noted in the regression output, $df = 48$, allowing us to identify $t_{48}^{\star} = 2.01$ for use in the confidence interval.
+点估计为-0.0431，标准误为$SE = 0.0108$。
+在为模型系数构建置信区间时，我们通常使用$t$分布。
+该分布的自由度在回归输出中注明为$df = 48$，这使我们能够确定用于置信区间的$t_{48}^{\star} = 2.01$。
 
-We can now construct the confidence interval in the usual way:
+现在我们可以按通常的方法构建置信区间：
 
 $$
 \begin{aligned}
-\text{point estimate} &\pm t_{48}^{\star} \times SE \\
+\text{点估计} &\pm t_{48}^{\star} \times SE \\
 -0.0431 &\pm 2.01 \times 0.0108 \\
 (-0.0648 &, -0.0214)
 \end{aligned}
 $$
 
-We are 95% confident that for an additional one unit (i.e., $1000 increase) in family income, the university's gift aid is predicted to decrease on average by \$21.40 to \$64.80.
+我们有 95% 的信心认为，总体斜率系数位于 -0.0647 和 -0.0215 之间。也就是说，家庭收入每增加一个单位（即增加 \$1000），大学的资助金预计平均减少 \$21.40 到 \$64.80。
 :::
 
-On the topic of intervals in this book, we have focused exclusively on confidence intervals for model parameters.
-However, there are other types of intervals that may be of interest (and are outside the scope of this book), including prediction intervals for a response value and confidence intervals for a mean response value in the context of regression.
+关于本书中的区间，我们只聚焦于模型参数的置信区间。
+然而，还有其他类型的区间可能令人感兴趣（但这超出了本书的范围），包括响应值的预测区间以及回归中平均响应值的置信区间。
 
 \clearpage
 
-## Checking model conditions {#sec-tech-cond-linmod}
+## 检查模型条件 {#sec-tech-cond-linmod}
 
 \index{technical conditions linear regression}
 
-In the previous sections, we used randomization and bootstrapping to perform inference when the mathematical model was not valid due to violations of the technical conditions.
-In this section, we'll provide details for when the mathematical model is appropriate and a discussion of technical conditions needed for the randomization and bootstrapping procedures.
-Recall from @sec-resids that residual plots can be used to visualize how well a linear model fits the data.
+在前面的章节中，当因违反技术条件而导致数学模型无效时，我们使用了随机化和自助法进行推断。
+在本节中，我们将提供数学模型何时适用的细节，并讨论随机化和自助法程序所需的技术条件。
+回顾@sec-resids可知，残差图可以用来可视化线性模型对数据的拟合程度。
 
 ```{r}
 #| include: false
 terms_chp_24 <- c(terms_chp_24, "technical conditions linear regression")
 ```
 
-### What are the technical conditions for the mathematical model?
 
-When fitting a least squares line, we generally require the following:
 
--   **Linearity.** The data should show a linear trend.
-    If there is a nonlinear trend (e.g., first panel of @fig-whatCanGoWrongWithLinearModel) an advanced regression method from another book or later course should be applied.
+### 数学模型的技术条件有哪些？
 
--   **Independent observations.** Be cautious about applying regression to data that are sequential observations in time such as a stock price each day.
-    Such data may have an underlying structure that should be considered in a different type of model and analysis.
-    An example of a dataset where successive observations are not independent is shown in the fourth panel of @fig-whatCanGoWrongWithLinearModel.
-    There are also other instances where correlations within the data are important, which is further discussed in @sec-inf-model-mlr.
+当拟合最小二乘回归线时，我们通常要求满足以下条件：
 
--   **Nearly normal residuals.** Generally, the residuals should be nearly normal.
-    When this condition is found to be unreasonable, it is often because of outliers or concerns about influential points, which we'll talk about more in @sec-outliers-in-regression.
-    An example of a residual that would be potentially concerning is shown in the second panel of @fig-whatCanGoWrongWithLinearModel, where one observation is clearly much further from the regression line than the others. Outliers should be treated extremely carefully. Do not automatically remove an outlier if it truly belongs in the dataset. However, be honest about its impact on the analysis. A strategy for dealing with outliers is to present two analyses: one with the outlier and one without the outlier.
-Additionally, a type of violation of normality happens when the positive residuals are smaller in magnitude than the negative residuals (or vice versa). That is, when the residuals are not symmetrically distributed around the line $y=0.$ 
+-   **线性。** 数据应呈现线性趋势。
+    如果存在非线性的趋势（例如@fig-whatCanGoWrongWithLinearModel的第一个面板），则应采用其他书籍或后续课程中的高级回归方法。
+
+-   **独立的观测。** 将回归应用于按时间顺序的观测数据（如每日股价）时要谨慎。
+    此类数据可能具有潜在结构，应在不同类型的模型和分析中予以考虑。
+    @fig-whatCanGoWrongWithLinearModel 的第四个面板展示了一个相继观测不独立的数据集例子。
+    还有其他情况，数据内部的相关性也很重要，这将在[第 -@sec-inf-model-mlr 章]中进一步讨论。
+
+-   **残差近似正态。** 通常，残差应近似正态分布。
+    当发现此条件不合理时，通常是因为存在离群值或对强影响点的担忧，我们将在@sec-outliers-in-regression中详细讨论。
+    @fig-whatCanGoWrongWithLinearModel 的第二个面板展示了一个可能引起关注的残差例子，其中一个观测值明显比其他观测值离回归线远得多。对离群值的处理必须极其谨慎。如果离群值确实属于该数据集，请不要自动将其剔除。然而，要诚实地看待其对分析的影响。处理离群值的一种策略是展示两种分析结果：一种包含离群值，一种不包含离群值。
+此外，当正残差的大小小于负残差的大小（或反之）时，也会发生一种违反正态性的情况。也就是说，当残差没有围绕直线 $y=0$ 对称分布时。
 
 ```{r}
 #| label: fig-whatCanGoWrongWithLinearModel
 #| fig-cap: |
-#|   Four examples showing when the methods in this chapter are insufficient
-#|   to apply a linear model to the data. The top set of graphs represents the
-#|   $x$ and $y$ relationship. The bottom set of graphs is a residual plot.
-#|   First panel -- linearity fails. Second panel -- there are outliers, most
-#|   especially one point that is very far away from the line. Third panel --
-#|   the variability of the errors is related to the value of $x$. Fourth panel --
-#|   a time series dataset is shown, where successive observations are highly correlated.
+#|   四个示例展示了本章方法不足以对数据应用线性模型的情况。
+#|   上面一组图表示 $x$ 和 $y$ 的关系。下面一组图是残差图。
+#|   第一个面板——线性条件不满足。第二个面板——存在离群值，
+#|   尤其是有一个点距离回归线非常远。第三个面板——误差的变异性与 $x$ 的值有关。
+#|   第四个面板——展示了一个时间序列数据集，其中相继观测高度相关。
 #| fig-alt: |
-#|   A grid of 2 by 4 scatterplots with fabricated data. The top row of plots
-#|   contains original x-y data plots with a least squares regression line. The
-#|   bottom row of plots is a series of residual plot with predicted value on the
-#|   x-axis and residual on the y-axis. The first column of plots gives an example
-#|   of points that have a quadratic relationship instead of a linear relationship.
-#|   The second column of plots gives an example where a single outlying point
-#|   does not fit the linear model. The third column of points gives an example
-#|   where the points have increasing variability as the value of x increases.
-#|   The last column of points gives an example where the points are correlated
-#|   with one another, possibly as part of a time series.
+#|   一个2×4的散点图网格，使用模拟数据。上面一行图包含带有最小二乘回归线的原始x-y数据图。
+#|   下面一行图是一系列残差图，x轴为预测值，y轴为残差。第一列图展示了点具有二次关系
+#|   而非线性关系的例子。第二列图展示了单个离群点不符合线性模型的例子。第三列图
+#|   展示了随着x值的增加，点的变异性也增加的例子。最后一列图展示了点之间相互
+#|   关联的例子，可能是时间序列的一部分。
 #| out-width: 100%
 #| fig-width: 9
 #| fig-asp: 0.5
@@ -1211,8 +1158,8 @@ plot(
 )
 abline(h = 0, lty = 2)
 box()
-mtext("Predicted y", side = 1, line = 0.2)
-mtext("Residual", side = 2, line = 0.1)
+mtext("预测的 y", side = 1, line = 0.2)
+mtext("残差", side = 2, line = 0.1)
 
 these <- simulated_scatter$group == 21
 x <- simulated_scatter$x[these]
@@ -1241,8 +1188,8 @@ plot(
 )
 abline(h = 0, lty = 2)
 box()
-mtext("Predicted y", side = 1, line = 0.2)
-mtext("Residual", side = 2, line = 0.1)
+mtext("预测的 y", side = 1, line = 0.2)
+mtext("残差", side = 2, line = 0.1)
 
 these <- simulated_scatter$group == 22
 x <- simulated_scatter$x[these]
@@ -1279,8 +1226,8 @@ plot(
 )
 abline(h = 0, lty = 2)
 box()
-mtext("Predicted y", side = 1, line = 0.2)
-mtext("Residual", side = 2, line = 0.1)
+mtext("预测的 y", side = 1, line = 0.2)
+mtext("残差", side = 2, line = 0.1)
 
 these <- simulated_scatter$group == 23
 x <- simulated_scatter$x[these]
@@ -1308,126 +1255,126 @@ plot(
 )
 abline(h = 0, lty = 2)
 box()
-mtext("Predicted y", side = 1, line = 0.2)
-mtext("Residual", side = 2, line = 0.1)
+mtext("预测的 y", side = 1, line = 0.2)
+mtext("残差", side = 2, line = 0.1)
 makeTubeAdv(x, y, col = IMSCOL["lgray", "f2"])
 #par(par_og) # restore original par
 ```
 
--   **Constant or equal variability.** The variability of points around the least squares line remains roughly constant.
-    An example of non-constant variability is shown in the third panel of @fig-whatCanGoWrongWithLinearModel, which represents the most common pattern observed when this condition fails: the variability of $y$ is larger when $x$ is larger.
+-   **恒定或相等的变异性。** 点围绕最小二乘回归线的变异性大致保持恒定。
+    等变异性不满足的示例见 @fig-whatCanGoWrongWithLinearModel 的第三面板，它代表了该条件失效时观察到的最常见模式：当 $x$ 较大时，$y$ 的变异性更大。
 
 ::: {.guidedpractice data-latex=""}
-Should we have concerns about applying least squares regression to the Elmhurst data in @fig-elmhurstScatterW2Lines?[^24-inf-model-slr-3]
+对将最小二乘回归应用于 @fig-elmhurstScatterW2Lines 中的 Elmhurst 数据，我们是否会有所顾虑？[^24-inf-model-slr-3]
 :::
 
-[^24-inf-model-slr-3]: The trend appears to be linear, the data fall around the line with no obvious outliers, the variance is roughly constant.
-    The data do not come from a time series or other obvious violation to independence.
-    Least squares regression can be applied to these data.
+[^24-inf-model-slr-3]: 趋势看起来是线性的，数据围绕直线分布，没有明显的离群值，方差大致恒定。
+    数据并非来自时间序列，也没有其他明显违背独立性的情况。
+    最小二乘回归可以应用于这些数据。
 
-The technical conditions are often remembered using the **LINE** mnemonic.
-The linearity, normality, and equality of variance conditions usually can be assessed through residual plots, as seen in @fig-whatCanGoWrongWithLinearModel.
-A careful consideration of the experimental design should be undertaken to confirm that the observed values are indeed independent.
+这些技术条件常借助 **LINE** 助记符来记忆。
+线性、正态性和等变异性条件通常可以通过残差图来评估，如 @fig-whatCanGoWrongWithLinearModel 所示。
+应仔细考虑实验设计，以确认观测值确实是独立的。
 
--   L: **linear** model
--   I: **independent** observations
--   N: points are **normally** distributed around the line
--   E: **equal** variability around the line for all values of the explanatory variable
+-   L: **线性**模型
+-   I: **独立的**观测
+-   N: 点围绕直线呈**正态**分布
+-   E: 对于解释变量的所有取值，直线周围的变异性**相等**
 
-### Why do we need technical conditions?
+### 为什么我们需要技术条件？
 
-As with other inferential techniques we have covered in this text, if the technical conditions above do not hold, then it is not possible to make concluding claims about the population.
-That is, without the technical conditions, the T score will not have the assumed t-distribution.
-That said, it is almost always impossible to check the conditions precisely, so we look for large deviations from the conditions.
-If there are large deviations, we will be unable to trust the calculated p-value or the endpoints of the resulting confidence interval.
+正如我们在本书中涵盖的其他推断技术一样，如果上述技术条件不成立，那么就不可能对总体作出结论性的论断。
+也就是说，如果没有这些技术条件，t 统计量将不具有假定的 t 分布。
+尽管如此，我们几乎永远无法精确地检查条件是否满足，因此我们寻找条件是否存在较大偏离。
+如果存在较大偏离，我们将无法信任计算出的 p 值或所得置信区间的端点。
 
-**The model based on linearity**
+**基于线性的模型**
 
-The linearity condition is among the most important if your goal is to understand a linear model between $x$ and $y$.
-For example, the value of the slope will not be at all meaningful if the true relationship between $x$ and $y$ is quadratic, as in @fig-notGoodAtAllForALinearModel.
-Not only should we be cautious about the inference, but the model *itself* is also not an accurate portrayal of the relationship between the variables.
-However, an extended discussion on the different methods for modeling functional forms other than linear is outside the scope of this text.
+如果你的目标是理解 $x$ 和 $y$ 之间的线性模型，那么线性条件是最重要的条件之一。
+例如，如果 $x$ 和 $y$ 之间的真实关系是二次的，如 @fig-notGoodAtAllForALinearModel 所示，那么斜率的值将毫无意义。
+我们不仅需要对推断持谨慎态度，而且模型*本身*也无法准确地描述变量之间的关系。
+然而，详细讨论线性以外函数形式的建模方法已超出本书范围。
 
-**The importance of independence**
+**独立性的重要性**
 
-The technical condition describing the independence of the observations is often the most crucial but also the most difficult to diagnose.
-It is also extremely difficult to gather a dataset which is a true random sample from the population of interest.
-A true randomized experiment from a fixed set of individuals is much easier to implement, and indeed, randomized experiments are done in most medical studies these days.
+描述观测独立性的技术条件通常是最关键但也最难诊断的。
+要从目标总体中收集到一个真正的随机样本数据集也极其困难。
+从一组固定个体中进行真正的随机化实验则更容易实施，事实上，现今大多数医学研究都进行随机化实验。
 
-Dependent observations can bias results in ways that produce fundamentally flawed analyses.
-That is, if you hang out at the gym measuring height and weight, your linear model is surely not a representation of all students at your university.
-At best it is a model describing students who use the gym, but also who are willing to talk to you, that use the gym at the times you were there measuring, etc.
+相依的观测会导致结果产生偏差，从而使分析出现根本性缺陷。
+也就是说，如果你在健身房测量身高和体重，你的线性模型肯定不能代表你所在大学的所有学生。
+充其量，它只能描述那些使用健身房、愿意与你交谈、且在你测量的时间段去健身房的学生等。
 
-In lieu of trying to answer whether your observations are a true random sample, you might instead focus on whether you believe your observations are representative of a population of interest.
-Humans are notoriously bad at implementing random procedures, so you should be wary of any process that used human intuition to balance the data with respect to, for example, the demographics of the individuals in the sample.
-
-\clearpage
-
-**Some thoughts on normality**
-
-The normality condition requires that points vary symmetrically around the line, spreading out in a bell-shaped fashion.
-You should consider the "bell" of the normal distribution as sitting on top of the line (coming off the paper in a 3-D sense) so as to indicate that the points are dense close to the line and disperse gradually as they get farther from the line.
-
-The normality condition is less important than linearity or independence for a few reasons.
-First, the linear model fit with least squares will still be an unbiased estimate of the true population model.
-However, the distribution of the estimate will be unknown.
-Fortunately the Central Limit Theorem (described in @sec-one-mean-math) tells us that most of the analyses (e.g., SEs, p-values, confidence intervals) done using the mathematical model (with the $t$-distribution) will still hold (even if the data are not normally distributed around the line) as long as the sample size is large enough.
-One analysis method that *does* require normality, regardless of sample size, is creating intervals which predict the response of individual outcomes at a given $x$ value, using the linear model.
-One additional reason to worry slightly less about normality is that neither the randomization test nor the bootstrapping procedures require the data to be normal around the line.
-
-**Equal variability for prediction in particular**
-
-As with normality, the equal variability condition (that points are spread out in similar ways around the line for all values of $x$) will not cause problems for the estimate of the linear model.
-That said, the **inference** on the model (e.g., computing p-values) will be incorrect if the variability around the line is extremely heterogeneous.
-Data that exhibit non-equal variance across the range of x-values will have the potential to seriously mis-estimate the variability of the slope which will have consequences for the inference results (i.e., hypothesis tests and confidence intervals).
-
-In many cases, the inference results for both a randomization test or a bootstrap confidence interval are also robust to the equal variability condition, so they provide the analyst a set of methods to use when the data are heteroskedastic (that is, exhibit unequal variability around the regression line).
-Although randomization tests and bootstrapping allow us to analyze data using fewer conditions, some technical conditions are required for all methods described in this text (e.g., independent observation).
-When the equal variability condition is violated and a mathematical analysis (e.g., p-value from T score) is needed, there are other existing methods (outside the scope of this text) which can handle the unequal variance (e.g., weighted least squares analysis).
-
-### What if all the technical conditions are met?
-
-When the technical conditions are met, the least squares regression model and inference is provided by virtually all statistical software.
-In addition to being ubiquitous, however, an additional advantage to the least squares regression model (and related inference) is that the linear model has important extensions (which are not trivial to implement with bootstrapping and randomization tests).
-In particular, random effects models, repeated measures, and interaction are all linear model extensions which require the above technical conditions.
-When the technical conditions hold, the extensions to the linear model can provide important insight into the data and research question at hand.
-We will discuss some of the extended modeling and associated inference in @sec-inf-model-mlr and @sec-inf-model-logistic.
-Many of the techniques used to deal with technical condition violations are outside the scope of this text, but they are taught in universities in the very next class after this one.
-If you are working with linear models or are curious to learn more, we recommend that you continue learning about statistical methods applicable to a larger class of datasets.
+与其纠结你的观测是否是一个真正的随机样本，你不如关注你是否相信你的观测对目标总体是有代表性的。
+人类极不擅长实施随机过程，因此你应该警惕任何依赖人工直觉来平衡数据（例如，在样本个体的人口统计特征方面）的做法。
 
 \clearpage
 
-## Chapter review {#sec-chp24-review}
+**关于正态性的一些思考**
 
-### Summary
+正态性条件要求点围绕直线对称地变化，呈钟形分布。
+你应将正态分布的"钟"想象为位于直线的上方（从三维意义上"跃出纸面"），以此表示点在线附近密集，并随着远离直线而逐渐分散。
 
-Recall that early in the text we presented graphical techniques which communicated relationships across multiple variables.
-We also used modeling to formalize the relationships.
-Many chapters were dedicated to inferential methods which allowed claims about the population to be made based on samples of data.
-Not only did we present the mathematical model for each of the inferential techniques, but when appropriate, we also presented bootstrapping and permutation methods.
+正态性条件不如线性或独立性重要，主要有几个原因。
+首先，用最小二乘法拟合的线性模型，仍然是真实总体模型的无偏估计。
+然而，该估计量的分布将是未知的。
+幸运的是，中心极限定理（在 @sec-one-mean-math 中描述）告诉我们，只要样本量足够大，使用数学模型（及 t 分布）进行的大多数分析（例如，标准误、p 值、置信区间）仍然（近似）成立（即使数据并非围绕回归线正态分布）。
+无论样本量大小，都有一种分析方法*确实*需要正态性，即使用线性模型为给定 $x$ 值处的个体结果变量创建预测区间。
+对正态性不必过于担心的另一个原因是，无论是随机化检验还是自助法，都不要求数据围绕回归线服从正态分布。
 
-In @sec-inf-model-slr we brought all of those ideas together by considering inferential claims on linear models through randomization tests, bootstrapping, and mathematical modeling.
-We continue to emphasize the importance of experimental design in making conclusions about research claims.
-In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation, see @fig-randsampValloc).
+**等变异性，尤其是对预测而言**
 
-### Terms
+与正态性类似，等变异性条件（对于所有 $x$ 值，点围绕回归线的散布方式相似）本身不会给线性模型的估计带来问题。
+不过，如果围绕回归线的变异性极度不均匀，那么对模型的**推断**（例如，计算 p 值）将是不正确的。
+在 x 值范围内表现出不等方差的数据，有可能严重误估斜率的变异性，从而影响推断结果（即假设检验和置信区间）。
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-24.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+在许多情况下，无论是随机化检验还是自助法置信区间的推断结果，对等变异性条件也是稳健的，因此它们为分析者提供了一套在数据存在异方差性（即围绕回归线的变异性不相等）时可用的方法。
+尽管随机化检验和自助法允许我们在较少的条件下分析数据，但本书描述的所有方法都需要满足一些技术条件（例如，观测独立）。
+当违背等变异性条件且需要进行数学分析（例如，根据 t 统计量计算 p 值）时，存在其他方法（超出本书范围）可以处理不等方差的情况（例如，加权最小二乘法分析）。
+
+### 如果所有技术条件都满足呢？
+
+当技术条件都满足时，几乎所有统计软件都会提供最小二乘回归模型及其推断。
+然而，除了应用广泛之外，最小二乘回归模型（及其相关推断）还有一个额外优势：线性模型具有重要的扩展（而用自助法和随机化检验实现这些扩展并非易事）。
+特别是，随机效应模型、重复测量和交互项都是线性模型的扩展，它们都需要上述的技术条件。
+当技术条件成立时，线性模型的扩展可以为我们手头的数据和研究问题提供重要的洞见。
+我们将在 [第 -@sec-inf-model-mlr 章] 和 [第 -@sec-inf-model-logistic 章] 中讨论一些扩展的建模方法及其相关推断。
+许多用于处理违反技术条件情况的技术超出了本书的范围，但它们在大学里通常是紧接着本课程的下一门课中讲授。
+如果你正在使用线性模型或者渴望了解更多，我们建议你继续学习适用于更广泛数据集类别的统计方法。
+
+\clearpage
+
+## 章节回顾 {#sec-chp24-review}
+
+### 小结
+
+回想一下，在本书前面的章节中，我们介绍了可传达多个变量间关系的图形技术。
+我们也通过建模来形式化这些关系。
+本书的许多章节都致力于推断方法，这些方法允许我们基于数据样本对总体作出论断。
+我们不仅介绍了每种推断技术的数学模型，还在适当的时候介绍了自助法和置换法。
+
+在 [第 -@sec-inf-model-slr 章] 中，我们通过随机化检验、自助法和数学模型来对线性模型进行推断，从而将这些思路汇集在一起。
+我们继续强调实验设计对于得出研究结论的重要性。
+特别要记住，变异性可以有不同的来源（例如，随机抽样与随机分配，参见 @fig-randsampValloc）。
+
+### 术语
+
+本章介绍的术语在 @tbl-terms-chp-24 中列出。
+如果你不确定某些术语的含义，我们建议你返回正文，回顾它们的定义。
+你应该能很容易地发现它们，即**加粗文本**。
 
 ```{r}
 #| label: tbl-terms-chp-24
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_24)
 ```
 
 \clearpage
 
-## Exercises {#sec-chp24-exercises}
+## 练习 {#sec-chp24-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-24].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-24] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_24-ex-inf-model-slr.qmd >}}

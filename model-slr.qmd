@@ -1,4 +1,4 @@
-# Linear regression with a single predictor {#sec-model-slr}
+# 单一预测变量的线性回归 {#sec-model-slr}
 
 ```{r}
 #| include: false
@@ -6,39 +6,32 @@
 source("_common.R")
 ```
 
+
+
 \vspace{-5mm}
 
 ::: {.chapterintro data-latex=""}
-Linear regression is a very powerful statistical technique.
-Many people have some familiarity with regression models just from reading the news, where straight lines are overlaid on scatterplots.
-Linear models can be used for prediction or to describe the relationship between two numerical variables, assuming there is a linear relationship between them.
+线性回归是一种非常强大的统计技术。许多人仅凭阅读新闻就对回归模型有所耳闻，新闻中常在散点图上叠加直线。线性模型可以用于预测，或者描述两个数值变量之间的关系（前提是假定它们之间存在线性关系）。
 :::
 
-## Fitting a line, residuals, and correlation {#sec-fit-line-res-cor}
+## 拟合直线、残差与相关系数 {#sec-fit-line-res-cor}
 
-When considering linear regression, it's helpful to think deeply about the line fitting process.
-In this section, we define the form of a linear model, explore criteria for what makes a good fit, and introduce a new statistic called *correlation*.
+在思考线性回归时，深入理解直线拟合过程会很有帮助。在本节中，我们将定义线性模型的形式，探索何为良好拟合的标准，并引入一个名为*相关系数*的新统计量。
 
-### Fitting a line to data
+### 为数据拟合直线
 
-@fig-perfLinearModel shows two variables whose relationship can be modeled perfectly with a straight line.
-The equation for the line is $y = 5 + 64.96 x.$ Consider what a perfect linear relationship means: we know the exact value of $y$ just by knowing the value of $x.$ A perfect linear relationship is unrealistic in almost any natural process.
-For example, if we took family income $(x),$ this value would provide some useful information about how much financial support a college may offer a prospective student $(y.)$
-However, the prediction would be far from perfect, since other factors play a role in financial support beyond a family's finances.
+@fig-perfLinearModel 显示了两个变量，其关系可以用一条直线完美建模。直线的方程是 $y = 5 + 64.96 x.$ 思考一下完美线性关系的含义：只要知道 $x$ 的值，我们就能知道 $y$ 的精确值。完美线性关系在几乎任何自然过程中都是不现实的。例如，如果我们以家庭收入 $(x)$ 为例，这个值可以提供一些有用的信息，来预测大学可能向一名准大学生提供多少经济资助 $(y.)$ 然而，这个预测远非完美，因为除了家庭财务状况之外，还有其他因素在经济资助中起作用。
 
 \vspace{-5mm}
 
 ```{r}
 #| label: fig-perfLinearModel
 #| fig-cap: |
-#|   Requests from twelve separate buyers were simultaneously placed with a
-#|   trading company to purchase Target Corporation stock (ticker TGT, December
-#|   28th, 2018), and the total cost of the shares was reported. Because the
-#|   cost is computed using a linear formula, the linear fit is perfect.
+#|   十二位不同的买家同时向一家交易公司提交了购买塔吉特公司股票（代码 TGT，
+#|   2018年12月28日）的请求，并报告了股票的总成本。由于成本是使用线性公式计算的，
+#|   因此线性拟合是完美的。
 #| fig-alt: |
-#|   A scatterplot showing a perfect linear relationship between number of
-#|   stocks to purchase on the x-axis and total cost of the share purchase
-#|   on the y-axis.
+#|   一张散点图，展示了 x 轴上要购买的股票数量与 y 轴上股票购买总成本之间完美的线性关系。
 #| fig-asp: 0.4
 target <- simulated_scatter |>
   filter(group == 4)
@@ -51,62 +44,58 @@ ggplot(target, aes(x = x, y = y)) +
     breaks = c(0, 1000, 2000)
   ) +
   labs(
-    x = "Number of Target Corporation stocks to purchase",
-    y = "Total cost of the\nshare purchase"
+    x = "要购买的塔吉特公司股票数量",
+    y = "股票购买的\n总成本"
   )
 ```
 
+
+
 \clearpage
 
-Linear regression is the statistical method for fitting a line to data where the relationship between two variables, $x$ and $y,$ can be modeled by a straight line with some error:
+线性回归是一种统计方法，用于为数据拟合直线，其中两个变量 $x$ 和 $y$ 的关系可以用带误差的直线建模：
 
 $$
 y = b_0 + b_1 \ x + e
 $$
 
-The values $b_0$ and $b_1$ represent the model's intercept and slope, respectively, and the error is represented by $e.$
-These values are calculated based on the data, i.e., they are sample statistics.
-If the observed data is a random sample from a target population that we are interested in making inferences about, these values are considered to be point estimates for the population parameters $\beta_0$ and $\beta_1.$
-We will discuss how to make inferences about parameters of a linear model based on sample statistics in @sec-inf-model-slr.
+$b_0$ 和 $b_1$ 分别代表模型的截距和斜率，误差由 $e$ 表示。这些值是基于数据计算出来的，也就是说，它们是样本统计量。如果观测数据是我们希望对其进行推断的目标总体的一个随机样本，那么这些值就被视为总体参数 $\beta_0$ 和 $\beta_1$ 的点估计。我们将在 [第 -@sec-inf-model-slr 章] 节讨论如何基于样本统计量对线性模型的参数进行推断。
 
 ::: {.content-visible when-format="html"}
 ::: {.pronunciation data-latex=""}
-The Greek letter $\beta$ is pronounced *beta*, listen to the pronunciation [here](https://youtu.be/PStgY5AcEIw?t=7).
+希腊字母 $\beta$ 读作 *beta*，请点击[此处](https://youtu.be/PStgY5AcEIw?t=7)收听发音。
 :::
 :::
 
 ::: {.content-visible when-format="pdf"}
 ::: {.pronunciation data-latex=""}
-The Greek letter $\beta$ is pronounced *beta*.
+希腊字母 $\beta$ 读作 *beta*。
 :::
 :::
 
-When we use $x$ to predict $y,$ we usually call $x$ the **predictor**\index{variable!predictor}\index{predictor variable} variable and we call $y$ the **outcome**\index{variable!outcome}\index{outcome variable}.
-We also often drop the $e$ term when writing down the model since our main focus is often on the prediction of the average outcome.
+当我们用 $x$ 来预测 $y$ 时，我们通常称 $x$ 为**预测变量**\index{variable!predictor}\index{predictor variable}，称 $y$ 为**结果变量**\index{variable!outcome}\index{outcome variable}。我们在写下模型时也常常省略 $e$ 项，因为我们的主要关注点常常是对结果平均数的预测。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c("predictor", "outcome")
 ```
 
-It is rare for all of the data to fall perfectly on a straight line.
-Instead, it's more common for data to appear as a *cloud of points*, such as those examples shown in @fig-imperfLinearModel.
-In each case, the data fall around a straight line, even if none of the observations fall exactly on the line.
-The first plot shows a relatively strong downward linear trend, where the remaining variability in the data around the line is minor relative to the strength of the relationship between $x$ and $y.$ The second plot shows an upward trend that, while evident, is not as strong as the first.
-The last plot shows a very weak downward trend in the data, so slight we can hardly notice it.
-In each of these examples, we will have some uncertainty regarding our estimates of the model parameters, $\beta_0$ and $\beta_1.$ For instance, we might wonder, should we move the line up or down a little, or should we tilt it more or less?
-As we move forward in this chapter, we will learn about criteria for line-fitting, and we will also learn about the uncertainty associated with estimates of model parameters.
+
+
+所有数据都完美地落在一条直线上的情况很少见。
+相反，数据更常以*点云*的形式出现，如 @fig-imperfLinearModel 中所示的那些例子。
+在每一种情况下，数据都围绕一条直线分布，即使没有任何观测恰好落在直线上。
+第一个图显示了一个相对较强的向下线性趋势，其中相对于 $x$ 和 $y$ 之间关系的强度，数据围绕直线的剩余变异性较小。第二个图显示了一个虽然明显但不如第一个图强的向上趋势。最后一个图显示数据中存在一个非常微弱的向下趋势，微弱到我们几乎无法察觉。
+在这些例子中的每一个，我们对模型参数 $\beta_0$ 和 $\beta_1$ 的估计都会存在一些不确定性。例如，我们可能会想，我们是应该把线向上或向下移动一点，还是应该让它更陡峭或更平缓一些？
+随着我们在本章中继续深入，我们将学习直线拟合的准则，也将学习与模型参数估计相关的不确定性。
 
 ```{r}
 #| label: fig-imperfLinearModel
 #| fig-cap: |
-#|   Three datasets where a linear model may be useful even though the data do
-#|   not all fall exactly on the line.
+#|   三个数据集，其中线性模型可能有用，即使数据并非全部恰好落在直线上。
 #| fig-alt: |
-#|   Three scatterplots with fabricated data. The first panel shows a
-#|   strong negative linear relationship. The second panel shows a moderate
-#|   positive linear relationship. The last panel shows no relationship
-#|   between the x and y variables.
+#|   三个使用模拟数据的散点图。第一个面板显示强烈的负线性关系。
+#|   第二个面板显示中等的正线性关系。最后一个面板显示 x 和 y 变量之间没有关系。
 #| out-width: 100%
 #| fig-asp: 0.25
 neg <- simulated_scatter |> filter(group == 1)
@@ -131,24 +120,23 @@ p_ran <- ggplot(ran, aes(x = x, y = y)) +
 p_neg + p_pos + p_ran
 ```
 
+
+
 \vspace{-5mm}
 
-There are also cases where fitting a straight line to the data, even if there is a clear relationship between the variables, is not helpful.
-One such case is shown in @fig-notGoodAtAllForALinearModel where there is a very clear relationship between the variables even though the trend is not linear.
-We discuss nonlinear trends in this chapter and the next, but details of fitting nonlinear models are saved for a later course.
+也存在另外一些情况，即使变量之间存在明显的关系，为数据拟合一条直线也没有什么帮助。
+@fig-notGoodAtAllForALinearModel 中显示的就是这样一种情况，其中变量之间的关系非常明确，尽管趋势不是线性的。
+我们将在本章和下一章讨论非线性趋势，但拟合非线性模型的细节将留待后续课程讲解。
 
 ```{r}
 #| label: fig-notGoodAtAllForALinearModel
 #| fig-cap: |
-#|   The best fitting line for these data is flat, which is not a useful way
-#|   to describe the non-linear relationship. These data are from a physics
-#|   experiment.
+#|   这些数据的最佳拟合线是平的，这不是描述该非线性关系的有效方法。
+#|   这些数据来自一项物理实验。
 #| fig-alt: |
-#|   A scatterplot showing a perfect quadratic relationship between angle of
-#|   incline on the x-axis and distance traveled on the y-axis. The line of
-#|   best fit is superimposed as a perfectly horizontal line. That is to say,
-#|   the variables are clearly related, but they do not have a linear
-#|   relationship.
+#|   一幅散点图，显示了 x 轴上的倾角和 y 轴上的行进距离之间完美的二次关系。
+#|   最佳拟合线叠加为一条完全水平的线。也就是说，变量之间明显相关，
+#|   但它们不具有线性关系。
 #| fig-asp: 0.25
 bad <- simulated_scatter |> filter(group == 5)
 
@@ -156,56 +144,56 @@ ggplot(bad, aes(x = x, y = y)) +
   geom_point(size = 2.5) +
   geom_smooth(method = "lm", se = FALSE) +
   labs(
-    x = "Angle of Incline (Degrees)",
-    y = "Distance Traveled (m)"
+    x = "倾角（度）",
+    y = "行进距离 (m)"
   )
 ```
 
+
+
 \clearpage
 
-### Using linear regression to predict possum head lengths
+### 使用线性回归预测负鼠头部长度
 
-Brushtail possums are marsupials that live in Australia, and a photo of one is shown in @fig-brushtail-possum.
-Researchers captured 104 of these animals and took body measurements before releasing the animals back into the wild.
-We consider two of these measurements: the total length of each possum, from head to tail, and the length of each possum's head.
+刷尾负鼠是生活在澳大利亚的有袋动物，@fig-brushtail-possum 展示了一张刷尾负鼠的照片。
+研究人员捕获了 104 只此类动物，在将它们放归野外之前记录了其身体测量数据。
+我们考虑其中的两项测量值：每只负鼠从头部到尾部的总长度，以及每只负鼠的头部长度。
 
 ```{r}
 #| label: fig-brushtail-possum
-#| fig-alt: Photograph of a common brushtail possum of Australia.
+#| fig-alt: 澳大利亚一只普通刷尾负鼠的照片。
 #| fig-cap: |
-#|   The common brushtail possum of Australia. Photo by Greg Schecter,
-#|   [flic.kr/p/9BAFbR](https://flic.kr/p/9BAFbR), CC BY 2.0 license.
+#|   澳大利亚的普通刷尾负鼠。照片作者 Greg Schecter，
+#|   [flic.kr/p/9BAFbR](https://flic.kr/p/9BAFbR)，CC BY 2.0 许可协议。
 #| out-width: 50%
 
 knitr::include_graphics("images/brushtail-possum/brushtail-possum.jpg")
 ```
 
+
 ::: {.data data-latex=""}
-The [`possum`](http://openintrostat.github.io/openintro/reference/possum.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`possum`](http://openintrostat.github.io/openintro/reference/possum.html) 数据集可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-@fig-scattHeadLTotalL shows a scatterplot for the head length (mm) and total length (cm) of the possums.
-Each point represents a single possum from the data.
-The head and total length variables are associated: possums with an above average total length also tend to have above average head lengths.
-While the relationship is not perfectly linear, it could be helpful to partially explain the connection between these variables with a straight line.
+@fig-scattHeadLTotalL 展示了一个关于袋貂头长与总长的散点图。
+图中的每个点代表数据中的一只袋貂。
+头长和总长这两个变量是有关联的：总长高于平均数的袋貂，其头长也倾向于高于平均数。
+尽管这种关系并非完全线性，但用一条直线来部分解释这些变量间的联系可能会有所帮助。
 
 ```{r}
 #| label: fig-scattHeadLTotalL
 #| fig-cap: |
-#|   A scatterplot showing head length against total length for 104 brushtail
-#|   possums. A point representing a possum with head length 86.7 mm and total
-#|   length 84 cm is highlighted.
+#|   展示104只刷尾袋貂头长与总长关系的散点图。图中高亮显示了
+#|   一个头长为86.7 mm、总长为84 cm的袋貂所对应的点。
 #| fig-alt: |
-#|   A scatterplot with total length on the x-axis and head length on the
-#|   y-axis. The variables show a moderately strong positive linear
-#|   relationship. A single observation is circled in red with coordinates
-#|   of approximately 84cm of total length and 87mm of head length.
+#|   一张散点图，x轴为总长，y轴为头长。变量呈现中等强度的正线性
+#|   关系。一个总长约84cm、头长约87mm的观测被红圈标出。
 #| fig-asp: 0.5
 ggplot(possum, aes(x = total_l, y = head_l)) +
   geom_point(alpha = 0.7, size = 2) +
   labs(
-    x = "Total Length (cm)",
-    y = "Head Length (mm)"
+    x = "总长",
+    y = "头长"
   ) +
   geom_point(
     data = tibble(x = 84, y = 86.7),
@@ -217,31 +205,33 @@ ggplot(possum, aes(x = total_l, y = head_l)) +
   )
 ```
 
-We want to describe the relationship between head and total length of possums with a line.
-In this example, we will use the total length as the predictor variable, $x,$ to predict a possum's head length, $y.$ We could fit the linear relationship by eye, as in @fig-scattHeadLTotalLLine.
+
+
+我们希望用一条直线来描述袋貂头长与总长之间的关系。
+在这个例子中，我们将使用总长作为预测变量 $x,$ 来预测袋貂的头长 $y.$ 我们可以目测拟合线性关系，如 @fig-scattHeadLTotalLLine 所示。
 
 \clearpage
 
 ```{r}
 #| label: fig-scattHeadLTotalLLine
 #| fig-cap: |
-#|   A reasonable linear model was fit to represent the relationship between
-#|   head length and total length.
+#|   拟合了一个合理的线性模型来表示头长与总长之间的关系。
 #| fig-alt: |
-#|   A scatterplot with total length on the x-axis and head length on the
-#|   y-axis. The variables show a moderately strong positive linear relationship.
-#|   A least squares line is superimposed.
+#|   一张散点图，x轴为总长，y轴为头长。变量呈现中等强度的正线性关系。
+#|   一条最小二乘回归线叠加在图上。
 #| fig-asp: 0.5
 ggplot(possum, aes(x = total_l, y = head_l)) +
   geom_point(alpha = 0.7, size = 2) +
   labs(
-    x = "Total Length (cm)",
-    y = "Head Length (mm)"
+    x = "总长",
+    y = "头长"
   ) +
   geom_smooth(method = "lm", se = FALSE)
 ```
 
-The equation for this line is
+
+
+这条直线的方程是
 
 \vspace{-5mm}
 
@@ -249,9 +239,9 @@ $$
 \hat{y} = 41 + 0.59x
 $$
 
-A "hat" on $y$ is used to signify that this is an estimate.
-We can use this line to discuss properties of possums.
-For instance, the equation predicts a possum with a total length of 80 cm will have a head length of
+$y$ 上的“帽”用于表示这是一个估计值。
+我们可以用这条线来讨论袋貂的特性。
+例如，该方程预测一只总长为 80 cm 的袋貂，其头长将为
 
 \vspace{-5mm}
 
@@ -259,29 +249,27 @@ $$
 \hat{y} = 41 + 0.59 \times 80 = 88.2
 $$
 
-The estimate may be viewed as an average: the equation predicts that possums with a total length of 80 cm will have an average head length of 88.2 mm.
-Absent further information about an 80 cm possum, the prediction for head length that uses the average is a reasonable estimate.
+该估计值可视为一个平均数：该方程预测所有总长为 80 cm 的袋貂，其平均头长为 88.2 mm。
+在缺乏更多关于某只 80 cm 袋貂信息的情况下，使用平均数进行的头长预测是一个合理的估计。
 
-There may be other variables that could help us predict the head length of a possum besides its length.
-Perhaps the relationship would be a little different for male possums than female possums, or perhaps it would differ for possums from one region of Australia versus another region.
-@fig-scattHeadLTotalL-sex-age-1 shows the relationship between total length and head length of brushtail possums, taking into consideration their sex.
-Male possums (represented by blue triangles) seem to be larger in terms of total length and head length than female possums (represented by red circles).
-@fig-scattHeadLTotalL-sex-age-2 shows the same relationship, taking into consideration their age.
-It's harder to tell if age changes the relationship between total length and head length for these possums.
+除了其总长，可能还有其他变量能帮助我们预测袋貂的头长。
+可能雄性袋貂与雌性袋貂的这种关系略有不同，或者来自澳大利亚不同区域的袋貂之间也存在差异。
+@fig-scattHeadLTotalL-sex-age-1 展示了刷尾袋貂总长与头长的关系，并考虑了它们的性别。
+雄性袋貂（用蓝色三角形表示）在总长和头长方面似乎比雌性袋貂（用红色圆圈表示）更大。
+@fig-scattHeadLTotalL-sex-age-2 展示了相同的关系，但考虑了它们的年龄。
+对于这些袋貂，较难判断年龄是否改变了总长与头长之间的关系。
 
 ```{r}
 #| label: fig-scattHeadLTotalL-sex-age
 #| fig-cap: |
-#|   Relationship between total length and head length of brushtail possums,
-#|   taking into consideration their sex or age.
+#|   刷尾袋貂总长与头长的关系，并考虑了其性别或年龄。
 #| fig-subcap:
-#|   - By sex
-#|   - By age
+#|   - 按性别
+#|   - 按年龄
 #| fig-alt: |
-#|   Two scatterplots, both with total length on the x-axis and head
-#|   length on the y-axis. The top plot colors the points by sex where the female
-#|   possums seem slightly longer with slightly smaller head lengths. The bottom
-#|   plot is colored by age with no obvious trends between age and lengths.
+#|   两个散点图，x轴均为总长，y轴均为头长。
+#|   上图按性别着色点，其中雌性袋貂的总长似乎略长，头长则略短。
+#|   下图按年龄着色，未发现年龄与长度之间存在明显的趋势。
 #| layout-ncol: 2
 #| fig-width: 5
 #| out-width: 100%
@@ -294,18 +282,18 @@ p_sex <- ggplot(
     values = c(IMSCOL["red", "full"], IMSCOL["blue", "full"])
   ) +
   labs(
-    x = "Total Length (cm)",
-    y = "Head Length (mm)",
-    color = "Sex",
-    shape = "Sex"
+    x = "总长",
+    y = "头长",
+    color = "性别",
+    shape = "性别"
   )
 
 p_age <- ggplot(possum, aes(x = total_l, y = head_l, color = age)) +
   geom_point(size = 2) +
   labs(
-    x = "Total Length (cm)",
-    y = "Head Length (mm)",
-    color = "Age"
+    x = "总长",
+    y = "头长",
+    color = "年龄"
   ) +
   scale_color_gradient(
     low = IMSCOL["green", "f4"],
@@ -316,52 +304,53 @@ p_sex
 p_age
 ```
 
-In @sec-model-mlr, we'll learn about how we can include more than one predictor in our model.
-Before we get there, we first need to better understand how to best build a linear model with one predictor.
+
+
+在 [第 -@sec-model-mlr 章] 中，我们将学习如何在模型中纳入多个预测变量。
+在此之前，我们首先需要更深入地了解如何利用单个预测变量来最优地构建线性模型。
 
 \clearpage
 
-### Residuals {#sec-resids}
+### 残差 {#sec-resids}
 
-**Residuals**\index{residuals} are the leftover variation in the data after accounting for the model fit:
+**残差**\index{residuals}是数据在扣除模型拟合的影响后剩余的变异性：
 
 $$
-\text{Data} = \text{Fit} + \text{Residual}
+\text{数据} = \text{拟合值} + \text{残差}
 $$
 
-Each observation will have a residual, and three of the residuals for the linear model we fit for the possum data are shown in @fig-scattHeadLTotalLLine-highlighted.
-If an observation is above the regression line, then its residual, the vertical distance from the observation to the line, is positive.
-Observations below the line have negative residuals.
-One goal in picking the right linear model is for residuals to be as small as possible.
+每个观测都会有一个残差，我们为袋貂数据拟合的线性模型所对应的三个残差展示在 @fig-scattHeadLTotalLLine-highlighted 中。
+如果一个观测点位于回归线上方，那么它的残差（即从观测点到回归线的垂直距离）为正。
+位于回归线下方的观测点，其残差为负。
+选择合适线性模型的目标之一就是让残差尽可能小。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "residuals")
 ```
 
-@fig-scattHeadLTotalLLine-highlighted is almost a replica of @fig-scattHeadLTotalLLine, with three points from the data highlighted.
-The observation marked by a red circle has a small, negative residual of about -1; the observation marked by a gray diamond has a large positive residual of about +7; and the observation marked by a pink triangle has a moderate negative residual of about -4.
-The size of a residual is usually discussed in terms of its absolute value.
-For example, the residual for the observation marked by a pink triangle is larger than that of the observation marked by a red circle because $|-4|$ is larger than $|-1|.$
+
+
+@fig-scattHeadLTotalLLine-highlighted 几乎是 @fig-scattHeadLTotalLLine 的副本，只不过高亮了数据中的三个点。
+被红色圆圈标记的观测点有一个较小的负残差，约为 -1；被灰色菱形标记的观测点有一个较大的正残差，约为 +7；而被粉色三角形标记的观测点则有一个中等大小的负残差，约为 -4。
+讨论残差大小时，通常是指其绝对值。
+例如，被粉色三角形标记的观测点的残差，比被红色圆圈标记的观测点的残差要大，因为 $|-4|$ 大于 $|-1|$。
 
 ```{r}
 #| label: fig-scattHeadLTotalLLine-highlighted
 #| fig-cap: |
-#|   A reasonable linear model was fit to represent the relationship between
-#|   head length and total length, with three points highlighted.
+#|   拟合了一个合理的线性模型来表示头长与总长之间的关系，图中高亮了三个点。
 #| fig-alt: |
-#|   A scatterplot with total length on the x-axis and head length on the
-#|   y-axis. A least squares line is superimposed onto the scatterplot.
-#|   Three individual observations are circled to indicate their vertical
-#|   distance from the least square line.
+#|   一张散点图，x轴为总长，y轴为头长。一条最小二乘回归线叠加在散点图上。
+#|   三个观测点被圈出，以显示它们到最小二乘回归线的垂直距离。
 mod <- lm(head_l ~ total_l, data = possum)
 preds <- predict(mod, data.frame(total_l = c(76, 85, 95.5)))
 obs <- c(85.1, 98.6, 94)
 ggplot(possum, aes(x = total_l, y = head_l)) +
   geom_point(alpha = 0.8, size = 2) +
   labs(
-    x = "Total Length (cm)",
-    y = "Head Length (mm)"
+    x = "总长",
+    y = "头长"
   ) +
   geom_smooth(method = "lm", se = FALSE) +
   geom_point(
@@ -403,69 +392,65 @@ ggplot(possum, aes(x = total_l, y = head_l)) +
 ```
 
 ::: {.important data-latex=""}
-**Residual: Difference between observed and expected.**
+**残差：观测值与期望值之差。**
 
-The residual of the $i^{th}$ observation $(x_i, y_i)$ is the difference of the observed outcome $(y_i)$ and the outcome we would predict based on the model fit $(\hat{y}_i):$
+第 $i$ 个观测 $(x_i, y_i)$ 的残差是观测到的结果 $(y_i)$ 与基于模型拟合预测的结果 $(\hat{y}_i)$ 之间的差：
 
 $$
 e_i = y_i - \hat{y}_i
 $$
 
-We typically identify $\hat{y}_i$ by plugging $x_i$ into the model.
+我们通常通过将 $x_i$ 代入模型来确定 $\hat{y}_i$。
 :::
 
 ::: {.workedexample data-latex=""}
-The linear fit shown in @fig-scattHeadLTotalLLine-highlighted is given as $\hat{y} = 41 + 0.59x.$ Based on this line, compute the residual of the observation $(76.0, 85.1).$ This observation is marked by a red circle in @fig-scattHeadLTotalLLine-highlighted.
-Check it against the earlier visual estimate, -1.
+@fig-scattHeadLTotalLLine-highlighted 中所示的线性拟合方程为 $\hat{y} = 41 + 0.59x.$。根据这条线，计算观测 $(76.0, 85.1)$ 的残差。该观测在 @fig-scattHeadLTotalLLine-highlighted 中由红色圆圈标出。
+请将计算结果与之前的目视估计值 -1 进行核对。
 
 ------------------------------------------------------------------------
 
-We first compute the predicted value of the observation marked by a red circle based on the model: $\hat{y} = 41+0.59x = 41+0.59\times 76.0 = 85.84$.
-Next we compute the difference of the actual head length and the predicted head length: $e = y - \hat{y} = 85.1 -  85.84 = -0.74$.
-The model's error is $e = -0.74$ mm, which is very close to the visual estimate of -1 mm.
-The negative residual indicates that the linear model overpredicted head length for this possum.
+我们首先根据模型计算由红色圆圈标出的观测的预测值：$\hat{y} = 41+0.59x = 41+0.59\times 76.0 = 85.84$。
+接着，我们计算实际头长与预测头长之间的差：$e = y - \hat{y} = 85.1 -  85.84 = -0.74$。
+该模型的误差为 $e = -0.74$ mm，非常接近 -1 mm 的目视估计值。
+负的残差表明线性模型高估了这只负鼠的头长。
 :::
 
 ::: {.guidedpractice data-latex=""}
-If a model underestimates an observation, will the residual be positive or negative?
-What about if it overestimates the observation?[^07-model-slr-1]
+如果模型低估了一个观测值，残差是正的还是负的？
+如果模型高估了一个观测值呢？[^07-model-slr-1]
 :::
 
-[^07-model-slr-1]: If a model underestimates an observation, then the model estimate is below the actual.
-    The residual, which is the actual observation value minus the model estimate, must then be positive.
-    The opposite is true when the model overestimates the observation: the residual is negative.
+[^07-model-slr-1]: 如果模型低估了一个观测值，那么模型估计值低于实际值。
+    残差是实际观测值减去模型估计值，因此必然是正的。
+    当模型高估观测值时，情况则相反：残差是负的。
 
 ::: {.guidedpractice data-latex=""}
-Compute the residuals for the observation marked by a blue diamond, $(85.0, 98.6),$ and the observation marked by a pink triangle, $(95.5, 94.0),$ in the figure using the linear relationship $\hat{y} = 41 + 0.59x.$[^07-model-slr-2]
+利用线性关系 $\hat{y} = 41 + 0.59x.$，计算图中由蓝色菱形 $(85.0, 98.6)$ 和粉红色三角形 $(95.5, 94.0)$ 标出的两个观测的残差。[^07-model-slr-2]
 :::
 
-[^07-model-slr-2]: Gray diamond: $\hat{y} = 41+0.59x = 41+0.59\times 85.0 = 91.15 \rightarrow e = y - \hat{y} = 98.6-91.15=7.45.$ This is close to the earlier estimate of 7.
-    pink triangle: $\hat{y} = 41+0.59x = 97.3 \rightarrow e = -3.3.$ This is also close to the estimate of -4.
+[^07-model-slr-2]: 灰色菱形：$\hat{y} = 41+0.59x = 41+0.59\times 85.0 = 91.15 \rightarrow e = y - \hat{y} = 98.6-91.15=7.45.$ 这与之前 7 的估计值很接近。
+    粉红色三角形：$\hat{y} = 41+0.59x = 97.3 \rightarrow e = -3.3.$ 这也与 -4 的估计值很接近。
 
-Residuals are helpful in evaluating how well a linear model fits a dataset.
-We often display them in a scatterplot such as the one shown in @fig-scattHeadLTotalLResidualPlot for the regression line in @fig-scattHeadLTotalLLine-highlighted.
-The residuals are plotted with their predicted outcome variable value as the horizontal coordinate, and the vertical coordinate as the residual.
-For instance, the point $(85.0, 98.6)$ (marked by the blue diamond) had a predicted value of 91.4 mm and had a residual of 7.45 mm, so in the residual plot it is placed at $(91.4, 7.45).$ Creating a residual plot is sort of like tipping the scatterplot over so the regression line is horizontal, as indicated by the dashed line.
+残差有助于评估线性模型对数据集的拟合好坏。
+我们经常将残差绘制在散点图中，例如 @fig-scattHeadLTotalLResidualPlot 所示的针对 @fig-scattHeadLTotalLLine-highlighted 中回归线的残差图。
+绘制残差图时，以预测结果变量值为横坐标，以残差为纵坐标。
+例如，点 $(85.0, 98.6)$（由蓝色菱形标出）的预测值为 91.4 mm，残差为 7.45 mm，因此在残差图中它被放置在 $(91.4, 7.45)$ 的位置。创建残差图有点像把散点图倾斜过来，使得回归线变为水平，如图中虚线所示。
 
 ```{r}
 #| label: fig-scattHeadLTotalLResidualPlot
 #| fig-cap: |
-#|   Residual plot for the model predicting head length from total length for
-#|   brushtail possums.
+#|   根据总长度预测刷尾负鼠头长模型的残差图。
 #| fig-alt: |
-#|   A residual plot based on @fig-scattHeadLTotalLLine-highlighted
-#|   displaying predicted values on the x-axis and residual values on the y-axis.
-#|   The same three points that were circled in
-#|   @fig-scattHeadLTotalLLine-highlighted are still circled, demonstrating the
-#|   vertical distance from the least squares line is the residual.
+#|   基于 @fig-scattHeadLTotalLLine-highlighted 的残差图，横轴显示预测值，纵轴显示残差值。
+#|   @fig-scattHeadLTotalLLine-highlighted 中圈出的同样的三个点在此图中仍然被圈出，以表明到最小二乘回归线的垂直距离即为残差。
 m_head_total <- lm(head_l ~ total_l, data = possum)
 m_head_total_aug <- augment(m_head_total)
 
 ggplot(m_head_total_aug, aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.8, size = 2) +
   labs(
-    x = "Predicted values of head length (mm)",
-    y = "Residuals"
+    x = "头长预测值 (mm)",
+    y = "残差"
   ) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   geom_point(
@@ -524,24 +509,23 @@ ggplot(m_head_total_aug, aes(x = .fitted, y = .resid)) +
   )
 ```
 
+
+
 \clearpage
 
 ::: {.workedexample data-latex=""}
-One purpose of residual plots is to identify characteristics or patterns still apparent in the data after fitting a model.
-The figure below shows three scatterplots with linear models in the first row and residual plots in the second row.
-Can you identify any patterns in the residuals?
+残差图的一个目的是在拟合模型后，识别数据中仍然明显的特征或模式。
+下图第一行显示了三个带有线性模型的散点图，第二行显示了对应的残差图。
+你能识别出残差中的任何模式吗？
 
 ```{r}
 #| label: sampleLinesAndResPlots
 #| fig-alt: |
-#|   A grid of 2 by 3 scatterplots with fabricated data. The top row of
-#|   plots contains original x-y data plots with a least squares regression line.
-#|   The bottom row of plots is a series of residual plot with predicted value on
-#|   the x-axis and residual on the y-axis. The first column of plots gives an
-#|   example of points that are well described by a linear model. The second
-#|   column of plots gives an example where the correct model seems to be quadratic
-#|   insead of linear. The third column of points gives an example where there is
-#|   no visual relationship between x and y.
+#|   一个由 2 行 3 列虚构数据散点图组成的网格。最上面一行的图是原始的
+#|   x-y 数据图，并绘制了最小二乘回归线。最下面一行的图是一系列残差图，
+#|   其 x 轴为预测值，y 轴为残差。第一列图给出了数据点能被线性模型很好
+#|   描述的例子。第二列图给出了一个正确模型似乎应是二次模型而非线性模型
+#|   的例子。第三列图给出了一个 x 和 y 之间没有视觉关系的例子。
 #| fig-align: center
 #| fig-asp: 0.5
 neg_lin <- simulated_scatter |> filter(group == 6)
@@ -557,21 +541,21 @@ p_neg_lin <- ggplot(neg_lin, aes(x = x, y = y)) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_void() +
   theme(panel.border = element_rect(colour = "gray", fill = NA, size = 1)) +
-  labs(title = "Dataset 1")
+  labs(title = "数据集 1")
 
 p_neg_cur <- ggplot(neg_cur, aes(x = x, y = y)) +
   geom_point(size = 2, alpha = 0.8) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_void() +
   theme(panel.border = element_rect(colour = "gray", fill = NA, size = 1)) +
-  labs(title = "Dataset 2")
+  labs(title = "数据集 2")
 
 p_random <- ggplot(random, aes(x = x, y = y)) +
   geom_point(size = 2, alpha = 0.8) +
   geom_smooth(method = "lm", se = FALSE) +
   theme_void() +
   theme(panel.border = element_rect(colour = "gray", fill = NA, size = 1)) +
-  labs(title = "Dataset 3")
+  labs(title = "数据集 3")
 
 p_neg_lin_res <- ggplot(neg_lin_mod, aes(x = .fitted, y = .resid)) +
   geom_point(size = 2, alpha = 0.8) +
@@ -606,33 +590,33 @@ p_neg_lin +
 
 ------------------------------------------------------------------------
 
-Dataset 1: the residuals show no obvious patterns.
-The residuals are scattered randomly around 0, represented by the dashed line.
+数据集 1：残差没有显示任何明显的模式。
+残差随机地分散在 0（由虚线表示）附近。
 
-Dataset 2: The second dataset shows a pattern in the residuals.
-There is some curvature in the scatterplot, which is more obvious in the residual plot.
-We should not use a straight line to model these data.
-Instead, a more advanced technique should be used to model the curved relationship, such as the variable transformations discussed in @sec-transforming-data.
+数据集 2：第二个数据集的残差中显示了一个模式。
+散点图中存在一些弯曲形态，这在残差图中更为明显。
+我们不应该用一条直线来为这些数据建模。
+相反，应该使用更高级的技术来为这种曲线关系建模，例如 @sec-transforming-data 中讨论的变量变换。
 
-Dataset 3: The last plot shows very little upwards trend, and the residuals also show no obvious patterns.
-It is reasonable to try to fit a linear model to the data.
-However, it is unclear whether there is evidence that the slope parameter is different from zero.
-The point estimate of the slope parameter is not zero, but we might wonder if this could just be due to chance.
-We will address this scenario in @sec-inf-model-slr.
+数据集 3：最后一个图几乎没有上升趋势，残差也没有显示任何明显的模式。
+尝试对数据拟合线性模型是合理的。
+然而，是否有证据表明斜率参数不为零尚不清楚。
+斜率参数的点估计并不为零，但我们可能会怀疑这是否仅仅是偶然所致。
+我们将在 [第 -@sec-inf-model-slr 章] 中讨论这种情形。
 :::
 
-### Describing linear relationships with correlation
+### 用相关系数描述线性关系
 
-We've seen plots with strong linear relationships and others with very weak linear relationships.
-It would be useful if we could quantify the strength of these linear relationships with a statistic.
+我们已经见过具有强线性关系的图，也见过线性关系很弱的图。
+如果我们能用一个统计量来量化这些线性关系的强弱，将会很有帮助。
 
 ::: {.important data-latex=""}
-**Correlation: strength of a linear relationship.**
+**相关系数：线性关联的强度。**
 
-**Correlation**\index{correlation} which always takes values between -1 and 1, describes the strength and direction of the linear relationship between two variables.
-We denote the correlation by $r.$
+**相关系数**\index{correlation}的取值始终在 -1 与 1 之间，它描述了两个变量之间线性关联的强度和方向。
+我们以 $r$ 表示相关系数。
 
-The correlation value has no units and will not be affected by a linear change in the units (e.g., going from inches to centimeters).
+相关系数没有单位，并且不会受单位的线性变换（例如，从英寸换算为厘米）影响。
 :::
 
 ```{r}
@@ -640,36 +624,35 @@ The correlation value has no units and will not be affected by a linear change i
 terms_chp_07 <- c(terms_chp_07, "correlation")
 ```
 
-We can compute the correlation using a formula, just as we did with the sample mean and standard deviation.
-The formula for correlation, however, is rather complex[^07-model-slr-3], and like with other statistics, we generally perform the calculations on a computer or calculator.
 
-[^07-model-slr-3]: Formally, we can compute the correlation for observations $(x_1, y_1),$ $(x_2, y_2),$ ..., $(x_n, y_n)$ using the formula
+
+我们可以使用公式计算相关系数，就像我们计算样本均值和标准差时那样。
+然而，相关系数的公式相当复杂[^07-model-slr-3]，并且与其他统计量一样，我们通常使用计算机或计算器进行计算。
+
+[^07-model-slr-3]: 形式上，对于观测 $(x_1, y_1),$ $(x_2, y_2),$ ..., $(x_n, y_n)$，我们可以使用以下公式计算相关系数
 
 $$
 r = \frac{1}{n-1} \sum_{i=1}^{n} \frac{x_i-\bar{x}}{s_x}\frac{y_i-\bar{y}}{s_y}
 $$
 
-where $\bar{x},$ $\bar{y},$ $s_x,$ and $s_y$ are the sample means and standard deviations for each variable.
+其中 $\bar{x},$ $\bar{y},$ $s_x,$ 和 $s_y$ 分别是每个变量的样本均值和标准差。
 
 \clearpage
 
-@fig-posNegCorPlots shows eight plots and their corresponding correlations.
-Only when the relationship is perfectly linear is the correlation either -1 or +1.
-If the relationship is strong and positive, the correlation will be near +1.
-If it is strong and negative, it will be near -1.
-If there is no apparent linear relationship between the variables, then the correlation will be near zero.
+@fig-posNegCorPlots 展示了八个散点图及其对应的相关系数。
+只有当关联完全线性时，相关系数才等于 -1 或 +1。
+如果关联是强且正向的，相关系数将接近 +1。
+如果是强且负向的，它将接近 -1。
+如果变量之间没有明显的线性关联，那么相关系数将接近于零。
 
 ```{r}
 #| label: fig-posNegCorPlots
 #| fig-cap: |
-#|   Sample scatterplots and their correlations. The first row shows variables
-#|   with a positive relationship, represented by the trend up and to the right.
-#|   The second row shows variables with a negative trend, where a large value
-#|   in one variable is associated with a lower value in the other.
+#|   样本散点图及其相关系数。第一行显示了具有正相关关系的变量，表现为向右上方增长的趋势。
+#|   第二行显示了具有负相关趋势的变量，其中一个变量取值较大与另一个变量取值较低有关联。
 #| fig-alt: |
-#|   Eight scatterplots on fabricated data. The first seven plots show
-#|   linear trends with correlations ranging from -1 to +1. The eighth plot shows
-#|   a quadratic relationship whih produces a correlation of -0.28.
+#|   基于虚构数据的八个散点图。前七个图显示了相关系数范围从 -1 到 +1 的线性趋势。
+#|   第八个图显示了一个二次关系，其相关系数为 -0.28。
 #| fig-asp: 0.5
 #| out-width: 100%
 library(ggpubr) # Adding here instead of _common.R to avoid collision with ggimage
@@ -691,22 +674,20 @@ simulated_scatter |>
   )
 ```
 
-The correlation is intended to quantify the strength of a linear trend.
-Nonlinear trends, even when strong, sometimes produce correlations that do not reflect the strength of the relationship; see three such examples in @fig-corForNonLinearPlots.
+
+
+相关系数的目的在于量化线性趋势的强度。
+非线性趋势，即使很强，有时也会产生无法反映关联强度的相关系数；参见 @fig-corForNonLinearPlots 中的三个例子。
 
 ```{r}
 #| label: fig-corForNonLinearPlots
 #| fig-cap: |
-#|   Sample scatterplots and their correlations. In each case, there is a strong
-#|   relationship between the variables. However, because the relationship is
-#|   not linear, the correlation is relatively weak.
+#|   样本散点图及其相关系数。在每一种情况下，变量间都存在很强的关联。
+#|   然而，因为这种关联不是线性的，所以相关系数相对较弱。
 #| fig-alt: |
-#|   Three scatterplots on fabricated data which demonstrate strong
-#|   patterns between the x and y variables. The first plot shows a
-#|   quadratic trend with a correlation of -0.23. The second plot shows a cyclic
-#|   trend (like a sin wave) with a correlation of 0.31. The third plot shows
-#|   a distinct relationship that is not obviously functional and has a
-#|   correlation of 0.5.
+#|   基于虚构数据的三个散点图，展示了 x 和 y 变量之间强烈的模式。
+#|   第一个图显示了一个相关系数为 -0.23 的二次趋势。第二个图显示了一个相关系数为 0.31 的周期趋势（类似正弦波）。
+#|   第三个图显示了一种明显的关联，但并非明显的函数关系，其相关系数为 0.5。
 #| fig-asp: 0.25
 #| out-width: 100%
 simulated_scatter |>
@@ -726,24 +707,25 @@ simulated_scatter |>
   )
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-No straight line is a good fit for any of the datasets represented in @fig-corForNonLinearPlots.
-Try drawing nonlinear curves on each plot.
-Once you create a curve for each, describe what is important in your fit.[^07-model-slr-4]
+对于 @fig-corForNonLinearPlots 中的任何一个数据集，没有一条直线能很好地拟合。
+尝试在每个图上绘制非线性曲线。
+为你绘制的每条曲线，描述你的拟合曲线中哪些要素是重要的。[^07-model-slr-4]
 :::
 
-[^07-model-slr-4]: We'll leave it to you to draw the lines.
-    In general, the lines you draw should be close to most points and reflect overall trends in the data.
+[^07-model-slr-4]: 我们把这个任务留给你来完成。
+    总的来说，你画的曲线应该贴近大多数点，并能反映数据的整体趋势。
 
 \clearpage
 
 ::: {.workedexample data-latex=""}
-The plot below displays the relationships between various crop yields in countries.
-In the plots, each point represents a different country.
-The x and y variables represent the proportion of total yield in the last 50 years which is due to that crop type.
-If a country did not produce a particular crop, it has been removed from the plot (so different plots may have different numbers of dots, each corresponding to one country).
+下方展示的图描绘了各国不同作物产量之间的各种关联。
+在这些图中，每个点代表一个不同的国家。
+x 和 y 变量代表过去50年中由该作物类型贡献的总产量比例。
+如果一个国家没有生产某种特定作物，则该点已从相应的图中移除（因此不同图的点数可能不同，但每个点都对应一个国家）。
 
-Order the six scatterplots from strongest negative to strongest positive linear relationship.
+请将六个散点图按线性关联的强度，从最强负相关到最强正相关进行排序。
 
 ```{r}
 #| label: crop-yields-af-prep
@@ -776,11 +758,9 @@ crops_country <- crops_country |>
 ```{r}
 #| label: crop-yields-af
 #| fig-alt: |
-#|   From a real dataset, we display scatterplots of the relationship
-#|   between percent of crop which is each of the following -- bananas, potatoes,
-#|   cassava, soybeans, maize, cocoa, barley, peas, and wheat for each country. For
-#|   example, potatoes and bananas are negatively correlated and bananas and cocoa
-#|   do not seem correlated at all.
+#|   基于一个真实数据集，我们展示了各国以下作物（香蕉、马铃薯、
+#|   木薯、大豆、玉米、可可、大麦、豌豆和小麦）各自占总产量百分比之间的
+#|   关联散点图。例如，马铃薯和香蕉呈负相关，而香蕉和可可似乎完全不相关。
 #| fig-asp: 0.8
 #| out-width: 90%
 #| fig-align: center
@@ -792,8 +772,8 @@ sb <- ggplot(crops_country) +
   ) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Soybeans",
-    y = "% Bananas"
+    x = "大豆占比（%）",
+    y = "香蕉占比（%）"
   )
 
 sc <- ggplot(crops_country) +
@@ -804,8 +784,8 @@ sc <- ggplot(crops_country) +
   ) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Soybeans",
-    y = "% Cassava"
+    x = "大豆占比（%）",
+    y = "木薯占比（%）"
   )
 
 mc <- ggplot(crops_country) +
@@ -816,8 +796,8 @@ mc <- ggplot(crops_country) +
   ) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Maize",
-    y = "% Cassava"
+    x = "玉米占比（%）",
+    y = "木薯占比（%）"
   )
 
 peb <- ggplot(crops_country) +
@@ -828,8 +808,8 @@ peb <- ggplot(crops_country) +
   ) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Potatoes",
-    y = "% Bananas"
+    x = "马铃薯占比（%）",
+    y = "香蕉占比（%）"
   )
 
 cb <- ggplot(crops_country) +
@@ -837,8 +817,8 @@ cb <- ggplot(crops_country) +
   scale_x_continuous(labels = label_percent(scale = 1)) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Cocoa",
-    y = "% Bananas"
+    x = "可可占比（%）",
+    y = "香蕉占比（%）"
   )
 
 wb <- ggplot(crops_country) +
@@ -846,8 +826,8 @@ wb <- ggplot(crops_country) +
   scale_x_continuous(labels = label_percent(scale = 1)) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Wheat",
-    y = "% Barley"
+    x = "小麦占比（%）",
+    y = "大麦占比（%）"
   )
 
 pob <- ggplot(crops_country) +
@@ -855,8 +835,8 @@ pob <- ggplot(crops_country) +
   scale_x_continuous(labels = label_percent(scale = 1)) +
   scale_y_continuous(labels = label_percent(scale = 1)) +
   labs(
-    x = "% Peas",
-    y = "% Barley"
+    x = "豌豆占比（%）",
+    y = "大麦占比（%）"
   )
 
 peb +
@@ -871,7 +851,7 @@ peb +
 
 ------------------------------------------------------------------------
 
-The order of most negative correlation to most positive correlation is:
+从最负相关到最正相关的顺序如下：
 
 \vspace{-2mm}
 
@@ -879,46 +859,40 @@ $$
 A \rightarrow D \rightarrow B \rightarrow C \rightarrow E \rightarrow F
 $$
 
--   Plot A - bananas vs. potatoes: `r round(cor(crops_country$prop_potatoes, crops_country$prop_bananas, use = "pairwise.complete.obs"), digits = 2)`
--   Plot B - cassava vs. soybeans: `r round(cor(crops_country$prop_soybeans, crops_country$prop_cassava, use = "pairwise.complete.obs"), digits = 2)`
--   Plot C - cassava vs. maize: `r round(cor(crops_country$prop_maize, crops_country$prop_cassava, use = "pairwise.complete.obs"), digits = 2)`
--   Plot D - cocoa vs. bananas: `r round(cor(crops_country$prop_cocoa, crops_country$prop_bananas, use = "pairwise.complete.obs"), digits = 2)`
--   Plot E - peas vs. barley: `r round(cor(crops_country$prop_peas, crops_country$prop_barley, use = "pairwise.complete.obs"), digits = 2)`
--   Plot F - wheat vs. barley: `r round(cor(crops_country$prop_wheat, crops_country$prop_barley, use = "pairwise.complete.obs"), digits = 2)`
+-   图 A - 香蕉 vs. 马铃薯: `r round(cor(crops_country$prop_potatoes, crops_country$prop_bananas, use = "pairwise.complete.obs"), digits = 2)`
+-   图 B - 木薯 vs. 大豆: `r round(cor(crops_country$prop_soybeans, crops_country$prop_cassava, use = "pairwise.complete.obs"), digits = 2)`
+-   图 C - 木薯 vs. 玉米: `r round(cor(crops_country$prop_maize, crops_country$prop_cassava, use = "pairwise.complete.obs"), digits = 2)`
+-   图 D - 可可 vs. 香蕉: `r round(cor(crops_country$prop_cocoa, crops_country$prop_bananas, use = "pairwise.complete.obs"), digits = 2)`
+-   图 E - 豌豆 vs. 大麦: `r round(cor(crops_country$prop_peas, crops_country$prop_barley, use = "pairwise.complete.obs"), digits = 2)`
+-   图 F - 小麦 vs. 大麦: `r round(cor(crops_country$prop_wheat, crops_country$prop_barley, use = "pairwise.complete.obs"), digits = 2)`
 :::
+
 
 \vspace{-3mm}
 
-One important aspect of the correlation is that it's *unitless*.
-That is, unlike a measurement of the slope of a line (see the next section) which provides an increase in the y-coordinate for a one unit increase in the x-coordinate (in units of the x and y variable), there are no units associated with the correlation of x and y.
-@fig-bdims-units shows the relationship between weights and heights of 507 physically active individuals.
-In @fig-bdims-units-1, weight is measured in kilograms (kg) and height in centimeters (cm).
-In @fig-bdims-units-2, weight has been converted to pounds (lbs) and height to inches (in).
-The correlation coefficient ($r = 0.72$) is also noted on both plots.
-We can see that the shape of the relationship has not changed, and neither has the correlation coefficient.
-The only visual change to the plot is the axis *labeling* of the points.
+相关系数的一个重要特征在于它是*无量纲的*。也就是说，与直线的斜率度量（详见下一节）不同——斜率表示 x 坐标每增加 1 个单位（带有 x 和 y 变量的单位）时 y 坐标的增加量——x 和 y 的相关系数是不带有任何单位的。
+@fig-bdims-units 展示了 507 位身体活跃个体的体重与身高之间的关联。
+在 @fig-bdims-units-1 中，体重以千克为单位，身高以厘米为单位。
+在 @fig-bdims-units-2 中，体重已被转换为磅，身高转换为英寸。
+两个图上也都标明了相关系数（$r = 0.72$）。
+我们可以看到，关联的形状没有改变，相关系数也没有改变。
+图中唯一的视觉变化是坐标轴的*标签*。
 
 \clearpage
 
 ```{r}
 #| label: fig-bdims-units
 #| fig-cap: |
-#|   Two scatterplots, both displaying the relationship between weights and
-#|   heights of 507 physically healthy adults and the correlation coefficient,
-#|   $r = 0.72$.
+#|   两幅散点图，均展示了 507 名身体健康成年人的体重与身高关联以及相关系数 $r = 0.72$。
 #| fig-subcap:
-#|   - The units are kilograms and centimeters.
-#|   - The units are pounds and inches.
+#|   - 单位为千克和厘米。
+#|   - 单位为磅和英寸。
 #| fig-alt: |
-#|   Two scatterplots, both displaying the relationship between weights and
-#|   heights of 507 physically healthy adults. In the first plot height is
-#|   measured in cm and weight is measured in kg. In the second plot height
-#|   is measured in inches and weight is measured in pounds. The images
-#|   look identical, except for the axes tick marks.
+#|   两幅散点图，均展示了 507 名身体健康成年人的体重与身高关联。在第一幅图中，身高以厘米为单位，体重以千克为单位。在第二幅图中，身高以英寸为单位，体重以磅为单位。除坐标轴刻度外，两幅图看起来完全一样。
 #| fig-asp: 0.5
 p_1 <- ggplot(bdims, aes(x = hgt, y = wgt)) +
   geom_point(alpha = 0.8) +
-  labs(x = "Height (cm)", y = "Weight (kg)") +
+  labs(x = "身高（厘米）", y = "体重（千克）") +
   stat_cor(
     aes(label = paste("r", ..r.., sep = "~`=`~")),
     geom = "label"
@@ -931,7 +905,7 @@ p_2 <- bdims |>
   ) |>
   ggplot(aes(x = hgt, y = wgt)) +
   geom_point(alpha = 0.8) +
-  labs(x = "Height (in)", y = "Weight (lbs)") +
+  labs(x = "身高（英寸）", y = "体重（磅）") +
   stat_cor(
     aes(label = paste("r", ..r.., sep = "~`=`~")),
     geom = "label"
@@ -941,33 +915,31 @@ p_1
 p_2
 ```
 
-## Least squares regression {#sec-least-squares-regression}
+## 最小二乘回归 {#sec-least-squares-regression}
 
-Fitting linear models by eye is open to criticism since it is based on an individual's preference.
-In this section, we use *least squares regression* as a more rigorous approach to fitting a line to a scatterplot.
+用目测法拟合线性模型容易受到批评，因为这种方法依赖于个人的偏好。
+在本节中，我们将使用*最小二乘回归*作为一种更严谨的方法，来为散点图拟合一条直线。
 
-### Gift aid for first-year at Elmhurst College
+### Elmhurst 学院大一新生的无偿资助
 
-This section considers a dataset on family income and gift aid data from a random sample of fifty students in the first-year class of Elmhurst College in Illinois.
-Gift aid is financial aid that does not need to be paid back, as opposed to a loan.
-A scatterplot of these data is shown in @fig-elmhurstScatterWLine along with a linear fit.
-The line follows a negative trend in the data; students who have higher family incomes tended to have lower gift aid from the university.
+本节使用的数据集包含伊利诺伊州 Elmhurst 学院大一班级中随机抽取的 50 名学生样本的家庭收入与无偿资助数据。
+无偿资助是指无需偿还的经济援助，这与贷款不同。
+这些数据的散点图以及一条线性拟合线展示在 @fig-elmhurstScatterWLine 中。
+这条直线反映了数据中的负向趋势；家庭收入较高的学生，从大学获得的资助往往较少。
 
 ::: {.guidedpractice data-latex=""}
-Is the correlation positive or negative in @fig-elmhurstScatterWLine?[^07-model-slr-5]
+在 @fig-elmhurstScatterWLine 中，相关系数是正的还是负的？[^07-model-slr-5]
 :::
 
-[^07-model-slr-5]: Larger family incomes are associated with lower amounts of aid, so the correlation will be negative.
-    Using a computer, the correlation can be computed: -0.499.
+[^07-model-slr-5]: 较高的家庭收入与较低的无偿资助金额有关联，因此相关系数为负。
+    使用计算机可计算出相关系数为：-0.499。
 
 ```{r}
 #| label: fig-elmhurstScatterWLine
 #| fig-cap: |
-#|   Gift aid and family income for a random sample of 50 first-year
-#|   students from Elmhurst College.
+#|   来自 Elmhurst 学院的 50 名大一新生随机样本的家庭收入与无偿资助。
 #| fig-alt: |
-#|   Scatterplot with family income on the x-axis and gift aid on the
-#|   y-axis. The relationship is moderate negative and linear.
+#|   散点图，x 轴为家庭收入，y 轴为无偿资助。呈现中度负相关的线性关系。
 #| fig-asp: 0.6
 ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
   geom_point(size = 2) +
@@ -979,40 +951,33 @@ ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
     labels = label_dollar(scale = 1, suffix = "K", accuracy = 1)
   ) +
   labs(
-    x = "Family income",
-    y = "Gift aid from university"
+    x = "家庭收入",
+    y = "大学提供的无偿资助"
   )
 ```
 
 \vspace{-5mm}
 
-### An objective measure for finding the best line
+### 寻找最佳直线的客观度量
 
-We begin by thinking about what we mean by the "best" line.
-Mathematically, we want a line that has small residuals.
-But beyond the mathematical reasons, hopefully it also makes sense intuitively that whatever line we fit, the residuals should be small (i.e., the points should be close to the line).
-The first option that may come to mind is to minimize the sum of the residual magnitudes:
+我们首先思考一下“最佳”直线是什么意思。
+从数学上讲，我们希望一条具有较小残差的直线。
+但除了数学上的原因，直观上也容易理解，无论拟合哪条线，残差都应该很小（即数据点应靠近直线）。
+我们首先可能想到的方案是最小化残差绝对值之和：
 
 $$
 |e_1| + |e_2| + \dots + |e_n|
 $$
 
-which we could accomplish with a computer program.
-The resulting dashed line shown in @fig-elmhurstScatterW2Lines demonstrates this fit can be quite reasonable.
+这可以通过计算机程序来实现。
+@fig-elmhurstScatterW2Lines 中展示的所得虚线表明，这种拟合可以相当合理。
 
 ```{r}
 #| label: fig-elmhurstScatterW2Lines
 #| fig-cap: |
-#|   Gift aid and family income for a random sample of 50 first-year Elmhurst
-#|   College students. The dashed line is the line that minimizes
-#|   the sum of the absolute value of residuals, the solid line is the
-#|   line that minimizes the sum of squared residuals, i.e., the least squares line.
+#|   50名埃尔姆赫斯特学院大一新生随机样本的助学金与家庭收入关系。虚线是使残差绝对值之和最小的直线，实线是使残差平方和最小的直线，即最小二乘回归线。
 #| fig-alt: |
-#|   Scatterplot with family income on the x-axis and gift aid on the
-#|   y-axis. The relationship is moderate negative and linear. Two lines are
-#|   superimposed on the scatterplot. One line is fit to the data by minimizing
-#|   the sum of squared residuals, i.e., the least squares line. The other line
-#|   is fit to the data by minimizing the sum of the absolute values of the residuals.
+#|   以家庭收入为x轴、助学金为y轴的散点图。关系为中等程度的负相关线性关系。散点图上叠加了两条直线。一条通过使残差平方和最小来拟合数据，即最小二乘回归线。另一条通过使残差绝对值之和最小来拟合数据。
 #| fig-asp: 0.6
 ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
   geom_point(alpha = 0.8) +
@@ -1030,12 +995,14 @@ ggplot(elmhurst, aes(x = family_income, y = gift_aid)) +
     labels = label_dollar(scale = 1, suffix = "K", accuracy = 1)
   ) +
   labs(
-    x = "Family income",
-    y = "Gift aid from university"
+    x = "家庭收入",
+    y = "大学助学金"
   )
 ```
 
-However, a more common practice is to choose the line that minimizes the sum of the squared residuals:
+
+
+然而，更常见的做法是选择使残差平方和最小的直线：
 
 $$
 e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
@@ -1043,44 +1010,46 @@ $$
 
 \clearpage
 
-The line that minimizes this least squares criterion is represented as the solid line in @fig-elmhurstScatterW2Lines and is commonly called the **least squares line**\index{least squares line}.
-The following are four possible reasons to choose the least squares option instead of trying to minimize the sum of residual magnitudes without any squaring:
+这条满足最小二乘准则的直线在图 @fig-elmhurstScatterW2Lines 中表示为实线，通常被称为**最小二乘回归线**\index{least squares line}。
+以下是选择最小二乘法，而非尝试最小化未经任何平方的残差绝对值之和的四个可能理由：
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "least squares line")
 ```
 
-1.  It is the most commonly used method.
-2.  Computing the least squares line is widely supported in statistical software.
-3.  In many applications, a residual twice as large as another residual is more than twice as bad. For example, being off by 4 is usually more than twice as bad as being off by 2. Squaring the residuals accounts for this discrepancy.
-4.  The analyses which link the model to inference about a population are most straightforward when the line is fit through least squares.
 
-The first two reasons are largely for tradition and convenience; the third and fourth reasons explain why the least squares criterion is typically most helpful when working with real data.[^07-model-slr-6]
 
-[^07-model-slr-6]: There are applications where the sum of residual magnitudes may be more useful, and there are plenty of other criteria we might consider.
-    However, this book only applies the least squares criterion.
+1.  它是最常用的方法。
+2.  计算最小二乘回归线在统计软件中得到广泛支持。
+3.  在许多应用中，一个残差的大小是另一个残差的两倍，其“糟糕”程度往往不止两倍。例如，偏差为4通常比偏差为2要糟糕不止两倍。对残差进行平方能够体现这种差异。
+4.  当通过最小二乘法拟合直线时，将模型与关于总体的推断联系起来的相关分析最为直接。
 
-### Finding and interpreting the least squares line
+前两个原因主要是出于传统和便利；第三和第四个原因解释了为什么在处理实际数据时，最小二乘准则通常最有帮助。[^07-model-slr-6]
 
-For the Elmhurst data, we could write the equation of the least squares regression line as
+[^07-model-slr-6]: 在某些应用中，残差绝对值之和可能更有用，我们也可以考虑许多其他准则。
+    然而，本书仅应用最小二乘准则。
+
+### 寻找并解释最小二乘回归线
+
+对于埃尔姆赫斯特数据，我们可以将最小二乘回归线的方程写为
 
 $$
 \widehat{\texttt{aid}} = \beta_0 + \beta_{1}\times \texttt{family\_income}
 $$
 
-Here the equation is set up to predict gift aid based on a student's family income, which would be useful to students considering Elmhurst.
-These two values, $\beta_0$ and $\beta_1,$ are the parameters of the regression line.
+这里建立方程是为了根据学生的家庭收入预测助学金，这对于考虑就读埃尔姆赫斯特学院的学生来说是有用的。
+这两个值，$\beta_0$ 和 $\beta_1,$ 是回归线的参数。
 
-The parameters are estimated using the observed data.
-In practice, this estimation is done using a computer in the same way that other estimates, like a sample mean, can be estimated using a computer or calculator.
+这些参数是利用观测数据估计的。
+在实践中，这种估计是使用计算机完成的，其方式与使用计算机或计算器估计其他估计值（如样本均值）类似。
 
-The dataset where these data are stored is called `elmhurst`.
-The first 5 rows of this dataset are given in @tbl-elmhurst-data.
+存储这些数据的数据集叫做 `elmhurst`。
+该数据集的前5行如 @tbl-elmhurst-data 所示。
 
 ```{r}
 #| label: tbl-elmhurst-data
-#| tbl-cap: First five rows of the `elmhurst` dataset.
+#| tbl-cap: "`elmhurst` 数据集的前五行。"
 #| tbl-pos: H
 elmhurst |>
   slice_head(n = 5) |>
@@ -1093,13 +1062,15 @@ elmhurst |>
   column_spec(1:3, width = "8em")
 ```
 
-We can see that family income is recorded in a variable called `family_income` and gift aid from university is recorded in a variable called `gift_aid`.
-For now, we won't worry about the `price_paid` variable.
-We should also note that these data are from the 2011-2012 academic year, and all monetary amounts are given in \$1,000s, i.e., the family income of the first student in the data shown in @tbl-elmhurst-data is \$92,920 and they received a gift aid of \$21,700.
-(The data source states that all numbers have been rounded to the nearest whole dollar.)
 
-Statistical software is usually used to compute the least squares line and the typical output generated as a result of fitting regression models looks like the one shown in @tbl-rOutputForIncomeAidLSRLine.
-For now we will focus on the first column of the output, which lists ${b}_0$ and ${b}_1.$ In @sec-inf-model-slr we will dive deeper into the remaining columns which give us information on how accurate and precise these values of intercept and slope that are calculated from a sample of 50 students are in estimating the population parameters of intercept and slope for *all* students.
+
+我们可以看到家庭收入记录在名为 `family_income` 的变量中，大学助学金记录在名为 `gift_aid` 的变量中。
+目前，我们暂不关心 `price_paid` 这个变量。
+我们还应注意这些数据来自2011-2012学年，且所有货币金额都以千美元为单位，即，@tbl-elmhurst-data 中显示的第一位学生的家庭收入为92,920美元，他获得了21,700美元的助学金。
+（数据来源说明所有数字已四舍五入到最接近的整数美元。）
+
+统计软件通常用于计算最小二乘回归线，其拟合回归模型后生成的典型输出结果类似于 @tbl-rOutputForIncomeAidLSRLine 所示。
+目前，我们将重点关注输出的第一列，它列出了 ${b}_0$ 和 ${b}_1.$。在 [第 -@sec-inf-model-slr 章] 中，我们将更深入地探讨其余各列，这些列提供了相关信息，说明由 50 名学生样本计算出的截距和斜率估计值，在估计*所有*学生的截距和斜率总体参数时有多准确和精确。
 
 ```{r}
 m_ga_fi <- lm(gift_aid ~ family_income, data = elmhurst) |> tidy()
@@ -1111,15 +1082,18 @@ m_ga_fi_slope <- m_ga_fi |>
   pull(estimate)
 ```
 
+
 ```{r}
 #| label: tbl-rOutputForIncomeAidLSRLine
-#| tbl-cap: Summary of least squares fit for the Elmhurst data.
+#| tbl-cap: |
+#|   埃尔姆赫斯特数据的最小二乘拟合摘要。
 #| tbl-pos: H
 m_ga_fi |>
   mutate(p.value = ifelse(p.value < .0001, "<0.0001", round(p.value, 4))) |>
   kbl(
     linesep = "",
     booktabs = TRUE,
+    col.names = c("项", "估计值", "标准误", "统计量", "p值"),
     digits = 2,
     align = "lrrrr"
   ) |>
@@ -1131,57 +1105,59 @@ m_ga_fi |>
   column_spec(2:5, width = "5em")
 ```
 
-The model output tells us that the intercept is approximately `r m_ga_fi_int` and the slope on `family_income` is approximately `r m_ga_fi_slope`.
 
-But what do these values mean?
-Interpreting parameters in a regression model is often one of the most important steps in the analysis.
+
+模型输出告诉我们，截距约为 `r m_ga_fi_int`，`family_income` 的斜率约为 `r m_ga_fi_slope`。
+
+但这些值意味着什么？
+解释回归模型中的参数通常是分析中最重要的一步。
 
 ::: {.workedexample data-latex=""}
-The intercept and slope estimates for the Elmhurst data are $b_0$ = `r m_ga_fi_int` and $b_1$ = `r m_ga_fi_slope`.
-What do these numbers really mean?
+埃尔姆赫斯特数据的截距和斜率估计值为 $b_0$ = `r m_ga_fi_int` 和 $b_1$ = `r m_ga_fi_slope`。
+这些数字究竟意味着什么？
 
 ------------------------------------------------------------------------
 
-Interpreting the slope parameter is helpful in almost any application.
-For each additional \$1,000 of family income, we would expect a student to receive a net difference of 1,000 $\times$ (-0.0431) = -\$43.10 in aid on average, i.e., \$43.10 *less*.
-Note that a higher family income corresponds to less aid because the coefficient of family income is negative in the model.
-We must be cautious in this interpretation: while there is a real association, we cannot interpret a causal connection between the variables because these data are observational.
-That is, increasing a particular student's family income may not cause the student's aid to drop.
-(Although it would be reasonable to contact the college and ask if the relationship is causal, i.e., if Elmhurst College's aid decisions are partially based on students' family income.)
+解释斜率参数在几乎所有应用中都有帮助。
+对于埃尔姆赫斯特学院的数据，家庭收入每额外增加 \$1,000，我们预计学生将获得 1,000 $\times$ (-0.0431) = -\$43.10 的净差异，即平均*减少* \$43.10。
+注意，家庭收入越高，对应的资助金越少，这是因为家庭收入的系数在模型中是负的。
+我们必须谨慎解释：虽然存在真实的关联，但我们不能将其解释为变量间的因果关系，因为这些数据是观察性的。
+也就是说，增加某个特定学生的家庭收入可能不会导致其资助金下降。
+（尽管联系该学院询问这种关系是否具有因果性是合理的，即埃尔姆赫斯特学院的资助决策是否部分基于学生的家庭收入。）
 
-The estimated intercept $b_0$ = `r m_ga_fi_int` describes the average aid if a student's family had no income, \$`r format(round(m_ga_fi_int*1000,0), scientific = FALSE, big.mark = ",")`.
-The meaning of the intercept is relevant to this application since the family income for some students at Elmhurst is \$0.
-In other applications, the intercept may have little or no practical value if there are no observations where $x$ is near zero.
+估计的截距 $b_0$ = `r m_ga_fi_int` 描述了家庭收入为 \$0 的学生的平均资助金，即 \$`r format(round(m_ga_fi_int*1000,0), scientific = FALSE, big.mark = ",")`。
+由于 Elmhurst 一些学生的家庭收入确实为 \$0，因此截距在此应用中是有意义的。
+在其他应用中，如果 $x$ 接近零的观测很少或没有，截距可能没有或几乎没有实际意义。
 :::
 
 ::: {.important data-latex=""}
-**Interpreting parameters estimated by least squares.**
+**解释最小二乘估计的参数。**
 
-The slope describes the estimated difference in the predicted average outcome of $y$ if the predictor variable $x$ happened to be one unit larger.
-The intercept describes the average outcome of $y$ if $x = 0$ *and* the linear model is valid all the way to $x = 0$ (values of $x = 0$ are not observed or relevant in many applications).
+斜率描述了，如果预测变量 $x$ 恰好增加 1 个单位，$y$ 的预测平均结果的估计差值。
+截距描述了，如果 $x = 0$ *并且*线性模型在 $x = 0$ 时仍然有效，$y$ 的平均结果（在许多应用中，$x = 0$ 的值未被观测到或无关紧要）。
 :::
 
-If you would like to learn more about using R to fit linear models, see @sec-model-tutorials for the interactive R tutorials.
-An alternative way of calculating the values of intercept and slope of a least squares line is manual calculations using formulas.
-While manual calculations are not commonly used by practicing statisticians and data scientists, it is useful to work through the first time you're learning about the least squares line and modeling in general.
-Calculating the values by hand leverages two properties of the least squares line:
+如果您想了解更多关于使用 R 拟合线性模型的知识，请参阅 @sec-model-tutorials 中的交互式 R 教程。
+计算最小二乘回归线截距和斜率值的另一种方法是使用公式进行手动计算。
+虽然从业统计学家和数据科学家通常不使用手动计算，但在你第一次学习最小二乘回归线和建模时，亲手计算一次是很有帮助的。
+手动计算利用了最小二乘回归线的两个性质：
 
-1.  The slope of the least squares line can be estimated by
+1.  最小二乘回归线的斜率可以通过以下公式估计：
 
 $$
 b_1 = \frac{s_y}{s_x} r
 $$
 
-where $r$ is the correlation between the two variables, and $s_x$ and $s_y$ are the sample standard deviations of the predictor and outcome, respectively.
+其中 $r$ 是两个变量间的相关系数，$s_x$ 和 $s_y$ 分别是预测变量和结果变量的样本标准差。
 
-2.  If $\bar{x}$ is the sample mean of the predictor variable and $\bar{y}$ is the sample mean of the outcome variable, then the point $(\bar{x}, \bar{y})$ falls on the least squares line.
+2.  如果 $\bar{x}$ 是预测变量的样本均值，$\bar{y}$ 是结果变量的样本均值，那么点 $(\bar{x}, \bar{y})$ 落在最小二乘回归线上。
 
-@tbl-summaryStatsElmhurstRegr shows the sample means for the family income and gift aid as \$101,780 and \$19,940, respectively.
-We could plot the point $(102, 19.9)$ on @fig-elmhurstScatterWLine to verify it falls on the least squares line (the solid line).
+@tbl-summaryStatsElmhurstRegr 显示了家庭收入和资助金的样本均值，分别是 \$101,780 和 \$19,940。
+我们可以绘制点 $(102, 19.9)$，检查它是否落在 @fig-elmhurstScatterWLine 中的最小二乘回归线（实线）上。
 
 ```{r}
 #| label: tbl-summaryStatsElmhurstRegr
-#| tbl-cap: Summary statistics for family income and gift aid.
+#| tbl-cap: 家庭收入与资助金额的汇总统计量。
 #| tbl-pos: H
 elmhurst |>
   select(family_income, gift_aid) |>
@@ -1195,7 +1171,7 @@ elmhurst |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("mean", "sd", "mean", "sd", "r"),
+    col.names = c("均值", "标准差", "均值", "标准差", "r"),
     align = "ccccc"
   ) |>
   kable_styling(
@@ -1203,46 +1179,48 @@ elmhurst |>
     latex_options = c("striped"),
     full_width = FALSE
   ) |>
-  add_header_above(c("Family income, x" = 2, "Gift aid, y" = 2, " " = 1)) |>
+  add_header_above(c("家庭收入 x" = 2, "资助金额 y" = 2, " " = 1)) |>
   column_spec(1:5, width = "6em")
 ```
 
-Next, we find the point estimates $b_0$ and $b_1$ of the parameters $\beta_0$ and $\beta_1.$
+
+
+接下来，我们求参数 $\beta_0$ 和 $\beta_1$ 的点估计值 $b_0$ 和 $b_1$。
 
 ::: {.workedexample data-latex=""}
-Using the summary statistics in @tbl-summaryStatsElmhurstRegr, compute the slope for the regression line of gift aid against family income.
+使用 @tbl-summaryStatsElmhurstRegr 中的汇总统计量，计算资助金额对家庭收入的回归线斜率。
 
 ------------------------------------------------------------------------
 
-Compute the slope using the summary statistics from @tbl-summaryStatsElmhurstRegr:
+使用 @tbl-summaryStatsElmhurstRegr 中的汇总统计量计算斜率：
 
 $$
 b_1 = \frac{s_y}{s_x} r = \frac{5.46}{63.2}(-0.499) = -0.0431
 $$
 :::
 
-You might recall the form of a line from math class, which we can use to find the model fit, including the estimate of $b_0.$ Given the slope of a line and a point on the line, $(x_0, y_0),$ the equation for the line can be written as
+你可能还记得数学课上学过的直线方程形式，我们可以用它来求模型拟合结果，包括 $b_0$ 的估计值。给定一条直线的斜率和该直线上的一点 $(x_0, y_0)$，该直线的方程可以写成：
 
 $$
 y - y_0 = slope\times (x - x_0)
 $$
 
 ::: {.important data-latex=""}
-**Identifying the least squares line from summary statistics.**
+**根据汇总统计量确定最小二乘回归线。**
 
-To identify the least squares line from summary statistics:
+要根据汇总统计量确定最小二乘回归线：
 
--   Estimate the slope parameter, $b_1 = (s_y / s_x) r.$
--   Note that the point $(\bar{x}, \bar{y})$ is on the least squares line, use $x_0 = \bar{x}$ and $y_0 = \bar{y}$ with the point-slope equation: $y - \bar{y} = b_1 (x - \bar{x}).$
--   Simplify the equation, we get $y = \bar{y} - b_1 \bar{x} + b_1 x,$ which reveals that $b_0 = \bar{y} - b_1 \bar{x}.$
+-   估计斜率参数，$b_1 = (s_y / s_x) r.$
+-   注意到点 $(\bar{x}, \bar{y})$ 位于最小二乘回归线上，使用 $x_0 = \bar{x}$ 和 $y_0 = \bar{y}$ 代入点斜式方程：$y - \bar{y} = b_1 (x - \bar{x}).$
+-   简化方程，我们得到 $y = \bar{y} - b_1 \bar{x} + b_1 x,$，这揭示了 $b_0 = \bar{y} - b_1 \bar{x}.$
 :::
 
 ::: {.workedexample data-latex=""}
-Using the point (102, 19.9) from the sample means and the slope estimate $b_1 = -0.0431,$ find the least-squares line for predicting aid based on family income.
+使用样本均值点 (102, 19.9) 和斜率估计值 $b_1 = -0.0431$，求基于家庭收入预测资助金额的最小二乘回归线。
 
 ------------------------------------------------------------------------
 
-Apply the point-slope equation using $(102, 19.9)$ and the slope $b_1 = -0.0431$:
+将点 (102, 19.9) 和斜率 $b_1 = -0.0431$ 代入点斜式方程：
 
 \vspace{-5mm}
 
@@ -1253,7 +1231,7 @@ y - 19.9 &= -0.0431 (x - 102)
 \end{aligned}
 $$
 
-Expanding the right side and then adding 19.9 to each side, the equation simplifies:
+展开右边，然后在等式两边都加上 19.9，方程简化为：
 
 \vspace{-5mm}
 
@@ -1261,39 +1239,39 @@ $$
 \widehat{\texttt{aid}} = 24.3 - 0.0431 \times \texttt{family\_income}
 $$
 
-Here we have replaced $y$ with $\widehat{\texttt{aid}}$ and $x$ with $\texttt{family\_income}$ to put the equation in context.
-The final least squares equation should always include a "hat" on the variable being predicted, whether it is a generic $``y"$ or a named variable like $``aid"$.
+这里我们用 $\widehat{\texttt{aid}}$ 替换 $y$，用 $\texttt{family\_income}$ 替换 $x$，以使方程符合上下文。
+最终的最小二乘回归方程，无论被预测变量是通用的 “$y$” 还是像 “aid” 这样的命名变量，都必须始终在被预测变量上方加上一个“帽子”符号。
 :::
 
 \clearpage
 
 ::: {.workedexample data-latex=""}
-Suppose a high school senior is considering Elmhurst College.
-Can they simply use the linear equation that we have estimated to calculate her financial aid from the university?
+假设一位高中毕业生正在考虑就读埃尔姆赫斯特学院。
+他们能否简单地使用我们估计出的线性方程来计算她能从大学获得的资助金额？
 
 ------------------------------------------------------------------------
 
-She may use it as an estimate, though some qualifiers on this approach are important.
-First, all data come from one first-year class, and the way aid is determined by the university may change from year to year.
-Second, the equation will provide an imperfect estimate.
-While the linear equation is good at modeling the trend in the data, no individual student's aid will be perfectly predicted (as can be seen from the individual data points around the line).
+她可以将其作为一个估计值来使用，但这种方法有一些重要的限制条件需要注意。
+首先，所有数据都来自某一个一年级班级，而且大学确定资助金额的方式可能每年都会变化。
+其次，该方程提供的只是一个不完美的估计。
+虽然线性方程能很好地模拟数据中的趋势，但没有任何一个学生的资助金额能被完美预测（从直线周围的单个数据点也可以看出这一点）。
 :::
 
-### Extrapolation is treacherous
+### 外推是危险的 {#sec-extrapolation}
 
-Linear models can be used to approximate the relationship between two variables.
-However, like any model, they have real limitations.
-Linear regression is simply a modeling framework.
-The truth is almost always much more complex than a simple line.
-For example, we do not know how the data outside of our limited window will behave.
+线性模型可以用来近似两个变量之间的关系。
+然而，和任何模型一样，它们有实际的局限性。
+线性回归只是一个建模框架。
+事实几乎总是比一条简单的直线复杂得多。
+例如，我们不知道在我们有限的观测窗口之外，数据会如何表现。
 
 ::: {.workedexample data-latex=""}
-Use the model $\widehat{\texttt{aid}} = 24.3 - 0.0431 \times \texttt{family\_income}$ to estimate the aid of another first-year student whose family had income of \$1 million.
+使用模型 $\widehat{\texttt{aid}} = 24.3 - 0.0431 \times \texttt{family\_income}$ 来估算另一位家庭收入为 100 万美元的一年级学生的资助金额。
 
 ------------------------------------------------------------------------
 
-We want to calculate the aid for a family with \$1 million income.
-Note that in our model this will be represented as 1,000 since the data are in \$1,000s.
+我们要计算一个家庭收入为 \$1,000,000 的学生的资助金额。
+请注意，在我们的模型中，这将以 1,000 表示，因为数据以 \$1,000 为单位。
 
 \vspace{-5mm}
 
@@ -1301,37 +1279,40 @@ $$
 24.3 - 0.0431 \times 1000 = -18.8
 $$
 
-The model predicts this student will have -\$18,800 in aid (!).
-However, Elmhurst College does not offer *negative aid* where they select some students to pay extra on top of tuition to attend.
+该模型预测这位学生的资助金额将为 -18,800 美元（！）。
+然而，埃尔姆赫斯特学院并不提供*负资助*（即选择某些学生在学费之外额外付费来上学）。
 :::
 
 \vspace{-5mm}
 
-Applying a model estimate to values outside of the realm of the original data is called **extrapolation**\index{extrapolation}.
-Generally, a linear model is only an approximation of the real relationship between two variables.
-If we extrapolate, we are making an unreliable bet that the approximate linear relationship will be valid in places where it has not been analyzed.
+将模型估计值应用于原始数据范围之外的值，称为**外推**\index{extrapolation}。
+一般而言，线性模型仅仅是两个变量之间真实关系的一个近似。
+如果我们进行外推，就是在做出一个不可靠的赌注：这个近似的线性关系在未经分析的地方也会成立。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "extrapolation")
 ```
 
-### Describing the strength of a fit {#sec-r-squared}
 
-We evaluated the strength of the linear relationship between two variables earlier using the correlation, $r.$ However, it is more common to explain the strength of a linear fit using $R^2,$ called **R-squared**\index{R-squared}.
-If provided with a linear model, we might like to describe how closely the data cluster around the linear fit.
+
+### 描述拟合优度 {#sec-r-squared}
+
+我们之前使用相关系数 $r$ 来评估两个变量之间线性关系的强度。然而，更常见的是使用 $R^2$（称为**决定系数 R²**\index{R-squared}）来解释线性拟合的强度。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "R-squared")
 ```
 
-The $R^2$ of a linear model describes the amount of variation in the outcome variable that is explained by the least squares line.
-For example, consider the Elmhurst data, shown in @fig-elmhurstScatterWLine).
-The variance of the outcome variable, aid received, is about $s_{aid}^2 \approx 29.8$ million (calculated from the data, some of which is shown in @tbl-elmhurst-data).
-However, if we apply our least squares line, then this model reduces our uncertainty in predicting aid using a student's family income.
-The variability in the residuals describes how much variation remains after using the model: $s_{_{RES}}^2 \approx 22.4$ million.
-In short, there was a reduction of
+
+
+线性模型的 $R^2$ 描述了结果变量中由最小二乘回归线解释的变异量。
+例如，考虑 Elmhurst 数据（见 @fig-elmhurstScatterWLine）。
+结果变量“收到的资助”的方差约为 $s_{aid}^2 \approx 29.8$ 百万（根据数据计算，部分数据显示在 @tbl-elmhurst-data）。
+但是，如果我们应用最小二乘回归线，该模型可以减少我们利用学生家庭收入预测资助时的不确定性。
+残差中的变异性描述了使用模型后剩余的变异量：$s_{_{RES}}^2 \approx 22.4$ 百万。
+简而言之，变异减少了
 
 $$
 \frac{s_{aid}^2 - s_{_{RES}}^2}{s_{aid}^2}
@@ -1340,8 +1321,8 @@ $$
   \approx 0.25,
 $$
 
-or about 25%, of the outcome variable's variation by using information about family income for predicting aid using a linear model.
-It turns out that $R^2$ corresponds exactly to the squared value of the correlation:
+或者说，在使用家庭收入信息通过线性模型预测资助金时，约 25% 的结果变量变异可以得到解释。
+事实证明，$R^2$ 恰好等于相关系数的平方：
 
 $$
 r = -0.499 \rightarrow R^2 = 0.25
@@ -1350,31 +1331,32 @@ $$
 \clearpage
 
 ::: {.guidedpractice data-latex=""}
-If a linear model has a very strong negative relationship with a correlation of -0.97, how much of the variation in the outcome is explained by the predictor?[^07-model-slr-8]
+如果一个线性模型有一个非常强的负相关关系，相关系数为 -0.97，那么预测变量能解释结果变量中的多少变异？[^07-model-slr-8]
 :::
 
-[^07-model-slr-8]: About $R^2 = (-0.97)^2 = 0.94$ or 94% of the variation in the outcome variable is explained by the linear model.
+[^07-model-slr-8]: 约 $R^2 = (-0.97)^2 = 0.94$，即线性模型解释了结果变量中 94% 的变异。
 
-$R^2$ is also called the **coefficient of determination**\index{coefficient of determination}.
+$R^2$ 也称为**决定系数**\index{coefficient of determination}。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "coefficient of determination")
 ```
 
-::: {.important data-latex=""}
-**Coefficient of determination: proportion of variability in the outcome variable explained by the model.**
 
-Since $r$ is always between -1 and 1, $R^2$ will always be between 0 and 1.
-This statistic is called the **coefficient of determination**, and it measures the proportion of variation in the outcome variable, $y,$ that can be explained by the linear model with predictor $x.$
+::: {.important data-latex=""}
+**决定系数：模型解释的结果变量变异性比例。**
+
+由于 $r$ 总是介于 -1 和 1 之间，所以 $R^2$ 总是介于 0 和 1 之间。
+这个统计量称为**决定系数**，它衡量结果变量 $y$ 的变异中，能够由预测变量 $x$ 的线性模型解释的比例。
 :::
 
-More generally, $R^2$ can be calculated as a ratio of a measure of variability around the line divided by a measure of total variability.
+更一般地，$R^2$ 可以计算为围绕直线的变异度量与总变异度量的比值。
 
 ::: {.important data-latex=""}
-**Sums of squares to measure variability in** $y.$
+**用平方和测量 $y$ 的变异性。**
 
-We can measure the variability in the $y$ values by how far they tend to fall from their mean, $\bar{y}.$ We define this value as the **total sum of squares**\index{total sum of squares}, calculated using the formula below, where $y_i$ represents each $y$ value in the sample, and $\bar{y}$ represents the mean of the $y$ values in the sample.
+我们可以通过 $y$ 值偏离其均值 $\bar{y}$ 的程度来衡量 $y$ 值的变异性。我们将这个值定义为**总平方和**\index{total sum of squares}，使用下面的公式计算，其中 $y_i$ 代表样本中的每个 $y$ 值，$\bar{y}$ 代表样本中 $y$ 值的均值。
 
 \vspace{-2mm}
 
@@ -1382,7 +1364,7 @@ $$
 SST = (y_1 - \bar{y})^2 + (y_2 - \bar{y})^2 + \cdots + (y_n - \bar{y})^2.
 $$
 
-Left-over variability in the $y$ values if we know $x$ can be measured by the **sum of squared errors**\index{sum of squared errors}, or sum of squared residuals, calculated using the formula below, where $\hat{y}_i$ represents the predicted value of $y_i$ based on the least squares regression.[^07-model-slr-9],
+如果已知 $x$，$y$ 值中剩余的变异性可以用**误差平方和**\index{sum of squared errors}（或称残差平方和）来衡量，使用下面的公式计算，其中 $\hat{y}_i$ 代表基于最小二乘回归的 $y_i$ 的预测值。[^07-model-slr-9],
 
 \vspace{-2mm}
 
@@ -1393,14 +1375,14 @@ SSE &= (y_1 - \hat{y}_1)^2 + (y_2 - \hat{y}_2)^2 + \cdots + (y_n - \hat{y}_n)^2\
 \end{aligned}
 $$
 
-The coefficient of determination can then be calculated as
+那么，决定系数可以计算如下：
 
 $$
 R^2 = \frac{SST - SSE}{SST} = 1 - \frac{SSE}{SST}
 $$
 :::
 
-[^07-model-slr-9]: The difference $SST - SSE$ is called the **regression sum of squares**\index{regression sum of squares}, $SSR,$ and can also be calculated as $SSR = (\hat{y}_1 - \bar{y})^2 + (\hat{y}_2 - \bar{y})^2 + \cdots + (\hat{y}_n - \bar{y})^2.$ $SSR$ represents the variation in $y$ that was accounted for in our model.
+[^07-model-slr-9]: 差值 $SST - SSE$ 称为**回归平方和**\index{regression sum of squares}，$SSR,$ 也可以计算为 $SSR = (\hat{y}_1 - \bar{y})^2 + (\hat{y}_2 - \bar{y})^2 + \cdots + (\hat{y}_n - \bar{y})^2.$，$SSR$ 代表 $y$ 的变异中被我们模型解释的部分。
 
 ```{r}
 #| include: false
@@ -1412,34 +1394,35 @@ terms_chp_07 <- c(
 )
 ```
 
+
 ::: {.workedexample data-latex=""}
-Among 50 students in the `elmhurst` dataset, the total variability in gift aid is $SST = 1461$.[^07-model-slr-10]
-The sum of squared residuals is $SSE = 1098.$ Find $R^2.$
+在 `elmhurst` 数据集的 50 名学生中，资助的总变异性为 $SST = 1461$。[^07-model-slr-10]
+残差平方和为 $SSE = 1098.$ 求 $R^2.$
 
 ------------------------------------------------------------------------
 
-Since we know $SSE$ and $SST,$ we can calculate $R^2$ as
+既然我们知道 $SSE$ 和 $SST$，我们可以计算 $R^2$ 为
 
 $$
 R^2 = 1 - \frac{SSE}{SST} = 1 - \frac{1098}{1461} = 0.25,
 $$
 
-the same value we found when we squared the correlation: $R^2 = (-0.499)^2 = 0.25.$
+这个值与之前我们求相关系数平方得到的结果相同：$R^2 = (-0.499)^2 = 0.25.$
 :::
 
-[^07-model-slr-10]: $SST$ can be calculated by finding the sample variance of the outcome variable, $s^2$ and multiplying by $n-1.$
+[^07-model-slr-10]: $SST$ 可以通过计算结果变量的样本方差 $s^2$ 并乘以 $n-1$ 得到。
 
 \clearpage
 
-### Categorical predictors with two levels {#sec-categorical-predictor-two-levels}
+### 具有两个水平的分类预测变量 {#sec-categorical-predictor-two-levels}
 
-Categorical variables are also useful in predicting outcomes.
-Here we consider a categorical predictor with two levels (recall that a *level* is the same as a *category*).
-We'll consider Ebay auctions for a video game, *Mario Kart* for the Nintendo Wii, where both the total price of the auction and the condition of the game were recorded.
-Here we want to predict total price based on game condition, which takes values `used` and `new`.
+分类变量也可用于预测结果。
+这里我们考虑一个具有两个水平的分类预测变量（回想一下，*水平* 与 *类别* 是同一个概念）。
+我们将以任天堂 Wii 游戏 *Mario Kart* 的 Ebay 拍卖为例，其中记录了拍卖总价和游戏状态。
+这里我们想基于游戏状态（取值为 `used` 和 `new`）来预测总价。
 
 ::: {.data data-latex=""}
-The [`mariokart`](http://openintrostat.github.io/openintro/reference/mariokart.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`mariokart`](http://openintrostat.github.io/openintro/reference/mariokart.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ```{r}
@@ -1448,20 +1431,17 @@ mariokart_lt100 <- mariokart |>
   mutate(cond = fct_relevel(cond, "used", "new"))
 ```
 
-A plot of the auction data is shown in @fig-marioKartNewUsed.
-Note that the original dataset contains some Mario Kart games being sold at prices above \$100 but for this analysis we have limited our focus to the `r nrow(mariokart_lt100)` Mario Kart games that were sold below \$100.
+
+
+拍卖数据的图形展示见 @fig-marioKartNewUsed。
+需要注意的是，原始数据集中包含一些售价超过 100 美元的马里奥赛车游戏，但在此次分析中，我们将焦点集中在那些售价低于 100 美元的 `r nrow(mariokart_lt100)` 个马里奥赛车游戏上。
 
 ```{r}
 #| label: fig-marioKartNewUsed
 #| fig-cap: |
-#|   Total auction prices for the video game Mario Kart, divided into used
-#|   ($x = 0$) and new ($x = 1$) condition games. The least squares regression
-#|   line is also shown.
+#|   视频游戏马里奥赛车的总拍卖价格，按二手（$x = 0$）和全新（$x = 1$）的游戏状况分组。图中也展示了最小二乘回归线。
 #| fig-alt: |
-#|   Scatterplot of Mario Kart data with condion (used or new) on the
-#|   x-axis and total price on the y-axis. Despite the x-axis being categorical, a
-#|   least squares line is fit to the data with the value of used set to 0 and the
-#|   value of new set to 1.
+#|   马里奥赛车数据的散点图，x轴为状况（二手或全新），y轴为总价。尽管x轴是分类变量，仍为数据拟合了一条最小二乘回归线，其中“二手”取值为0，“全新”取值为1。
 mariokart_lt100 |>
   filter(total_pr < 100) |>
   ggplot(aes(x = as.numeric(cond) - 1, y = total_pr)) +
@@ -1471,34 +1451,36 @@ mariokart_lt100 |>
     breaks = c(0, 1),
     minor_breaks = c(0, 1),
     limits = c(-0.2, 1.2),
-    labels = c("0\n(used)", "1\n(new)")
+    labels = c("0\n(二手)", "1\n(全新)")
   ) +
   labs(
-    x = "Condition",
-    y = "Total price"
+    x = "状况",
+    y = "总价"
   )
 ```
 
-To incorporate the game condition variable into a regression equation, we must convert the categories into a numerical form.
-We will do so using an **indicator variable**\index{variable!indicator}\index{indicator variable} called `condnew`, which takes value 1 when the game is new and 0 when the game is used.
-Using this indicator variable, the linear model may be written as
+
+
+为了将游戏状况变量纳入回归方程，我们必须将其类别转换为数值形式。
+我们将使用一个名为 `condnew` 的**指示变量**\index{variable!indicator}\index{indicator variable}来实现这一点，该变量在游戏为全新时取值为1，在游戏为二手时取值为0。
+使用这个指示变量，线性模型可以写为
 
 $$
 \widehat{\texttt{price}} = b_0 + b_1 \times \texttt{condnew}
 $$
 
-The parameter estimates are given in @tbl-marioKartNewUsedRegrSummary.
+参数估计值见 @tbl-marioKartNewUsedRegrSummary。
 
 ```{r}
 #| include: false
 terms_chp_07 <- c(terms_chp_07, "indicator variable")
 ```
 
+
 ```{r}
 #| label: tbl-marioKartNewUsedRegrSummary
 #| tbl-cap: |
-#|   Least squares regression summary for the final auction price against the
-#|   condition of the game.
+#|   最终拍卖价格对游戏状况的最小二乘回归摘要。
 #| tbl-pos: H
 m_total_pr_cond <- lm(total_pr ~ cond, data = mariokart_lt100)
 m_total_pr_cond_tidy <- tidy(m_total_pr_cond)
@@ -1528,101 +1510,93 @@ m_total_pr_cond_tidy |>
   column_spec(2:5, width = "5em")
 ```
 
-Using values from @tbl-marioKartNewUsedRegrSummary, the model equation can be summarized as
+
+
+使用 @tbl-marioKartNewUsedRegrSummary 中的值，模型方程可概括为
 
 $$
 \widehat{\texttt{price}} = `r m_total_pr_cond_int` + `r m_total_pr_cond_slope` \times \texttt{condnew}
 $$
 
 ::: {.workedexample data-latex=""}
-Interpret the two parameters estimated in the model for the price of Mario Kart in eBay auctions.
+对为 eBay 拍卖中的马里奥赛车游戏价格建立的模型中所估计的两个参数进行解释。
 
 ------------------------------------------------------------------------
 
-The intercept is the estimated price when `condnew` has a value 0, i.e., when the game is in used condition.
-That is, the average selling price of a used version of the game is \$42.9.
-The slope indicates that, on average, new games sell for about \$10.9 more than used games.
+截距是当 `condnew` 取值为 0（即游戏状况为二手）时的估计价格。也就是说，二手版本游戏的平均售价为 \$42.9。
+斜率表明，全新游戏的平均售价比二手游戏大约高出 \$10.9。
 :::
 
 ::: {.important data-latex=""}
-**Interpreting model estimates for categorical predictors.**
+**解释分类预测变量的模型估计。**
 
-The estimated intercept is the value of the outcome variable for the first category (i.e., the category corresponding to an indicator value of 0).
-The estimated slope is the average change in the outcome variable between the two categories.
+估计的截距是第一个类别（即对应指示变量值为 0 的类别）的结果变量值。
+估计的斜率是结果变量在两个类别之间的平均变化量。
 :::
 
-Note that, fundamentally, the intercept and slope interpretations do not change when modeling categorical variables with two levels.
-However, when the predictor variable is binary, the coefficient estimates ($b_0$ and $b_1$) are directly interpretable with respect to the dataset at hand.
+请注意，当对具有两个水平的分类变量进行建模时，截距和斜率的解释在根本上并未改变。然而，当预测变量是二元变量时，系数估计（$b_0$ 和 $b_1$）可以直接针对当前数据集进行解释。
 
-We'll elaborate further on modeling categorical predictors in @sec-model-mlr, where we examine the influence of many predictor variables simultaneously using multiple regression.
+我们将在 [第 -@sec-model-mlr 章] 中，使用多元回归同时考察多个预测变量的影响时，进一步阐述对分类预测变量的建模。
 
-## Outliers in linear regression {#sec-outliers-in-regression}
+## 线性回归中的离群值 {#sec-outliers-in-regression}
 
-In this section, we discuss when outliers are important and influential.
-Outliers in a regression model with one predictor and one outcome are observations that fall far from the cloud of points.
-These points are especially important because they can have a strong influence on the least squares line.
-Note that there are times when observations are outlying in the $x$ direction, the $y$ direction, or both.
-However, being outlying in a univariate sense (either $x$ or $y$ or both) is not outlying from the bivariate model.
-If the points are in-line with the bivariate model, they will not influence the least squares regression line (even if the observations are outlying in the $x$ or $y$ or both directions!).
+在本节中，我们将讨论离群值何时是重要且具有强影响力的。
+在仅有一个预测变量和一个结果变量的回归模型中，离群值指的是那些远离数据云团的观测。
+这些点之所以特别重要，是因为它们可能对最小二乘回归线产生强烈影响。
+请注意，有些观测可能在 $x$ 方向、$y$ 方向，或者两个方向上都是离群的。
+然而，在单变量意义上离群（无论是在 $x$ 方向、$y$ 方向，还是两者兼有）并不等于对双变量模型而言是离群值。
+如果这些点符合双变量模型的趋势，它们就不会影响最小二乘回归线（即使这些观测在 $x$ 或 $y$ 方向上，或者两个方向上都是离群的！）。
 
 ::: {.workedexample data-latex=""}
-There are three plots shown in @fig-outlier-plots-1 along with the corresponding least squares line and residual plots.
-For each scatterplot and residual plot pair, identify the outliers and note how they influence the least squares line.
-Recall that an outlier is any point that does not appear to belong with the vast majority of the other points.
+在 @fig-outlier-plots-1 中展示了三幅图，以及相应的最小二乘回归线和残差图。
+对于每一对散点图和残差图，请识别其中的离群值，并注意它们如何影响最小二乘回归线。
+回想一下，离群值是指任何看起来不属于绝大多数其他点范畴的点。
 
 ------------------------------------------------------------------------
 
-A: There is one outlier far from the other points (in the $y$ direction and it is an outlier of the bivariate model), though it only appears to slightly influence the line.
+A：有一个离群点远离其他点（在 $y$ 方向，并且它对双变量模型而言是离群值），不过它似乎只对回归线有轻微影响。
 
-B: There is one outlier on the right (in the $x$ and $y$ direction although it is not an outlier of the bivariate model), though it is quite close to the least squares line, which suggests it wasn't very influential.
+B：右侧有一个离群点（在 $x$ 和 $y$ 方向，尽管它对双变量模型而言不是离群值），但它非常接近最小二乘回归线，这表明它的影响力不大。
 
-C: There is one point far away from the cloud (in the $x$ and $y$ direction and an outlier of the bivariate model), and this outlier appears to pull the least squares line up on the right; examine how the line around the primary cloud does not appear to fit very well.
+C：有一个点远离云团（在 $x$ 和 $y$ 方向，并且对双变量模型而言是离群值），这个离群值似乎把最小二乘回归线在右侧向上拉了；观察一下回归线在主云团周围的拟合效果，似乎并不理想。
 :::
 
 ::: {.workedexample data-latex=""}
-There are three plots shown in @fig-outlier-plots-2 along with the least squares line and residual plots.
-As you did in previous exercise, for each scatterplot and residual plot pair, identify the outliers and note how they influence the least squares line.
-Recall that an outlier is any point that does not appear to belong with the vast majority of the other points. A point can be outlying in the $x$ direction, in the $y$ direction, or in relation to the bivariate model.
+在 @fig-outlier-plots-2 中展示了三幅图，以及最小二乘回归线和残差图。
+像在上一个练习中一样，对于每一对散点图和残差图，请识别其中的离群值，并注意它们如何影响最小二乘回归线。
+回想一下，离群值是指任何看起来不属于绝大多数其他点范畴的点。一个点可能在 $x$ 方向、$y$ 方向，或者相对于双变量模型是离群的。
 
 ------------------------------------------------------------------------
 
-D: There is a primary cloud and then a small secondary cloud of four outliers (with respect to both $x$ and the bivariate model).
-The secondary cloud appears to be influencing the line somewhat strongly, making the least square line fit poorly almost everywhere.
-There might be an interesting explanation for the dual clouds, which is something that could be investigated.
+D：图中有一个主云团，然后是由四个离群值形成的一个小的次级云团（在 $x$ 方向和双变量模型意义上都是离群的）。
+这个次级云团对回归线似乎有相当强的影响，使得最小二乘回归线几乎在所有地方都拟合得很差。
+对于这种双云团现象，可能存在一个有趣的解释，这是值得探究的。
 
-E: There is no obvious trend in the main cloud of points and the outlier on the right (with respect to both $x$ and $y$) appears to largely (and problematically) control the slope of the least squares line.
-The point creates a bivariate model when seemingly there is none. 
+E：在主点云中没有明显的趋势，而右侧的离群点（在 $x$ 和 $y$ 方向都是离群的）似乎在很大程度上（且不合理地）控制了最小二乘回归线的斜率。
+这个点在看似没有双变量模型的地方“创造”出了一个双变量模型。
 
-F: There is one outlier far from the cloud (with respect to both $x$ and $y$).
-However, it falls quite close to the least squares line and does not appear to be very influential (it is not outlying with respect to the bivariate model).
+F：有一个远离云团的离群点（在 $x$ 和 $y$ 方向都是离群的）。
+然而，它落在非常接近最小二乘回归线的位置，并且似乎没有很大影响力（它对双变量模型而言并不是离群值）。
 :::
 
 ```{r}
 #| label: fig-outlier-plots
 #| fig-cap: |
-#|   Plots of six datasets, each with a least squares line and
-#|   corresponding residual plot. Each dataset has at least one outlier.
+#|   六个数据集的图形，每个数据集均带有一条最小二乘回归线及
+#|   对应的残差图。每个数据集至少包含一个离群值。
 #| fig-subcap:
-#|   - Plots A, B, and C
-#|   - Plots D, E, and F
+#|   - 图 A、B 和 C
+#|   - 图 D、E 和 F
 #| fig-alt: |
-#|   A grid of 2 by 3 scatterplots with fabricated data, all of which
-#|   contain at least one outlying observation. The top row of plots contains
-#|   original x-y data plots with a least squares regression line. The bottom row
-#|   of plots is a series of residual plot with predicted value on the x-axis and
-#|   residual on the y-axis. The first column of plots gives an example of
-#|   an outlier in the bivariate model which does not impact the least squares
-#|   regression line. The second column gives an example of a point which is
-#|   outlying in both the x and y directions but it is not a model outlier.
-#|   The third column gives an example of a point that pulls the regression
-#|   line toward it, impacting the least squares line. The fourth column of
-#|   plots gives an example of a small cloud of points that drags the
-#|   regression line toward it. The fifth column gives an example of a point
-#|   which is outlying enough in both the x and y direction that it changes
-#|   a model which has no linearity into what seems like a strong positive
-#|   relationship. The sixth column gives an example of a point that is far
-#|   in both the x and y directions but is in-line with the regression model
-#|   and has very little impact on the least squares regression line.
+#|   一个由 2 行 3 列散点图组成的网格，所用数据为虚构数据，所有图形都至少包含
+#|   一个离群观测。第一行图形是带有最小二乘回归线的原始 x-y 数据图。第二行
+#|   图形是一系列残差图，x 轴为预测值，y 轴为残差。第一列图形展示了双变量模型中
+#|   不影响最小二乘回归线的离群值例子。第二列展示了在 x 和 y 方向上都离群
+#|   但并非模型离群值的点的例子。第三列展示了将回归线拉向自身从而影响最小二乘
+#|   回归线的点的例子。第四列图形展示了一小簇点将回归线拉向它的例子。
+#|   第五列展示了在 x 和 y 方向上都极度离群的点，它将原本无线性关系的
+#|   模型变成了看似具有强正关联的模型。第六列展示了在 x 和 y 方向上均远离
+#|   但符合回归模型且对最小二乘回归线影响极小的点的例子。
 #| out-width: 100%
 #| fig-asp: 0.4
 # abc
@@ -1675,7 +1649,7 @@ p_1_res <- ggplot(m1_aug, aes(x = .fitted, y = .resid)) +
     color = IMSCOL["red", "full"],
     stroke = 2
   ) +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1713,7 +1687,7 @@ p_2_res <- ggplot(m2_aug, aes(x = .fitted, y = .resid)) +
     color = IMSCOL["green", "full"],
     stroke = 2
   ) +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1751,7 +1725,7 @@ p_3_res <- ggplot(m3_aug, aes(x = .fitted, y = .resid)) +
     color = IMSCOL["pink", "full"],
     stroke = 2
   ) +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1796,7 +1770,7 @@ p_4 <- ggplot(d4, aes(x = x, y = y)) +
 p_4_res <- ggplot(m4_aug, aes(x = .fitted, y = .resid)) +
   geom_point(size = 2, alpha = 0.7) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1817,7 +1791,7 @@ p_5 <- ggplot(d5, aes(x = x, y = y)) +
 p_5_res <- ggplot(m5_aug, aes(x = .fitted, y = .resid)) +
   geom_point(alpha = 0.7, size = 2) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1838,7 +1812,7 @@ p_6 <- ggplot(d6, aes(x = x, y = y)) +
 p_6_res <- ggplot(m6_aug, aes(x = .fitted, y = .resid)) +
   geom_point(size = 2, alpha = 0.7) +
   geom_hline(yintercept = 0, linetype = "dashed") +
-  labs(x = "Predicted y", y = "Residual") +
+  labs(x = "y 的预测值", y = "残差") +
   theme(
     panel.grid = element_blank(),
     axis.text = element_blank(),
@@ -1861,22 +1835,22 @@ p_4 +
 
 \clearpage
 
-Examine the residual plots in @fig-outlier-plots-1 and @fig-outlier-plots-2.
-In Plots C, D, and E, you will probably find that there are a few observations which are both away from the remaining points along the x-axis and not in the trajectory of the trend in the rest of the data.
-In these cases, the outliers influenced the slope of the least squares lines.
-In Plot E, the bulk of the data show no clear trend, but if we fit a line to these data, we impose a trend where there isn't really one.
+观察 @fig-outlier-plots-1 和 @fig-outlier-plots-2 中的残差图。
+在图 C、D 和 E 中，你很可能会发现一些观测：它们既在 x 轴方向上远离其余数据点，也不在其余数据的趋势轨迹上。
+在这些情况下，离群值影响了最小二乘回归线的斜率。
+在图 E 中，大部分数据并没有显示出明显的趋势，但如果我们对这些数据拟合一条直线，就等于强加了一个其实并不存在的趋势。
 
-A good practice for dealing with outlying observations is to produce two analyses: one with and one without the outlying observations. Presenting both analyses to a client and discussing the role of the outlying observations should lead you to a more holistic understanding of the appropriate model for the data.
+处理离群观测的一个良好做法是进行两次分析：一次包含离群观测，另一次不包含。将两种分析都呈现给客户并讨论离群观测所起的作用，这将引导你对适用于该数据的恰当模型有一个更全面的理解。
 
 ::: {.important data-latex=""}
-**Leverage.**
+**杠杆。**
 
-Points that fall horizontally away from the center of the cloud tend to pull harder on the line, so we call them points with **high leverage**\index{high leverage} or **leverage points**\index{leverage point}.
+水平方向上远离数据云中心的点往往对回归线的拉力更大，因此我们称它们为**高杠杆**\index{high leverage}点或**杠杆点**\index{leverage point}。
 :::
 
-Points that fall horizontally far from the line are points of high leverage; these points can strongly influence the slope of the least squares line.
-If one of these high leverage points does appear to actually invoke its influence on the slope of the line -- as in Plots C, D, and E of @fig-outlier-plots-1 and @fig-outlier-plots-2 -- then we call it an **influential point**\index{influential point}.
-Usually we can say a point is influential if, had we fitted the line without it, the influential point would have been unusually far from the least squares line.
+水平方向上远离回归线的点属于高杠杆点；这些点能强烈地影响最小二乘回归线的斜率。
+如果某个高杠杆点确实对回归线的斜率施加了影响——正如 @fig-outlier-plots-1 和 @fig-outlier-plots-2 中的图 C、D 和 E 所示——那么我们就称之为**强影响点**\index{influential point}。
+通常我们可以这样判断：如果拟合直线时没有包含某个点，而该点距离新拟合的最小二乘回归线异常远，那么它就是强影响点。
 
 ```{r}
 #| include: false
@@ -1889,49 +1863,52 @@ terms_chp_07 <- c(
 )
 ```
 
-::: {.important data-latex=""}
-**Types of outliers.**\index{outlier}
 
-A point (or a group of points) that stands out from the rest of the data is called an outlier.
-Outliers that fall horizontally away from the center of the cloud of points are called leverage points.
-Outliers that influence on the slope of the line are called influential points.
+::: {.important data-latex=""}
+**离群值的类型。**\index{outlier}
+
+从其余数据中凸显出来的点（或一组点）称为离群值。
+水平方向上远离点云中心的离群值称为杠杆点。
+影响回归线斜率的离群值称为强影响点。
 :::
 
-It is tempting to remove outliers.
-Don't do this without a very good reason.
-Models that ignore exceptional (and interesting) cases often perform poorly.
-For instance, if a financial firm ignored the largest market swings -- the "outliers" -- they would soon go bankrupt by making poorly thought-out investments.
+人们往往想要移除离群值。
+如果没有非常充分的理由，请不要这样做。
+忽略异常（且有趣）情况的模型往往表现不佳。
+例如，如果一家金融公司忽略了最大的市场波动——这些“离群值”——他们将很快因为做出考虑不周的投资而破产。
 
 \clearpage
 
-## Chapter review {#sec-chp7-review}
+## 章节回顾 {#sec-chp7-review}
 
-### Summary
+### 本章小结
 
-Throughout this chapter, the nuances of the linear model have been described.
-You have learned how to create a linear model with explanatory variables that are numerical (e.g., total possum length) and those that are categorical (e.g., whether a video game was new).
-The residuals in a linear model are an important metric used to understand how well a model fits; high leverage points, influential points, and other types of outliers can impact the fit of a model.
-Correlation is a measure of the strength and direction of the linear relationship of two variables, without specifying which variable is the explanatory and which is the outcome.
-Future chapters will focus on generalizing the linear model from the sample of data to claims about the population of interest.
+本章描述了线性模型的诸多细节。
+你已经学会如何创建包含数值型（例如，负鼠总长）和分类型（例如，电子游戏是否为新款）解释变量的线性模型。
+线性模型中的残差是理解模型拟合优度的重要指标；高杠杆点、强影响点和其他类型的离群值会影响模型的拟合效果。
+相关系数是衡量两个变量之间线性关系的强度和方向的指标，它不指定哪个变量是解释变量、哪个是结果变量。
+后续章节将侧重于如何将基于数据样本的线性模型推广为对感兴趣总体的论断。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-07.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列在 @tbl-terms-chp-07 中。
+如果你不确定其中某些术语的含义，我们建议你回到文中复习它们的定义。
+你应该能轻松地通过**加粗文本**找到它们。
 
 ```{r}
 #| label: tbl-terms-chp-07
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_07)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp7-exercises}
+## 练习 {#sec-chp7-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-07].
+奇数编号练习的答案可在 [附录 -@sec-exercise-solutions-07] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_07-ex-model-slr.qmd >}}

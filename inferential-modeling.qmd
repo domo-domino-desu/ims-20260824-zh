@@ -1,13 +1,13 @@
-# Inferential modeling {#sec-inf-model .unnumbered}
+# 推断建模 {#sec-inf-model .unnumbered}
 
-In a previous part, [Regression modeling](https://openintro-ims2.netlify.app/regression-modeling), you learned how to build linear and logistic regression models based on a set of observations.
-In a different part, [Foundations of inference](https://openintro-ims2.netlify.app/foundations-of-inference), you learned about the structures that allow us to make inferential claims about a population given a sample of data.
-In this part, we develop inferential methods applied to regression models.
+在之前的 [回归建模](https://openintro-ims2.netlify.app/regression-modeling) 部分，你学习了如何基于一组观测构建线性回归和逻辑斯谛回归模型。
+在另一个 [推断基础](https://openintro-ims2.netlify.app/foundations-of-inference) 部分，你学习了使我们能够在给定数据样本时对总体作出推断的结构。
+在本部分，我们将建立应用于回归模型的推断方法。
 
--   [Chapter -@sec-inf-model-slr] provides specific details about inference for linear regression models with a single predictor.
--   [Chapter -@sec-inf-model-mlr] provides specific details about inference for linear regression models with multiple predictors.
--   [Chapter -@sec-inf-model-logistic] provides specific details about inference for logistic regression models.
--   [Chapter -@sec-inf-model-applications] includes an application on the Mario Kart case study where the topics from this part of the book on linear regression are fully developed.
+-   [第 -@sec-inf-model-slr 章] 提供了单预测变量线性回归模型推断的具体细节。
+-   [第 -@sec-inf-model-mlr 章] 提供了多预测变量线性回归模型推断的具体细节。
+-   [第 -@sec-inf-model-logistic 章] 提供了逻辑斯谛回归模型推断的具体细节。
+-   [第 -@sec-inf-model-applications 章] 包含了马里奥赛车案例研究的应用，在该案例中，本书本部分关于线性回归的主题得到了完整的展开。
 
-We have only scratched the surface in providing information about modeling and related inferential methods.
-We hope that the ideas we’ve covered have whet your appetite to learn more higher level modeling.
+我们此前关于建模及相关推断方法的介绍只是浅尝辄止。
+我们希望，我们介绍过的这些思想能够激发你学习更高级建模的兴趣。

@@ -1,4 +1,4 @@
-# Applications: Model {#sec-model-application}
+# 应用：模型 {#sec-model-application}
 
 ```{r}
 #| include: false
@@ -6,23 +6,21 @@ source("_common.R")
 library(ggpubr)
 ```
 
-## Case study: Houses for sale {#sec-model-case-study}
 
-Take a walk around your neighborhood and you'll probably see a few houses for sale, and you might be able to look up its price online.
-You'll note that house prices are somewhat arbitrary -- the homeowners get to decide the listing price, and many criteria factor into this decision, e.g., what do comparable houses ("comps" in real estate speak) sell for, how quickly they need to sell the house, etc.
 
-In this case study we'll formalize the process of determining the listing price of a house by using data on current home sales. 
-In November of 2020, information on `r nrow(duke_forest)` houses in the Duke Forest neighborhood of Durham, NC were scraped from [Zillow](https://www.zillow.com).
-The homes were all recently sold at the time of data collection, and the goal of the project was to build a model for predicting the sale price based on a particular home's characteristics.
-The first four homes are shown in @tbl-duke-data-frame, and descriptions of each variable are shown in @tbl-duke-variables.
+## 案例研究：待售房屋 {#sec-model-case-study}
+
+在自家社区附近走走，你可能就会看到几处待售房屋，也许还能在网上查到它们的价格。你会注意到，房屋价格的制定有些随意——房主可以自行决定挂牌价，而影响这一决定的标准有很多，例如，可比房屋的售价（房地产行业术语中的 "comps"）、需要多快将房屋售出等等。
+
+在本案例研究中，我们将利用当前的房屋销售数据，将确定房屋挂牌价的过程形式化。2020年11月，从 [Zillow](https://www.zillow.com) 抓取了北卡罗来纳州达勒姆市 Duke Forest 社区 `r nrow(duke_forest)` 栋房屋的信息。数据收集时，这些房屋均为近期售出。该项目的目标是建立一个模型，根据特定房屋的特征来预测其售价。前四栋房屋的数据如 @tbl-duke-data-frame 所示，各变量的描述见 @tbl-duke-variables。
 
 ::: {.data data-latex=""}
-The [`duke_forest`](http://openintrostat.github.io/openintro/reference/duke_forest.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`duke_forest`](http://openintrostat.github.io/openintro/reference/duke_forest.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ```{r}
 #| label: tbl-duke-data-frame
-#| tbl-cap: Top four rows of `duke_forest`.
+#| tbl-cap: "`duke_forest` 的前四行。"
 #| tbl-pos: H
 duke_forest |>
   select(price, bed, bath, area, year_built, cooling, lot) |>
@@ -39,26 +37,27 @@ duke_forest |>
   )
 ```
 
+
 ```{r}
 #| label: tbl-duke-variables
-#| tbl-cap: Variables and their descriptions for the `duke_forest` dataset.
+#| tbl-cap: "`duke_forest` 数据集的变量及其描述。"
 #| tbl-pos: H
 duke_forest_var_def <- tribble(
   ~variable    , ~description                                           ,
-  "price"      , "Sale price, in USD"                                   ,
-  "bed"        , "Number of bedrooms"                                   ,
-  "bath"       , "Number of bathrooms"                                  ,
-  "area"       , "Area of home, in square feet"                         ,
-  "year_built" , "Year the home was built"                              ,
-  "cooling"    , "Cooling system: central or other (other is baseline)" ,
-  "lot"        , "Area of the entire property, in acres"
+  "price"      , "售价，单位美元"                                   ,
+  "bed"        , "卧室数量"                                   ,
+  "bath"       , "卫生间数量"                                  ,
+  "area"       , "房屋面积，单位平方英尺"                         ,
+  "year_built" , "房屋建造年份"                              ,
+  "cooling"    , "制冷系统：central（中央空调）或 other（其他，作为基准）" ,
+  "lot"        , "整个地块的面积，单位英亩"
 )
 
 duke_forest_var_def |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Variable", "Description")
+    col.names = c("变量", "描述")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -69,31 +68,27 @@ duke_forest_var_def |>
   column_spec(2, width = "25em")
 ```
 
-### Correlating with `price`
 
-As mentioned, the goal of the data collection was to build a model for the sale price of homes.
-While using multiple predictor variables is likely preferable to using only one variable, we start by learning about the variables themselves and their relationship to price.
-@fig-single-scatter shows scatterplots describing price as a function of each of the predictor variables.
-All of the variables seem to be positively associated with price (higher values of the variable are matched with higher price values).
+
+### 与 `price` 的关联
+
+如前所述，收集数据的目标是建立一个房屋售价的模型。虽然使用多个预测变量可能比仅使用一个更好，但我们还是先从了解变量本身及其与价格的关系开始。@fig-single-scatter 展示了将价格描述为各预测变量函数的散点图。所有变量似乎都与价格呈正向关联（变量的值越高，对应的价格也越高）。
 
 ```{r}
 #| label: fig-single-scatter
 #| out-width: 100%
 #| fig-asp: 0.78
 #| fig-cap: |
-#|   Scatterplots describing six different predictor variables'
-#|   relationship with the price of a home.
+#|   描述六个不同预测变量与房屋售价关系的散点图。
 #| fig-alt: |
-#|   Six scatterplots where the observations are different homes.
-#|   All plots have sale price on the y axis.  The x axes are number of
-#|   bedrooms, number of bathrooms, square feet, year built, colling type
-#|   and area of property. All variables are positively correlated with
-#|   price of the house.  Square foot of the home is the most highly correlated.
+#|   六个散点图，观测对象是不同的房屋。所有图的y轴均为售价。
+#|   x轴分别为卧室数量、浴室数量、面积（平方英尺）、建造年份、制冷类型和土地面积（英亩）。
+#|   所有变量均与房价呈正相关。其中房屋面积与房价的相关系数是最高的。
 pr_bed <- ggplot(duke_forest, aes(x = bed, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Number of bedrooms",
-    y = "Sale price (USD)"
+    x = "卧室数量",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -101,8 +96,8 @@ pr_bed <- ggplot(duke_forest, aes(x = bed, y = price)) +
 pr_bath <- ggplot(duke_forest, aes(x = bath, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Number of bathrooms",
-    y = "Sale price (USD)"
+    x = "浴室数量",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -110,8 +105,8 @@ pr_bath <- ggplot(duke_forest, aes(x = bath, y = price)) +
 pr_area <- ggplot(duke_forest, aes(x = area, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Area of home (in square feet)",
-    y = "Sale price (USD)"
+    x = "房屋面积（平方英尺）",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -119,8 +114,8 @@ pr_area <- ggplot(duke_forest, aes(x = area, y = price)) +
 pr_year <- ggplot(duke_forest, aes(x = year_built, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Year built",
-    y = "Sale price (USD)"
+    x = "建造年份",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -128,8 +123,8 @@ pr_year <- ggplot(duke_forest, aes(x = year_built, y = price)) +
 pr_cool <- ggplot(duke_forest, aes(x = cooling, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Cooling type",
-    y = "Sale price (USD)"
+    x = "制冷类型",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -137,8 +132,8 @@ pr_cool <- ggplot(duke_forest, aes(x = cooling, y = price)) +
 pr_lot <- ggplot(duke_forest, aes(x = lot, y = price)) +
   geom_point(alpha = 0.8) +
   labs(
-    x = "Area of property (in acres)",
-    y = "Sale price (USD)"
+    x = "土地面积（英亩）",
+    y = "售价（美元）"
   ) +
   stat_cor(aes(label = paste("r", ..r.., sep = "~`=`~"))) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
@@ -146,38 +141,40 @@ pr_lot <- ggplot(duke_forest, aes(x = lot, y = price)) +
 pr_bed + pr_bath + pr_area + pr_year + pr_cool + pr_lot + plot_layout(ncol = 2)
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-In @fig-single-scatter there does not appear to be a correlation value calculated for the predictor variable, `cooling`.
-Why not?
-Can the variable still be used in the linear model?[^10-model-applications-1]
+在 @fig-single-scatter 中，对于预测变量 `cooling` 似乎没有计算相关系数值。
+这是为什么？
+这个变量还能在线性模型中使用吗？[^10-model-applications-1]
 :::
 
-[^10-model-applications-1]: The correlation coefficient can only be calculated to describe the relationship between two numerical variables.
-    The predictor variable `cooling` is categorical, not numerical.
-    It *can*, however, be used in the linear model as a binary indicator variable coded, for example, with a `1` for central and `0` for other.
+[^10-model-applications-1]: 相关系数仅能用于描述两个数值变量之间的关系。
+    预测变量 `cooling` 是分类变量，而非数值变量。
+    不过，它*可以*通过编码（例如，中央空调编码为 `1`，其他编码为 `0`）作为二元指示变量在线性模型中使用。
 
 ::: {.workedexample data-latex=""}
-In @fig-single-scatter which variable seems to be most informative for predicting house price?
-Provide two reasons for your answer.
+在 @fig-single-scatter 中，哪个变量在预测房价时似乎信息最丰富？
+请给出两条理由支持你的答案。
 
 ------------------------------------------------------------------------
 
-The `area` of the home is the variable which is most highly correlated with `price`.
-Additionally, the scatterplot for `price` vs. `area` seems to show a strong linear relationship between the two variables.
-Note that the correlation coefficient and the scatterplot linearity will often give the same conclusion.
-However, recall that the correlation coefficient is very sensitive to outliers, so it is always wise to look at the scatterplot even when the variables are highly correlated.
+`area` 是与 `price` 相关系数最高的变量。
+此外，`price` 与 `area` 的散点图似乎显示两者之间存在较强的线性关系。
+需要注意的是，相关系数和散点图的线性模式通常指向相同的结论。
+然而，请记住相关系数对离群值非常敏感，因此即使变量高度相关，也始终有必要查看散点图。
 :::
 
 \clearpage
 
-### Modeling `price` with `area`
+### 用 `area` 为 `price` 建模
 
-A linear model was fit to predict `price` from `area`.
-The resulting model information is given in @tbl-price-slr.
+我们拟合了一个用 `area` 预测 `price` 的线性模型。
+得到的模型信息见 @tbl-price-slr。
 
 ```{r}
 #| label: tbl-price-slr
-#| tbl-cap: Summary of least squares fit for price on area.
+#| tbl-cap: |
+#|   房价对面积的最小二乘拟合汇总。
 #| tbl-pos: H
 m_small <- duke_forest |>
   lm(price ~ area, data = _)
@@ -214,30 +211,29 @@ m_small_w_rsq |>
   row_spec(3:4, italic = TRUE)
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Interpret the value of $b_1$ = 159 in the context of the problem.[^10-model-applications-2]
+解释 $b_1$ = 159 在该问题背景下的含义。[^10-model-applications-2]
 :::
 
-[^10-model-applications-2]: For each additional square foot of house, we would expect such houses to cost, on average, \$159 more.
+[^10-model-applications-2]: 房屋面积每增加一平方英尺，我们预期此类房屋的平均价格会增加 159 美元。
 
 ::: {.guidedpractice data-latex=""}
-Using the output in @tbl-price-slr, write out the model for predicting `price` from `area`.[^10-model-applications-3]
+根据 @tbl-price-slr 中的输出，写出用 `area` 预测 `price` 的模型。[^10-model-applications-3]
 :::
 
 [^10-model-applications-3]: $\widehat{\texttt{price}} = 116,652 + 159 \times \texttt{area}$
 
-The residuals from the linear model can be used to assess whether a linear model is appropriate.
-@fig-price-resid-slr plots the residuals $e_i = y_i - \hat{y}_i$ on the $y$-axis and the fitted (or predicted) values $\hat{y}_i$ on the $x$-axis.
+线性模型的残差可用于评估线性模型是否合适。
+@fig-price-resid-slr 绘制了以残差$e_i = y_i - \hat{y}_i$为 $y$ 轴、拟合值（或预测值）$\hat{y}_i$ 为 $x$ 轴的散点图。
 
 ```{r}
 #| label: fig-price-resid-slr
 #| fig-cap: |
-#|   Residuals versus predicted values for the model predicting
-#|   sale price from area of home.
+#|   使用房屋面积预测售价模型的残差与预测值关系图。
 #| fig-alt: |
-#|   Residual scatterplot showing predicted sale price on the y axis and
-#|   residual on the y axis from the model on square feet only. There is a fan
-#|   shape showing a possible deviation from the equal variance condition.
+#|   残差散点图，x轴为预测售价，y轴为仅使用面积模型的残差。
+#|   图中呈现扇形状，表明可能存在对等方差条件的偏离。
 #| fig-width: 7
 duke_forest |>
   lm(price ~ area, data = _) |>
@@ -245,35 +241,36 @@ duke_forest |>
   ggplot(aes(x = .fitted, y = .resid)) +
   geom_point(size = 2, alpha = 0.8) +
   labs(
-    x = "Predicted values of sale price (in USD)",
-    y = "Residuals"
+    x = "预测售价（美元）",
+    y = "残差"
   ) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   scale_x_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K")) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
 ```
 
+
+
 \clearpage
 
 ::: {.guidedpractice data-latex=""}
-What aspect(s) of the residual plot indicate that a linear model is appropriate?
-What aspect(s) of the residual plot seem concerning when fitting a linear model?[^10-model-applications-4]
+残差图的什么特征表明线性模型是合适的？
+残差图的什么特征显示拟合线性模型时可能存在问题？[^10-model-applications-4]
 :::
 
-[^10-model-applications-4]: The residual plot shows that the relationship between `area` and `price` of a home is indeed linear.
-    However, the residuals are quite large for expensive homes.
-    The large residuals indicate potential outliers or increasing variability, either of which could warrant more involved modeling techniques than are presented in this chapter.
+[^10-model-applications-4]: 残差图表明，房屋 `area` 与 `price` 之间的关联确实是线性的。
+    然而，对于昂贵的房屋，其残差相当大。
+    大的残差表明可能存在离群值或变异性增加，这两者中的任一种都可能意味着需要采用比本章介绍的更复杂的建模技术。
 
-### Modeling `price` with multiple variables
+### 使用多个变量对 `price` 建模
 
-It seems as though the predictions of home price might be more accurate if more than one predictor variable was used in the linear model.
-@tbl-price-mlr displays the output from a linear model of `price` regressed on `area`, `bed`, `bath`, `year_built`, `cooling`, and `lot`.
+看来，如果在线性模型中使用不止一个预测变量，房价的预测可能会更准确。
+@tbl-price-mlr 展示了 `price` 对 `area`、`bed`、`bath`、`year_built`、`cooling` 和 `lot` 进行回归的线性模型输出。
 
 ```{r}
 #| label: tbl-price-mlr
 #| tbl-cap: |
-#|   Summary of least squares fit for price on multiple predictor
-#|   variables.
+#|   使用多个预测变量的房价最小二乘拟合汇总。
 #| tbl-pos: H
 m_full <- duke_forest |>
   lm(price ~ area + bed + bath + year_built + cooling + lot, data = _)
@@ -310,8 +307,9 @@ m_full_w_rsq |>
   row_spec(8:9, italic = TRUE)
 ```
 
+
 ::: {.workedexample data-latex=""}
-Using @tbl-price-mlr, write out the linear model of price on the six predictor variables.
+使用 @tbl-price-mlr，写出以六个预测变量预测价格的线性模型。
 
 ------------------------------------------------------------------------
 
@@ -328,13 +326,12 @@ $$
 :::
 
 ::: {.guidedpractice data-latex=""}
-The value of the estimated coefficient on $\texttt{cooling}_{\texttt{central}}$ is $b_5 = 84,065.$ Interpret the value of $b_5$ in the context of the problem.[^10-model-applications-5]
+关于 $\texttt{cooling}_{\texttt{central}}$ 的估计系数值为 $b_5 = 84,065.$ 请结合实际背景解释 $b_5$ 的含义。[^10-model-applications-5]
 :::
 
-[^10-model-applications-5]: The coefficient indicates that if all the other variables are kept constant, homes with central air conditioning cost \$84,065 more, on average.
+[^10-model-applications-5]: 该系数表明，如果所有其他变量保持不变，有中央空调的房屋平均价格要高 84,065 美元。
 
-A friend suggests that maybe you do not need all six variables to have a good model for `price`.
-You consider taking a variable out, but you aren't sure which one to remove.
+一位朋友提出，或许你并不需要全部六个变量来建立一个关于 `price` 的好模型。你考虑去掉一个变量，但又不确定该去掉哪一个。
 
 ```{r}
 #| label: backward-step-1
@@ -368,32 +365,27 @@ m_lot_r_sq_adj <- update(m_full, . ~ . - lot, data = duke_forest) |>
   round(4)
 ```
 
+
 ::: {.workedexample data-latex=""}
-Results corresponding to the full model for the housing data are shown in @tbl-price-mlr.
-How should we proceed under the backward elimination strategy?
+住房数据全模型的结果如 @tbl-price-mlr 所示。按照后向消去法策略，我们应该如何进行？
 
 ------------------------------------------------------------------------
 
-Our baseline adjusted $R^2$ from the full model is `r m_full_r_sq_adj`, and we need to determine whether dropping a predictor will improve the adjusted $R^2$.
-To check, we fit models that each drop a different predictor, and we record the adjusted $R^2$:
+全模型的基线调整后 $R^2$ 为 `r m_full_r_sq_adj`，我们需要判断去掉一个预测变量是否会提高调整后 $R^2$。
+为此，我们拟合了分别去掉不同预测变量的模型，并记录了相应的调整后 $R^2$：
 
--   Excluding `area`: `r m_area_r_sq_adj`
--   Excluding `bed`: `r m_bed_r_sq_adj`
--   Excluding `bath`: `r m_bath_r_sq_adj`
--   Excluding `year_built`: `r m_year_built_r_sq_adj`
--   Excluding `cooling`: `r m_cooling_r_sq_adj`
--   Excluding `lot`: `r m_lot_r_sq_adj`
+-   排除 `area`：`r m_area_r_sq_adj`
+-   排除 `bed`：`r m_bed_r_sq_adj`
+-   排除 `bath`：`r m_bath_r_sq_adj`
+-   排除 `year_built`：`r m_year_built_r_sq_adj`
+-   排除 `cooling`：`r m_cooling_r_sq_adj`
+-   排除 `lot`：`r m_lot_r_sq_adj`
 
-The model without `bed` has the highest adjusted $R^2$ of `r m_bed_r_sq_adj`, higher than the adjusted $R^2$ for the full model.
-Because eliminating `bed` leads to a model with a higher adjusted $R^2$ than the full model, we drop `bed` from the model.
-It might seem counter-intuitive to exclude number of bedrooms from the model.
-After all, we would expect homes with more bedrooms to cost more, and we can see a clear relationship between number of bedrooms and sale price in @fig-single-scatter.
-However, note that `area` is still in the model, and it's quite likely that the area of the home and the number of bedrooms are highly associated.
-Therefore, the model already has information on "how much space is available in the house" with the inclusion of `area`.
+不含 `bed` 的模型调整后 $R^2$ 最高，为 `r m_bed_r_sq_adj`，高于全模型的调整后 $R^2$。
+因为剔除 `bed` 能得到一个比全模型调整后 $R^2$ 更高的模型，所以我们从模型中剔除 `bed`。
+将卧室数量从模型中剔除可能显得有些违反直觉。毕竟，我们预期卧室更多的房屋价格更高，而且在 @fig-single-scatter 中也能看到卧室数量与售价之间存在清晰的关联。但是，请注意 `area` 仍在模型中，而且房屋面积和卧室数量很可能高度关联。因此，由于加入了 `area`，模型已经包含了关于“房屋有多少可用空间”的信息。
 
-Since we eliminated a predictor from the model in the first step, we see whether we should eliminate any additional predictors.
-Our baseline adjusted $R^2$ is now `r m_bed_r_sq_adj`.
-We fit another set of new models, which consider eliminating each of the remaining predictors in addition to `bed`:
+由于我们在第一步已从模型中剔除一个预测变量，现在需要检查是否应该进一步剔除更多预测变量。我们现在的基线调整后 $R^2$ 是 `r m_bed_r_sq_adj`。我们又拟合了一组新模型，这些模型考虑在已剔除 `bed` 的基础上，再分别剔除其余各个预测变量：
 
 ```{r}
 #| label: backward-step-2
@@ -430,22 +422,21 @@ m_lot_r_sq_adj <- update(m_full_no_bed, . ~ . - lot, data = duke_forest) |>
   round(4)
 ```
 
--   Excluding `bed` and `area`: `r m_area_r_sq_adj`
--   Excluding `bed` and `bath`: `r m_bath_r_sq_adj`
--   Excluding `bed` and `year_built`: `r m_year_built_r_sq_adj`
--   Excluding `bed` and `cooling`: `r m_cooling_r_sq_adj`
--   Excluding `bed` and `lot`: `r m_lot_r_sq_adj`
+-   排除 `bed` 和 `area`：`r m_area_r_sq_adj`
+-   排除 `bed` 和 `bath`：`r m_bath_r_sq_adj`
+-   排除 `bed` 和 `year_built`：`r m_year_built_r_sq_adj`
+-   排除 `bed` 和 `cooling`：`r m_cooling_r_sq_adj`
+-   排除 `bed` 和 `lot`：`r m_lot_r_sq_adj`
 
-None of these models lead to an improvement in adjusted $R^2$, so we do not eliminate any of the remaining predictors.
+这些模型中没有一个能提高调整后 $R^2$，因此我们不再剔除任何剩余的预测变量。
 :::
 
-That is, after backward elimination, we are left with the model that keeps all predictors except `bed`, which we can summarize using the coefficients from @tbl-price-full-except-bed.
+也就是说，经过后向消去后，我们得到的模型保留了除 `bed` 外的所有预测变量，我们可以用 @tbl-price-full-except-bed 中的系数来总结该模型。
 
 ```{r}
 #| label: tbl-price-full-except-bed
 #| tbl-cap: |
-#|   Summary of least squares fit for price on multiple predictor
-#|   variables, excluding number of bedrooms.
+#|   售价对多个预测变量（除卧室数量外）的最小二乘拟合摘要。
 #| tbl-pos: H
 m_full_no_bed_r_sq_adj <- glance(m_full_no_bed)$adj.r.squared |> round(4)
 m_full_no_bed_df_residual <- glance(m_full_no_bed)$df.residual |> round(4)
@@ -483,11 +474,13 @@ m_full_no_bed_w_rsq |>
   row_spec(7:8, italic = TRUE)
 ```
 
+
+
 \clearpage
 
-Then, the linear model for predicting sale price based on this model is as follows:
+那么，基于此模型预测售价的线性模型如下：
 
-$$ 
+$$
 \begin{aligned}
 \widehat{\texttt{price}} = &-2,952,641 + 99 \times \texttt{area} + 36,228 \times \texttt{bath} + 1,466 \times \texttt{year\_built} \\
 &+ 83,856 \times \texttt{cooling}_{\texttt{central}} + 357,119 \times \texttt{lot}
@@ -495,26 +488,23 @@ $$
 $$
 
 ::: {.workedexample data-latex=""}
-The residual plot for the model with all of the predictor variables except `bed` is given in @fig-price-resid-mlr-nobed.
-How do the residuals in @fig-price-resid-mlr-nobed compare to the residuals in @fig-price-resid-slr?
+排除 `bed` 变量后包含所有预测变量的模型的残差图见 @fig-price-resid-mlr-nobed。
+@fig-price-resid-mlr-nobed 中的残差与 @fig-price-resid-slr 中的残差相比如何？
 
 ------------------------------------------------------------------------
 
-The residuals, for the most part, are randomly scattered around 0.
-However, there is one extreme outlier with a residual of -\$750,000, a house whose actual sale price is a lot lower than its predicted price.
-Also, we observe again that the residuals are quite large for expensive homes.
+残差大体上随机散布在 0 附近。
+然而，存在一个极端离群值，其残差为 -$750,000，这栋房屋的实际售价比其预测价格低很多。
+此外，我们再次观察到，对于昂贵的房屋，其残差相当大。
 :::
 
 ```{r}
 #| label: fig-price-resid-mlr-nobed
 #| fig-cap: |
-#|   Residuals versus predicted values for the model predicting
-#|   sale price from all predictors except for number of bedrooms.
+#|   使用除卧室数量外的所有预测变量预测售价的模型，其残差与预测值图。
 #| fig-alt: |
-#|   Residual scatterplot showing predicted sale price on the y axis
-#|   and residual on the y axis from the model on all variables except number
-#|   of bedrooms. There is a fan shape showing
-#|   a possible deviation from the equal variance condition.
+#|   残差散点图，x轴显示预测售价，y轴显示排除卧室数量后基于所有变量的模型的残差。
+#|   呈现漏斗形，表明可能存在偏离等方差条件的情况。
 #| fig-width: 7
 #| fig-asp: 0.5
 m_full_no_bed |>
@@ -522,13 +512,14 @@ m_full_no_bed |>
   ggplot(aes(x = .fitted, y = .resid)) +
   geom_point(size = 2, alpha = 0.8) +
   labs(
-    x = "Predicted values of house price (in USD)",
-    y = "Residuals"
+    x = "房屋售价的预测值（美元）",
+    y = "残差"
   ) +
   geom_hline(yintercept = 0, linetype = "dashed") +
   scale_x_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K")) +
   scale_y_continuous(labels = label_dollar(scale = 1 / 1000, suffix = "K"))
 ```
+
 
 ```{r}
 # note:  none of this code is used because the two GPs are now
@@ -549,32 +540,33 @@ new_house_obs <- 804133
 new_house_resid <- 804133 - new_house_pred
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Consider a house with 1,803 square feet, 2.5 bathrooms, 0.145 acres, built in 1941, that has central air conditioning.
-What is the predicted price of the home?[^10-model-applications-6]
+考虑一栋房屋，其面积为 1,803 平方英尺，有 2.5 个浴室，占地 0.145 英亩，建于 1941 年，并配有中央空调。
+这栋房屋的预测价格是多少？[^10-model-applications-6]
 :::
 
 [^10-model-applications-6]: $\widehat{\texttt{price}} = -2,952,641 + 99 \times 1803 + 36,228 \times 2.5 + 1,466 \times 1941 + 83,856 \times 1 + 357,119 \times 0.145 = \$297,570.$
 
 ::: {.guidedpractice data-latex=""}
-If you later learned that the house (with a predicted price of \$297,570) had recently sold for \$804,133, would you think the model was terrible?
-What if you learned that the house was in California?[^10-model-applications-7]
+如果你后来得知这栋房屋（预测价格为 $297,570）最近以 $804,133 售出，你会认为这个模型很糟糕吗？
+如果你又得知这栋房屋位于加利福尼亚州呢？[^10-model-applications-7]
 :::
 
-[^10-model-applications-7]: A residual of \$506,563 is reasonably big.
-    Note that the large residuals (except a few homes) in @fig-price-resid-mlr-nobed are closer to \$250,000 (about half as big).
-    After we learn that the house is in California, we realize that the model shouldn't be applied to the new home at all!
-    The original data are from Durham, NC, and models based on the Durham, NC data should be used only to explore patterns in prices for homes in Durham, NC.
+[^10-model-applications-7]: 残差为 \$506,563 是相当大的。
+    请注意，@fig-price-resid-mlr-nobed 中的较大残差（少数房屋除外）更接近 \$0（大约是前者的一半）。
+    在我们了解到这栋房屋位于加利福尼亚州后，我们意识到这个模型完全不应该应用于这栋新房屋！
+    原始数据来自北卡罗来纳州达勒姆，基于北卡罗来纳州达勒姆数据建立的模型应仅用于探索北卡罗来纳州达勒姆房屋的价格模式。
 
 \clearpage
 
-## Interactive R tutorials {#sec-model-tutorials}
+## 交互式 R 教程 {#sec-model-tutorials}
 
-Navigate the concepts you've learned in this part in R using the following self-paced tutorials.
-All you need is your browser to get started!
+在 R 中通过以下自主进度的教程来实践你在此部分学到的概念。
+你只需要一个浏览器即可开始！
 
 ::: {.alltutorials data-latex=""}
-[Tutorial 3: Regression modeling](https://openintrostat.github.io/ims-tutorials/03-model/)
+[教程 3：回归建模](https://openintrostat.github.io/ims-tutorials/03-model/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintrostat.github.io/ims-tutorials/03-model>
@@ -582,7 +574,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 1: Visualizing two variables](https://openintro.shinyapps.io/ims-03-model-01/)
+[教程 3 - 第 1 课：可视化两个变量](https://openintro.shinyapps.io/ims-03-model-01/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-01>
@@ -590,7 +582,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 2: Correlation](https://openintro.shinyapps.io/ims-03-model-02/)
+[教程 3 - 第 2 课：相关系数](https://openintro.shinyapps.io/ims-03-model-02/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-02>
@@ -598,7 +590,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 3: Simple linear regression](https://openintro.shinyapps.io/ims-03-model-03/)
+[教程 3 - 第 3 课：简单线性回归](https://openintro.shinyapps.io/ims-03-model-03/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-03>
@@ -606,7 +598,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 4: Interpreting regression models](https://openintro.shinyapps.io/ims-03-model-04/)
+[教程 3 - 第 4 课：解读回归模型](https://openintro.shinyapps.io/ims-03-model-04/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-04>
@@ -614,7 +606,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 5: Model fit](https://openintro.shinyapps.io/ims-03-model-05/)
+[教程 3 - 第 5 课：模型拟合](https://openintro.shinyapps.io/ims-03-model-05/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-05>
@@ -622,7 +614,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 6: Parallel slopes](https://openintro.shinyapps.io/ims-03-model-06/)
+[教程 3 - 第 6 课：平行斜率](https://openintro.shinyapps.io/ims-03-model-06/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-06>
@@ -630,7 +622,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 7: Evaluating and extending parallel slopes model](https://openintro.shinyapps.io/ims-03-model-07/)
+[教程 3 - 第 7 课：平行斜率模型评估与拓展](https://openintro.shinyapps.io/ims-03-model-07/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-07>
@@ -638,7 +630,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 8: Multiple regression](https://openintro.shinyapps.io/ims-03-model-08/)
+[教程 3 - 第 8 课：多元回归](https://openintro.shinyapps.io/ims-03-model-08/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-08>
@@ -646,7 +638,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 9: Logistic regression](https://openintro.shinyapps.io/ims-03-model-09/)
+[教程 3 - 第 9 课：逻辑斯谛回归](https://openintro.shinyapps.io/ims-03-model-09/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-09>
@@ -654,7 +646,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 3 - Lesson 10: Case study: Italian restaurants in NYC](https://openintro.shinyapps.io/ims-03-model-10/)
+[教程 3 - 第 10 课：案例研究：纽约市的意大利餐厅](https://openintro.shinyapps.io/ims-03-model-10/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-03-model-10>
@@ -662,19 +654,19 @@ All you need is your browser to get started!
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of tutorials supporting this book at <https://openintrostat.github.io/ims-tutorials>.
+你也可以在 <https://openintrostat.github.io/ims-tutorials> 访问支持本书的完整教程列表。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of tutorials supporting this book [here](https://openintrostat.github.io/ims-tutorials).
+你也可以[在此处](https://openintrostat.github.io/ims-tutorials)访问支持本书的完整教程列表。
 :::
 
-## R labs {#sec-model-labs}
+## R 实验 {#sec-model-labs}
 
-Further apply the concepts you've learned in this part in R with computational labs that walk you through a data analysis case study.
+通过引导你完成数据分析案例研究的计算实验，进一步应用你在本部分学到的概念。
 
 ::: {.singlelab data-latex=""}
-[Introduction to linear regression - Human Freedom Index](https://www.openintro.org/go?id=ims-r-lab-model)
+[线性回归简介：人类自由指数](https://www.openintro.org/go?id=ims-r-lab-model)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://www.openintro.org/go?id=ims-r-lab-model>
@@ -682,11 +674,9 @@ Further apply the concepts you've learned in this part in R with computational l
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of labs supporting this book at <https://www.openintro.org/go?id=ims-r-labs>.
+你也可以在 <https://www.openintro.org/go?id=ims-r-labs> 访问支持本书的完整实验列表。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of labs supporting this book [here](https://www.openintro.org/go?id=ims-r-labs).
+你也可以[在此处](https://www.openintro.org/go?id=ims-r-labs)访问支持本书的完整实验列表。
 :::
-
-

@@ -1,41 +1,33 @@
-# Inference for comparing paired means {#sec-inference-paired-means}
+# 配对均值比较的推断 {#sec-inference-paired-means}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-In [Chapter -@sec-inference-two-means] analysis was done to compare the average population value across two different groups.
-Recall that one of the important conditions in doing a two-sample analysis is that the two groups are independent.
-Here, independence across groups means that knowledge of the observations in one group does not change what we would expect to happen in the other group.
-But what happens if the groups are **dependent**?
-Sometimes dependency is not something that can be addressed through a statistical method.
-However, a particular dependency, **pairing**, can be modeled quite effectively using many of the same tools we have already covered in this text.
+在 [第 -@sec-inference-two-means 章] 中，我们分析了如何比较两个不同组之间的总体均值。回顾一下，进行两样本分析的一个重要条件是两组相互独立。这里，组间独立性意味着，了解一个组中的观测情况，不会改变我们对另一个组可能发生情况的预期。但是，如果组与组之间是**相依的**，那会怎样呢？有时，相依性是无法通过统计方法加以处理的。然而，一种特殊的相依性——**配对**——却可以利用我们本书中已经介绍的许多工具进行非常有效的建模。
 :::
 
-Paired data represent a particular type of experimental structure where the analysis is somewhat akin to a one-sample analysis (see [Chapter -@sec-inference-one-mean]) but has other features that resemble a two-sample analysis (see [Chapter -@sec-inference-two-means]).
-As with a two-sample analysis, quantitative measurements are made on each of two different levels of the explanatory variable.
-However, because the observational unit is **paired** across the two groups, the two measurements are subtracted such that only the difference is retained.
-@tbl-pairedexamples presents some examples of studies where paired designs were implemented.
+配对数据代表一种特殊的实验结构，其分析在某种程度上类似于单样本分析（参见 [第 -@sec-inference-one-mean 章]），但又具有两样本分析（参见 [第 -@sec-inference-two-means 章]）的其他特征。与两样本分析一样，需要在解释变量的两个不同水平上进行定量测量。然而，由于观测单位在两组之间是**配对**的，因此两个测量值会相减，只保留差值。@tbl-pairedexamples 展示了一些实施了配对设计的研究示例。
 
 ```{r}
 #| label: tbl-pairedexamples
 #| tbl-cap: |
-#|   Examples of studies where a paired design is used to measure the
-#|   difference in the measurement over two conditions.
+#|   采用配对设计来测量两个条件下测量值差异的研究示例。
 #| tbl-pos: H
 paired_study_examples <- tribble(
   ~variable, ~col1, ~col2, ~col3,
-  "Car", "Smooth Turn vs Quick Spin", "amount of tire tread after 1,000 miles", "difference in tread",
-  "Textbook", "UCLA vs Amazon", "price of new text", "difference in price",
-  "Individual person", "Pre-course vs Post-course", "exam score", "difference in score"
+  "汽车", "Smooth Turn 与 Quick Spin", "行驶 1,000 英里后的轮胎胎面厚度", "胎面厚度之差",
+  "教材", "UCLA 与亚马逊", "新书价格", "价格之差",
+  "个人", "课程前与课程后", "考试成绩", "成绩之差"
 )
 
 paired_study_examples |>
   kbl(
     linesep = "", booktabs = TRUE,
-    col.names = c("Observational unit", "Comparison groups", "Measurement", "Value of interest")
+    col.names = c("观测单位", "比较组", "测量值", "关注量")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -45,54 +37,48 @@ paired_study_examples |>
   column_spec(1:3, width = "8em")
 ```
 
+
 ::: {.important data-latex=""}
-**Paired data.**
+**配对数据。**
 
 \index{paired data}
 
-Two sets of observations are *paired* if each observation in one set has a special correspondence or connection with exactly one observation in the other dataset.
+如果一组观测中的每个观测与另一个数据集中的恰好一个观测具有特殊的对应或联系，那么这两组观测就是*配对*的。
 :::
 
-It is worth noting that if mathematical modeling is chosen as the analysis tool, paired data inference on the difference in measurements will be identical to the one-sample mathematical techniques described in [Chapter -@sec-inference-one-mean].
-However, recall from [Chapter -@sec-inference-one-mean] that with pure one-sample data, the computational tools for hypothesis testing are not easy to implement and were not presented (although the bootstrap was presented as a computational approach for constructing a one sample confidence interval).
-With paired data, the randomization test fits nicely with the structure of the experiment and is presented here.
+值得注意的是，如果选择数学建模作为分析工具，那么对测量值差异进行的配对数据推断，将与 [第 -@sec-inference-one-mean 章] 中描述的单样本数学技术完全相同。然而，回顾 [第 -@sec-inference-one-mean 章]，对于纯单样本数据，假设检验的计算工具并不容易实现，因此当时没有介绍（尽管曾将自助法作为构建单样本置信区间的一种计算方法加以介绍）。对于配对数据，随机化检验与实验的结构非常契合，因此在此予以介绍。
 
 ```{r}
 #| include: false
 terms_chp_21 <- c("paired data")
 ```
 
-## Randomization test for the mean paired difference
 
-Consider an experiment done to measure whether tire brand Smooth Turn or tire brand Quick Spin has longer tread wear (in cm).
-That is, after 1,000 miles on a car, which brand of tires has more tread, on average?
 
-### Observed data
+## 配对均值差异的随机化检验
 
-The observed data represent 25 tread measurements (in cm) taken on 25 tires of Smooth Turn and 25 tires of Quick Spin.
-The study used a total of 25 cars, so on each car, one tire was of Smooth Turn and one was of Quick Spin.
-The mean tread for the Quick Spin tires was 0.308 cm and the mean tread for the Smooth Turn tires was 0.310 cm.
-@fig-tiredata presents the observed data, calculations on tread remaining (in cm).
+考虑一项旨在测量 Smooth Turn 轮胎品牌与 Quick Spin 轮胎品牌哪个的胎面更耐磨（以厘米计的胎面磨损）的实验。也就是说，在汽车行驶 1000 英里后，哪种品牌的轮胎平均剩余胎面更多？
 
-The Smooth Turn manufacturer looks at the box plots and says:
+### 观测数据
 
-> *Clearly the tread on Smooth Turn tires is higher, on average, than the tread on Quick Spin tires after 1,000 miles of driving.*
+观测数据包含对 25 个 Smooth Turn 轮胎和 25 个 Quick Spin 轮胎分别进行的胎面测量（以厘米计）。该研究总共使用了 25 辆汽车，因此每辆汽车上安装了一个 Smooth Turn 轮胎和一个 Quick Spin 轮胎。Quick Spin 轮胎的胎面均值为 0.308 厘米，Smooth Turn 轮胎的胎面均值为 0.310 厘米。@fig-tiredata 展示了观测数据以及剩余胎面（单位：厘米）的计算结果。
 
-The Quick Spin manufacturer is skeptical and retorts:
+Smooth Turn 制造商看着箱线图说：
 
-> *But with only 25 cars, it seems that the variability in road conditions (sometimes one tire hits a pothole, etc.) could be what leads to the small difference in average tread amount.*
+> *很明显，行驶 1000 英里后，Smooth Turn 轮胎的平均胎面高于 Quick Spin 轮胎。*
+
+Quick Spin 制造商表示怀疑并反驳道：
+
+> *但是只有 25 辆车，似乎路况的变异性（有时一个轮胎碰到坑洞等）可能导致平均胎面厚度的微小差异。*
 
 ```{r}
 #| label: fig-tiredata
 #| fig-cap: |
-#|   Box plots of the tire tread data (in cm) and the brand of tire from which
-#|   the original measurements came.
+#|   轮胎胎面数据（单位：cm）的箱线图，以及原始测量值所属的轮胎品牌。
 #| fig-alt: |
-#|   Box plots of the amount of tire tread for each of the two
-#|   brands of tires with data values superimposed over the box plots.
-#|   Each superimposed dot represents a car that drove with both types
-#|   of tires. A grey line connects each car across the two box plots
-#|   indicating that Smooth Turn has more tire wear than Quick Spin.
+#|   两个品牌轮胎胎面量的箱线图，数据值叠加在箱线图之上。
+#|   每个叠加的点代表一辆同时使用两种轮胎的汽车。一条灰色连线将每辆汽车连接到两个箱线图，
+#|   表明 Smooth Turn 的胎面磨损量比 Quick Spin 更大。
 set.seed(47)
 brandA <- rnorm(25, 0.310, 0.003)
 brandB <- rnorm(25, 0.308, 0.003)
@@ -136,42 +122,43 @@ ggplot(tires, aes(
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
   labs(
-    x = "Tire brand",
+    x = "轮胎品牌",
     y = NULL,
-    title = "Original data"
+    title = "原始数据"
   )
 ```
 
-We'd like to be able to systematically distinguish between what the Smooth Turn manufacturer sees in the plot and what the Quick Spin manufacturer sees in the plot.
-Fortunately for us, we have an excellent way to simulate the natural variability (from road conditions, etc.) that can lead to tires being worn at different rates.
 
-### Variability of the statistic
 
-A randomization test will identify whether the differences seen in the box plot of the original data in @fig-tiredata could have happened just by chance variability.
-As before, we will simulate the variability in the study under the assumption that the null hypothesis is true.
-In this study, the null hypothesis is that average tire tread wear is the same across Smooth Turn and Quick Spin tires.
+我们希望能够系统地区分 Smooth Turn 制造商在图中看到的情况和 Quick Spin 制造商在图中看到的情况。
+对我们来说幸运的是，我们有一个极好的方法来模拟（由路况等引起的）自然变异性，这种变异性可能导致轮胎以不同的速率磨损。
 
--   $H_0: \mu_{diff} = 0,$ the average tread wear is the same for the two tire brands.
--   $H_A: \mu_{diff} \ne 0,$ the average tread wear is different across the two tire brands.
+### 统计量的变异性
 
-When observations are paired, the randomization process randomly assigns the tire brand to each of the observed tread values.
-Note that in the randomization test for the two-sample mean setting (see @sec-rand2mean) the explanatory variable was *also* randomly assigned to the responses.
-The change in the paired setting, however, is that the assignment happens *within* an observational unit (here, a car).
-Remember, if the null hypothesis is true, it will not matter which brand is put on which tire because the overall tread wear will be the same across pairs.
+随机化检验将判断 @fig-tiredata 中原始数据的箱线图所显示的差异是否可能仅由随机变异性引起。
+和之前一样，我们将在原假设为真的假设下模拟研究中的变异性。
+在这项研究中，原假设是 Smooth Turn 和 Quick Spin 轮胎的平均胎面磨损相同。
 
-@fig-tiredata4 and @fig-tiredata5 show that the random assignment of group (tire brand) happens within a single car.
-That is, every single car will still have one tire of each type.
-In the first randomization, it just so happens that the 4th car's tire brands were swapped and the 5th car's tire brands were not swapped.
+-   $H_0: \mu_{diff} = 0,$ 两个轮胎品牌的平均胎面磨损相同。
+-   $H_A: \mu_{diff} \ne 0,$ 两个轮胎品牌的平均胎面磨损不同。
+
+当观测是配对时，随机化过程将轮胎品牌随机分配给每个观测到的胎面值。
+注意，在两样本均值设置的随机化检验中（见 @sec-rand2mean），解释变量*也*是随机分配给响应变量的。
+然而，在配对设置中的变化是，分配发生在观测单位（此处为汽车）*内部*。
+记住，如果原假设为真，那么哪个品牌放在哪个轮胎上将无关紧要，因为各配对内部的胎面磨损总体上是相同的。
+
+@fig-tiredata4 和 @fig-tiredata5 显示，组（轮胎品牌）的随机分配发生在一辆汽车内部。
+也就是说，每辆汽车仍然会各安装一个每种类型的轮胎。
+在第一次随机化中，恰好第4辆汽车的轮胎品牌被交换了，而第5辆汽车的轮胎品牌没有被交换。
 
 ```{r}
 #| label: fig-tiredata4
 #| fig-cap: |
-#|   The 4th car: the tire brand was randomly permuted, and in the randomization
-#|   calculation, the measurements (in cm) ended up in different groups.
+#|   第 4 辆车：轮胎品牌被随机置换，在随机化
+#|   计算中，测量值（单位：cm）最终分到了不同的组。
 #| fig-alt: |
-#|   Line plot connecting the tread for the 4th car in the dataset. The first
-#|   plot is the original data and the second plot is the permuted data where
-#|   the groups happened to get permuted randomly.
+#|   连接数据集中第 4 辆车胎面厚度的折线图。第一幅图是原始数据，
+#|   第二幅图是轮胎品牌被随机置换后的数据。
 #| fig-asp: 0.5
 set.seed(47)
 permdata <- tires |>
@@ -193,10 +180,10 @@ origplot4 <- tires |>
   ) +
   ylim(c(miny, maxy)) +
   labs(
-    x = "Brand of tire",
+    x = "轮胎品牌",
     y = NULL,
     color = NULL, shape = NULL,
-    title = "Original data"
+    title = "原始数据"
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]))
 
@@ -219,7 +206,7 @@ shuffbrand4 <- permdata |>
   annotate(
     "text",
     x = 1.5, y = 0.315,
-    label = "Shuffled assignment\nof tire brand",
+    label = "轮胎品牌的打乱分配\n",
     size = 4
   ) +
   theme(
@@ -231,16 +218,16 @@ shuffbrand4 <- permdata |>
 origplot4 + shuffbrand4
 ```
 
+
 ```{r}
 #| label: fig-tiredata5
 #| fig-cap: |
-#|   The 5th car: the tire brand was randomly permuted to stay the same! In the
-#|   randomization calculation, the measurements (in cm) ended up in the
-#|   original groups.
+#|   第 5 辆车：轮胎品牌被随机置换了，但结果保持不变！在
+#|   随机化计算中，测量值（单位：cm）最终分到了
+#|   原始组。
 #| fig-alt: |
-#|   Line plot connecting the tread for the 5th car in the dataset. The first
-#|   plot is the original data and the second plot is the permuted data where
-#|   the groups happened to stay connected to the original measurements.
+#|   连接数据集中第 5 辆车胎面厚度的折线图。第一幅图是原始数据，
+#|   第二幅图是置换后的数据，其中组恰好与原始测量值保持在同一组。
 #| fig-asp: 0.5
 origplot5 <- tires |>
   filter(car == "car 5") |>
@@ -257,10 +244,10 @@ origplot5 <- tires |>
   ) +
   ylim(c(miny, maxy)) +
   labs(
-    x = "Brand of tire",
+    x = "轮胎品牌",
     y = NULL,
     color = NULL, shape = NULL,
-    title = "Original data"
+    title = "原始数据"
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]))
 
@@ -283,7 +270,7 @@ shuffbrand5 <- permdata |>
   annotate(
     "text",
     x = 1.5, y = 0.315,
-    label = "Shuffled assignment\nof tire brand",
+    label = "轮胎品牌的打乱分配\n",
     size = 4
   ) +
   theme(
@@ -295,23 +282,22 @@ shuffbrand5 <- permdata |>
 origplot5 + shuffbrand5
 ```
 
-We can put the shuffled assignments for all the cars into one plot as seen in @fig-tiredataPerm-2.
+
+
+我们可以将所有车辆打乱后的分配放在一个图中，如 @fig-tiredataPerm-2 所示。
 
 ```{r}
 #| label: fig-tiredataPerm
 #| fig-cap: |
-#|   Tire tread (in cm) by brand, original and shuffled. As evidenced by the
-#|   colors, some of the cars kept their original tire assignments and some
-#|   cars swapped the tire assignments.
+#|   按品牌划分的轮胎胎面厚度（单位：cm，原始与打乱后）。
+#|   如颜色所示，部分车辆保留了原始的轮胎分配，部分车辆交换了轮胎分配。
 #| fig-subcap:
-#|   - Brand of tire is the original brand.
-#|   - Brand of tire is the shuffled brand assignment.
+#|   - 轮胎品牌为原始品牌。
+#|   - 轮胎品牌为打乱后的品牌分配。
 #| fig-alt: |
-#|   Line plot connecting the tread for the all of the cars in the
-#|   dataset. The first plot is the original data and the second plot is
-#|   the permuted data where some of the brands are connect to the
-#|   original tread measurements and some of the brands have been swapped
-#|   across the two tread measurements, within a car.
+#|   折线图连接了数据集中所有车辆的胎面厚度。第一幅图是原始数据，
+#|   第二幅图是置换数据，其中一些品牌连接到原始的胎面测量值，而一些品牌
+#|   在一辆车内部的两个胎面测量值之间进行了交换。
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-width: 5
@@ -330,10 +316,10 @@ origplot <- tires |>
   ) +
   ylim(c(miny, maxy)) +
   labs(
-    x = "Brand of tire",
+    x = "轮胎品牌",
     y = NULL,
     color = NULL, shape = NULL,
-    title = "Original data"
+    title = "原始数据"
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]))
 
@@ -357,7 +343,7 @@ shuffbrand <- permdata |>
     legend.background = element_rect(color = "white")
   ) +
   labs(
-    title = "Shuffled data",
+    title = "打乱后的数据",
     color = NULL, shape = NULL
   )
 
@@ -365,29 +351,26 @@ origplot
 shuffbrand
 ```
 
-The next step in the randomization test is to sort the brands so that the assigned brand value on the x-axis aligns with the assigned group from the randomization.
-@fig-tiredataPermSort-1 shows the same randomized groups, as seen in @fig-tiredataPerm-2 previously.
-However, @fig-tiredataPermSort-2 sorts the randomized groups so that we can measure the variability *across* groups as compared to the variability *within* groups.
+
+
+随机化检验的下一步是对品牌进行排序，使得 x 轴上分配的品牌值与随机化分配的组对齐。
+@fig-tiredataPermSort-1 显示了与之前 @fig-tiredataPerm-2 中相同的随机化组。
+然而，@fig-tiredataPermSort-2 对随机化组进行了排序，这样我们就可以衡量组*间*的变异性，并与组*内*的变异性进行比较。
 
 ```{r}
 #| label: fig-tiredataPermSort
 #| fig-cap: |
-#|   Tire tread (in cm) by brand.
+#|   按品牌划分的轮胎胎面厚度（单位：cm）。
 #| fig-subcap:
-#|   - Randomized brand assignment
-#|   - Randomized brand assignment sorted by brand.
+#|   - 随机化品牌分配
+#|   - 按品牌排序后的随机化品牌分配。
 #| out-width: 100%
 #| fig-alt: |
-#|   Scatterplot of tread on the y axis and tire brand on the
-#|   x axis. The left panel has the observed tread values matched to
-#|   the original tire brand for the x axis location. The
-#|   observations are colored based on the permuted tire brand
-#|   assigned in the randomization. The right panel has the tread
-#|   values matched to the permuted tire brand, so some observations
-#|   have swapped orientation. The observations are also colored by
-#|   the permuted tire brand assigned in the randomization. In the
-#|   right panel, the two tire brands seem equivalent with respect
-#|   to tire wear.
+#|   散点图，y 轴为胎面厚度，x 轴为轮胎品牌。左面板中观测到的胎面值与
+#|   x 轴位置的原始轮胎品牌相匹配。观测的颜色基于随机化中分配的置换轮胎品牌。
+#|   右面板中胎面值与置换后的轮胎品牌匹配，因此一些观测的位置互换了。观测
+#|   同样按随机化中分配的置换轮胎品牌着色。在右面板中，两个轮胎品牌在轮胎
+#|   磨损方面似乎等效。
 #| layout-ncol: 2
 #| fig-width: 5
 #| fig-asp: 0.8
@@ -416,9 +399,9 @@ shuffbrandfull <- permdata |>
     parse = TRUE, show.legend = FALSE
   ) +
   labs(
-    x = "Randomized brand of tire",
+    x = "随机化的轮胎品牌",
     y = NULL,
-    title = "Sorted data"
+    title = "排序后的数据"
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"]))
 
@@ -426,20 +409,17 @@ shuffbrand
 shuffbrandfull
 ```
 
-@fig-tiredatarand1 presents a second randomization of the data.
-Notice that the two observations from the same car are linked with a grey line; some of the tread values have been randomly assigned to the other tire brand, while some are still connected to their original tire brands.
+
+
+@fig-tiredatarand1 展示了数据的第二次随机化结果。
+注意，来自同一辆车的两个观测用一条灰线连接；部分胎面值被随机分配给另一个轮胎品牌，而部分仍与其原始轮胎品牌相连。
 
 ```{r}
 #| label: fig-tiredatarand1
 #| fig-cap: |
-#|   A second randomization where the brand is randomly swapped (or not)
-#|   across the two tread wear measurements (in cm) from the same car.
+#|   在同一辆车的两次胎面磨损测量值（以厘米计）中，轮胎品牌被随机交换（或不交换）的第二次随机化。
 #| fig-alt: |
-#|   Box plots and scatterplot with tire brand on the x-axis and
-#|   tire tread on the y-axis. The points are assigned to the x-axis brand
-#|   given by the permutation, but the plot differs from previous figures
-#|   in that it is a second permutation of the brands. Again, the two
-#|   permuted brands seem equivalent with respect to tire wear.
+#|   箱线图和散点图，x轴为轮胎品牌，y轴为胎面厚度。这些点根据排列结果被分配到x轴的品牌上，但此图与之前的图不同，它是品牌的第二次排列。同样，这两个排列后的品牌在胎面厚度方面似乎没有差别。
 set.seed(47)
 tires1 <- tires |>
   group_by(car) |>
@@ -470,27 +450,22 @@ ggplot(
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
   labs(
-    x = "Brand of tires, randomly assigned (2)",
+    x = "轮胎品牌，随机分配（2）",
     y = NULL
   )
 ```
 
-@fig-tiredatarand2 presents yet another randomization of the data.
-Again, the same observations are linked by a grey line, and some of the tread values have been randomly assigned to the opposite tire brand than they were originally (while some are still connected to their original tire brands).
+
+
+@fig-tiredatarand2 展示了数据的又一次随机化。
+同样，相同的观测由一条灰色线相连，部分胎面厚度值被随机分配到了与原始情况相反的轮胎品牌（而另一些仍属于其原始的轮胎品牌）。
 
 ```{r}
 #| label: fig-tiredatarand2
 #| fig-cap: |
-#|   An additional randomization where the brand is randomly swapped (or not)
-#|   across the two tread wear measurements (in cm) from the same car.
+#|   在同一辆车的两次胎面磨损测量值（以厘米计）中，轮胎品牌被随机交换（或不交换）的又一次随机化。
 #| fig-alt: |
-#|   Box plots and scatterplot with tire brand on the x-axis and
-#|   tire tread on the y-axis. The points are assigned to the x-axis brand
-#|   given by the permutation, but the plot differs from previous figures
-#|   in that it is a second permutation of the brands. The additional
-#|   permutation demonstrates that the box plots
-#|   continue to change for each permutation yet the tire tread is
-#|   equivalent across the permuted groups.
+#|   箱线图和散点图，x轴为轮胎品牌，y轴为胎面厚度。这些点根据排列结果被分配到x轴的品牌上，但此图与之前的图不同，它是品牌的又一次排列。这额外的排列表明，箱线图会随着每次排列而继续变化，但胎面厚度在排列后的各组间是等同的。
 set.seed(4747)
 tires2 <- tires |>
   group_by(car) |>
@@ -522,22 +497,24 @@ ggplot(
   ) +
   scale_color_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
   labs(
-    x = "Brand of tires, randomly assigned (3)",
+    x = "轮胎品牌，随机分配（3）",
     y = NULL
   )
 ```
 
-### Observed statistic vs. null statistics
 
-By repeating the randomization process, we can create a distribution of the average of the differences in tire treads, as seen in @fig-pair-randomize.
-As expected (because the differences were generated under the null hypothesis), the center of the histogram is zero.
-A line has been drawn at the observed difference which is well outside the majority of the null differences simulated from natural variability by mixing up which the tire received Smooth Turn and which received Quick Spin.
-Because the observed statistic is so far away from the natural variability of the randomized differences, we are convinced that there is a difference between Smooth Turn and Quick Spin.
-Our conclusion is that the extra amount of average tire tread in Smooth Turn is due to more than just natural variability: we reject $H_0$ and conclude that $\mu_{ST} \ne \mu_{QS}.$
+
+### 观测统计量与原假设统计量
+
+通过重复随机化过程，我们可以得到胎面厚度差异均值的分布，如 @fig-pair-randomize 所示。
+正如预期（因为这些差异是在原假设下生成的），直方图的中心为零。
+在观测到的差异处画了一条竖线，该差异远远超出了绝大多数由自然变异性模拟出的原假设下的差异——这些差异是通过打乱哪条轮胎安装了 Smooth Turn、哪条安装了 Quick Spin 而生成的。
+由于观测统计量远超随机化差异的自然变异性范围，我们确信 Smooth Turn 和 Quick Spin 之间存在差异。
+我们的结论是，Smooth Turn 平均胎面厚度的额外量不仅仅是由自然变异性造成的：我们拒绝 $H_0$，并得出结论$\mu_{ST} \ne \mu_{QS}.$
 
 ```{r}
 #| label: fig-pairrandfull
-#| fig-cap: process of randomizing across pairs.
+#| fig-cap: 跨配对随机化的过程。
 #| warning: false
 #| out-width: 75%
 #| eval: false
@@ -545,17 +522,13 @@ Our conclusion is that the extra amount of average tire tread in Smooth Turn is 
 include_graphics("images/pairrandfull.png")
 ```
 
+
 ```{r}
 #| label: fig-pair-randomize
 #| fig-cap: |
-#|   Histogram of 1,000 mean differences with tire brand randomly assigned across
-#|   the two tread measurements (in cm) per pair.
+#|   每对中随机分配轮胎品牌到两个胎面测量值（单位：厘米）得到的 1000 个均值差的直方图。
 #| fig-alt: |
-#|   Histogram of the average difference in tire wear, Quick Spin
-#|   minus Smooth Turn over 1000 different permutations. The histogram is
-#|   centered at 0 and spreads to approximately -0.0025 and 0.0025. A
-#|   red line at approximately 0.002 indicates the observed difference in
-#|   average trend from the original data.
+#|   轮胎磨损平均差的直方图（Quick Spin 减去 Smooth Turn），基于 1000 次不同排列。直方图以 0 为中心，大致从 -0.0025 扩展到 0.0025。一条红线在大约 0.002 处表示原始数据中观察到的平均胎面磨损差异。
 set.seed(474756)
 tires_shuffled <- tires |>
   pivot_wider(
@@ -571,9 +544,9 @@ tires_shuffled <- tires |>
 ggplot(tires_shuffled, aes(x = stat)) +
   geom_histogram(binwidth = 0.0002) +
   labs(
-    x = "Mean of randomized differences of tire wear\n(Quick Spin - Smooth Turn)",
-    title = "1,000 means of randomized differences",
-    y = "Count"
+    x = "轮胎磨损随机化差值的均值\n（Quick Spin - Smooth Turn）",
+    title = "1000 个随机化差值的均值",
+    y = "频数"
   ) +
   geom_vline(
     xintercept = mean(brandA) - mean(brandB),
@@ -581,10 +554,12 @@ ggplot(tires_shuffled, aes(x = stat)) +
   )
 ```
 
-## Bootstrap confidence interval for the mean paired difference
 
-For both the bootstrap and the mathematical models applied to paired data, the analysis is virtually identical to the one-sample approach given in [Chapter -@sec-inference-one-mean].
-The key to working with paired data (for bootstrapping and mathematical approaches) is to consider the measurement of interest to be the difference in measured values across the pair of observations.
+
+## 配对差值均值的自助法置信区间
+
+无论是应用于配对数据的自助法还是数学模型，其分析方法几乎与 [第 -@sec-inference-one-mean 章] 中介绍的单样本方法完全相同。
+处理配对数据的关键（无论是自助法还是数学模型方法）在于，将感兴趣的测量值视为每一对观测之间测量值之差。
 
 \index{bootstrap!CI paired difference}\index{bootstrap CI paired difference}
 
@@ -593,22 +568,24 @@ The key to working with paired data (for bootstrapping and mathematical approach
 terms_chp_21 <- c(terms_chp_21, "bootstrap CI paired difference")
 ```
 
-### Observed data
 
-In an earlier edition of this textbook, we found that Amazon prices were, on average, lower than those of the UCLA Bookstore for UCLA courses in 2010.
-It's been several years, and many stores have adapted to the online market, so we wondered, how is the UCLA Bookstore doing today?
 
-We sampled 201 UCLA courses.
-Of those, 68 required books could be found on Amazon.
-A portion of the dataset from these courses is shown in @tbl-textbooksDF, where prices are in US dollars.
+### 观测数据
+
+在本教科书的早期版本中，我们发现 2010 年 UCLA 课程的教材在亚马逊上的平均价格低于 UCLA 书店。
+几年过去了，许多书店已经适应了在线市场，所以我们想知道，UCLA 书店现在情况如何？
+
+我们抽取了 201 门 UCLA 课程。
+其中，有 68 本必修教材可以在亚马逊上找到。
+这些课程的部分数据集如 @tbl-textbooksDF 所示，价格以美元计。
 
 ::: {.data data-latex=""}
-The [`ucla_textbooks_f18`](http://openintrostat.github.io/openintro/reference/ucla_textbooks_f18.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+数据集 [`ucla_textbooks_f18`](http://openintrostat.github.io/openintro/reference/ucla_textbooks_f18.html) 可以在 R 包 [**openintro**](http://openintrostat.github.io/openintro) 中找到。
 :::
 
 ```{r}
 #| label: tbl-textbooksDF
-#| tbl-cap: Four cases from the `ucla_textbooks_f18` dataset.
+#| tbl-cap: "`ucla_textbooks_f18` 数据集中的四个观测单位。"
 #| tbl-pos: H
 ucla_textbooks_f18 |>
   select(subject, course_num, bookstore_new, amazon_new) |>
@@ -622,50 +599,44 @@ ucla_textbooks_f18 |>
   )
 ```
 
+
+
 \index{paired data}
 
-Each textbook has two corresponding prices in the dataset: one for the UCLA Bookstore and one for Amazon.
-When two sets of observations have this special correspondence, they are said to be **paired**.
+每本教材在数据集中都有两个对应的价格：一个来自 UCLA 书店，一个来自亚马逊。
+当两组观测之间存在这种特殊的对应关系时，它们被称为**配对**数据。
 
 \clearpage
 
-### Variability of the statistic
+### 统计量的变异性
 
-Following the example of bootstrapping the one-sample statistic, the observed *differences* can be bootstrapped in order to understand the variability of the average difference from sample to sample.
-Remember, the differences act as a single value to bootstrap.
-That is, the original dataset would include the list of 68 price differences, and each resample will also include 68 price differences (some repeated through the bootstrap resampling process).
-The bootstrap procedure for paired differences is quite similar to the procedure applied to the one-sample statistic case in @sec-boot1mean.
+参照对单样本统计量进行自助法的例子，我们可以对观测*差值*进行自助法重抽样，从而理解差值均值在不同样本间的变异性。
+请记住，在自助法中，这些差值被视为单一变量。
+也就是说，原始数据集包含 68 个价格差值的列表，每个重抽样样本也将包含 68 个价格差值（其中部分差值会在自助法重抽样过程中重复出现）。
+配对差值的自助法过程与 @sec-boot1mean 中应用于单样本统计量的过程非常相似。
 
-In @fig-pairboot, two 99% confidence intervals for the difference in the cost of a new book at the UCLA bookstore compared with Amazon have been calculated.
-The bootstrap percentile confidence interval is computed using the 0.5 percentile and 99.5 percentile bootstrapped differences and is found to be (\$0.25, \$7.87).
+在图 @fig-pairboot 中，计算了两个 99% 置信区间，用于比较 UCLA 书店与 Amazon 新书价格的差异。
+自助法百分位置信区间是使用第 0.5 百分位数和第 99.5 百分位数的自助法差值计算得出的，结果为（\$0.25, \$7.87）。
 
 ::: {.guidedpractice data-latex=""}
-Using the histogram of bootstrapped difference in means, estimate the standard error of the mean of the sample differences, $\bar{x}_{diff}.$[^21-inference-paired-means-1]
+利用差值均值的自助法直方图，估计样本差值均值 $\bar{x}_{diff}$ 的标准误。[^21-inference-paired-means-1]
 :::
 
-[^21-inference-paired-means-1]: The bootstrapped differences in sample means vary roughly from 0.7 to 7.5, a range of \$6.80.
-    Although the bootstrap distribution is not symmetric, we use the empirical rule (that with bell-shaped distributions, most observations are within two standard errors of the center), the standard error of the mean differences is approximately \$1.70.
-    You might note that the standard error calculation given in @sec-mathpaired is $SE(\bar{x}_{diff}) = \sqrt{s^2_{diff}/n_{diff}} = \sqrt{13.4^2/68} = \$1.62$ (values from @sec-mathpaired), very close to the bootstrap approximation.
+[^21-inference-paired-means-1]: 自助法差值均值大致在 0.7 到 7.5 之间变动，范围约为 \$6.80。虽然自助法分布并不对称，但我们使用经验法则（即对于钟形分布，大多数观测值落在中心的两个标准误范围内），差值均值的标准误约为 \$1.70。你可能会注意到，@sec-mathpaired 中给出的标准误计算结果为 $SE(\bar{x}_{diff}) = \sqrt{s^2_{diff}/n_{diff}} = \sqrt{13.4^2/68} = \$1.62$，这与自助法近似值非常接近。
 
-The bootstrap SE interval is found by computing the SE of the bootstrapped differences $(SE_{\overline{x}_{diff}} = \$1.64)$ and the normal multiplier of $z^{\star} = 2.58.$ The averaged difference is $\bar{x} = \$3.58.$ The 99% confidence interval is: $\$3.58 \pm 2.58 \times \$ 1.64 = (\$-0.65, \$7.81).$
+自助法标准误区间的计算方法是：先求出自助法差值 $(SE_{\overline{x}_{diff}} = \$1.64)$ 的标准误，再乘以正态乘数 $z^{\star} = 2.58$。平均差值为 $\bar{x} = \$3.58$。99% 置信区间为：$\$3.58 \pm 2.58 \times \$1.64 = (\$-0.65, \$7.81)$。
 
-The confidence intervals seem to indicate that the UCLA bookstore price is, on average, higher than the Amazon price, as the majority of the confidence interval is positive.
-However, if the analysis required a strong degree of certainty (e.g., 99% confidence), and the bootstrap SE interval was most appropriate (given a second course in statistics the nuances of the methods can be investigated), the results of which bookseller is higher are not well determined (because the bootstrap SE interval overlaps zero).
-That is, the 99% bootstrap SE interval gives potential for UCLA bookstore to be lower, on average, than Amazon (because of the possible negative values for the true mean difference in price).
+置信区间似乎表明，平均而言 UCLA 书店的价格高于亚马逊的价格，因为置信区间的大部分为正。然而，如果分析要求较高程度的确定性（例如 99% 的置信水平），且自助法标准误区间最为合适（在统计学进阶课程中可以探讨这些方法的细节），那么哪个书商价格更高的结论并不明确（因为自助法标准误区间包含了零）。也就是说，99% 的自助法标准误区间意味着 UCLA 书店的价格平均来说可能低于亚马逊（因为价格真实均值差可能为负值）。
 
 ```{r}
 #| label: fig-pairboot
 #| fig-cap: |
-#|   Bootstrap distribution for the average difference in new book
-#|   price at the UCLA bookstore versus Amazon. 99% confidence intervals
-#|   are superimposed using blue dashed (bootstrap percentile interval) and
-#|   red dotted (bootstrap SE interval) lines.
+#|   UCLA 书店与亚马逊新书价格平均差值的自助法分布。两个 99% 置信
+#|   区间分别使用蓝色虚线（自助法百分位区间）和红色点线（自助法标准误区间）叠加显示。
 #| fig-alt: |
-#|   Histogram showing the distribution of the average
-#|   bootstrapped difference of price, UCLA minus Amazon. The center of
-#|   the distribution is given at approximately $3.75. Two bootstrap
-#|   intervals are given. The percentile interval is approximately $0.25
-#|   to $8.50. The SE interval is approximately -$0.50 to $7.75.
+#|   直方图显示了价格的自助法平均差值（UCLA 减去亚马逊）的分布。分布的
+#|   中心大约在 3.75 美元。
+#|   图中给出了两个区间。百分位区间约为 0.25 美元到 8.50 美元，标准误区间约为 -0.50 美元到 7.75 美元。
 diff_price <- ucla_textbooks_f18 |>
   select(subject, course_num, bookstore_new, amazon_new) |>
   mutate(price_diff = bookstore_new - amazon_new) |>
@@ -701,27 +672,27 @@ boot_diff |>
     fill = NULL, linewidth = 1, linetype = "dotted"
   ) +
   geom_vline(xintercept = diff_price$stat, linewidth = 1) +
-  geom_line(aes(y = replicate, x = stat, color = "a", linetype = "a"), alpha = 0, linewidth = 1) + # bogus code
-  geom_line(aes(y = replicate, x = stat, color = "b", linetype = "b"), alpha = 0, linewidth = 1) + # bogus code
-  geom_line(aes(y = replicate, x = stat, color = "c", linetype = "c"), alpha = 0) + # bogus code
+  geom_line(aes(y = replicate, x = stat, color = "a", linetype = "a"), alpha = 0, linewidth = 1) + # 伪代码
+  geom_line(aes(y = replicate, x = stat, color = "b", linetype = "b"), alpha = 0, linewidth = 1) + # 伪代码
+  geom_line(aes(y = replicate, x = stat, color = "c", linetype = "c"), alpha = 0) + # 伪代码
   ylim(c(0, 200)) +
   guides(color = guide_legend(override.aes = list(alpha = 1))) +
   scale_color_manual(
     name = NULL,
     values = c("a" = IMSCOL["blue", "full"], "b" = IMSCOL["red", "full"], "c" = IMSCOL["black", "full"]),
-    labels = c("Percentile\ninterval\n", "SE\ninterval\n", "Observed\nstatistic"),
+    labels = c("百分位\n区间\n", "标准误\n区间\n", "观测到的\n统计量"),
     guide = "legend"
   ) +
   scale_linetype_manual(
     name = NULL,
     values = c("a" = "dashed", "b" = "dotted", "c" = "solid"),
-    labels = c("Percentile\ninterval\n", "SE\ninterval\n", "Observed\nstatistic"),
+    labels = c("百分位\n区间\n", "标准误\n区间\n", "观测到的\n统计量"),
     guide = "legend"
   ) +
   labs(
-    x = "Mean of bootstrapped differences of price\n(UCLA - Amazon)",
-    title = "1,000 means of bootstrapped differences",
-    y = "Count"
+    x = "价格自助法平均差值\n(UCLA - Amazon)",
+    title = "1,000 个自助法差值的均值",
+    y = "频数"
   ) +
   theme(
     legend.position = c(0.925, 0.8),
@@ -729,36 +700,37 @@ boot_diff |>
   )
 ```
 
+
+
 \clearpage
 
-## Mathematical model for the mean paired difference {#sec-mathpaired}
+## 配对均值差的数学模型 {#sec-mathpaired}
 
-Thinking about the differences as a single observation on an observational unit changes the paired setting into the one-sample setting.
-The mathematical model for the one-sample case is covered in @sec-one-mean-math.
+将差值视为每个观测单位上的单一观测，就把配对设置转换成了单样本设置。
+单样本情况的数学模型在 @sec-one-mean-math 中有介绍。
 
 \vspace{-2mm}
 
-### Observed data
+### 观测数据
 
 :::: {layout="[0.55, -0.05, 0.4]"}
 :::{#text}
-To analyze paired data, it is often useful to look at the difference in outcomes of each pair of observations.
-In the textbook data, we look at the differences in prices, which is represented as the `price_difference` variable in the dataset.
-Here the differences are taken as
+要分析配对数据，查看每一对观测的结果变量之间的差值通常很有用。
+在教材数据中，我们查看的是价格差，它在数据集中由 `price_difference` 变量表示。
+这里的差值计算方式为
 
-$$\text{UCLA Bookstore price} - \text{Amazon price}$$
+$$\text{UCLA 书店价格} - \text{Amazon 价格}$$
 
-It is important that we always subtract using a consistent order; here Amazon prices are always subtracted from UCLA prices.
-The first difference shown in @tbl-textbooksDF is computed as $47.97 - 47.45 = 0.52.$ Similarly, the second difference is computed as $14.26 - 13.55 = 0.71,$ and the third is $13.50 - 12.53 = 0.97.$ A histogram of the differences is shown in @fig-diffInTextbookPricesF18.
+重要的是，我们始终要按照一致的顺序做减法；在这个例子中，我们总是用 UCLA 价格减去 Amazon 价格。
+@tbl-textbooksDF 中显示的第一个差值计算为 $47.97 - 47.45 = 0.52.$。类似地，第二个差值计算为 $14.26 - 13.55 = 0.71,$，第三个差值计算为 $13.50 - 12.53 = 0.97.$。差值的直方图如 @fig-diffInTextbookPricesF18 所示。
 :::
 :::{#plot}
 ```{r}
 #| label: fig-diffInTextbookPricesF18
-#| fig-cap: Histogram of the differences in prices for each book sampled.
+#| fig-cap: 每本抽样教材的价格差值直方图。
 #| fig-alt: |
-#|   Histogram of the differences in prices for each book samples,
-#|   UCLA minus Amazon. The prices differences range from -$10 to $80 with a
-#|   strong right skew.
+#|   每本抽样教材的价格差值直方图，差值计算方式为 UCLA 价格减去 Amazon 价格。价格差值
+#|   范围在 -10 美元到 80 美元之间，呈明显的右偏分布。
 #| out-width: 100%
 #| fig-width: 4
 ucla_textbooks_f18 <- ucla_textbooks_f18 |>
@@ -769,28 +741,28 @@ ucla_textbooks_f18 <- ucla_textbooks_f18 |>
 ggplot(ucla_textbooks_f18, aes(x = price_diff)) +
   geom_histogram(binwidth = 10) +
   scale_x_continuous(
-    labels = label_dollar(accuracy = 1), 
-    limits = c(-20, 100), 
+    labels = label_dollar(accuracy = 1),
+    limits = c(-20, 100),
     breaks = seq(-20, 100, 20)
   ) +
   labs(
-    x = "UCLA Bookstore Price - Amazon Price (USD)",
-    y = "Count"
+    x = "UCLA 书店价格 - Amazon 价格（美元）",
+    y = "频数"
   )
 ```
 :::
 ::::
 
-### Variability of the statistic
+### 统计量的变异性
 
-To analyze a paired dataset, we simply analyze the differences.
-@tbl-textbooksSummaryStats provides the data summaries from the textbook data.
-Note that instead of reporting the prices separately for UCLA and Amazon, the summary statistics are given by the mean of the differences, the standard deviation of the differences, and the total number of pairs (i.e., differences).
-The parameter of interest is also a single value, $\mu_{diff},$ so we can use the same $t$-distribution techniques we applied in @sec-one-mean-math directly onto the observed differences.
+要分析配对数据集，我们只需分析差值。
+@tbl-textbooksSummaryStats 提供了教材数据的汇总结果。
+请注意，这里并没有分别报告 UCLA 和 Amazon 的价格，而是给出了差值的均值、差值的标准差以及配对（即差值）的总数作为汇总统计量。
+感兴趣的参数同样是一个单一值 $\mu_{diff},$ 因此我们可以直接将 @sec-one-mean-math 中应用过的 $t$ 分布技术用于观测到的差值上。
 
 ```{r}
 #| label: tbl-textbooksSummaryStats
-#| tbl-cap: Summary statistics for the 68 price differences.
+#| tbl-cap: 68 个价格差值的汇总统计量。
 #| tbl-pos: H
 ucla_textbooks_f18 |>
   summarise(
@@ -800,7 +772,7 @@ ucla_textbooks_f18 |>
   ) |>
   kbl(
     linesep = "", booktabs = TRUE,
-    col.names = c("n", "Mean", "SD"),
+    col.names = c("n", "均值", "标准差"),
     align = "ccc", digits = 2
   ) |>
   kable_styling(
@@ -812,46 +784,47 @@ ucla_textbooks_f18 |>
   column_spec(3, width = "8em")
 ```
 
+
 ::: {.workedexample data-latex=""}
-Set up a hypothesis test to determine whether, on average, there is a difference between Amazon's price for a book and the UCLA bookstore's price.
-Also, check the conditions for whether we can move forward with the test using the $t$-distribution.
+建立假设检验，以确定平均而言，亚马逊的图书价格与 UCLA 书店的价格是否存在差异。
+同时，检查是否满足使用 $t$ 分布进行检验的条件。
 
 ------------------------------------------------------------------------
 
-We are considering two scenarios:
+我们考虑两种情况：
 
--   $H_0:$ $\mu_{diff} = 0.$ There is no difference in the average textbook prices.
+-   $H_0:$ $\mu_{diff} = 0.$ 教材的平均价格没有差异。
 
--   $H_A:$ $\mu_{diff} \neq 0.$ There is a difference in average prices.
+-   $H_A:$ $\mu_{diff} \neq 0.$ 平均价格存在差异。
 
-Next, we check the independence and normality conditions.
-This is a simple random sample, so assuming the textbooks are independent seems reasonable.
-While there are some outliers, $n = 68$ and none of the outliers are particularly extreme, so the normality of $\bar{x}$ is satisfied.
-With these conditions satisfied, we can move forward with the $t$-distribution.
+接下来，我们检查独立性和正态性条件。
+这是一个简单随机样本，因此假设各教材独立似乎是合理的。
+虽然存在一些离群值，但 $n = 68$ 且没有离群值特别极端，因此 $\bar{x}$ 的正态性条件得到满足。
+既然这些条件得到满足，我们就可以继续使用 $t$ 分布。
 :::
 
 \clearpage
 
-### Observed statistic vs. null statistics
+### 观测统计量与原假设统计量的对比
 
-As mentioned previously, the methods applied to a difference will be identical to the one-sample techniques.
-Therefore, the full hypothesis test framework is presented as guided practices.
+如前所述，应用于差值的方法将与单样本技术完全相同。
+因此，完整的假设检验框架将以引导练习的形式呈现。
 
 ::: {.important data-latex=""}
-**The test statistic for assessing a paired mean is a T.**
+**用于评估配对均值的检验统计量是 t 统计量。**
 
 \index{T score!paired difference}\index{paired difference!T score}
 
-The T score is a ratio of how the sample mean difference varies from zero as compared to how the observations vary.
+t 统计量是一个比值，反映了样本均值差偏离零的程度与观测值的变异程度的对比。
 
 $$T = \frac{\bar{x}_{diff} - 0 }{s_{diff}/\sqrt{n_{diff}}}$$
 
-When the null hypothesis is true and the conditions are met, T has a t-distribution with $df = n_{diff} - 1.$
+当原假设为真且条件满足时，t 统计量服从自由度为 $df = n_{diff} - 1$ 的 t 分布。
 
-Conditions:
+条件：
 
--   Independently sampled pairs.
--   Large samples and no extreme outliers.
+-   配对是独立抽样的。
+-   大样本且无极端离群值。
 :::
 
 ```{r}
@@ -860,20 +833,20 @@ terms_chp_21 <- c(terms_chp_21, "T score paired difference")
 ```
 
 ::: {.workedexample data-latex=""}
-Complete the hypothesis test started in the previous Example.
+完成前一个示例中开始的假设检验。
 
 ------------------------------------------------------------------------
 
-To compute the test compute the standard error associated with $\bar{x}_{diff}$ using the standard deviation of the differences $(s_{diff} = 13.42)$ and the number of differences $(n_{diff} = 68):$
+为了进行检验计算，首先利用差值的标准差 $(s_{diff} = 13.42)$ 和差值的个数 $(n_{diff} = 68)$ 计算 $\bar{x}_{diff}$ 的标准误：
 
 $$SE_{\bar{x}_{diff}} = \frac{s_{diff}}{\sqrt{n_{diff}}} = \frac{13.42}{\sqrt{68}} = 1.63$$
 
-The test statistic is the T score of $\bar{x}_{diff}$ under the null hypothesis that the true mean difference is 0:
+检验统计量是 $\bar{x}_{diff}$ 在真实均值差为 0 的原假设下的 t 统计量：
 
 $$T = \frac{\bar{x}_{diff} - 0}{SE_{\bar{x}_{diff}}} = \frac{3.58 - 0}{1.63} = 2.20$$
 
-To visualize the p-value, the sampling distribution of $\bar{x}_{diff}$ is drawn as though $H_0$ is true, and the p-value is represented by the two shaded tails in the figure below.
-The degrees of freedom is $df = 68 - 1 = 67.$ Using statistical software, we find the one-tail area of 0.0156.
+为了可视化 p 值，我们在 $H_0$ 为真的假设下绘制 $\bar{x}_{diff}$ 的抽样分布，p 值由下图中的两个阴影尾部表示。
+自由度为 $df = 68 - 1 = 67$。使用统计软件，我们求得单侧面积为 0.0156。
 
 ```{r}
 #| label: textbooksF18HTTails
@@ -900,95 +873,98 @@ labels <- expression(0, mu[0] * " = 0", bar(x)[diff] * " = 2.98", 0)
 axis(1, at, labels, cex.axis = 0.9)
 ```
 
-Doubling this area gives the p-value: 0.0312.
-Because the p-value is less than 0.05, we reject the null hypothesis.
-The data provide evidence that Amazon prices are different, on average, 
-than the UCLA Bookstore prices for UCLA courses.
+将此面积翻倍即得到 p 值：0.0312。
+因为 p 值小于 0.05，所以我们拒绝原假设。
+数据提供了证据表明，就 UCLA 课程用书而言，亚马逊的平均价格与 UCLA 书店不同。
 :::
 
 \clearpage
 
-Recall that the margin of error is defined by the standard error.
-The margin of error for $\bar{x}_{diff}$ can be directly obtained from $SE(\bar{x}_{diff}).$
+回顾一下，误差界是由标准误定义的。
+$\bar{x}_{diff}$ 的误差界可以直接从 $SE(\bar{x}_{diff}).$ 得到
 
 ::: {.important data-latex=""}
-**Margin of error for** $\bar{x}_{diff}.$
+$\bar{x}_{diff}$ **的误差界。**
 
-The margin of error is $t^\star_{df} \times s_{diff}/\sqrt{n_{diff}}$ where $t^\star_{df}$ is calculated from a specified percentile on the t-distribution with *df* degrees of freedom.
+误差界为 $t^\star_{df} \times s_{diff}/\sqrt{n_{diff}}$，其中 $t^\star_{df}$ 是根据具有 *df* 自由度的 t 分布上的指定百分位数计算得出的。
 :::
 
 \index{t-CI!paired difference}
 
 ::: {.workedexample data-latex=""}
-Create a 95% confidence interval for the average price difference between books at the UCLA bookstore and books on Amazon.
+构建 UCLA 书店与 Amazon 书籍平均价格差异的 95% 置信区间。
 
 ------------------------------------------------------------------------
 
-Conditions have already been verified and the standard error computed in a previous Example.\
-To find the confidence interval, identify $t^{\star}_{67}$ using statistical software or the $t$-table $(t^{\star}_{67} = 2.00),$ and plug it, the point estimate, and the standard error into the confidence interval formula:
+条件已在前一个示例中验证，标准误也已算出。\
+为了求得置信区间，需使用统计软件或 $t$ 分布表找出 $t^{\star}_{67}$ $(t^{\star}_{67} = 2.00),$，并将其与点估计和标准误一起代入置信区间公式：
 
 $$
 \begin{aligned}
-\text{point estimate} \ &\pm \ t^{\star}_{67} \ \times \ SE \\
+\text{点估计} \ &\pm \ t^{\star}_{67} \ \times \ SE \\
 3.58 \ &\pm \ 2.00 \ \times \ 1.63 \\
 (0.32 \ &, \ 6.84)
 \end{aligned}
 $$
 
-We are 95% confident that the UCLA Bookstore is, on average, between \$0.32 and \$6.84 more expensive than Amazon for UCLA course books.
+我们有 95% 的信心认为，就 UCLA 课程用书而言，UCLA 书店平均比 Amazon 贵 \$0.32 到 \$6.84。
 :::
 
 ::: {.guidedpractice data-latex=""}
-We have convincing evidence that Amazon is, on average, less expensive.
-How should this conclusion affect UCLA student buying habits?
-Should UCLA students always buy their books on Amazon?[^21-inference-paired-means-2]
+我们有令人信服的证据表明，亚马逊的价格平均来说更低。
+这一结论应如何影响 UCLA 学生的购书习惯？
+UCLA 学生应该总是在亚马逊上买书吗？[^21-inference-paired-means-2]
 :::
 
-[^21-inference-paired-means-2]: The average price difference is only mildly useful for this question.
-    Examine the distribution shown in @fig-diffInTextbookPricesF18.
-    There are certainly a handful of cases where Amazon prices are far below the UCLA Bookstore's, which suggests it is worth checking Amazon (and probably other online sites) before purchasing.
-    However, in many cases the Amazon price is above what the UCLA Bookstore charges, and most of the time the price isn't that different.
-    Ultimately, if getting a book immediately from the bookstore is notably more convenient, e.g., to get started on reading or homework, it's likely a good idea to go with the UCLA Bookstore unless the price difference on a specific book happens to be quite large.
-    For reference, this is a very different result from what we (the authors) had seen in a similar dataset from 2010.
-    At that time, Amazon prices were almost uniformly lower than those of the UCLA Bookstore's and by a large margin, making the case to use Amazon over the UCLA Bookstore quite compelling at that time.
-    Now we frequently check multiple websites to find the best price.
+[^21-inference-paired-means-2]: 平均价格差异对这个问题的参考作用有限。
+    请查看 @fig-diffInTextbookPricesF18 中展示的分布。
+    确实存在少数观测单位，其亚马逊价格远低于 UCLA 书店，这表明在购买前查看亚马逊（可能还有其他在线网站）是值得的。
+    然而，在许多观测单位中，亚马逊的价格高于 UCLA 书店的要价，而且大多数时候价格差异并不大。
+    最终，如果从书店立即购书明显更方便（例如，为了尽早开始阅读或完成作业），那么选择 UCLA 书店可能是个好主意，除非某本特定书籍的价格差异确实相当大。
+    作为参考，这个结果与我们（作者）在 2010 年的一个类似数据集中看到的结果非常不同。
+    那时，亚马逊的价格几乎普遍低于 UCLA 书店，而且差价很大，这使得在当时选择亚马逊而非 UCLA 书店的理由非常充分。
+    现在我们经常查看多个网站以寻找最优惠的价格。
 
-A small note on the power of the paired t-test (recall the discussion of power in @sec-pow). It turns out that the paired t-test given here is often more powerful than the independent t-test discussed in @sec-math2samp. That said, depending on how the data are collected, we don't always have mechanism for pairing the data and reducing the inherent variability across observations.
+关于配对 t 检验的检验功效，这里做一点补充说明（回顾 @sec-pow 中对检验功效的讨论）。事实证明，这里给出的配对 t 检验通常比 @sec-math2samp 中讨论的独立样本 t 检验具有更高的检验功效。尽管如此，根据数据收集方式的不同，我们并不总是有机制来对数据进行配对，从而降低各观测值间的固有变异性。
 
 ```{r}
 #| include: false
 terms_chp_21 <- c(terms_chp_21, "paired difference t-test", "paired difference CI")
 ```
 
+
+
 \clearpage
 
-## Chapter review {#sec-chp21-review}
+## 章节回顾 {#sec-chp21-review}
 
-### Summary
+### 总结
 
-Like the two independent sample procedures in [Chapter -@sec-inference-two-means], the paired difference analysis can be done using a t-distribution.
-The randomization test applied to the paired differences is slightly different, however.
-Note that when randomizing under the paired setting, each null statistic is created by randomly assigning the group to a numerical outcome **within** the individual observational unit.
-The procedure for creating a confidence interval for the paired difference is almost identical to the confidence intervals created in [Chapter -@sec-inference-one-mean] for a single mean.
+与 [第 -@sec-inference-two-means 章] 中的两个独立样本推断方法类似，配对差值分析也可以使用 t 分布来完成。
+然而，应用于配对差值的随机化检验略有不同。
+请注意，在配对设置下进行随机化时，每个原假设统计量是通过在**单个观测单位内**将组别随机分配给数值型结果变量来创建的。
+为配对差值创建置信区间的步骤与 [第 -@sec-inference-one-mean 章] 中为单个均值创建置信区间的步骤几乎相同。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-21.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列于 @tbl-terms-chp-21 中。
+如果你不确定某些术语的含义，我们建议你回到正文中复习它们的定义。
+你应该能很容易地将它们作为**粗体文本**辨认出来。
 
 ```{r}
 #| label: tbl-terms-chp-21
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_21)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp21-exercises}
+## 练习 {#sec-chp21-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-21].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-21] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_21-ex-inference-paired-means.qmd >}}

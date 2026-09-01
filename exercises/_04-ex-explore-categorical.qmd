@@ -1,4 +1,4 @@
-1.  **Antibiotic use in children.** The bar plot and the pie chart below show the distribution of pre-existing medical conditions of children involved in a study on the optimal duration of antibiotic use in treatment of tracheitis, which is an upper respiratory infection.[^_04-ex-explore-categorical-1]
+1.  **儿童抗生素使用。** 下方的条形图与饼图展示了一项关于儿童气管炎（一种上呼吸道感染）最佳抗生素疗程的研究中，参与儿童的既往疾病分布。[^_04-ex-explore-categorical-1]
 
     ```{r}
     #| out-width: 95%
@@ -11,7 +11,7 @@
       aes(y = condition, fill = condition)
     ) +
       geom_bar(show.legend = FALSE) +
-      labs(x = NULL, y = "Condition") +
+      labs(x = NULL, y = "既往疾病") +
       scale_fill_openintro() +
       theme_minimal(base_size = 13)
 
@@ -20,7 +20,7 @@
       ggplot(aes(x = "", y = n, fill = condition)) +
       geom_bar(width = 1, stat = "identity", color = "white") +
       coord_polar("y", start = 0) +
-      labs(x = NULL, y = NULL, fill = "Condition") +
+      labs(x = NULL, y = NULL, fill = "既往疾病") +
       scale_fill_openintro(guide = guide_legend(reverse = TRUE)) +
       theme_minimal(base_size = 13)
 
@@ -28,24 +28,32 @@
       theme(legend.position = "bottom")
     ```
 
-    a.  What features are apparent in the bar plot but not in the pie chart?
+    a.  哪些特征在条形图中很明显，但在饼图中不明显？
 
-    b.  What features are apparent in the pie chart but not in the bar plot?
+    b.  哪些特征在饼图中很明显，但在条形图中不明显？
 
-    c.  Which graph would you prefer to use for displaying these categorical data?
+    c.  要展示这些分类数据，你更倾向于使用哪种图形？
 
 \vfill
 
-2.  **Views on immigration.** Nine-hundred and ten (910) randomly sampled registered voters from Tampa, FL were asked if they thought workers who have illegally entered the US should be (i) allowed to keep their jobs and apply for US citizenship, (ii) allowed to keep their jobs as temporary guest workers but not allowed to apply for US citizenship, or (iii) lose their jobs and have to leave the country.
-    The results of the survey by political ideology are shown below.[^_04-ex-explore-categorical-2]
+2.  **对移民的看法。** 从佛罗里达州坦帕市随机抽取了910名登记选民，询问他们认为非法入境美国的工人应该 被允许保留工作并申请美国公民身份， 被允许作为临时客工保留工作但不允许申请美国公民身份，还是 失去工作并必须离开该国。
+    按政治意识形态划分的调查结果如下所示。[^_04-ex-explore-categorical-2]
 
     ```{r}
     immigration |>
       count(political, response) |>
       mutate(political = toTitleCase(as.character(political))) |>
       pivot_wider(names_from = political, values_from = n) |>
-      rename(Response = response) |>
       adorn_totals(where = c("row", "col")) |>
+      mutate(response = recode(response,
+        "Apply for citizenship" = "申请公民身份",
+        "Guest worker" = "成为临时客工",
+        "Leave the country" = "离开美国",
+        "Not sure" = "不确定",
+        "Total" = "合计"
+      )) |>
+      rename("回答" = response, "自由派" = Liberal, "温和派" = Moderate,
+             "保守派" = Conservative, "合计" = Total) |>
       kbl(linesep = "", booktabs = TRUE) |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
@@ -54,28 +62,28 @@
       )
     ```
 
-    a.  What percent of these Tampa, FL voters identify themselves as conservatives?
+    a.  这些坦帕选民中，自认为是保守派的比例是多少？
 
-    b.  What percent of these Tampa, FL voters are in favor of the citizenship option?
+    b.  这些坦帕选民中，支持公民身份选项的比例是多少？
 
-    c.  What percent of these Tampa, FL voters identify themselves as conservatives and are in favor of the citizenship option?
+    c.  这些坦帕选民中，自认为是保守派**并且**支持公民身份选项的比例是多少？
 
-    d.  What percent of these Tampa, FL voters who identify themselves as conservatives are also in favor of the citizenship option?
-        What percent of moderates share this view?
-        What percent of liberals share this view?
+    d.  这些坦帕选民中，**自认为是保守派的人里**，支持公民身份选项的比例是多少？
+        **温和派中**持此观点的人比例是多少？
+        **自由派中**持此观点的人比例是多少？
 
-    e.  Do political ideology and views on immigration appear to be associated?
-        Explain your reasoning.
+    e.  政治意识形态与对移民的看法是否显得有关联？
+        解释你的推理。
 
-    f.  Conjecture other variables that might explain the potential relationship between these two variables.
+    f.  猜想其他可能解释这两个变量之间潜在关联的变量。
 
 \vfill
 
 \clearpage
 
-3.  **Black Lives Matter.** A Washington Post-Schar School poll conducted in the United States in June 2020, among a random national sample of 1,006 adults, asked respondents whether they support or oppose protests following George Floyd's killing that have taken place in cities across the US.
-    The survey also collected information on the age of the respondents.
-    [@survey:blmWaPoScar:2020] The results are summarized in the stacked bar plot below.
+3.  **“黑人的命也是命”。** 2020年6月在美国进行的一项《华盛顿邮报》-沙尔学校民意调查，通过随机抽取全国1006名成年人样本，询问受访者是支持还是反对乔治·弗洛伊德被杀后在美国各城市发生的抗议活动。
+    该调查还收集了受访者的年龄信息。
+    [@survey:blmWaPoScar:2020] 结果汇总在下方的堆叠条形图中。
 
     ```{r}
     #| fig-asp: 0.4
@@ -116,15 +124,14 @@
       theme(legend.position = "bottom")
     ```
 
-    a.  Based on the stacked bar plot, do views on the protests and age appear to be associated?
-        Explain your reasoning.
+    a.  根据堆叠条形图，对抗议活动的看法与年龄是否显得有关联？解释你的推理。
 
-    b.  Conjecture other possible variables that might explain the potential association between these two variables.
+    b.  推测其他可能解释这两个变量之间潜在关联的变量。
 
 \vfill
 
-4.  **Raise taxes.** A random sample of registered voters nationally were asked whether they think it's better to raise taxes on the rich or raise taxes on the poor.
-    The survey also collected information on the political party affiliation of the respondents.
+4.  **增税。** 一项全国性的登记选民随机样本被询问，他们认为应该对富人增税还是对穷人增税。
+    调查还收集了受访者的政党归属信息。
     [@survey:raiseTaxes:2015]
 
     ```{r}
@@ -149,6 +156,18 @@
         "Raise taxes on the poor",
         "Not sure"
       )) |>
+      mutate(
+        Opinion = recode(Opinion,
+          "Raise taxes on the rich" = "对富人增税",
+          "Raise taxes on the poor" = "对穷人增税",
+          "Not sure" = "不确定"
+        ),
+        Party = recode(Party,
+          "Democrat" = "民主党",
+          "Republican" = "共和党",
+          "Independent/Other" = "独立人士／其他"
+        )
+      ) |>
       ggplot(aes(y = Party, x = Proportion, fill = Opinion)) +
       geom_col() +
       scale_fill_manual(
@@ -161,20 +180,15 @@
       theme_minimal(base_size = 13)
     ```
 
-    a.  Based on the stacked bar plot shown above, do views on raising taxes and political affiliation appear to be associated?
-        Explain your reasoning.
+    a.  基于上面显示的堆叠条形图，对增税的看法与政党归属是否显得有关联？解释你的推理。
 
-    b.  Conjecture other possible variables that might explain the potential association between these two variables.
+    b.  推测其他可能解释这两个变量之间潜在关联的变量。
 
 \vfill
 
 \clearpage
 
-5.  **Heart transplant data display.** The Stanford University Heart Transplant Study was conducted to determine whether an experimental heart transplant program increased lifespan.
-    Each patient entering the program was officially designated a heart transplant candidate, meaning that they were gravely ill and might benefit from a new heart.
-    Patients were randomly assigned into treatment and control groups.
-    Patients in the treatment group received a transplant, and those in the control group did not.
-    The visualizations below display two different versions of the study results.[^_04-ex-explore-categorical-3]
+5.  **心脏移植数据显示。** 斯坦福大学心脏移植研究的目的是确定一项实验性心脏移植计划是否能延长寿命。每位进入该计划的患者都被正式指定为心脏移植候选人，这意味着他们病情危重，可能会从新心脏中受益。患者被随机分配到处理组和对照组。处理组的患者接受了移植，而对照组的患者没有。下面的可视化展示了两个不同版本的研究结果。[^_04-ex-explore-categorical-3]
     [@Turnbull+Brown+Hu:1974]
 
     ```{r}
@@ -187,7 +201,7 @@
       ) |>
       ggplot(aes(y = transplant, fill = survived)) +
       geom_bar() +
-      labs(x = "Count", y = "Group", fill = "Outcome") +
+      labs(x = "计数", y = "组别", fill = "结果") +
       scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
       theme_minimal(base_size = 13)
 
@@ -198,7 +212,7 @@
       ) |>
       ggplot(aes(y = transplant, fill = survived)) +
       geom_bar(position = "fill") +
-      labs(x = "Proportion", y = NULL, fill = "Outcome") +
+      labs(x = "比例", y = NULL, fill = "结果") +
       scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
       theme_minimal(base_size = 13)
 
@@ -206,17 +220,16 @@
       theme(legend.position = "right")
     ```
 
-    a.  Provide one aspect of the two group comparison that is easier to see from the stacked bar plot (left)?
+    a.  提供一个方面，说明从堆叠条形图（左图）更容易看到两组比较的哪一点？
 
-    b.  Provide one aspect of the two group comparison that is easeir to see from the standardized bar plot (right)?
+    b.  提供一个方面，说明从标准化条形图（右图）更容易看到两组比较的哪一点？
 
-    c.  For the Heart Transplant Study which of those aspects would be more important to display?
-        That is, which bar plot would be better as a data visualization?
+    c.  对于心脏移植研究，这些方面中哪一个对展示更为重要？也就是说，哪个条形图作为数据可视化效果更好？
 
 \vfill
 
-6.  **Shipping holiday gifts data display.** A local news survey asked 500 randomly sampled Los Angeles residents which shipping carrier they prefer to use for shipping holiday gifts.
-    The bar plots below show the distribution of responses by age group as well as distribution of responses by shipping method.
+6.  **节日礼物配送数据展示。** 一项本地新闻调查访问了 500 名随机抽样的洛杉矶居民，询问他们偏好使用哪家承运商来配送节日礼物。
+    下面的条形图分别按年龄组以及按配送方式展示了回答的分布。
 
     ```{r}
     #| out-width: 95%
@@ -231,10 +244,11 @@
     ) |>
       pivot_longer(cols = 2:4, names_to = "age", values_to = "count") |>
       mutate(shipping_method = fct_relevel(shipping_method, "Not sure", "Something else", "FedEx", "UPS", "USPS")) |>
+      mutate(shipping_method = recode(shipping_method, "Not sure" = "不确定", "Something else" = "其他")) |>
       mutate(age = fct_relevel(age, "55plus", "35_54", "18_34")) |>
       ggplot(aes(y = shipping_method, x = count, fill = age)) +
       geom_bar(stat = "identity", position = "fill") +
-      labs(x = "Proportion", y = "Group", fill = "Age") +
+      labs(x = "比例", y = "组别", fill = "年龄组") +
       scale_fill_manual(
         values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"], IMSCOL["pink", "full"]),
         guide = guide_legend(reverse = TRUE)
@@ -250,35 +264,36 @@
     ) |>
       pivot_longer(cols = 2:4, names_to = "age", values_to = "count") |>
       mutate(shipping_method = fct_relevel(shipping_method, "Not sure", "Something else", "FedEx", "UPS", "USPS")) |>
+      mutate(shipping_method = recode(shipping_method, "Not sure" = "不确定", "Something else" = "其他")) |>
       mutate(age = fct_relevel(age, "55plus", "35_54", "18_34")) |>
       ggplot(aes(fill = shipping_method, x = count, y = age)) +
       geom_bar(stat = "identity", position = "fill") +
-      labs(x = "Proportion", y = "Group", fill = "Shipping method") +
+      labs(x = "比例", y = "组别", fill = "配送方式") +
       scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"], IMSCOL["pink", "full"], IMSCOL["yellow", "full"], IMSCOL["green", "full"]), guide = guide_legend(reverse = TRUE))
 
-    p1 / p2 
+    p1 / p2
     ```
 
-    a.  Which graph (top or bottom) would you use to understand the shipping choices of people of different ages?
-        Explain.
+    a.  为了理解不同年龄人群的配送选择，你会使用上图还是下图？
+        请解释。
 
-    b.  Which graph (top or bottom) would you use to understand the age distribution across different types of shipping choices?
-        Explain.
+    b.  为了理解不同类型配送选择下的年龄分布，你会使用上图还是下图？
+        请解释。
 
-    c.  A new shipping company would like to market to people over the age of 55.
-        Who will be their biggest competitor?
-        Explain.
+    c.  一家新的快递公司希望向 55 岁以上的人群营销。
+        他们最大的竞争对手会是谁？
+        请解释。
 
-    d.  FedEx would like to reach out to grow their market share so as to balance the age demographics of FedEx users.
-        To what age group should FedEx market?
+    d.  FedEx 希望进行营销以增加其市场份额，从而平衡 FedEx 用户的年龄构成。
+        FedEx 应该向哪个年龄组进行营销？
 
 \vfill
 
 \clearpage
 
-7.  **Meat consumption and life expectancy.** In data collected for @You:2022, total meat intake is associated with life expectancy (at birth) in 175 countries.
-    Meat intake is measured in kg per capita per year (averaged over 2011 to 2013).
-    The two ridge plots show an association between income and meat consumption (higher income countries tend to eat more meat) and an association between income and life expectancy (higher income countries have higher life expectancy).
+7.  **肉类消费与预期寿命。** 在为 @You:2022 收集的数据中，175 个国家的总肉类摄入量与（出生时）预期寿命有关联。
+    肉类摄入量以人均每年公斤数（2011 年至 2013 年的平均值）衡量。
+    两个山脊图展示了收入与肉类消费之间的关联（更高收入国家倾向于消费更多肉类），以及收入与预期寿命之间的关联（更高收入国家的预期寿命更高）。
 
     ```{r}
     #| out-width: 95%
@@ -302,7 +317,7 @@
       geom_density_ridges(alpha = 0.8) +
       scale_fill_openintro() +
       scale_color_openintro() +
-      labs(y = "", x = "", subtitle = "Meat consumption (kg per capita)") +
+      labs(y = "", x = "", subtitle = "肉类消费量（人均公斤）") +
       theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
       guides(fill = "none", linetype = "none", color = "none")
 
@@ -323,45 +338,41 @@
       geom_density_ridges(alpha = 0.8) +
       scale_fill_openintro() +
       scale_color_openintro() +
-      labs(y = "", x = "", subtitle = "Life expectancy (years)") +
+      labs(y = "", x = "", subtitle = "预期寿命（年）") +
       theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1)) +
       guides(fill = "none", linetype = "none", color = "none")
 
     p_meat / p_life
     ```
 
-    a.  Do the graphs above demonstrate that meat consumption and life expectancy are associated?
-        That is, can you tell if countries with low meat consumption have low life expectancy?
-        Explain.
+    a.  上方的图形是否说明了肉类消费与预期寿命有关联？
+        也就是说，你能否看出肉类消费低的国家预期寿命也低？请解释。
 
-    b.  Let's assume that you had a plot comparing meat consumption and life expectancy, and they *do* seem associated.
-        Your friend says that the plot shows that high meat consumption leads to a longer life.
-        You correctly say, no, we can't tell if there is a causal realtionship because the relationship is confounded by income level.
-        Explain what you mean.
+    b.  假设你有一个比较肉类消费和预期寿命的图形，它们*确实*看起来有关联。你的朋友说，该图形表明高肉类消费能带来更长的寿命。你正确地反驳道，不，我们无法判断是否存在因果关系，因为收入水平混杂了这种关系。请解释你这句话的意思。
 
-    c.  How can you investigate the relationship between meat consumption and life expectancy in the presence of confounding variables (like income)?
+    c.  在存在混杂变量（如收入）的情况下，你如何研究肉类消费与预期寿命之间的关系？
 
 \vfill
 
-8.  **Florence Nightingale.** Florence Nightingale was a nurse in the Crimean War and an early statistician.
-    In her notes, she opined, "In comparing the deaths of one hospital with those of another, any statistics are justly considered absolutely valueless which do not give the ages, the sexes, and the diseases of all the cases." [@nightingale:1859]
+8.  **弗洛伦斯·南丁格尔。** 弗洛伦斯·南丁格尔是克里米亚战争中的一名护士，也是一位早期的统计学家。
+    在她的笔记中，她写道：“在比较一家医院与另一家医院的死亡率时，任何不能提供所有观测单位的年龄、性别和疾病信息的统计量，都理所当然地被视为毫无价值。” [@nightingale:1859]
 
-    a.  Nightingale describes three confounding variables to consider when comparing death rates across hospitals.
-        What are they?
-        Describe what makes each variable potentially confounding.
+    a.  南丁格尔描述了比较不同医院死亡率时需要考虑的三个混杂变量。
+        它们是什么？
+        请描述每个变量为何可能成为混杂变量。
 
-    b.  Provide two additional potential confounding variables for this situation.
-        Check to make sure that the variables are associated with both the explanatory variable (hospital) and the response variable (death).
+    b.  针对这一情况，再提供两个潜在的混杂变量。
+        请确认这些变量确实既与解释变量（医院）有关联，也与响应变量（死亡）有关联。
 
-    c.  Why does Nightingale say that the statistics are "valueless" if given without being broken down by age, sex, and disease?
-        Explain.
+    c.  为什么南丁格尔说，如果不按年龄、性别和疾病细分，统计量就“毫无价值”？
+        请解释。
 
 \vfill
 
 \clearpage
 
-9.  **On-time arrivals.** Consider all of the flights out of New York City in 2013 that flew into Puerto Rico (BQN), Los Angeles (LAX), or San Francisco (SFO) on the following two airlines: JetBlue (B6) or United Airlines (UA).
-    Below are the tabulated counts for the number of flights `delayed` and `on time` for each airline into each city.[^_04-ex-explore-categorical-4]
+9.  **准点抵达。** 考虑 2013 年所有从纽约市起飞、飞往波多黎各（BQN）、洛杉矶（LAX）或旧金山（SFO），且由以下两家航空公司执飞的航班：JetBlue (B6) 或 United Airlines (UA)。
+    下表汇总了每家航空公司飞往每个城市的 `delayed`（延误）和 `on time`（准点）航班数量。[^_04-ex-explore-categorical-4]
 
     ```{r}
     flights |>
@@ -379,41 +390,37 @@
       )
     ```
 
-    a.  What percent of all JetBlue flights were delayed?
-        What percent of all United Airlines flights were delayed?
-        (Note, the overall delay proportions are typically what would be reported and associated with an airline.)
+    a.  JetBlue 所有航班的延误百分比是多少？
+        United Airlines 所有航班的延误百分比是多少？
+        （注意，整体延误比例通常是会被报告且与航空公司有关联的数据。）
 
-    b.  For each of the three airports, find the percent of delayed flights for each of JetBlue and United (you should have 6 numbers).
+    b.  针对这三个机场中的每一个，分别找出 JetBlue 和 United 的延误航班百分比（你应该得到 6 个数字）。
 
-    c.  United has a higher proportion of delayed flights for each of the three cities, yet JetBlue has a higher proportion of delayed flights overall.
-        Explain, using the data counts provided, how the seeming paradox could happen.[^_04-ex-explore-categorical-5]
+    c.  United 在这三个城市中每一个的延误航班比例都更高，然而 JetBlue 的整体延误航班比例却更高。
+        请利用所提供的数据计数，解释这一看似矛盾的现象是如何发生的。[^_04-ex-explore-categorical-5]
 
-10. **US House of Representatives.** The US House of Representatives is dominated by two political parties: Democrats and Republicans.
-    Democrats are thought to be the more liberal party and Republicans are considered to be the more conservative party.
-    However, within each party there is an internal spectrum of liberal to conservative.
-    For example, conservative Democrats and liberal Republicans would be labeled moderate.
-    Consider an election where the only change in membership is that the most conservative Democrats are replaced by a set of liberal Republicans who are more liberal than the incumbent Republicans but more conservative than the Democrats they replaced.
+10. **美国众议院。** 美国众议院主要由两个政党主导：民主党和共和党。
+    民主党通常被认为是更自由派的政党，而共和党则被认为是更保守派的政党。
+    然而，在每个政党内部，也存在从自由到保守的光谱。
+    例如，保守的民主党人和自由的共和党人可能被归为温和派。
+    考虑一场选举，其唯一的人员变动是：最保守的民主党人被一组自由派的共和党人所取代，这些共和党人比现任的共和党人更自由，但比他们取代的民主党人更保守。
 
-    a.  After the election, is the Democratic wing of the House more conservative or more liberal?
-        Explain.
+a.  选举后，众议院的民主党阵营是更保守还是更自由？请解释。
 
-    b.  After the election, is the Republican wing of the House more conservative or more liberal?
-        Explain.
+    b.  选举后，众议院的共和党阵营是更保守还是更自由？请解释。
 
-    c.  After the election, is the overall House membership more conservative or more liberal?
-        Explain.
+    c.  选举后，众议院全体议员是更保守还是更自由？请解释。
 
-    d.  In what settings would you report the outcome of the change in House membership to be more conservative?
-        And in what settings would you report the outcome of the change in House membership to be more liberal?[^_04-ex-explore-categorical-6]
+    d.  在什么情形下，你会报告众议院构成变化的结果为更保守？又在什么情形下，你会报告众议院构成变化的结果为更自由？[^_04-ex-explore-categorical-6]
 
-[^_04-ex-explore-categorical-1]: The [`antibiotics`](http://openintrostat.github.io/openintro/reference/antibiotics.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_04-ex-explore-categorical-1]: 本练习中使用的 [`antibiotics`](http://openintrostat.github.io/openintro/reference/antibiotics.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_04-ex-explore-categorical-2]: The [`immigration`](http://openintrostat.github.io/openintro/reference/immigration.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_04-ex-explore-categorical-2]: 本练习中使用的 [`immigration`](http://openintrostat.github.io/openintro/reference/immigration.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_04-ex-explore-categorical-3]: The [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_04-ex-explore-categorical-3]: 本练习中使用的 [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_04-ex-explore-categorical-4]: The `flights` data used in this exercise can be found in the [**nycflights13**](https://github.com/tidyverse/nycflights13) R package.
+[^_04-ex-explore-categorical-4]: 本练习中使用的 `flights` 数据可以在 [**nycflights13**](https://github.com/tidyverse/nycflights13) R 包中找到。
 
-[^_04-ex-explore-categorical-5]: The conundrum is known as Simpson's Paradox and is explored in @sec-data-applications.
+[^_04-ex-explore-categorical-5]: 这个难题被称为辛普森悖论，在 [第 -@sec-data-applications 章] 中有所探讨。
 
-[^_04-ex-explore-categorical-6]: The conundrum is known as Simpson's Paradox and is explored in @sec-data-applications.
+[^_04-ex-explore-categorical-6]: 这个难题被称为辛普森悖论，在 [第 -@sec-data-applications 章] 中有所探讨。

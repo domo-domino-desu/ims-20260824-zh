@@ -1,23 +1,23 @@
-1. Annika is right. All variables being highly correlated, including the predictor variables being highly correlated with each other, is not desirable as this would result in multicollinearity.
+1. Annika 是对的。所有变量都高度相关，包括预测变量彼此之间高度相关，这是不可取的，因为这将导致多重共线性。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The association between meat consumption and life expectancy is positive, moderate, and curved. (b) While tempting to say that eating meat may lead to a longer life expectancy, we do not have any sense of why the variables are associated.  We are better off thinking that the countries with high meat consumption and high life expectancy are similar in many other ways (e.g., income bracket). (c) Within an income bracket, the relationship between meat consumption and life expectancy is not nearly as strong (as compared to when the data are aggregated into one plot).
+1. \(a\) 肉类消费与预期寿命之间的关联是正向的、中等强度的，且呈曲线关系。(b) 虽然很容易认为吃肉可能导致预期寿命更长，但我们并不清楚这些变量为何会有关联。我们更应该这样认为：肉类消费高且预期寿命高的国家在许多其他方面（例如收入等级）是相似的。(c) 在同一个收入等级内部，肉类消费与预期寿命之间的关联远没有（将数据汇总到一张图中时）那么强。
 \addtocounter{enumi}{1}
 
-1. No, they shouldn't include all variables as `days_since_start` and `days_since_race` are perfectly correlated with each other. They should only include one of them.
+1. 不，他们不应该纳入所有变量，因为 `days_since_start` 和 `days_since_race` 彼此完全相关。他们应该只纳入其中一个。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $\widehat{\texttt{weight}} = 7.270 - 0.593 \times \texttt{habit}_\texttt{smoker}$. (b) The estimated body weight of babies born to smoking mothers is 0.593 pounds lower than those who are born to non-smoking mothers. Smoker: $\widehat{\texttt{weight}} = 7.270 - 0.593 \times 1  = 6.68$ pounds. Non-smoker: $\widehat{\texttt{weight}} = 7.270 - 0.593 \times 0 = 7.270$ pounds.
+1. \(a\) $\widehat{\texttt{weight}} = 7.270 - 0.593 \times \texttt{habit}_\texttt{smoker}$. (b) 据估计，吸烟母亲所生婴儿的体重比不吸烟母亲所生婴儿低 0.593 磅。吸烟者：$\widehat{\texttt{weight}} = 7.270 - 0.593 \times 1  = 6.68$ 磅。非吸烟者：$\widehat{\texttt{weight}} = 7.270 - 0.593 \times 0 = 7.270$ 磅。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Horror movies. (b) Not necessarily, the change in adjusted $R^2$ is quite small.
+1. \(a\) 恐怖电影。 (b) 不一定，调整后的 $R^2$ 变化非常小。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $\widehat{\texttt{weight}} = -3.82 + 0.26 \times \texttt{weeks} + 0.02 \times \texttt{mage} + 0.37 \times \texttt{sex}_\texttt{male} + 0.02 \times \texttt{visits} - 0.43 \times \texttt{habit}_\texttt{smoker}.$ (b) $b_{\texttt{weeks}}$: The model predicts a 0.26 pound increase in the birth weight of the baby for each additional week in length of pregnancy, all else held constant. $b_{\texttt{habit}_\texttt{smoker}}$: The model predicts a 0.43 pound decrease in the birth weight of the babies born to smoker mothers compared to non-smokers, all else held constant. (c) Habit might be correlated with one of the other variables in the model, which introduces multicollinearity and complicates model estimation. (d) -0.17~lbs.
+1. \(a\) $\widehat{\texttt{weight}} = -3.82 + 0.26 \times \texttt{weeks} + 0.02 \times \texttt{mage} + 0.37 \times \texttt{sex}_\texttt{male} + 0.02 \times \texttt{visits} - 0.43 \times \texttt{habit}_\texttt{smoker}.$ (b) $b_{\texttt{weeks}}$：模型预测，在保持其他条件不变的情况下，孕周每增加一周，婴儿出生体重会增加 0.26 磅。$b_{\texttt{habit}_\texttt{smoker}}$：模型预测，在保持其他条件不变的情况下，与不吸烟母亲相比，吸烟母亲所生婴儿的出生体重会减少 0.43 磅。 (c) Habit 可能与模型中的其他某个变量相关，这会引入多重共线性并使模型估计复杂化。 (d) -0.17~磅。
 \addtocounter{enumi}{1}
 
-1. Remove `gained`.
+1. 移除 `gained`。
 \addtocounter{enumi}{1}
 
-1. Add `weeks`.
+1. 添加 `weeks`。
 \addtocounter{enumi}{1}

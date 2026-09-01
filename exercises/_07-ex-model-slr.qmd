@@ -1,5 +1,5 @@
-1.  **Visualizing residuals.** The scatterplots shown below each have a superimposed regression line.
-    If we were to construct a residual plot (residuals versus $x$) for each, describe in words what those plots would look like.
+1.  **可视化残差。** 下面显示的各个散点图都叠加了一条回归线。
+    如果要为每幅图构建一个残差图（残差 vs. $x$），请用文字描述这些残差图会是什么样子。
 
     ```{r}
     #| fig-asp: 0.25
@@ -25,9 +25,9 @@
 
 \vfill
 
-2.  **Trends in residuals.** Shown below are two plots of residuals remaining after fitting a linear model to two different sets of data.
-    For each plot, describe important features and determine if a linear model would be appropriate for these data.
-    Explain your reasoning.
+2.  **残差趋势。** 下面显示的是对两个不同数据集拟合线性模型后剩余的残差图。
+    对于每幅图，请描述其重要特征，并判断线性模型对这些数据是否适用。
+    解释你的推理过程。
 
     ```{r}
     #| fig-asp: 0.25
@@ -51,12 +51,12 @@
       geom_hline(yintercept = 0, linetype = "dashed") +
       facet_wrap(~type_label, scales = "free") +
       theme(axis.text = element_blank()) +
-      labs(x = "Predicted values", y = "Residuals")
+      labs(x = "预测值", y = "残差")
     ```
 
 \vfill
 
-3.  **Identify relationships, I.** For each of the six plots, identify the strength of the relationship (e.g., weak, moderate, or strong) in the data and whether fitting a linear model would be reasonable.
+3.  **识别关联，I。** 对于下面六幅图中的每一幅，识别数据中关联的强度（例如，弱、中等或强），并判断拟合线性模型是否合理。
 
     ```{r}
     #| out-width: 100%
@@ -90,7 +90,7 @@
           type == "lin_neg_strong" ~ "(e)",
           type == "none"           ~ "(f)"
       ))
-        
+
     p_1 <- ggplot(df1, aes(x = x, y = y)) +
       geom_point(size = 2, alpha = 0.8) +
       facet_wrap(~type_label, scales = "free_y") +
@@ -108,7 +108,7 @@
 
 \vfill
 
-4.  **Identify relationships, II.** For each of the six plots, identify the strength of the relationship (e.g., weak, moderate, or strong) in the data and whether fitting a linear model would be reasonable.
+4.  **识别关联，II。** 对于下面六幅图中的每一幅，识别数据中关联的强度（例如，弱、中等或强），并判断拟合线性模型是否合理。
 
     ```{r}
     #| out-width: 100%
@@ -122,7 +122,7 @@
       pos_lin_strong = 3 * x + rnorm(length(x), mean = 0, sd = 2),
       pos_weak       = 3 * x + rnorm(length(x), mean = 0, sd = 20),
       pos_weaker     = -3 * x + rnorm(length(x), mean = 0, sd = 10),
-      neg_lin_weak   = -3 * x + rnorm(length(x), mean = 0, sd = 5) 
+      neg_lin_weak   = -3 * x + rnorm(length(x), mean = 0, sd = 5)
       ) |>
       pivot_longer(cols = -x, names_to = "type", values_to = "y") |>
       arrange(type) |>
@@ -134,7 +134,7 @@
           type == "pos_weaker"     ~ "(e)",
           type == "neg_lin_weak"   ~ "(f)",
       ))
-        
+
     ggplot(df, aes(x = x, y = y)) +
       geom_point(size = 2, alpha = 0.8) +
       facet_wrap(~type_label, scales = "free_y", nrow = 2) +
@@ -146,33 +146,32 @@
 
 \clearpage
 
-5.  **Midterms and final.** The two scatterplots below show the relationship between the overall course average and two midterm exams (Exam 1 and Exam 2) recorded for 233 students during several years for a statistics course at a university.[^_07-ex-model-slr-1]
+5.  **期中考试和期末考试。** 下面的两幅散点图展示了一所大学的统计学课程数年间 233 名学生两次期中考试（考试 1 和考试 2）成绩与课程总平均分之间的关系。 [^_07-ex-model-slr-1]
 
     ```{r}
     #| fig-asp: 0.4
     p_1 <- ggplot(exam_grades, aes(x = exam1, y = course_grade)) +
       geom_point(size = 2, alpha = 0.8) +
-      labs(x = "Exam 1 grade", y = "Course grade")
+      labs(x = "考试 1 成绩", y = "课程成绩")
 
     p_2 <- ggplot(exam_grades, aes(x = exam2, y = course_grade)) +
       geom_point(size = 2, alpha = 0.8) +
-      labs(x = "Exam 2 grade", y = "Course grade")
+      labs(x = "考试 2 成绩", y = "课程成绩")
 
     p_1 + p_2
     ```
 
-    a.  Based on these graphs, which of the two exams has the strongest correlation with the course grade?
-        Explain.
+    a.  基于这些图形，哪次考试与课程成绩的相关系数最强？请解释。
 
-    b.  Can you think of a reason why the correlation between the exam you chose in part (a) and the course grade is higher?
+    b.  你能想出为何你在部分选择的考试与课程成绩的相关系数更高吗？
 
 \vfill
 
-6.  **Meat consumption and life expectancy.** In data collected for @You:2022, total meat intake is associated with life expectancy (at birth) in 175 countries.
-    Meat intake is measured in kg per capita per year (averaged over 2011 to 2013).
-    Additionally, the authors collected data on carbohydrate crops (e.g., cereals, root, sugar, etc.) in kg per capita per year (averaged over 2011 and 2013).
-    The scatterplot on the left shows the life expectancy at birth plotted against the per capita meat consumption.
-    The scatterplot on the right shows the amount of carbohydrate consumption plotted against the per capita meat consumption.
+6.  **肉类消费和预期寿命。** 在 @You:2022 收集的数据中，175 个国家的肉类总摄入量与（出生时）预期寿命有关联。
+    肉类摄入量以人均每年公斤数度量（2011 年至 2013 年的平均值）。
+    此外，作者还收集了碳水化合物作物（例如谷物、根茎、糖等）的数据，单位为人均每年公斤数（2011 年和 2013 年的平均值）。
+    左侧散点图绘制了出生时预期寿命随人均肉类消费量的变化。
+    右侧散点图绘制了碳水化合物消费量随人均肉类消费量的变化。
 
     ```{r}
     #| fig-asp: 0.4
@@ -180,32 +179,30 @@
 
     p_life <- ggplot(meat, aes(x = meat, y = life_0)) +
       geom_point(alpha = 0.8) +
-      labs(x = "Meat consumption (kg per capita)", y = "Life expectancy") +
+      labs(x = "肉类消费（人均公斤）", y = "预期寿命") +
       theme(axis.title = element_text(size = 12))
 
     p_carbs <- ggplot(meat, aes(x = meat, y = cho_crops)) +
       geom_point(alpha = 0.8) +
-      labs(x = "Meat consumption (kg per capita)", y = "Carb consumption (kg per capita)") +
+      labs(x = "肉类消费（人均公斤）", y = "碳水化合物消费（人均公斤）") +
       theme(axis.title = element_text(size = 12))
 
     p_life + p_carbs
     ```
 
-    a.  Describe the relationship between meat consumption and life expectancy.
+    a.  描述肉类消费与预期寿命之间的关联。
 
-    b.  Describe the relationship between meat consumption and carbohydrate consumption.
+    b.  描述肉类消费与碳水化合物消费之间的关联。
 
-    c.  Which plot shows a stronger correlation?
-        Explain your reasoning.
+    c.  哪幅图形显示出更强的相关系数？解释你的推理。
 
-    d.  Data on consumption were originally collected in kilograms.
-        How would the plots above and the correlation values change if the consumption variables were converted to pounds?
+    d.  消费数据最初以公斤为单位收集。如果将这些消费变量转换为磅，上述图形和相关系数值将如何变化？
 
 \vfill
 
 \clearpage
 
-7.  **Match the correlation, I.** Match each correlation to the corresponding scatterplot.[^_07-ex-model-slr-2]
+7.  **匹配相关系数，I。** 将每个相关系数与对应的散点图相匹配。 [^_07-ex-model-slr-2]
 
     ```{r}
     #| out-width: 100%
@@ -234,7 +231,7 @@
 
 \vfill
 
-8.  **Match the correlation, II.** Match each correlation to the corresponding scatterplot.[^_07-ex-model-slr-3]
+8.  **匹配相关系数，II。** 将每个相关系数与对应的散点图相匹配。 [^_07-ex-model-slr-3]
 
     ```{r}
     #| out-width: 100%
@@ -263,120 +260,120 @@
 
 \vfill
 
-9.  **Body measurements, correlation.** Researchers studying anthropometry collected body and skeletal diameter measurements, as well as age, weight, height and sex for 507 physically active individuals.
-    The scatterplot below shows the relationship between height and shoulder girth (circumference of shoulders measured over deltoid muscles), both measured in centimeters.[^_07-ex-model-slr-4]
+9.  **人体测量与相关系数。** 研究人体测量学的研究人员收集了 507 名经常进行体育活动的个体的身体和骨骼直径测量值，以及年龄、体重、身高和性别信息。
+    下面的散点图显示了身高与肩围（在三角肌上方测量的肩部周长）之间的关系，两者均以厘米为单位。[^_07-ex-model-slr-4]
     [@Heinz:2003]
 
     ```{r}
     #| fig-asp: 0.4
     ggplot(bdims, aes(x = sho_gi, y = hgt)) +
       geom_point(size = 2, alpha = 0.8) +
-      labs(x = "Shoulder girth (cm)", y = "Height (cm)")
+      labs(x = "肩围（厘米）", y = "身高（厘米）")
     ```
 
-    a.  Describe the relationship between shoulder girth and height.
+    a.  描述肩围与身高之间的关系。
 
-    b.  How would the relationship change if shoulder girth was measured in inches while the units of height remained in centimeters?
+    b.  如果肩围以英寸为单位测量，而身高的单位仍为厘米，两者之间的关系将如何变化？
 
 \vfill
 
 \clearpage
 
-10. **Compare correlations.** Eduardo and Rosie are both collecting data on number of rainy days in a year and the total rainfall for the year.
-    Eduardo records rainfall in inches and Rosie in centimeters.
-    How will their correlation coefficients compare?
+10. **比较相关系数。** Eduardo 和 Rosie 都在收集一年中的雨天数和年总降雨量的数据。
+    Eduardo 以英寸记录降雨量，Rosie 则以厘米记录。
+    他们的相关系数会有何不同？
 
 \vfill
 
-11. **The Coast Starlight, correlation.** The Coast Starlight Amtrak train runs from Seattle to Los Angeles.
-    The scatterplot below displays the distance between each stop (in miles) and the amount of time it takes to travel from one stop to another (in minutes).[^_07-ex-model-slr-5]
+11. **海岸星光号列车，相关系数。** Amtrak 公司的海岸星光号列车从西雅图开往洛杉矶。
+    下面的散点图显示了每个车站之间的距离（英里）以及从一个车站到另一个车站所需的旅行时间（分钟）。[^_07-ex-model-slr-5]
 
     ```{r}
     #| fig-asp: 0.4
     ggplot(coast_starlight, aes(x = dist, y = travel_time)) +
       geom_point(size = 2) +
-      labs(x = "Distance (miles)", y = "Travel Time (minutes)")
+      labs(x = "距离（英里）", y = "旅行时间（分钟）")
     ```
 
-    a.  Describe the relationship between distance and travel time.
+    a.  描述距离与旅行时间之间的关系。
 
-    b.  How would the relationship change if travel time was instead measured in hours, and distance was instead measured in kilometers?
+    b.  如果旅行时间改以小时为单位测量，而距离改以公里为单位测量，两者之间的关系将如何变化？
 
-    c.  Correlation between travel time (in miles) and distance (in minutes) is $r = 0.636$.
-        What is the correlation between travel time (in kilometers) and distance (in hours)?
+    c.  旅行时间（分钟）与距离（英里）之间的相关系数为 $r = 0.636$。
+        那么旅行时间（小时）与距离（公里）之间的相关系数是多少？
 
 \vfill
 
-12. **Crawling babies, correlation.** A study conducted at the University of Denver investigated whether babies take longer to learn to crawl in cold months, when they are often bundled in clothes that restrict their movement, than in warmer months.
-    Infants born during the study year were split into twelve groups, one for each birth month.
-    We consider the average crawling age of babies in each group against the average temperature when the babies are six months old (that's when babies often begin trying to crawl).
-    Temperature is measured in degrees Fahrenheit (F) and age is measured in weeks.[^_07-ex-model-slr-6]
+12. **婴儿爬行，相关系数。** 丹佛大学进行的一项研究调查了婴儿在寒冷月份学会爬行是否比在温暖月份花费更长时间，因为寒冷月份里他们经常被裹在限制活动的衣服中。
+    研究年份内出生的婴儿被分成十二组，每组对应一个出生月份。
+    我们将每组婴儿的平均爬行年龄与婴儿六个月大时的平均温度（此时婴儿通常开始尝试爬行）进行对比。
+    温度以华氏度（°F）为单位测量，年龄以周为单位测量。[^_07-ex-model-slr-6]
     [@Benson:1993]
 
     ```{r}
     #| fig-asp: 0.4
     ggplot(babies_crawl, aes(x = temperature, y = avg_crawling_age)) +
       geom_point(size = 2) +
-      labs(x = "Temperature (F)", y = "Average crawling age (weeks)")
+      labs(x = "温度（°F）", y = "平均爬行年龄（周）")
     ```
 
-    a.  Describe the relationship between temperature and crawling age.
+    a.  描述温度与爬行年龄之间的关系。
 
-    b.  How would the relationship change if temperature was measured in degrees Celsius (C) and age was measured in months?
+    b.  如果温度以摄氏度（°C）为单位测量，而年龄以月为单位测量，两者之间的关系将如何变化？
 
-    c.  The correlation between temperature in F and age in weeks was $r=-0.70$.
-        If we converted the temperature to C and age to months, what would the correlation be?
+    c.  温度（°F）与年龄（周）之间的相关系数为 $r=-0.70$。
+        如果我们将温度转换为摄氏度（°C），将年龄转换为月，那么相关系数将是多少？
 
 \vfill
 
 \clearpage
 
-13. **Meat and carbohydrate consumption.** What would be the correlation between the per capita meat consumption and per capita carbohydrate consumption if, for each country, people always consumed
+13. **肉类与碳水化合物消费。** 如果对于每个国家，人们每年的肉类消费量总是比碳水化合物消费量
 
-    1.  3 kg more of meat than of carbohydrates each year?
+    1.  多 3 千克，那么人均肉类消费量与人均碳水化合物消费量之间的相关系数会是多少？
 
-    2.  2 kg less of meat than of carbohydrates each year?
+    2.  少 2 千克，那么人均肉类消费量与人均碳水化合物消费量之间的相关系数会是多少？
 
-    3.  half as much meat as carbohydrates each year?
-
-\vfill
-
-14. **Graduate degrees and salaries.** What would be the correlation between the annual salaries of people with and without a graduate degree at a company if, for a certain type of position, someone with a graduate degree always made
-
-    a.  \$5,000 more than those without a graduate degree?
-
-    b.  25% more than those without a graduate degree?
-
-    c.  15% less than those without a graduate degree?
+    3.  是碳水化合物消费量的一半，那么人均肉类消费量与人均碳水化合物消费量之间的相关系数会是多少？
 
 \vfill
 
-15. **Units of regression.** Consider a regression predicting the number of calories (cal) from width (cm) for a sample of square shaped chocolate brownies.
-    What are the units of the correlation coefficient, the intercept, and the slope?
+14. **研究生学历与薪资。** 如果一家公司里，对于某一类职位，拥有研究生学历的人的年薪总是比没有研究生学历的人
+
+    a.  多赚 5,000 美元，那么拥有与没有研究生学历的人的年薪之间的相关系数会是多少？
+
+    b.  比没有研究生学位的人高 25% 吗？
+
+    c.  比没有研究生学位的人低 15% 吗？
 
 \vfill
 
-16. **Which is higher?** Determine if (I) or (II) is higher or if they are equal: "*For a regression line, the uncertainty associated with the slope estimate,* $b_1$*, is higher when (I) there is a lot of scatter around the regression line or (II) there is very little scatter around the regression line.*" Explain your reasoning.
+15.  **回归的单位。** 考虑一个回归，基于一批方形巧克力布朗尼的样本，根据宽度来预测其卡路里数。
+    相关系数、截距和斜率的单位分别是什么？
 
 \vfill
 
-17. **Over-under, I.** Suppose we fit a regression line to predict the shelf life of an apple based on its weight.
-    For a particular apple, we predict the shelf life to be 4.6 days.
-    The apple's residual is -0.6 days.
-    Did we over or under estimate the shelf-life of the apple?
-    Explain your reasoning.
+16.  **哪个更高？** 判断 (I) 或 (II) 哪种情况下的值更高，或者两者相等：“*对于回归线，与斜率估计值 $b_1$ 有关联的不确定性在 (I) 回归线周围散点很多时，或在 (II) 回归线周围散点很少时更高。*” 解释你的推理。
 
 \vfill
 
-18. **Over-under, II.** Suppose we fit a regression line to predict the number of incidents of skin cancer per 1,000 people from the number of sunny days in a year.
-    For a particular year, we predict the incidence of skin cancer to be 1.5 per 1,000 people, and the residual for this year is 0.5.
-    Did we over or under estimate the incidence of skin cancer?
-    Explain your reasoning.
+17.  **高估与低估 I。** 假设我们拟合了一条回归线，根据苹果的重量来预测其保质期。
+    对于一个特定的苹果，我们预测其保质期为 4.6 天。
+    该苹果的残差为 -0.6 天。
+    我们是对这个苹果的保质期高估了还是低估了？
+    解释你的推理。
 
 \vfill
 
-19. **Starbucks, calories, and protein.** The scatterplot below shows the relationship between the number of calories and amount of protein (in grams) Starbucks food menu items contain.
-    Since Starbucks only lists the number of calories on the display items, we might be interested in predicting the amount of protein a menu item has based on its calorie content.[^_07-ex-model-slr-7]
+18.  **高估与低估 II。** 假设我们拟合了一条回归线，根据一年中晴天数来预测每千人的皮肤癌发病率。
+    对于特定的一年，我们预测的皮肤癌发病率为每千人 1.5 例，而该年的残差为 0.5。
+    我们是对皮肤癌发病率高估了还是低估了？
+    解释你的推理。
+
+\vfill
+
+19.  **星巴克、卡路里与蛋白质。** 下面的散点图展示了星巴克食物菜单项所含卡路里数与蛋白质（克）之间的关系。
+    由于星巴克只在展示品上列出了卡路里数，我们可能有兴趣根据其卡路里含量来预测菜单项的蛋白质含量。[^_07-ex-model-slr-7]
 
     ```{r}
     #| fig-asp: 0.4
@@ -384,8 +381,8 @@
       geom_smooth(method = "lm", color = "darkgray", se = FALSE) +
       geom_point(size = 2) +
       labs(
-        x = "Calories",
-        y = "Protein (grams)"
+        x = "卡路里",
+        y = "蛋白质（克）"
         )
 
     m <- lm(protein ~ calories, data = starbucks)
@@ -395,25 +392,25 @@
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_point(size = 2) +
       labs(
-        x = "Predicted protein (grams)",
-        y = "Residuals"
+        x = "预测的蛋白质含量（克）",
+        y = "残差"
         )
 
     p_1 + p_2
     ```
 
-    a.  Describe the relationship between number of calories and amount of protein (in grams) that Starbucks food menu items contain.
+    a.  描述星巴克食物菜单项中卡路里数与蛋白质（克）含量之间的关系。
 
-    b.  In this scenario, what are the predictor and outcome variables?
+    b.  在此情境中，什么是预测变量，什么是结果变量？
 
-    c.  Why might we want to fit a regression line to these data?
+    c.  为什么我们可能希望为这些数据拟合一条回归线？
 
-    d.  What does the residuals vs. predicted plot tell us about the variability in prediction errors based on this model for items with lower vs. higher predicted protein?
+    d.  基于此模型，对于预测蛋白质含量较低与较高的项目，残差与预测值图对其预测误差的变异性说明了什么？
 
 \clearpage
 
-20. **Starbucks, calories, and carbs.** The scatterplot below shows the relationship between the number of calories and amount of carbohydrates (in grams) Starbucks food menu items contain.
-    Since Starbucks only lists the number of calories on the display items, we might be interested in predicting the amount of carbs a menu item has based on its calorie content.[^_07-ex-model-slr-8]
+20.  **星巴克、卡路里与碳水化合物。** 下面的散点图展示了星巴克食物菜单项所含卡路里数与碳水化合物（克）之间的关系。
+    由于星巴克只在展示品上列出了卡路里数，我们可能有兴趣根据其卡路里含量来预测菜单项的碳水化合物含量。[^_07-ex-model-slr-8]
 
     ```{r}
     #| fig-asp: 0.4
@@ -421,8 +418,8 @@
       geom_smooth(method = "lm", color = "darkgray", se = FALSE) +
       geom_point(size = 2) +
       labs(
-        x = "Calories",
-        y = "Carbs (grams)"
+        x = "卡路里",
+        y = "碳水化合物（克）"
         )
 
     m <- lm(carb ~ calories, data = starbucks)
@@ -432,87 +429,87 @@
       geom_hline(yintercept = 0, linetype = "dashed") +
       geom_point(size = 2) +
       labs(
-        x = "Predicted carbs (grams)",
-        y = "Residuals"
+        x = "预测的碳水化合物含量（克）",
+        y = "残差"
         )
 
     p_1 + p_2
     ```
 
-    a.  Describe the relationship between number of calories and amount of carbohydrates (in grams) that Starbucks food menu items contain.
+    a.  描述星巴克食物菜单项中卡路里数与碳水化合物（克）含量之间的关系。
 
-    b.  In this scenario, what are the predictor and outcome variables?
+    b.  在此情境中，什么是预测变量，什么是结果变量？
 
-    c.  Why might we want to fit a regression line to these data?
+    c.  为什么我们可能希望为这些数据拟合一条回归线？
 
-    d.  What does the residuals vs. predicted plot tell us about the variability in prediction errors based on this model for items with lower vs. higher predicted carbs?
+    d.  基于此模型，对于预测碳水化合物含量较低与较高的项目，残差与预测值图对其预测误差的变异性说明了什么？
 
 \vfill
 
-21. **The Coast Starlight, regression.** The Coast Starlight Amtrak train runs from Seattle to Los Angeles.
-    The scatterplot below displays the distance between each stop (in miles) and the amount of time it takes to travel from one stop to another (in minutes).
-    The mean travel time from one stop to the next on the Coast Starlight is 129 mins, with a standard deviation of 113 minutes.
-    The mean distance traveled from one stop to the next is 108 miles with a standard deviation of 99 miles.
-    The correlation between travel time and distance is 0.636.[^_07-ex-model-slr-9]
+21.  **海岸星光号，回归。** 海岸星光号美铁列车从西雅图开往洛杉矶。
+    下面的散点图展示了相邻站点之间的距离（英里）与从一个站点行驶到下一个站点所需时间（分钟）的关系。
+    海岸星光号列车从一个站点到下一个站点的旅行时间均值为 129 分钟，标准差为 113 分钟。
+    从一个站点到下一个站点的行驶距离均值为 108 英里，标准差为 99 英里。
+    旅行时间与距离之间的相关系数为 0.636。[^_07-ex-model-slr-9]
 
     ```{r}
     #| fig-asp: 0.35
     ggplot(coast_starlight, aes(x = dist, y = travel_time)) +
       geom_point(size = 2) +
-      labs(x = "Distance (miles)", y = "Travel Time (minutes)")
+      labs(x = "距离（英里）", y = "旅行时间（分钟）")
     ```
 
-    a.  Write the equation of the regression line for predicting travel time.
+    a.  写出用于预测旅行时间的回归直线方程。
 
-    b.  Interpret the slope and the intercept in this context.
+    b.  解释斜率和截距在此背景下的含义。
 
-    c.  Calculate $R^2$ of the regression line for predicting travel time from distance traveled for the Coast Starlight, and interpret $R^2$ in the context of the application.
+    c.  计算“海岸星光号”用于根据行驶距离预测旅行时间的回归直线的 $R^2$，并在该应用背景下解释 $R^2$ 的含义。
 
-    d.  The distance between Santa Barbara and Los Angeles is 103 miles.
-        Use the model to estimate the time it takes for the Starlight to travel between these two cities.
+    d.  圣巴巴拉与洛杉矶之间的距离为 103 英里。
+        使用该模型估计“海岸星光号”在这两座城市之间行驶所需的时间。
 
-    e.  It takes the Coast Starlight about 168 mins to travel from Santa Barbara to Los Angeles.
-        Calculate the residual and explain the meaning of this residual value.
+    e.  “海岸星光号”从圣巴巴拉行驶到洛杉矶大约需要 168 分钟。
+        计算残差，并解释这个残差值的含义。
 
-    f.  Suppose Amtrak is considering adding a stop to the Coast Starlight 500 miles away from Los Angeles.
-        Would it be appropriate to use this linear model to predict the travel time from Los Angeles to this point?
+    f.  假设美国国家铁路客运公司（Amtrak）正考虑在距离洛杉矶 500 英里的地方为“海岸星光号”增加一个停靠站。
+        使用这个线性模型来预测从洛杉矶到该站点的旅行时间是否合适？
 
 \clearpage
 
-22. **Body measurements, regression.** Researchers studying anthropometry collected body and skeletal diameter measurements, as well as age, weight, height and sex for 507 physically active individuals.
-    The scatterplot below shows the relationship between height and shoulder girth (circumference of shoulders measured over deltoid muscles), both measured in centimeters.
-    The mean shoulder girth is 107.20 cm with a standard deviation of 10.37 cm.
-    The mean height is 171.14 cm with a standard deviation of 9.41 cm.
-    The correlation between height and shoulder girth is 0.67.[^_07-ex-model-slr-10]
+22. **身体测量与回归。** 研究人体测量学的研究者收集了 507 名身体活跃个体的身体及骨骼直径测量数据，以及年龄、体重、身高和性别。
+    下面的散点图展示了身高与肩围（在三角肌上方测量的肩部周长）之间的关系，两者均以厘米为单位。
+    肩围的均值为 107.20 cm，标准差为 10.37 cm。
+    身高的均值为 171.14 cm，标准差为 9.41 cm。
+    身高与肩围的相关系数为 0.67。[^_07-ex-model-slr-10]
     [@Heinz:2003]
 
     ```{r}
     #| fig-asp: 0.38
     ggplot(bdims, aes(x = sho_gi, y = hgt)) +
       geom_point(size = 2, alpha = 0.8) +
-      labs(x = "Shoulder girth (cm)", y = "Height (cm)")
+      labs(x = "肩围（厘米）", y = "身高（厘米）")
     ```
 
-    a.  Write the equation of the regression line for predicting height.
+    a.  写出用于预测身高的回归直线方程。
 
-    b.  Interpret the slope and the intercept in this context.
+    b.  解释斜率和截距在此背景下的含义。
 
-    c.  Calculate $R^2$ of the regression line for predicting height from shoulder girth, and interpret it in the context of the application.
+    c.  计算根据肩围预测身高的回归直线的 $R^2$，并在此应用背景下解释其含义。
 
-    d.  A randomly selected student from your class has a shoulder girth of 100 cm.
-        Predict the height of this student using the model.
+    d.  从你班上随机选择一名学生，其肩围为 100 cm。
+        使用该模型预测这名学生的身高。
 
-    e.  The student from part (d) is 160 cm tall.
-        Calculate the residual, and explain what this residual means.
+    e.  第 小题中的学生身高为 160 cm。
+        计算残差，并解释这个残差的含义。
 
-    f.  A one year old has a shoulder girth of 56 cm.
-        Would it be appropriate to use this linear model to predict the height of this child?
+    f.  一个一岁儿童的肩围为 56 cm。
+        使用这个线性模型来预测这个儿童的身高合适吗？
 
 \vfill
 
-23. **Poverty and unemployment.** The following scatterplot shows the relationship between percent of population below the poverty level (`poverty`) from unemployment rate among those ages 20-64 (`unemployment_rate`) in counties in the US, as provided by data from the 2019 American Community Survey.
-    The regression output for the model for predicting `poverty` from `unemployment_rate` is also provided.[^_07-ex-model-slr-11]
-    
+23. **贫困与失业。** 下面的散点图展示了美国各县 20-64 岁人群的失业率（`unemployment_rate`）与贫困线以下人口比例（`poverty`）之间的关系，数据来自 2019 年美国社区调查。
+    同时还提供了根据 `unemployment_rate` 预测 `poverty` 的模型的回归输出。[^_07-ex-model-slr-11]
+
     ```{r}
     m <- lm(poverty ~ unemployment_rate, data = county_2019)
     m_rsq <- format(round(glance(m)$r.squared, 2)*100, nsmall = 0)
@@ -521,7 +518,7 @@
     m_tidy |>
       mutate(p.value = ifelse(p.value < 0.001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, digits = 3, align = "lrrrr") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                 latex_options = "HOLD_position") |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
@@ -529,16 +526,16 @@
 
     :::: {layout="[-0.05, 0.45, 0.5]"}
     :::{#questions}
-    a.  Write out the linear model.
+    a.  写出线性模型。
 
-    b.  Interpret the intercept.
+    b.  解释截距。
 
-    c.  Interpret the slope.
+    c.  解释斜率。
 
-    d.  The $R^2$ of this model is `r m_rsq`%.\
-        Interpret this value.
+    d.  该模型的 $R^2$ 为 `r m_rsq`%.\%。
+        解释这个值的含义。
 
-    e.  Calculate the correlation coefficient.
+    e.  计算相关系数。
     :::
     :::{#plot}
     ```{r}
@@ -548,8 +545,8 @@
     ggplot(county_2019, aes(x = unemployment_rate, y = poverty)) +
       geom_point(alpha = 0.8) +
       labs(
-        y = "Percent below poverty level",
-        x = "Unemployment rate"
+        y = "贫困线以下人口比例 (%)",
+        x = "失业率 (%)"
         ) +
       scale_x_continuous(labels = label_percent(scale = 1, accuracy = 1)) +
       scale_y_continuous(labels = label_percent(scale = 1, accuracy = 1))
@@ -561,35 +558,35 @@
 
 \clearpage
 
-24. **Cat weights.** The following regression output is for predicting the heart weight (`Hwt`, in g) of cats from their body weight (`Bwt`, in kg).
-    The coefficients are estimated using a dataset of 144 domestic cats.[^_07-ex-model-slr-12]
+24. **猫的体重。** 以下回归输出是用于根据猫的体重（`Bwt`，单位：kg）预测其心脏重量（`Hwt`，单位：g）的模型。
+    该系数是使用包含 144 只家猫的数据集估计得到的。[^_07-ex-model-slr-12]
 
     ```{r}
     m <- lm(Hwt ~ Bwt, data = cats)
 
-    tidy(m) |>
+tidy(m) |>
       mutate(p.value = ifelse(p.value < 0.001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, digits = 3, align = "lrrrr") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                 latex_options = "HOLD_position") |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
-    
+
     \vspace{-5mm}
 
     :::: {layout="[-0.05, 0.45, 0.5]"}
     :::{#questions}
-    a.  Write out the linear model.
+    a.  写出线性模型。
 
-    b.  Interpret the intercept.
+    b.  解释截距项。
 
-    c.  Interpret the slope.
+    c.  解释斜率。
 
-    d.  The $R^2$ of this model is `r format(round(glance(m)$r.squared, 2)*100, nsmall = 0)`%.\
-        Interpret $R^2$.
+    d.  该模型的 $R^2$ 为 `r format(round(glance(m)$r.squared, 2)*100, nsmall = 0)`%.\
+        Interpret $R^2$。
 
-    e.  Calculate the correlation coefficient.
+    e.  计算相关系数。
     :::
     :::{#plot}
     ```{r}
@@ -599,15 +596,15 @@
     ggplot(cats, aes(x = Bwt, y = Hwt)) +
       geom_point(size = 2, alpha = 0.8) +
       labs(
-        x = "Body weight (kg)",
-        y = "Heart weight (g)"
-        ) 
+        x = "体重",
+        y = "心脏重量"
+        )
     ```
     :::
     ::::
 
-25. **Outliers, I.** Identify the outliers in the scatterplots shown below, and determine what type of outliers they are.
-    Explain your reasoning.
+25. **离群值（一）** 识别下方散点图中显示的离群值，并判断它们属于何种类型的离群值。
+    解释你的理由。
 
     ```{r}
     #| fig-asp: 0.2
@@ -643,8 +640,8 @@
     p_1 + p_2 + p_3
     ```
 
-26. **Outliers, II.** Identify the outliers in the scatterplots shown below and determine what type of outliers they are.
-    Explain your reasoning.
+26. **离群值（二）** 识别下方散点图中显示的离群值并判断它们属于何种类型的离群值。
+    解释你的理由。
 
     ```{r}
     #| fig-asp: 0.2
@@ -680,16 +677,16 @@
     p_1 + p_2 + p_3
     ```
 
-27. **Urban homeowners, outliers.** The scatterplot below shows the percent of families who own their home vs. the percent of the population living in urban areas.
-    There are 52 observations, each corresponding to a state in the US.
-    Puerto Rico and District of Columbia are also included.[^_07-ex-model-slr-13]
+27. **城市住房拥有者，离群值** 下面的散点图显示了拥有自有住房的家庭百分比与居住在城市地区的人口百分比之间的关系。
+    共有 52 个观测，每个对应美国的一个州。
+    波多黎各和华盛顿特区也包括在内。[^_07-ex-model-slr-13]
 
     :::: {layout="[-0.05, 0.45, -0.02, 0.47]"}
     :::{#questions}
-    a.  Describe the relationship between the percent of families who own their home and the percent of the population living in urban areas.
+    a.  描述拥有自有住房的家庭百分比与居住在城市地区的人口百分比之间的关系。
 
-    b.  The outlier at the bottom right corner is District of Columbia, where 100% of the population is considered urban.
-        What type of an outlier is this observation?
+    b.  右下角的离群值是华盛顿特区，该地 100% 的人口被认为是城市人口。
+        这个观测属于哪种类型的离群值？
     :::
     :::{#plot}
     ```{r}
@@ -701,8 +698,8 @@
       scale_x_continuous(labels = label_percent(scale = 1, accuracy = 1)) +
       scale_y_continuous(labels = label_percent(scale = 1, accuracy = 1)) +
       labs(
-        x = "Percent urban population",
-        y = "Percent who own their home"
+        x = "城市人口百分比",
+        y = "拥有自有住房的百分比"
       )
     ```
     :::
@@ -710,61 +707,61 @@
 
 \clearpage
 
-28. **Crawling babies, outliers.** A study conducted at the University of Denver investigated whether babies take longer to learn to crawl in cold months, when they are often bundled in clothes that restrict their movement, than in warmer months.
-    The plot below shows the relationship between average crawling age of babies born in each month and the average temperature in the month when the babies are six months old.
-    The plot reveals a potential outlying month when the average temperature is about 53F and average crawling age is about 28.5 weeks.
-    Does this point have high leverage?
-    Is it an influential point?[^_07-ex-model-slr-14]
+28.  **爬行婴儿，离群值。** 丹佛大学进行的一项研究调查了婴儿在寒冷月份学会爬行是否比在温暖月份花费更长时间，因为在寒冷月份，婴儿经常被包裹在限制其活动的衣物中。
+    下图显示了每个月出生的婴儿的平均爬行年龄与这些婴儿六个月大时的月平均温度之间的关联。
+    该图揭示了一个潜在的离群月份，其平均温度约为 53 华氏度，平均爬行年龄约为 28.5 周。
+    这个点具有高杠杆吗？
+    它是一个强影响点吗？[^_07-ex-model-slr-14]
     [@Benson:1993]
 
     ```{r}
     #| fig-asp: 0.4
     ggplot(babies_crawl, aes(x = temperature, y = avg_crawling_age)) +
       geom_point(size = 2) +
-      labs(x = "Temperature (F)", y = "Average crawling age (weeks)")
+      labs(x = "温度（华氏度）", y = "平均爬行年龄（周）")
     ```
 
 \vfill
 
-29. **True / False.** Determine if the following statements are true or false.
-    If false, explain why.
+29.  **判断正误。** 判断下列说法是否正确。
+    如果错误，请解释原因。
 
-    a.  A correlation coefficient of -0.90 indicates a stronger linear relationship than a correlation of 0.5.
+    a.  相关系数为 -0.90 比相关系数为 0.5 表示更强的线性关系。
 
-    b.  Correlation is a measure of the association between any two variables.
+    b.  相关系数是衡量任何两个变量之间关联程度的指标。
 
 \vfill
 
-30. **Cherry trees.** The scatterplots below show the relationship between height, diameter, and volume of timber in 31 felled black cherry trees.
-    The diameter of the tree is measured 4.5 feet above the ground.[^_07-ex-model-slr-15]
+30.  **樱桃树。** 下面的散点图显示了 31 棵被砍伐的黑樱桃树的高度、直径和木材体积之间的关联。
+    树的直径是在地面以上 4.5 英尺处测量的。[^_07-ex-model-slr-15]
 
     ```{r}
     #| out-width: 100%
     #| fig-asp: 0.4
     p1 <- ggplot(datasets::trees, aes(x = Height, y = Volume)) +
       geom_point() +
-      labs(x = "Height (feet)", y = "Volume (cubic feet)")
+      labs(x = "高度（英尺）", y = "体积（立方英尺）")
 
     p2 <- ggplot(datasets::trees, aes(x = Girth, y = Volume)) +
       geom_point() +
-      labs(x = "Diameter (inches)", y = "Volume (cubic feet)")
+      labs(x = "直径（英寸）", y = "体积（立方英尺）")
 
     p1 + p2
     ```
 
-    a.  Describe the relationship between volume and height of these trees.
+    a.  描述这些树木体积与高度之间的关联。
 
-    b.  Describe the relationship between volume and diameter of these trees.
+    b.  描述这些树木体积与直径之间的关联。
 
-    c.  Suppose you have height and diameter measurements for another black cherry tree.
-        Which of these variables would be preferable to use to predict the volume of timber in this tree using a simple linear regression model?
-        Explain your reasoning.
+    c.  假设你有另一棵黑樱桃树的高度和直径测量值。
+        在简单线性回归模型中，使用哪个变量来预测这棵树的木材体积更可取？
+        解释你的理由。
 
 \vfill
 
 \clearpage
 
-31. **Match the correlation, III.** Match each correlation to the corresponding scatterplot.[^_07-ex-model-slr-16]
+31.  **匹配相关系数，III。** 将每个相关系数与对应的散点图匹配。[^_07-ex-model-slr-16]
 
     ```{r}
     #| out-width: 100%
@@ -775,10 +772,10 @@
     y1 <- (2 * x) + 30 + rnorm(100, mean = 0, sd = 60)
     y2 <- -1*x ^ 3 + x^2 + rnorm(100, mean = 0, sd = 20000)
     y3 <- x + rnorm(100, mean = 0, sd = 8)
-    y4 <- 50  + rnorm(100, mean = 0, sd = 2) 
+    y4 <- 50  + rnorm(100, mean = 0, sd = 2)
 
     corr_match_2 <- tibble(
-      x  = x, 
+      x  = x,
       y1 = y1,
       y2 = y2,
       y3 = y3,
@@ -808,8 +805,8 @@
 
 \vfill
 
-32. **Helmets and lunches.** The scatterplot shows the relationship between socioeconomic status measured as the percentage of children in a neighborhood receiving reduced-fee lunches at school (`lunch`) and the percentage of bike riders in the neighborhood wearing helmets (`helmet`).
-    The average percentage of children receiving reduced-fee lunches is `r mean(helmet$lunch)`% with a standard deviation of `r sd(helmet$lunch)`% and the average percentage of bike riders wearing helmets is `r mean(helmet$helmet)`% with a standard deviation of `r sd(helmet$helmet)`%.
+32.  **头盔与午餐。** 该散点图显示了社会经济地位（以社区中在学校领取减免午餐的儿童百分比 (`lunch`) 衡量）与社区中骑自行车者佩戴头盔的百分比 (`helmet`) 之间的关联。
+    领取减免午餐的儿童的平均百分比是 `r mean(helmet$lunch)`%，标准差为 `r sd(helmet$lunch)`%，骑自行车者佩戴头盔的平均百分比是 `r mean(helmet$helmet)`%，标准差为 `r sd(helmet$helmet)`%。
 
     ```{r}
     #| fig-asp: 0.5
@@ -821,50 +818,50 @@
       scale_x_continuous(labels = label_percent(scale = 1)) +
       scale_y_continuous(labels = label_percent(scale = 1)) +
       labs(
-        x = "Percentage receiving a reduced-fee lunch",
-        y = "Percentage wearing helmet"
+        x = "领取减免午餐的百分比",
+        y = "佩戴头盔的百分比"
       )
     ```
 
-    a.  If the $R^2$ for the least-squares regression line for these data is `r helmet_rsq`%, what is the correlation between `lunch` and `helmet`?
+    a.  如果这些数据的最小二乘回归线的 $R^2$ 为 `r helmet_rsq`%，那么 `lunch` 和 `helmet` 之间的相关系数是多少？
 
-    b.  Calculate the slope and intercept for the least-squares regression line for these data.
+    b.  计算这些数据的最小二乘回归线的斜率和截距。
 
-    c.  Interpret the intercept of the least-squares regression line in the context of the application.
+    c.  结合应用背景解释最小二乘回归线截距的含义。
 
-    d.  Interpret the slope of the least-squares regression line in the context of the application.
+    d.  结合应用背景解释最小二乘回归线斜率的含义。
 
-    e.  What would the value of the residual be for a neighborhood where 40% of the children receive reduced-fee lunches and 40% of the bike riders wear helmets?
-        Interpret the meaning of this residual in the context of the application.
+    e.  对于一个有 40% 的儿童接受减免费用午餐且有 40% 的自行车骑行者佩戴头盔的社区，残差的值会是多少？
+        结合应用背景解释该残差的含义。
 
-[^_07-ex-model-slr-1]: The [`exam_grades`](http://openintrostat.github.io/openintro/reference/exam_grades.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-1]: 本练习中使用的 [`exam_grades`](http://openintrostat.github.io/openintro/reference/exam_grades.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-2]: The [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-2]: 本练习中使用的 [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-3]: The [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-3]: 本练习中使用的 [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-4]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-4]: 本练习中使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-5]: The [`coast_starlight`](http://openintrostat.github.io/openintro/reference/coast_starlight.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-5]: 本练习中使用的 [`coast_starlight`](http://openintrostat.github.io/openintro/reference/coast_starlight.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-6]: The [`babies_crawl`](http://openintrostat.github.io/openintro/reference/babies_crawl.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-6]: 本练习中使用的 [`babies_crawl`](http://openintrostat.github.io/openintro/reference/babies_crawl.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-7]: The [`starbucks`](http://openintrostat.github.io/openintro/reference/starbucks.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-7]: 本练习中使用的 [`starbucks`](http://openintrostat.github.io/openintro/reference/starbucks.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-8]: The [`starbucks`](http://openintrostat.github.io/openintro/reference/starbucks.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-8]: 本练习中使用的 [`starbucks`](http://openintrostat.github.io/openintro/reference/starbucks.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-9]: The [`coast_starlight`](http://openintrostat.github.io/openintro/reference/coast_starlight.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-9]: 本练习中使用的 [`coast_starlight`](http://openintrostat.github.io/openintro/reference/coast_starlight.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-10]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-10]: 本练习中使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-11]: The [`county_2019`](http://openintrostat.github.io/usdata/reference/%20county_2019.html) data used in this exercise can be found in the [**usdata**](http://openintrostat.github.io/usdata) R package.
+[^_07-ex-model-slr-11]: 本练习中使用的 [`county_2019`](http://openintrostat.github.io/usdata/reference/%20county_2019.html) 数据可在 [**usdata**](http://openintrostat.github.io/usdata) R 包中找到。
 
-[^_07-ex-model-slr-12]: The [`cats`](https://cran.r-project.org/web/packages/MASS/MASS.pdf) data used in this exercise can be found in the [**MASS**](https://cran.r-project.org/web/packages/MASS/index.html) R package.
+[^_07-ex-model-slr-12]: 本练习中使用的 [`cats`](https://cran.r-project.org/web/packages/MASS/MASS.pdf) 数据集可以在 [**MASS**](https://cran.r-project.org/web/packages/MASS/index.html) R 包中找到。
 
-[^_07-ex-model-slr-13]: The [`urban_owner`](http://openintrostat.github.io/openintro/reference/urban_owner.html) data used in this exercise can be found in the [**usdata**](http://openintrostat.github.io/usdata) R package.
+[^_07-ex-model-slr-13]: 本练习中使用的 [`urban_owner`](http://openintrostat.github.io/openintro/reference/urban_owner.html) 数据集可以在 [**usdata**](http://openintrostat.github.io/usdata) R 包中找到。
 
-[^_07-ex-model-slr-14]: The [`babies_crawl`](http://openintrostat.github.io/openintro/reference/babies_crawl.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-14]: 本练习中使用的 [`babies_crawl`](http://openintrostat.github.io/openintro/reference/babies_crawl.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_07-ex-model-slr-15]: The [`trees`](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/trees.html) data used in this exercise can be found in the [**datasets**](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html) R package.
+[^_07-ex-model-slr-15]: 本练习中使用的 [`trees`](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/trees.html) 数据集可以在 [**datasets**](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html) R 包中找到。
 
-[^_07-ex-model-slr-16]: The [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_07-ex-model-slr-16]: 本练习中使用的 [`corr_match`](http://openintrostat.github.io/openintro/reference/corr_match.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

@@ -30,3 +30,5 @@ index.pdf
 index.md
 index.synctex(busy)
 **/*.quarto_ipynb
+**/figure-html/
+**/figure-pdf/unnamed-chunk-*.png

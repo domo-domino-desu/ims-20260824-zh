@@ -1,14 +1,14 @@
-1.  \(a\) We see the order of the categories and the relative frequencies in the bar plot. (b) There are no features that are apparent in the pie chart but not in the bar plot. (c) We usually prefer to use a bar plot as we can also see the relative frequencies of the categories in this graph.
+1.  \(a\) 我们在条形图中可以看到类别的顺序及其相对频率。(b) 饼图中没有条形图无法体现的明显特征。(c) 我们通常更倾向于使用条形图，因为我们也可以在此图中看到各类别的相对频率。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The horizontal locations at which the age groups break into the various opinion levels differ, which indicates that likelihood of supporting protests varies by age group. Two variables may be associated. (b) Answers may vary. Political ideology/leaning and education level.
+1.  \(a\) 各年龄组在不同观点水平上的横向分段位置有所不同，这表明支持抗议活动的可能性因年龄组而异。两个变量可能有关联。(b) 答案不唯一。政治意识形态/倾向和教育水平。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Number of participants in each group. (b) Proportion of survival. (c) The standardized bar plot should be displayed as a way to visualize the survival improvement in the treatment versus the control group.
+1.  \(a\) 每组的参与者人数。(b) 生存比例。(c) 应该展示标准化条形图，以此来可视化处理组相较于对照组的生存改善情况。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The ridge plots do not tell us about the relationship between meat consumption and life expectancy. While it is true that the high income group of countries has highest meat consumption and highest life expectancy, we can't, for example, differentiate meat consumption across the low and middle income groups (so as to connect to life expectancy). Additionally, we don't know anything about the relationship betwen meat consumption and life expectancy *within* an income group. (b) When a relationship is confounded we cannot determine the causal mechanism. We don't know if the longer life expecancy is due to meat consumption or due to higher income (which comes with many other life-extending practices). (c) In order to investigate a specific confounding variable, first break the data into categories according to that confounding variable (here, income). Then look at the relationship of interest (here meat consumption and life expectancy) separately for each of the levels of the confounding variable (income).
+1.  \(a\) 山脊图并没有告诉我们肉类消费与预期寿命之间的关系。虽然高收入国家组的肉类消费量和预期寿命确实都是最高的，但我们无法（例如）区分低收入组和中等收入组的肉类消费水平（从而将其与预期寿命联系起来）。此外，我们对于*同一*收入组内部肉类消费与预期寿命的关系也一无所知。(b) 当关系受到混杂影响时，我们无法确定其因果机制。我们不知道更长的预期寿命是归因于肉类消费，还是归因于更高的收入（高收入往往伴随着许多其他延长寿命的做法）。(c) 为了研究一个特定的混杂变量，首先根据该混杂变量（此处是收入）将数据划分为不同的类别。然后，分别针对混杂变量（收入）的每一个水平，考察目标关系（此处是肉类消费与预期寿命）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) 41% of the JetBlue flights are delayed. 40.7% of the United Airlines flights are delayed. (b) For SFO: JetBlue had 39.7% delayed, United had 40% delayed (United had more delayed flights). For LAX: JetBlue had 40.1% delayed, United had 41% delayed (United had more delayed flights). For BQN: JetBlue had 45.7% delayed, United had 48.8% delayed (United had more delayed flights). (c) Note that JetBlue had substantially more flights than United out of BQN (where there was a high delay percentage). United had substantially more flights than United out of SFO and LAX, both of which had low delay percentages. So JetBlue's overall percentage delay is bumped up due to the BQN flights, and United's overall percentage delay is bumped down due to the SFO and LAX flights.
+1.  \(a\) 41% 的捷蓝航空航班延误。40.7% 的联合航空航班延误。 对于 SFO：捷蓝航空的延误率为 39.7%，联合航空为 40%（联合航空的延误航班更多）。对于 LAX：捷蓝航空的延误率为 40.1%，联合航空为 41%（联合航空的延误航班更多）。对于 BQN：捷蓝航空的延误率为 45.7%，联合航空为 48.8%（联合航空的延误航班更多）。 注意，捷蓝航空从 BQN 出发的航班数量远多于联合航空（该机场的延误率很高）。联合航空从 SFO 和 LAX 出发的航班数量远多于捷蓝航空，这两个机场的延误率都很低。因此，捷蓝航空的整体延误百分比因 BQN 航班而被拉高，联合航空的整体延误百分比则因 SFO 和 LAX 航班而被拉低。
 \addtocounter{enumi}{1}

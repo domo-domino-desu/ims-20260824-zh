@@ -1,6 +1,6 @@
-1.  **Marvel Cinematic Universe films.** The data frame below contains information on Marvel Cinematic Universe films through the Infinity saga (a movie storyline spanning from Ironman in 2008 to Endgame in 2019).
-    Box office totals are given in millions of US Dollars.
-    How many observations and how many variables does this data frame have?[^_01-ex-data-hello-1]
+1.  **漫威电影宇宙电影.** 下方的数据框包含了涵盖无限传奇阶段（故事线从2008年的《钢铁侠》到2019年的《终局之战》）的漫威电影宇宙的电影信息。
+    票房总计以百万美元为单位。
+    该数据框有多少个观测和多少个变量？[^_01-ex-data-hello-1]
 
     ```{r}
     mcu_films_scaled <- mcu_films |>
@@ -47,8 +47,8 @@
 
 \vfill
 
-2.  **Cherry Blossom Run.** The data frame below contains information on runners in the 2017 Cherry Blossom Run, which is an annual road race that takes place in Washington, DC. Most runners participate in a 10-mile run while a smaller fraction take part in a 5k run or walk.
-    How many observations and how many variables does this data frame have?[^_01-ex-data-hello-2]
+2.  **樱花路跑.** 下方的数据框包含了2017年樱花路跑（华盛顿特区一年一度的公路赛）跑者的信息。大多数参赛者参加10英里跑，而一小部分人参加5公里跑或步行。
+    该数据框有多少个观测和多少个变量？[^_01-ex-data-hello-2]
 
     ```{r}
     run17_to_print <- run17 |>
@@ -87,88 +87,81 @@
 
 \vfill
 
-3.  **Air pollution and birth outcomes, study components.** Researchers collected data to examine the relationship between air pollutants and preterm births in Southern California.
-    During the study, air pollution levels were measured by air quality monitoring stations.
-    Specifically, levels of carbon monoxide were recorded in parts per million, nitrogen dioxide and ozone in parts per hundred million, and inhalable particulate matter (PM$_{10}$) in $\mu g/m^3$.
-    Length of gestation data were collected on 143,196 births between the years 1989 and 1993, and air pollution exposure during gestation was calculated for each birth.
-    The analysis suggested that increased ambient PM$_{10}$ and, to a lesser degree, CO concentrations may be associated with the occurrence of preterm births.
-    [@Ritz+Yu+Chapa+Fruin:2000]
+3.  **空气污染与出生结果，研究组成部分.** 研究者收集数据以探究南加州空气污染物与早产之间的关联。
+    在研究中，空气质量监测站测量了空气污染水平。
+    具体而言，一氧化碳水平以百万分之一为单位记录，二氧化氮和臭氧以亿分之一为单位记录，可吸入颗粒物 (PM$_{10}$) 以 $\mu g/m^3$ 为单位记录。
+    收集了1989年至1993年间143,196名新生儿的妊娠时长数据，并为每名新生儿计算了妊娠期间暴露的空气污染水平。
+    分析表明，环境 PM$_{10}$ 浓度的升高，以及（在较小程度上）CO 浓度的升高，可能与早产的发生有关联。 [@Ritz+Yu+Chapa+Fruin:2000]
 
-    a.  Identify the main research question of the study.
+    a.  确定该研究的主要研究问题。
 
-    b.  Who are the subjects in this study, and how many are included?
+    b.  这项研究的研究对象是谁？一共包含多少名？
 
-    c.  What are the variables in the study?
-        Identify each variable as numerical or categorical.
-        If numerical, state whether the variable is discrete or continuous.
-        If categorical, state whether the variable is ordinal.
-
-\vfill
-
-\clearpage
-
-4.  **Cheaters, study components.** Researchers studying the relationship between honesty, age and self-control conducted an experiment on 160 children between the ages of 5 and 15.
-    Participants reported their age, sex, and whether they were an only child or not.
-    The researchers asked each child to toss a fair coin in private and to record the outcome (white or black) on a paper sheet, and said they would only reward children who report white.
-    [@Bucciol:2011]
-
-    a.  Identify the main research question of the study.
-
-    b.  Who are the subjects in this study, and how many are included?
-
-    c.  The study's findings can be summarized as follows: *"Half the students were explicitly told not to cheat and the others were not given any explicit instructions. In the no instruction group probability of cheating was found to be uniform across groups based on child's characteristics. In the group that was explicitly told to not cheat, girls were less likely to cheat, and while rate of cheating didn't vary by age for boys, it decreased with age for girls."* How many variables were recorded for each subject in the study in order to conclude these findings?
-        State the variables and their types.
-
-\vfill
-
-5.  **Gamification and statistics, study components.** Gamification is the application of game-design elements and game principles in non-game contexts.
-    In educational settings, gamification is often implemented as educational activities to solve problems by using characteristics of game elements.
-    Researchers investigating the effects of gamification on learning statistics conducted a study where they split college students in a statistics class into four groups: (1) no reading exercises and no gamification, (2) reading exercises but no gamification, (3) gamification but no reading exercises, and (4) gamification and reading exercises.
-    Students in all groups also attended lectures.
-    Students in the class were from two majors: Electrical and Computer Engineering (n = 279) and Business Administration (n = 86).
-    After their assigned learning experience, each student took a final evaluation comprised of 30 multiple choice question and their score was measured as the number of questions they answered correctly.
-    The researchers considered students' gender, level of studies (first through fourth year) and academic major.
-    Other variables considered were expertise in the English language and use of personal computers and games, both of which were measured on a scale of 1 (beginner) to 5 (proficient).
-    The study found that gamification had a positive effect on student learning compared to traditional teaching methods involving lectures and reading exercises.
-    They also found that the effect was larger for females and Engineering students.
-    [@Legaki:2020]
-
-    a.  Identify the main research question of the study.
-
-    b.  Who were the subjects in this study, and how many were included?
-
-    c.  What are the variables in the study?
-        Identify each variable as numerical or categorical.
-        If numerical, state whether the variable is discrete or continuous.
-        If categorical, state whether the variable is ordinal.
-
-\vfill
-
-6.  **Stealers, study components.** In a study of the relationship between socio-economic class and unethical behavior, 129 University of California undergraduates at Berkeley were asked to identify themselves as having low or high social-class by comparing themselves to others with the most (least) money, most (least) education, and most (least) respected jobs.
-    They were also presented with a jar of individually wrapped candies and informed that the candies were for children in a nearby laboratory, but that they could take some if they wanted.
-    After completing some unrelated tasks, participants reported the number of candies they had taken.
-    [@Piff:2012]
-
-    a.  Identify the main research question of the study.
-
-    b.  Who were the subjects in this study, and how many were included?
-
-    c.  The study found that students who were identified as upper-class took more candy than others.
-        How many variables were recorded for each subject in the study in order to conclude these findings?
-        State the variables and their types.
+    c.  研究中有哪些变量？
+        将每个变量区分为数值的或分类的。
+        如果是数值变量，说明该变量是离散的还是连续的。
+        如果是分类变量，说明该变量是否有序。
 
 \vfill
 
 \clearpage
 
-7.  **Migraine and acupuncture.** A migraine is a particularly painful type of headache, which patients sometimes wish to treat with acupuncture.
-    To determine whether acupuncture relieves migraine pain, researchers conducted a randomized controlled study where 89 individuals who identified as female diagnosed with migraine headaches were randomly assigned to one of two groups: treatment or control.
-    Forty-three (43) patients in the treatment group received acupuncture that is specifically designed to treat migraines.
-    Forty-six (46) patients in the control group received placebo acupuncture (needle insertion at non-acupoint locations).
-    Twenty-four (24) hours after patients received acupuncture, they were asked if they were pain free.
-    Results are summarized in the contingency table below.
-    Also provided is a figure from the original paper displaying the appropriate area (M) versus the inappropriate area (S) used in the treatment of migraine attacks.
-    [^_01-ex-data-hello-3] [@Allais:2011]
+4.  **作弊者，研究组成部分.** 为研究诚实、年龄与自我控制之间的关联，研究者对160名5到15岁的儿童进行了一项实验。
+    参与者报告了他们的年龄、性别以及是否为独生子女。
+    研究者要求每个孩子私下掷一枚公平的硬币，并将结果（白面或黑面）记录在一张纸上，并告知他们只有报告白面的孩子才会获得奖励。 [@Bucciol:2011]
+
+    a.  确定该研究的主要研究问题。
+
+    b.  这项研究的受试者是谁？一共包含多少名？
+
+    c.  研究发现可总结如下：*“一半的学生被明确告知不准作弊，另一半则没有收到任何明确指示。在未获指示的组中，基于儿童特征划分的各群体间的作弊概率是相同的。在明确告知不准作弊的组中，女孩作弊的可能性较低，并且虽然男孩的作弊率不随年龄变化，但女孩的作弊率随年龄增长而降低。”* 为了得出这些结论，研究中为每个受试者记录了多少个变量？请说明这些变量及其类型。
+
+\vfill
+
+5.  **游戏化与统计学，研究组成部分.** 游戏化是指在非游戏环境中应用游戏设计元素和游戏原理。
+    在教育环境中，游戏化通常被实施为利用游戏元素特征来解决问题的教育活动。
+    为研究游戏化对学习统计学效果的影响，研究人员进行了一项研究，他们将统计学课程的大学生分为四组：(1) 无阅读练习且无游戏化，(2) 有阅读练习但无游戏化，(3) 有游戏化但无阅读练习，(4) 有游戏化且有阅读练习。
+    所有组的学生也参加了听课。
+    该课程的学生来自两个专业：电气与计算机工程 (n = 279) 和工商管理 (n = 86)。
+    在完成分配的学习体验后，每名学生接受了一项由30道选择题组成的最终评估，其得分以答对的题目数衡量。
+    研究人员考虑了学生的性别、年级（一年级至四年级）和专业。
+    其他考虑的变量是英语熟练度、个人电脑和游戏的使用情况，这两者均采用1（初学者）到5（精通者）的量表进行衡量。
+    研究发现，与包含听课和阅读练习的传统教学方法相比，游戏化对学生的学习有积极影响。
+    他们也发现，这种影响对女性和工科学生更大。 [@Legaki:2020]
+
+    a.  确定该研究的主要研究问题。
+
+    b.  这项研究的受试者是谁？一共包含多少名？
+
+    c.  研究中的变量有哪些？
+        将每个变量区分为数值的或分类的。
+        如果是数值变量，说明该变量是离散的还是连续的。
+        如果是分类变量，说明该变量是否有序。
+
+\vfill
+
+6.  **偷拿糖果者，研究组成部分.** 在一项关于社会经济阶层与不道德行为之间关联的研究中，129名加州大学伯克利分校的本科生被要求通过将自己与拥有最多（最少）金钱、最多（最少）教育、以及最受（最不受）尊敬工作的人进行比较，来将自己认定为低社会阶层还是高社会阶层。
+    他们面前还摆放了一罐独立包装的糖果，并被告知这些糖果是给附近实验室的孩子们的，但如果他们愿意，也可以拿一些。
+    在完成一些无关的任务后，参与者报告了他们拿走的糖果数量。 [@Piff:2012]
+
+    a.  确定该研究的主要研究问题。
+
+    b.  这项研究的对象是谁？一共包含多少名？
+
+    c.  研究发现，自认为是高社会阶层的学生比其他学生拿了更多的糖果。
+        为了得出这一结论，研究中为每个研究对象记录了多少个变量？请说明这些变量及其类型。
+
+\vfill
+
+\clearpage
+
+7.  **偏头痛与针灸.** 偏头痛是一种特别痛苦的头痛类型，患者有时希望通过针灸来治疗。
+    为了确定针灸是否能缓解偏头痛疼痛，研究人员进行了一项随机对照研究，89名被诊断为偏头痛且自我认同为女性的个体被随机分配到两组之一：处理组或对照组。
+    处理组的43名患者接受了专门用于治疗偏头痛的针灸治疗。
+    对照组的46名患者接受了安慰剂针灸（在非穴位位置进行针刺）。
+    患者在接受针灸治疗后24小时，被询问是否已无痛感。
+    结果总结在下方的列联表中。
+    同时提供了原论文中的一幅图，显示了治疗偏头痛发作时使用的恰当区域（M）与不恰当区域（S）。 [^_01-ex-data-hello-3] [@Allais:2011]
 
     ```{r}
     migraine |>
@@ -178,36 +171,34 @@
       ) |>
       count(group, pain_free) |>
       pivot_wider(names_from = pain_free, values_from = n) |>
-      rename(Group = group) |>
+      rename(组别 = group) |>
       kbl(linesep = "", booktabs = TRUE) |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
-      add_header_above(c("", "Pain free?" = 2)) |>
+      add_header_above(c("", "是否无痛？" = 2)) |>
       column_spec(1:3, width = "5em")
     ```
 
-    a.  What percent of patients in the treatment group were pain free 24 hours after receiving acupuncture?
+    a.  处理组中有百分之几的患者在接受针灸 24 小时后无痛？
 
-    b.  What percent were pain free in the control group?
+    b.  对照组中有百分之几的患者无痛？
 
-    c.  In which group did a higher percent of patients become pain free 24 hours after receiving acupuncture?
+    c.  在哪一组中，接受针灸 24 小时后无痛的患者百分比更高？
 
-    d.  Your findings so far might suggest that acupuncture is an effective treatment for migraines for all people who suffer from migraines.
-        However this is not the only possible conclusion.
-        What is one other possible explanation for the observed difference between the percentages of patients that are pain free 24 hours after receiving acupuncture in the two groups?
+    d.  你目前的发现可能表明，针灸对所有偏头痛患者而言是一种有效的处理。然而，这并非唯一可能的结论。对于两组中接受针灸 24 小时后无痛的患者百分比之间观察到的差异，另一种可能的解释是什么？
 
-    e.  What are the explanatory and response variables in this study?
+    e.  这项研究中的解释变量和响应变量分别是什么？
 
 \vfill
 
-8.  **Sinusitis and antibiotics.** Researchers studying the effect of antibiotic treatment for acute sinusitis compared to symptomatic treatments randomly assigned 166 adults diagnosed with acute sinusitis to one of two groups: treatment or control.
-    Study participants received either a 10-day course of amoxicillin (an antibiotic) or a placebo similar in appearance and taste.
-    The placebo consisted of symptomatic treatments such as acetaminophen, nasal decongestants, etc.
-    At the end of the 10-day period, patients were asked if they experienced improvement in symptoms.
-    The distribution of responses is summarized below.[^_01-ex-data-hello-4]
+8.  **鼻窦炎和抗生素。** 研究人员为了研究抗生素处理与对症治疗对急性鼻窦炎的效果，将 166 名被诊断为急性鼻窦炎的成人随机分配到以下两组之一：处理组或对照组。
+    研究参与者要么接受为期 10 天的阿莫西林（一种抗生素）疗程，要么接受外观和味道相似的安慰剂。
+    该安慰剂包含对乙酰氨基酚、鼻减充血剂等对症治疗药物。
+    在 10 天结束时，询问患者其症状是否有所改善。
+    结果的分布总结如下。[^_01-ex-data-hello-4]
     [@Garbutt:2012]
 
     ```{r}
@@ -219,40 +210,37 @@
       ) |>
       count(group, self_reported_improvement) |>
       pivot_wider(names_from = self_reported_improvement, values_from = n) |>
-      rename(Group = group) |>
+      rename(组别 = group) |>
       kbl(linesep = "", booktabs = TRUE) |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
-      add_header_above(c("", "Improvement" = 2)) |>
+      add_header_above(c("", "改善情况" = 2)) |>
       column_spec(1:3, width = "5em")
     ```
 
-    a.  What percent of patients in the treatment group experienced improvement in symptoms?
+    a.  处理组中症状得到改善的患者占百分之几？
 
-    b.  What percent experienced improvement in symptoms in the control group?
+    b.  对照组中症状得到改善的患者占百分之几？
 
-    c.  In which group did a higher percentage of patients experience improvement in symptoms?
+    c.  在哪一组中，有更高百分比的患者症状得到改善？
 
-    d.  Your findings so far might suggest a real difference in the effectiveness of antibiotic and placebo treatments for improving symptoms of sinusitis.
-        However this is not the only possible conclusion.
-        What is one other possible explanation for the observed difference between the percentages patients who experienced improvement in symptoms?
+    d.  到目前为止，你的发现可能表明抗生素和安慰剂处理在改善鼻窦炎症状方面的有效性存在真实差异。然而，这并不是唯一可能的结论。对于观察到的症状改善的患者百分比之间的差异，另一种可能的解释是什么？
 
-    e.  What are the explanatory and response variables in this study?
+    e.  这项研究中的解释变量和响应变量分别是什么？
 
 \vfill
 
 \clearpage
 
-9.  **Daycare fines, study components.** Researchers tested the deterrence hypothesis which predicts that the introduction of a penalty will reduce the occurrence of the behavior subject to the fine, with the condition that the fine leaves everything else unchanged, by instituting a fine for late pickup at daycare centers.
-    For this study, they worked with 10 volunteer daycare centers that did not originally impose a fine to parents for picking up their kids late.
-    They randomly selected 6 of these daycare centers and instituted a monetary fine (of a considerable amount) for picking up children late and then removed it.
-    In the remaining 4 daycare centers no fine was introduced.
-    The study period was divided into four: before the fine (weeks 1–4), the first 4 weeks with the fine (weeks 5-8), the last 8 weeks with fine (weeks 9–16), and the after fine period (weeks 17-20).
-    Throughout the study, the number of kids who were picked up late was recorded each week for each daycare.
-    The study found that the number of late-coming parents increased discernibly when the fine was introduced, and no reduction occurred after the fine was removed.[^_01-ex-data-hello-5]
+9.  **日托罚款，研究组成要素。** 研究人员通过在日托中心设立迟到接送的罚款，检验了威慑假说。该假说预测，引入惩罚会减少受罚款影响的行为的发生，其前提条件是罚款不会改变其他任何条件。在这项研究中，他们与 10 家志愿参与的日托中心合作，这些日托中心最初并未对家长迟到接孩子进行罚款。
+    他们从这些日托中心中随机选择了 6 家，引入了一笔金额可观的迟到接孩子罚款，之后又取消了该罚款。
+    在剩余的 4 家日托中心中，则没有引入罚款。
+    研究期被划分为四个阶段：罚款前（第1-4周）、罚款实施的前4周（第5-8周）、罚款实施的最后8周（第9-16周）以及罚款取消后（第17-20周）。
+    在整个研究过程中，每周记录每个日托中心迟到被接走的孩子人数。
+    研究发现，当引入罚款时，迟到的家长人数明显增加，而在罚款取消后，这一人数也未出现减少。[^_01-ex-data-hello-5]
     [@Gneezy:2000]
 
     ```{r}
@@ -277,6 +265,17 @@
     daycare_fines_1_to_5 |>
       bind_rows(daycare_fines_filler) |>
       bind_rows(daycare_fines_200) |>
+      mutate(
+        group = recode(group, "test" = "实验组", "control" = "对照组"),
+        study_period = recode(study_period,
+          "first 4 weeks without fine" = "罚款前 4 周",
+          "first 4 weeks with fine" = "实施罚款的前 4 周",
+          "last 8 weeks with fine" = "实施罚款的后 8 周",
+          "after fine removed" = "取消罚款后"
+        )
+      ) |>
+      rename("中心" = center, "周次" = week, "组别" = group,
+             "迟到接送次数" = late_pickups, "研究阶段" = study_period) |>
       kbl(linesep = "", booktabs = TRUE, align = "cclcl") |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
@@ -285,48 +284,48 @@
       )
     ```
 
-    a.  Is this an observational study or an experiment?
-        Explain your reasoning.
+    a.  这是一项观察性研究还是一项实验？
+        解释你的理由。
 
-    b.  What are the cases in this study and how many are included?
+    b.  这项研究中的观测单位是什么？一共有多少个？
 
-    c.  What is the response variable in the study and what type of variable is it?
+    c.  这项研究中的响应变量是什么？它是哪种类型的变量？
 
-    d.  What are the explanatory variables in the study and what types of variables are they?
+    d.  这项研究中的解释变量是什么？它们分别是哪种类型的变量？
 
 \vfill
 
-10. **Efficacy of COVID-19 vaccine on adolescents, study components.** Results of a Phase 3 trial announced in March 2021 show that the Pfizer-BioNTech COVID-19 vaccine demonstrated 100% efficacy and robust antibody responses on 12 to 15 years old adolescents with or without prior evidence of SARS-CoV-2 infection.
-    In this trial 2,260 adolescents were randomly assigned to two groups: one group got the vaccine (n = 1,131) and the other got a placebo (n = 1,129).
-    While 18 cases of COVID-19 were observed in the placebo group, none were observed in the vaccine group.[^_01-ex-data-hello-6]
+10. **青少年COVID-19疫苗有效性，研究组成部分。** 2021年3月公布的一项3期试验结果显示，辉瑞-BioNTech COVID-19疫苗在12至15岁青少年中表现出100%的有效性，并产生稳健的抗体反应，无论其是否有SARS-CoV-2感染史。
+    在该试验中，2,260名青少年被随机分配到两个组：一组接种疫苗（n = 1,131），另一组接种安慰剂（n = 1,129）。
+    安慰剂组观察到18例COVID-19病例，而疫苗组未观察到任何病例。[^_01-ex-data-hello-6]
     [@Pfizer:2021]
 
-    a.  Is this an observational study or an experiment?
-        Explain your reasoning.
+    a.  这是一项观察性研究还是一项实验？
+        解释你的理由。
 
-    b.  What are the cases in this study and how many are included?
+    b.  这项研究中的观测单位是什么？一共有多少个？
 
-    c.  What is the response variable in the study and what type of variable is it?
+    c.  这项研究中的响应变量是什么？它是哪种类型的变量？
 
-    d.  What are the explanatory variables in the study and what types of variables are they?
+    d.  这项研究中的解释变量是什么？它们分别是哪种类型的变量？
 
 \vfill
 
-11. **Palmer penguins.** Data were collected on 344 penguins living on three islands (Torgersen, Biscoe, and Dream) in the Palmer Archipelago, Antarctica.
-    In addition to which island each penguin lives on, the data contains information on the species of the penguin (*Adelie*, *Chinstrap*, or *Gentoo*), its bill length, bill depth, and flipper length (measured in millimeters), its body mass (measured in grams), and the sex of the penguin (female or male).
+11. **帕尔默企鹅。** 数据收集自生活在南极帕尔默群岛的三个岛屿（托格森岛、比斯科岛和梦幻岛）上的344只企鹅。
+    除了每只企鹅居住的岛屿外，数据还包含企鹅的物种（*阿德利企鹅*、*帽带企鹅*或*巴布亚企鹅*）、喙长、喙深和鳍肢长（以毫米为单位）、体重（以克为单位）以及性别（雌性或雄性）信息。
     [^_01-ex-data-hello-7] [@palmerpenguins]
 
-    a.  How many cases were included in the data?
-    b.  How many numerical variables are included in the data? Indicate what they are, and if they are continuous or discrete.
-    c.  How many categorical variables are included in the data, and what are they? List the corresponding levels (categories) for each.
+    a.  数据中包含多少个观测单位？
+    b.  数据中包含多少个数值变量？指出它们是哪些，并说明它们是连续的还是离散的。
+    c.  数据中包含多少个分类变量，它们是哪些？列出每个变量对应的水平（类别）。
 
 \vfill
 
 \clearpage
 
-12. **Smoking habits of UK residents.** A survey was conducted to study the smoking habits of 1,691 UK residents.
-    Below is a data frame displaying a portion of the data collected in this survey.
-    A blank cell indicates that data for that variable was not available for a given respondent.[^_01-ex-data-hello-8]
+12. **英国居民的吸烟习惯。** 为研究1,691名英国居民的吸烟习惯进行了一项调查。
+    下面是一个数据框，显示了本次调查收集的部分数据。
+    空白单元格表示该变量在某个受访者处的数据不可用。[^_01-ex-data-hello-8]
 
     ```{r}
     set.seed(456)
@@ -362,20 +361,20 @@
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
-      add_header_above(c(" " = 6, "amount" = 2))
+      add_header_above(c(" " = 6, "数量" = 2))
     ```
 
-    a.  What does each row of the data frame represent?
+    a.  数据框中的每一行代表什么？
 
-    b.  How many participants were included in the survey?
+    b.  有多少参与者被纳入了这项调查？
 
-    c.  Indicate whether each variable is numerical or categorical.
-        If numerical, identify as continuous or discrete.
-        If categorical, indicate if the variable is ordinal.
+    c.  指出每个变量是数值的还是分类的。
+        如果是数值的，说明是连续的还是离散的。
+        如果是分类的，指出该变量是否是有序的。
 
 \vfill
 
-13. **US Airports.** The visualization below shows the geographical distribution of airports in the contiguous United States and Washington, DC. This visualization was constructed based on a dataset where each observation is an airport.[^_01-ex-data-hello-9]
+13.  **美国机场。** 下图展示了美国本土及华盛顿特区境内机场的地理分布。该可视化基于每个观测是一个机场的数据集构建。[^_01-ex-data-hello-9]
 
     ```{r}
     #| fig-asp: 0.5
@@ -398,23 +397,23 @@
       filter(ownership %in% c("PR", "PU")) |> # only want public and private owned
       mutate(
         ownership = case_when(
-          ownership == "PR" ~ "Privately owned",
-          ownership == "PU" ~ "Publicly owned"
+          ownership == "PR" ~ "私有",
+          ownership == "PU" ~ "公有"
         ),
         use = case_when(
-          use == "PR" ~ "Private use",
-          use == "PU" ~ "Public use"
+          use == "PR" ~ "私人使用",
+          use == "PU" ~ "公共使用"
         ),
         region = case_when(
-          region == "AAL" ~ "Alaska",
-          region == "ACE" ~ "Central",
-          region == "AEA" ~ "Eastern",
-          region == "AGL" ~ "Great Lakes",
-          region == "ANE" ~ "New England",
-          region == "ANM" ~ "Northwest Mountain",
-          region == "ASO" ~ "Southern",
-          region == "ASW" ~ "Southwest",
-          region == "AWP" ~ "West-Pacific"
+          region == "AAL" ~ "阿拉斯加",
+          region == "ACE" ~ "中部",
+          region == "AEA" ~ "东部",
+          region == "AGL" ~ "五大湖区",
+          region == "ANE" ~ "新英格兰",
+          region == "ANM" ~ "西北山区",
+          region == "ASO" ~ "南部",
+          region == "ASW" ~ "西南部",
+          region == "AWP" ~ "西太平洋"
         )
       )
 
@@ -429,7 +428,7 @@
         alpha = 0.3, size = 0.5
       ) +
       facet_grid(ownership ~ use) +
-      labs(x = "", y = "", color = "Region") +
+      labs(x = "", y = "", color = "地区") +
       scale_color_openintro() +
       scale_y_continuous(breaks = c(30, 40, 50)) +
       #theme(
@@ -439,19 +438,19 @@
       guides(color = guide_legend(override.aes = list(size = 2, alpha = 1)))
     ```
 
-    a.  List the variables you believe were necessary to create this visualization.
+    a.  列出你认为创建这个可视化所必需的变量。
 
-    b.  Indicate whether each variable is numerical or categorical.
-        If numerical, identify as continuous or discrete.
-        If categorical, indicate if the variable is ordinal.
+    b.  指出每个变量是数值的还是分类的。
+        如果是数值的，请指明是连续的还是离散的。
+        如果是分类的，请指明该变量是否是有序的。
 
 \vfill
 
 \clearpage
 
-14. **UN Votes.** The visualization below shows voting patterns in the United States, Canada, and Mexico in the United Nations General Assembly on a variety of issues.
-    Specifically, for a given year between 1946 and 2019, it displays the percentage of roll calls in which the country voted yes for each issue.
-    This visualization was constructed based on a dataset where each observation is a country/year pair.[^_01-ex-data-hello-10]
+14.  **联合国投票。** 下图展示了美国、加拿大和墨西哥在联合国大会各种议题上的投票模式。
+    具体来说，对于 1946 年至 2019 年间的某一年，它展示了该国在每个议题的点名表决中投赞成票的百分比。
+    该可视化基于每个观测是一个国家/年份对的数据集构建。[^_01-ex-data-hello-10]
 
     ```{r}
     #| fig-asp: 0.5
@@ -467,7 +466,7 @@
       group_by(country, year = year(date), issue) |>
       summarize(
         votes = n(),
-        percent_yes = mean(vote == "yes"), 
+        percent_yes = mean(vote == "yes"),
         .groups = "drop_last"
       ) |>
       filter(votes > 5) |>  # only use records with more than 5 votes
@@ -477,8 +476,8 @@
         facet_wrap(~ issue, labeller = label_wrap_gen(width = 20)) +
         labs(
           y = "% Yes",
-          x = "Year",
-          color = "Country"
+          x = "年份",
+          color = "国家/地区"
         ) +
         scale_color_openintro("three") +
         scale_x_continuous(breaks = c(1960, 1990, 2020)) +
@@ -489,15 +488,15 @@
       #)
     ```
 
-    a.  List the variables used in creating this visualization.
+    a.  列出创建此可视化所使用的变量。
 
-    b.  Indicate whether each variable is numerical or categorical.
-        If numerical, identify as continuous or discrete.
-        If categorical, indicate if the variable is ordinal.
+    b.  指出每个变量是数值的还是分类的。
+        如果是数值的，请指明是连续的还是离散的。
+        如果是分类的，请指明该变量是否是有序的。
 
 \vfill
 
-15. **UK baby names.** The visualization below shows the number of baby girls born in the United Kingdom (comprised of England & Wales, Northern Ireland, and Scotland) who were given the name "Fiona" over the years.[^_01-ex-data-hello-11]
+15. **英国婴儿名字。** 下图展示了多年来英国（包括英格兰和威尔士、北爱尔兰和苏格兰）取名为“Fiona”的女婴数量。[^_01-ex-data-hello-11]
 
     ```{r}
     #| fig-asp: 0.5
@@ -508,10 +507,10 @@
       geom_point() +
       scale_color_openintro("three") +
       labs(
-        title = "Number of baby girls named Fiona",
-        x = "Year",
-        y = "Number of babies",
-        color = "Nation", linetype = "Nation"
+        title = "取名为 Fiona 的女婴数量",
+        x = "年份",
+        y = "婴儿数量",
+        color = "国家", linetype = "国家"
       ) +
       theme(
         legend.position = c(0.8, 0.7),
@@ -519,18 +518,18 @@
       )
     ```
 
-    a.  List the variables you believe were necessary to create this visualization.
+    a.  列出你认为创建此可视化所必需的变量。
 
-    b.  Indicate whether each variable is numerical or categorical.
-        If numerical, identify as continuous or discrete.
-        If categorical, indicate if the variable is ordinal.
+    b.  指出每个变量是数值的还是分类的。
+        如果是数值的，说明是连续的还是离散的。
+        如果是分类的，指出该变量是否是有序的。
 
 \vfill
 
 \clearpage
 
-16. **Shows on Netflix.** The visualization below shows the distribution of ratings of TV shows on Netflix (a streaming entertainment service) based on the decade they were released in and the country they were produced in.
-    In the dataset, each observation is a TV show.[^_01-ex-data-hello-12]
+16. **Netflix上的节目。** 下图展示了 Netflix（一家流媒体娱乐服务）上电视节目评级的分布，该分布基于其发行年代和制作国家。
+    在该数据集中，每个观测是一个电视节目。[^_01-ex-data-hello-12]
 
     ```{r}
     #| fig-width: 7
@@ -553,12 +552,12 @@
         rating = if_else(rating == "TV-Y7-FV", "TV-Y7", rating),
         rating = fct_relevel(rating, "TV-Y", "TV-Y7", "TV-G", "TV-PG", "TV-14", "TV-MA"),
         rating = fct_recode(rating,
-          `All children (TV-Y)` = "TV-Y",
-          `Older children (TV-Y7)` = "TV-Y7",
-          `General audience (TV-G)` = "TV-G",
-          `Parental guidance (TV-PG)` = "TV-PG",
-          `Parents cautioned (TV-14)` = "TV-14",
-          `Mature audience (TV-MA)` = "TV-MA"
+          `所有儿童 (TV-Y)` = "TV-Y",
+          `大龄儿童 (TV-Y7)` = "TV-Y7",
+          `普通观众 (TV-G)` = "TV-G",
+          `家长指导 (TV-PG)` = "TV-PG",
+          `家长需注意 (TV-14)` = "TV-14",
+          `成人观众 (TV-MA)` = "TV-MA"
         )
       ) |>
       rename(`Production country` = production_country)
@@ -572,7 +571,7 @@
         )
       ) +
       labs(
-        x = "Release decade", y = "Proportion", fill = "Rating"
+        x = "发行年代", y = "比例", fill = "评级"
       ) +
       facet_wrap(
         ~`Production country`,
@@ -582,24 +581,24 @@
       theme(legend.position = "bottom")
     ```
 
-    a.  List the variables you believe were necessary to create this visualization.
+    a.  列出你认为创建此可视化所必需的变量。
 
-    b.  Indicate whether each variable is numerical or categorical.
-        If numerical, identify as continuous or discrete.
-        If categorical, indicate if the variable is ordinal.
+    b.  指出每个变量是数值的还是分类的。
+        如果是数值的，说明是连续的还是离散的。
+        如果是分类的，指出该变量是否是有序的。
 
 \vfill
 
-17. **Stanford Open Policing.** The Stanford Open Policing project gathers, analyzes, and releases records from traffic stops by law enforcement agencies across the United States.
-    Their goal is to help researchers, journalists, and policy makers investigate and improve interactions between police and the public.
-    The following is an excerpt from a summary table created based off of the data collected as part of this project.
+17. **斯坦福开放警务。** 斯坦福开放警务项目收集、分析并发布美国各地执法机构的交通拦截记录。
+    其目标是帮助研究人员、记者和政策制定者调查并改善警察与公众的互动。
+    以下是基于该项目收集的数据创建的汇总表摘录。
     [@pierson2020large]
 
     ```{r}
     # data from https://raw.githubusercontent.com/5harad/openpolicing/master/results/data_for_figures/combined_data.csv
     sop <- read_csv("data/stanford-open-policing-combined-data.csv")
 
-    sop_to_print <- sop |>
+sop_to_print <- sop |>
       select(location, state, driver_race, stops_per_year, search_rate, arrest_rate) |>
       filter(
         location %in% c("APACHE COUNTY", "COCHISE COUNTY", "WOOD COUNTY"),
@@ -609,11 +608,11 @@
       relocate(arrest_rate, .after = driver_race) |>
       rename_with(str_to_title) |>
       rename(
-        `County` = Location,
-        `Race / Ethnicity` = Driver_race,
-        `Arrest rate` = Arrest_rate,
-        `Stops / year` = Stops_per_year,
-        `Search rate` = Search_rate,
+        `县` = Location,
+        `种族/民族` = Driver_race,
+        `逮捕率` = Arrest_rate,
+        `年均拦截次数` = Stops_per_year,
+        `搜查率` = Search_rate,
       ) |>
       mutate(across(everything(), as.character))
 
@@ -632,21 +631,21 @@
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
-      add_header_above(c(" " = 2, "Driver" = 2, "Car" = 2))
+      add_header_above(c(" " = 2, "驾驶员" = 2, "车辆" = 2))
     ```
 
-    a.  What variables were collected on each individual traffic stop in order to create the summary table above?
+    a.  为了创建上面的汇总表，每次交通拦截收集了哪些变量？
 
-    b.  State whether each variable is numerical or categorical.
-        If numerical, state whether it is continuous or discrete.
-        If categorical, state whether it is ordinal or not.
+    b.  判断每个变量是数值的还是分类的。
+        如果是数值的，说明它是连续的还是离散的。
+        如果是分类的，说明它是否是有序的。
 
-    c.  Suppose we wanted to evaluate whether vehicle search rates are different for drivers of different races.
-        In this analysis, which variable would be the response variable and which variable would be the explanatory variable?
+    c.  假设我们想评估车辆搜查率是否因驾驶员种族不同而有所差异。
+        在这个分析中，哪个变量是响应变量，哪个变量是解释变量？
 
 \vfill
 
-18. **Space launches.** The following summary table shows the number of space launches in the US by the type of launching agency and the outcome of the launch (success or failure).[^_01-ex-data-hello-13]
+18. **太空发射。** 下面的汇总表显示了美国按发射机构类型和发射结果（成功或失败）分类的太空发射次数。[^_01-ex-data-hello-13]
 
     ```{r}
     launches_1957_1999 <- tribble(
@@ -675,35 +674,35 @@
       pivot_wider(names_from = outcome, values_from = n) |>
       pivot_wider(names_from = year, values_from = c("Failure", "Success"), values_fill = 0) |>
       select(agency, `Failure_1957-1999`, `Success_1957-1999`, `Failure_2000-2018`, `Success_2000-2018`) |>
-      kbl(linesep = "", booktabs = TRUE, col.names = c("", "Failure", "Success", "Failure", "Success")) |>
+      kbl(linesep = "", booktabs = TRUE, col.names = c("", "失败", "成功", "失败", "成功")) |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
-      add_header_above(c(" " = 1, "1957 - 1999" = 2, "2000-2018" = 2))
+      add_header_above(c(" " = 1, "1957-1999年" = 2, "2000-2018年" = 2))
     ```
 
-    a.  What variables were collected on each launch in order to create to the summary table above?
+    a.  为了创建上面的汇总表，每次发射收集了哪些变量？
 
-    b.  State whether each variable is numerical or categorical.
-        If numerical, state whether it is continuous or discrete.
-        If categorical, state whether it is ordinal or not.
+    b.  判断每个变量是数值的还是分类的。
+        如果是数值的，说明它是连续的还是离散的。
+        如果是分类的，说明它是否是有序的。
 
-    c.  Suppose we wanted to study how the success rate of launches vary between launching agencies and over time.
-        In this analysis, which variable would be the response variable and which variable would be the explanatory variable?
+    c.  假设我们想研究发射成功率如何随发射机构和时间变化。
+        在这个分析中，哪个变量是响应变量，哪个变量是解释变量？
 
 \vfill
 
-19. **Pet names.** The city of Seattle, WA has an open data portal that includes pets registered in the city.
-    For each registered pet, we have information on the pet's name and species.
-    The following visualization plots the proportion of dogs with a given name versus the proportion of cats with the same name.
-    The 20 most common cat and dog names are displayed.
-    The diagonal line on the plot is the $x = y$ line; if a name appeared on this line, the name's popularity would be exactly the same for dogs and cats.[^_01-ex-data-hello-14]
+19. **宠物名字。** 华盛顿州西雅图市有一个开放数据门户，其中包含了在该市注册的宠物信息。
+    对于每只注册的宠物，我们都有其名字和物种的信息。
+    下面的可视化绘制了拥有某个给定名字的狗的比例与拥有相同名字的猫的比例之间的关系。
+    图中显示了20个最常见的猫和狗的名字。
+    图中的对角线是 $x = y$ 线；如果一个名字出现在这条线上，那么该名字在狗和猫中的流行度将完全相同。[^_01-ex-data-hello-14]
 
     ```{r}
     #| fig-asp: 0.5
-    # data prep ----------------------------------------------------------------
+    # 数据准备 -----------------------------------------------------------------
     name_props <- seattlepets |>
       filter(
         !is.na(animal_name),
@@ -729,7 +728,7 @@
       ungroup() |>
       select(animal_name, cat_prop, dog_prop)
 
-    # create viz ---------------------------------------------------------------
+    # 创建可视化 ---------------------------------------------------------------
     ggplot(comb_name_props, aes(x = cat_prop, y = dog_prop)) +
       geom_abline(
         intercept = 0,
@@ -740,55 +739,55 @@
         seed = 291252, max.iter = 10000
       ) +
       geom_point(alpha = 0.8) +
-      labs(x = "Proportion of cats", y = "Proportion of dogs") +
+      labs(x = "猫的比例", y = "狗的比例") +
       xlim(0.002, 0.01) +
       ylim(0.002, 0.01)
     ```
 
-    a.  Are these data collected as part of an experiment or an observational study?
+    a.  这些数据是作为实验的一部分还是作为观察性研究的一部分收集的？
 
-    b.  What is the most common dog name?
-        What is the most common cat name?
+    b.  最常见的狗名是什么？
+        最常见的猫名是什么？
 
-    c.  What names are more common for cats than dogs?
+    c.  哪些名字在猫中比在狗中更常见？
 
-    d.  Is the relationship between the two variables positive or negative?
-        What does this mean in context of the data?
-
-\vfill
-
-20. **Stressed out in an elevator.** In a study evaluating the relationship between stress and muscle cramps, half the subjects are randomly assigned to be exposed to increased stress by being placed into an elevator that falls rapidly and stops abruptly and the other half are left at no or baseline stress.
-
-    a.  What type of study is this?
-
-    b.  Can this study be used to conclude a causal relationship between increased stress and muscle cramps?
+    d.  这两个变量之间的关系是正相关还是负相关？
+        这在数据的背景下意味着什么？
 
 \vfill
 
-[^_01-ex-data-hello-1]: The [`mcu_films`](http://openintrostat.github.io/openintro/reference/mcu_films.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+20. **电梯中的压力。** 在一项评估压力与肌肉痉挛关系的研究中，半数受试者被随机分配到压力增加组，方法是将其置于快速下降并突然停止的电梯中，另一半受试者则处于无压力或基线压力状态。
 
-[^_01-ex-data-hello-2]: The [`run17`](http://openintrostat.github.io/openintro/reference/run17.html) data used in this exercise can be found in the [**cherryblossom**](http://openintrostat.github.io/cherryblossom) R package.
+    a.  这是一项什么类型的研究？
 
-[^_01-ex-data-hello-3]: The [`migraine`](http://openintrostat.github.io/openintro/reference/migraine.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+    b.  这项研究能否用来推断压力增加与肌肉痉挛之间的因果关系？
 
-[^_01-ex-data-hello-4]: The [`sinusitis`](http://openintrostat.github.io/openintro/reference/sinusitis.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+\vfill
 
-[^_01-ex-data-hello-5]: The [`daycare_fines`](http://openintrostat.github.io/openintro/reference/daycare_fines.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_01-ex-data-hello-1]: 本练习中使用的 [`mcu_films`](http://openintrostat.github.io/openintro/reference/mcu_films.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-6]: The [`biontech_adolescents`](http://openintrostat.github.io/openintro/reference/biontech_adolescents.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_01-ex-data-hello-2]: 本练习中使用的 [`run17`](http://openintrostat.github.io/openintro/reference/run17.html) 数据可在 [**cherryblossom**](http://openintrostat.github.io/cherryblossom) R 包中找到。
 
-[^_01-ex-data-hello-7]: Artwork by [Allison Horst](https://twitter.com/allison_horst).
+[^_01-ex-data-hello-3]: 本练习中使用的 [`migraine`](http://openintrostat.github.io/openintro/reference/migraine.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-8]: The [`smoking`](http://openintrostat.github.io/openintro/reference/smoking.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_01-ex-data-hello-4]: 本练习中使用的 [`sinusitis`](http://openintrostat.github.io/openintro/reference/sinusitis.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-9]: The [`usairports`](http://openintrostat.github.io/airports/reference/usairports.html) data used in this exercise can be found in the [**airports**](http://openintrostat.github.io/airports/) R package.
+[^_01-ex-data-hello-5]: 本练习中使用的 [`daycare_fines`](http://openintrostat.github.io/openintro/reference/daycare_fines.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-10]: The data used in this exercise can be found in the [**unvotes**](https://cran.r-project.org/web/packages/unvotes/index.html) R package.
+[^_01-ex-data-hello-6]: 本练习中使用的 [`biontech_adolescents`](http://openintrostat.github.io/openintro/reference/biontech_adolescents.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-11]: The [`ukbabynames`](https://mine-cetinkaya-rundel.github.io/ukbabynames/reference/ukbabynames.html) data used in this exercise can be found in the [**ukbabynames**](https://mine-cetinkaya-rundel.github.io/ukbabynames/) R package.
+[^_01-ex-data-hello-7]: 原作由 [Allison Horst](https://twitter.com/allison_horst) 创作。
 
-[^_01-ex-data-hello-12]: The [`netflix_titles`](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-04-20/readme.md) data used in this exercise can be found in the [**tidytuesdayR**](https://cran.r-project.org/web/packages/tidytuesdayR/index.html) R package.
+[^_01-ex-data-hello-8]: 本练习中使用的 [`smoking`](http://openintrostat.github.io/openintro/reference/smoking.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_01-ex-data-hello-13]: The data used in this exercise comes from the [JSR Launch Vehicle Database, 2019 Feb 10 Edition](https://www.openintro.org/go?id=textbook-space-launches-data&referrer=ims0_html).
+[^_01-ex-data-hello-9]: 本练习中使用的 [`usairports`](http://openintrostat.github.io/airports/reference/usairports.html) 数据可在 [**airports**](http://openintrostat.github.io/airports/) R 包中找到。
 
-[^_01-ex-data-hello-14]: The [`seattlepets`](http://openintrostat.github.io/openintro/reference/seattlepets.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_01-ex-data-hello-10]: 本练习中使用的数据可在 [**unvotes**](https://cran.r-project.org/web/packages/unvotes/index.html) R 包中找到。
+
+[^_01-ex-data-hello-11]: 本练习中使用的 [`ukbabynames`](https://mine-cetinkaya-rundel.github.io/ukbabynames/reference/ukbabynames.html) 数据可在 [**ukbabynames**](https://mine-cetinkaya-rundel.github.io/ukbabynames/) R 包中找到。
+
+[^_01-ex-data-hello-12]: 本练习中使用的 [`netflix_titles`](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-04-20/readme.md) 数据可在 [**tidytuesdayR**](https://cran.r-project.org/web/packages/tidytuesdayR/index.html) R 包中找到。
+
+[^_01-ex-data-hello-13]: 本练习中使用的数据来自 [JSR Launch Vehicle Database, 2019 Feb 10 Edition](https://www.openintro.org/go?id=textbook-space-launches-data&referrer=ims0_html)。
+
+[^_01-ex-data-hello-14]: 本练习中使用的 [`seattlepets`](http://openintrostat.github.io/openintro/reference/seattlepets.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

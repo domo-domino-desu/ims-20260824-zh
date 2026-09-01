@@ -1,23 +1,23 @@
-# Statistical inference {#sec-inference .unnumbered}
+# 统计推断 {#sec-inference .unnumbered}
 
-While the previous part of the textbook, [Foundations of inference](https://openintro-ims2.netlify.app/foundations-of-inference), introduces the core of statistical inference, this part provides details for applying statistical inference in particular settings.
-Understanding the specific nuances given for different inferential methods can be helpful in communicating the resulting analyses.
+虽然本教材的上一部分——[推断基础](https://openintro-ims2.netlify.app/foundations-of-inference)——介绍了统计推断的核心内容，但本部分将提供在特定情境下应用统计推断的具体细节。
+理解不同推断方法所特有的细微差别，有助于传达最终的分析结果。
 
--   [Chapter -@sec-inference-one-prop] provides specific details about inference for a single proportion.
+-   [第 -@sec-inference-one-prop 章] 提供了关于单个比例推断的具体细节。
 
--   [Chapter -@sec-inference-two-props] provides specific details about inference for comparing two proportions.
+-   [第 -@sec-inference-two-props 章] 提供了关于比较两个比例推断的具体细节。
 
--   [Chapter -@sec-inference-tables] provides specific details about inference for two-way tables.
+-   [第 -@sec-inference-tables 章] 提供了关于二维表推断的具体细节。
 
--   [Chapter -@sec-inference-one-mean] provides specific details about inference for a single mean.
+-   [第 -@sec-inference-one-mean 章] 提供了关于单个均值推断的具体细节。
 
--   [Chapter -@sec-inference-two-means] provides specific details about inference for comparing two independent means.
+-   [第 -@sec-inference-two-means 章] 提供了关于比较两个独立均值推断的具体细节。
 
--   [Chapter -@sec-inference-paired-means] provides specific details about inference for comparing paired means.
+-   [第 -@sec-inference-paired-means 章] 提供了关于比较配对均值推断的具体细节。
 
--   [Chapter -@sec-inference-many-means] provides specific details about inference for comparing many means.
+-   [第 -@sec-inference-many-means 章] 提供了关于比较多个均值推断的具体细节。
 
--   [Chapter -@sec-inference-applications] includes an application on the Redundant adjectives case study where the topics from this part of the book on means are fully developed.
+-   [第 -@sec-inference-applications 章] 包含了一个基于“Redundant adjectives”（冗余形容词）案例研究的应用，本书本部分中关于均值的各个主题在此得到了充分展开。
 
-After working through the details in this part, you should have a good sense for how inferential methods are similar and different when applied to different data structures.
-Additionally, you should be able to apply both computational methods as well as mathematical techniques to the inference problem at hand.
+在学习本部分的详细内容后，你应该能很好地理解推断方法在应用于不同数据结构时的异同。
+此外，你应该能够将计算方法以及数学技术应用于当前面临的推断问题。

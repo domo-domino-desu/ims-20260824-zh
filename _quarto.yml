@@ -5,16 +5,9 @@ project:
     - _redirects
 
 book:
-  title: "Introduction to Modern Statistics (2e)"
-  reader-mode: true
-  page-footer:
-    left: |
-      This is IMS2e!
-    right: |
-      This book was built with <a href="https://quarto.org/">Quarto</a>.
+  title: "现代统计学导论（第二版）"
   cover-image: images/IMS2_front_cover.png
-  favicon: images/openintro.png
-  repo-url: https://github.com/openintrostat/ims/
+  repo-url: https://github.com/domo-domino-desu/ims-20260824-zh/
   repo-branch: main
   repo-actions: [edit, issue]
   chapters:
@@ -77,40 +70,36 @@ bibliography:
   - eoce.bib
   - packages.bib
 
+crossref:
+  fig-title: "图"
+  fig-prefix: "图"
+  tbl-title: "表"
+  tbl-prefix: "表"
+  eq-prefix: "式"
+  sec-prefix: "节"
+
 format:
-  html:
-    theme:
-      light: [cosmo, scss/ims-style.scss]
-      dark: [cosmo, scss/ims-style-dark.scss]
-    code-link: true
-    mainfont: Atkinson Hyperlegible
-    monofont: Source Code Pro
-    author-meta: "Mine Çetinkaya-Rundel and Johanna Hardin"
-    lightbox: 
-      match: auto
-      loop: false
+  pdf:
+    include-in-header: latex/ims-style.tex
+    include-after-body: latex/after-body.tex
+    documentclass: ctexbook
+    classoption:
+      - 10pt
+      - openany
+      - fontset=fandol
+    pdf-engine: lualatex
+    biblio-style: apalike
+    keep-tex: true
+    block-headings: false
+    top-level-division: chapter
     fig-dpi: 300
     fig-show: hold
+    fig-pos: H
+    tbl-pos: H
     fig-align: center
-  #pdf:
-  #  include-in-header: latex/ims-style.tex
-  #  include-after-body: latex/after-body.tex
-  #  documentclass: book
-  #  classoption: 
-  #    - 10pt
-  #    - openany
-  #  pdf-engine: xelatex
-  #  biblio-style: apalike
-  #  keep-tex: true
-  #  block-headings: false
-  #  top-level-division: chapter
-  #  fig-dpi: 300
-  #  fig-show: hold
-  #  fig-pos: H
-  #  tbl-pos: H
-  #  fig-align: center
-  #  toc: true
-  #  toc-depth: 2
+    toc: true
+    toc-title: "目录"
+    toc-depth: 2
     
 editor: source
 

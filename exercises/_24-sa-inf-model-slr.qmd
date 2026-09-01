@@ -1,29 +1,29 @@
-1.  \(a\) $H_0: \beta_1 = 0$, $H_A: \beta_1 \ne 0$. (b) The observed slope of 0.604 is not a plausible value, the p-value is extremely small, and the null hypothesis can be rejected. c. The p-value is also extremely small.
+1.  \(a\) $H_0: \beta_1 = 0$, $H_A: \beta_1 \ne 0$. (b) 观测斜率 0.604 不是一个合理数值，p 值极小，可以拒绝原假设。 c. p 值也极小。
 \addtocounter{enumi}{1}
 
-1. \(a) The relationship is positive, moderate-to-strong, and linear. There are a few outliers but no points that appear to be influential. (b) $\widehat{\texttt{wgt}} = -105.0113 + 1.0176 \times \texttt{hgt}$. Slope: For each additional centimeter in height, the model predicts the average weight to be 1.0176 additional kilograms (about 2.2 pounds). Intercept: People who are 0 centimeters tall are expected to weigh -105.0113 kilograms. This is obviously not possible. Here, the $y$- intercept serves only to adjust the height of the line and is meaningless by itself. (c) $H_0$: The true slope coefficient of height is zero ($\beta_1 = 0$). $H_A$: The true slope coefficient of height is different than zero ($\beta_1 \neq 0$). The p-value for the two-sided alternative hypothesis ($\beta_1 \ne 0$) is incredibly small, so we reject $H_0$. The data provide convincing evidence that height and weight are positively correlated. The true slope parameter is indeed greater than 0. (d) $R^2 = 0.72^2 = 0.52$. Approximately 52% of the variability in weight can be explained by the height of individuals.
+1. \(a) 关系为正相关、中等偏强且线性。存在少数异常值，但没有看似有影响的点。 (b) $\widehat{\texttt{wgt}} = -105.0113 + 1.0176 \times \texttt{hgt}$。斜率：身高每增加一厘米，模型预测平均体重增加 1.0176 千克（约 2.2 磅）。截距：身高为 0 厘米的人预计体重为 -105.0113 千克。这显然是不可能的。在这里，$y$ 轴截距仅用于调整直线的高度，其本身没有意义。 (c) $H_0$：身高的真实斜率系数为零（$\beta_1 = 0$）。$H_A$：身高的真实斜率系数不为零（$\beta_1 \neq 0$）。双侧备择假设（$\beta_1 \ne 0$）的 p 值极小，因此我们拒绝 $H_0$。数据提供了令人信服的证据，表明身高和体重呈正相关。真实斜率参数确实大于 0。 (d) $R^2 = 0.72^2 = 0.52$。大约 52% 的体重变异可以由个体的身高来解释。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Roughly 0.53 to 0.67. (b) For individuals with one cm larger shoulder girth, their average height is predicted to be between 0.53 and 0.67 cm taller, with 98% confidence.
+1.  \(a\) 大约在 0.53 到 0.67 之间。(b) 对于肩围大 1 厘米的个体，预测其平均身高会高出 0.53 至 0.67 厘米，置信水平为 98%。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Approximately 0.025. (b) $b_1 \pm 2.33 \times SE \rightarrow (0.546, 0.662).$ (c) For individuals with one cm larger shoulder girth, their average height is predicted to be between 0.546 and 0.662 cm taller, with 98% confidence.
+1.  \(a\) 大约 0.025。(b) $b_1 \pm 2.33 \times SE \rightarrow (0.546, 0.662)$。(c) 对于肩围大 1 厘米的个体，预测其平均身高会高出 0.546 至 0.662 厘米，置信水平为 98%。
 \addtocounter{enumi}{1}
 
-1. \(a) $r = \sqrt{0.518} \approx +0.72$. We know the correlation is positive due to the positive association between the variables seen in the scatterplot (above in previous exercise). (b) The residuals have a larger spread above the horizontal line at zero than below the line at zero.  This indicates that the values are not symmetric around zero (so therefore not normally distributed).  However, the violation is not extreme, and a simple least squares fit is probably appropriate for these data.
+1. \(a) $r = \sqrt{0.518} \approx +0.72$。由于在散点图中（在上一题中）可以看到变量之间存在正相关，因此我们知道相关系数为正。 (b) 残差在零水平线上方的分布比下方更分散。这表明残差值在零附近不对称（因此不呈正态分布）。然而，这种违反程度并不极端，对于这些数据使用简单最小二乘拟合可能是合适的。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $H_0: \beta_1 = 0$, $H_A: \beta_1 \ne 0$. (b) The observed slope of 2.559 is not a plausible value, the p-value is extremely small, and the null hypothesis can be rejected. (c) The p-value is also extremely small.
+1.  \(a\) $H_0: \beta_1 = 0$, $H_A: \beta_1 \ne 0$. (b) 观测斜率 2.559 不是一个合理数值，p 值极小，可以拒绝原假设。 p 值也极小。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Rough 90% confidence interval is 1.9 to 3.1. (b) For a one unit (one percentage point) increase in poverty across given metropolitan areas, the predicted average annual murder rate will be between 1.9 and 3.1 persons per million larger, with 90% confidence.
+1.  \(a\) 粗略的 90% 置信区间为 1.9 到 3.1。 (b) 在给定的都市区中，贫困率每增加一个单位（一个百分点），预测的年平均谋杀率将增加 1.9 到 3.1 人/百万，置信度为 90%。
 \addtocounter{enumi}{1}
 
-1. \(a) $r = \sqrt{0.706} \approx +0.84$. We know the correlation is positive due to the positive association shown in the scatterplot. (b) The technical conditions all seem to be met.
+1. \(a) $r = \sqrt{0.706} \approx +0.84$。由于散点图中显示出正相关，我们知道相关系数为正。 技术条件似乎都已满足。
 \addtocounter{enumi}{1}
 
-1.  \(a\) With only sixteen observations in the analysis there are not enough data points to establish any patterns in the residual plot. That said, the sixteen observations do not show any large deviations of LNE conditions.  We do not know if the volunteers were friends, for example, which would violate the independence condition. (b) The layout of the points does not indicate any deviation form the LINE technical conditions. The small number of points, however, suggests that care should be given to making sure that the individuals in the study are a good representative sample of the population to which we would like to infer the results.
+1.  \(a\) 分析中仅有十六个观测，数据点不足以在残差图中确立任何模式。尽管如此，这十六个观测并未显示出对 LNE 条件（线性、正态性、等方差）的任何严重偏离。例如，我们不知道志愿者是否是朋友关系，而这会违反独立性条件。(b) 点的布局并未显示出任何偏离 LINE 技术条件（线性、独立性、正态性、等方差）的迹象。然而，点数过少表明需要谨慎确保研究中的个体是我们想要推断其结果的总体中具有良好代表性的样本。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The **L**inearity and **N**ormality conditions seem to be met.  If anything, the **E**qual variance condition is violated due to the a fan shaped pattern in the plot, which indicates non-constant variability in the residuals (little variability when $x$ is small, more variability when $x$ is large). We do not know if the cats were randomly sampled (i.e., are independent from one another), but we have no reason to believe that they are not independent. (b) Unequal variability does not affect the fit of the line. The line will continue to model the average heart weight of cats at a given body weight. However, the p-value for the inference on the line will be affected by the unequal variability. How much? Probably not much given that the violation is quite minimal.
+1.  \(a\) **线**性条件和**正**态性条件似乎得到了满足。如果要说有什么问题，那就是**等**方差条件由于图中出现的扇形模式而被违反，这表明残差的变异性不恒定（当 $x$ 较小时变异性小，当 $x$ 较大时变异性更大）。我们不知道这些猫是否是随机抽样的（即彼此独立的），但我们没有理由认为它们不独立。(b) 不等方差不会影响直线的拟合。这条直线将继续用于刻画给定体重下猫的平均心脏重量。然而，对直线进行推断所得的 p 值会受到不等方差的影响。影响有多大？考虑到违反程度相当轻微，可能影响不大。
 \addtocounter{enumi}{1}

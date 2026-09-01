@@ -1,4 +1,4 @@
-# Exercise solutions {#sec-exercise-solutions}
+# 练习解答 {#sec-exercise-solutions}
 
 \addtocontents{toc}{\protect\setcounter{tocdepth}{0}}
 
@@ -7,7 +7,9 @@
 source("_common.R")
 ```
 
-## Chapter 1 {#sec-exercise-solutions-01 .unlisted}
+
+
+## 第 1 章 {#sec-exercise-solutions-01 .unlisted}
 
 ::: exercises-solution
 
@@ -15,7 +17,7 @@ source("_common.R")
 
 :::
 
-## Chapter 2 {#sec-exercise-solutions-02 .unlisted}
+## 第 2 章 {#sec-exercise-solutions-02 .unlisted}
 
 ::: exercises-solution
 
@@ -23,11 +25,11 @@ source("_common.R")
 
 :::
 
-## Chapter 3 {#sec-exercise-solutions-03 .unlisted}
+## 第 3 章 {#sec-exercise-solutions-03 .unlisted}
 
-Application chapter, no exercises.
+应用章节，无练习。
 
-## Chapter 4 {#sec-exercise-solutions-04 .unlisted}
+## 第 4 章 {#sec-exercise-solutions-04 .unlisted}
 
 ::: exercises-solution
 
@@ -35,7 +37,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 5 {#sec-exercise-solutions-05 .unlisted}
+## 第 5 章 {#sec-exercise-solutions-05 .unlisted}
 
 ::: exercises-solution
 
@@ -43,11 +45,11 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 6 {#sec-exercise-solutions-06 .unlisted}
+## 第 6 章 {#sec-exercise-solutions-06 .unlisted}
 
-Application chapter, no exercises.
+应用章节，无练习。
 
-## Chapter 7 {#sec-exercise-solutions-07 .unlisted}
+## 第 7 章 {#sec-exercise-solutions-07 .unlisted}
 
 ::: exercises-solution
 
@@ -55,7 +57,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 8 {#sec-exercise-solutions-08 .unlisted}
+## 第 8 章 {#sec-exercise-solutions-08 .unlisted}
 
 ::: exercises-solution
 
@@ -63,7 +65,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 9 {#sec-exercise-solutions-09 .unlisted}
+## 第 9 章 {#sec-exercise-solutions-09 .unlisted}
 
 ::: exercises-solution
 
@@ -71,11 +73,11 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 10 {#sec-exercise-solutions-10 .unlisted}
+## 第 10 章 {#sec-exercise-solutions-10 .unlisted}
 
-Application chapter, no exercises.
+应用章节，无练习。
 
-## Chapter 11 {#sec-exercise-solutions-11 .unlisted}
+## 第 11 章 {#sec-exercise-solutions-11 .unlisted}
 
 ::: exercises-solution
 
@@ -83,7 +85,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 12 {#sec-exercise-solutions-12 .unlisted}
+## 第 12 章 {#sec-exercise-solutions-12 .unlisted}
 
 ::: exercises-solution
 
@@ -91,7 +93,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 13 {#sec-exercise-solutions-13 .unlisted}
+## 第 13 章 {#sec-exercise-solutions-13 .unlisted}
 
 ::: exercises-solution
 
@@ -99,7 +101,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 14 {#sec-exercise-solutions-14 .unlisted}
+## 第 14 章 {#sec-exercise-solutions-14 .unlisted}
 
 ::: exercises-solution
 
@@ -107,11 +109,11 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 15 {#sec-exercise-solutions-15 .unlisted}
+## 第 15 章 {#sec-exercise-solutions-15 .unlisted}
 
-Application chapter, no exercises.
+应用章节，无练习。
 
-## Chapter 16 {#sec-exercise-solutions-16 .unlisted}
+## 第 16 章 {#sec-exercise-solutions-16 .unlisted}
 
 ::: exercises-solution
 
@@ -119,7 +121,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 17 {#sec-exercise-solutions-17 .unlisted}
+## 第 17 章 {#sec-exercise-solutions-17 .unlisted}
 
 ::: exercises-solution
 
@@ -127,7 +129,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 18 {#sec-exercise-solutions-18 .unlisted}
+## 第 18 章 {#sec-exercise-solutions-18 .unlisted}
 
 ::: exercises-solution
 
@@ -135,7 +137,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 19 {#sec-exercise-solutions-19 .unlisted}
+## 第 19 章 {#sec-exercise-solutions-19 .unlisted}
 
 ::: exercises-solution
 
@@ -143,7 +145,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 20 {#sec-exercise-solutions-20 .unlisted}
+## 第 20 章 {#sec-exercise-solutions-20 .unlisted}
 
 ::: exercises-solution
 
@@ -151,7 +153,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 21 {#sec-exercise-solutions-21 .unlisted}
+## 第 21 章 {#sec-exercise-solutions-21 .unlisted}
 
 ::: exercises-solution
 
@@ -159,7 +161,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 22 {#sec-exercise-solutions-22 .unlisted}
+## 第 22 章 {#sec-exercise-solutions-22 .unlisted}
 
 ::: exercises-solution
 
@@ -167,11 +169,11 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 23 {#sec-exercise-solutions-23 .unlisted}
+## 第 23 章 {#sec-exercise-solutions-23 .unlisted}
 
-Application chapter, no exercises.
+应用章节，无练习。
 
-## Chapter 24 {#sec-exercise-solutions-24 .unlisted}
+## 第 24 章 {#sec-exercise-solutions-24 .unlisted}
 
 ::: exercises-solution
 
@@ -179,7 +181,7 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 25 {#sec-exercise-solutions-25 .unlisted}
+## 第 25 章 {#sec-exercise-solutions-25 .unlisted}
 
 ::: exercises-solution
 
@@ -187,11 +189,10 @@ Application chapter, no exercises.
 
 :::
 
-## Chapter 26 {#sec-exercise-solutions-26 .unlisted}
+## 第 26 章 {#sec-exercise-solutions-26 .unlisted}
 
 ::: exercises-solution
 
 {{< include exercises/_26-sa-inf-model-logistic.qmd >}}
 
 :::
-

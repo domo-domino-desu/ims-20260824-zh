@@ -1,28 +1,19 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
-1.  **Experimental baker.** A baker working on perfecting their bagel recipe is experimenting with active dry (AD) and instant (I) yeast.
-    They bake a dozen bagels with each type of yeast and score each bagel on a scale of 1 to 10 on how well the bagels rise.
-    They come up with the following set of hypotheses for evaluating whether there is a difference in the average rise of bagels baked with active dry and instant yeast.
-    What is wrong with the hypotheses as stated?
+1.  **实验面包师。** 一位面包师为了完善其百吉饼配方，正在尝试使用活性干酵母（AD）和速发酵母（I）。他们用每种酵母各烘焙一打百吉饼，并按照1到10分的标准对每个百吉饼的膨胀程度进行评分。为了评估用活性干酵母和速发酵母烘焙的百吉饼的平均膨胀度是否存在差异，他们提出了以下一组假设。这些假设的表述存在什么问题？
 
     $$H_0: \bar{x}_{AD} \leq \bar{x}_{I} \quad \quad H_A: \bar{x}_{AD} > \bar{x}_{I}$$
 
 \vfill
 
-2.  **Fill in the blanks.** We use a \_\_\_ to evaluate if data provide convincing evidence of a difference between two population means and we use a \_\_\_ to estimate this difference.
+2.  **填空练习。** 我们使用 \_\_\_\_ 来评估数据是否为两个总体均值之间存在差异提供了有说服力的证据，并使用 \_\_\_\_ 来估计这个差异。
 
 \vfill
 
-3.  **Diamonds, randomization test.** The prices of diamonds go up as the carat weight increases, but the increase is not smooth.
-    For example, the difference between the size of a 0.99 carat diamond and a 1 carat diamond is undetectable to the naked human eye, but the price of a 1 carat diamond tends to be much higher than the price of a 0.99 carat diamond.
-    We have two random samples of diamonds: 23 0.99 carat diamonds and 23 1 carat diamonds. 
-    In order to be able to compare equivalent units, we first divide the price for each diamond by 100 times its weight in carats.
-    That is, for a 0.99 carat diamond, we divide the price by 99 and for a 1 carat diamond, we divide it by 100.
-    Then, we randomize the carat weight to the price values in order simulate the null distribution of differences in average prices of 0.99 carat and 1 carat diamonds.
-    The null distribution (with 1,000 randomized differences) is shown below and depicts the distribution of differences in sample means (of price per carat) if there really was no difference in the population from which these diamonds came.[^_20-ex-inference-two-means-1]
+3.  **钻石，随机化检验。** 钻石价格随着克拉重量的增加而上涨，但上涨过程并不平滑。例如，0.99 克拉钻石和 1 克拉钻石在大小上的差异是肉眼无法察觉的，但 1 克拉钻石的价格往往远高于 0.99 克拉钻石。我们有两个钻石的随机样本：23 颗 0.99 克拉钻石和 23 颗 1 克拉钻石。为了能够比较等同的单位，我们首先将每颗钻石的价格除以其克拉重量的 100 倍。也就是说，对于一颗 0.99 克拉的钻石，我们将价格除以 99，对于一颗 1 克拉的钻石，我们将其除以 100。然后，我们将克拉重量随机分配给价格数值，以模拟 0.99 克拉和 1 克拉钻石平均价格差的原假设分布。下方的原假设分布（包含 1,000 个随机化差异）展示了如果这些钻石来源的总体中确实不存在差异时，每克拉价格的样本均值差的分布情况。[^_20-ex-inference-two-means-1]
     [@ggplot2]
 
     ```{r}
@@ -30,7 +21,7 @@ editor_options:
     diamonds_sample <- diamonds |>
       filter(carat %in% c(1, 0.99)) |>
       group_by(carat) |>
-      slice_sample(n = 23) |> 
+      slice_sample(n = 23) |>
       mutate(
         ppc   = price/carat/100,
         carat = if_else(carat == 1, paste(carat, "carat"), paste(carat, "carats"))
@@ -41,26 +32,22 @@ editor_options:
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "diff in means", order = c("0.99 carats", "1 carat")) |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = -12.7, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized differences in means",
-        x = "Difference in randomized means of price per carat\n(0.99 carats - 1 carat)", 
-        y = "Count"
+        title = "1,000 个随机化均值差",
+        x = "每克拉价格的随机化均值差\n(0.99 克拉 - 1 克拉)",
+        y = "频数"
       )
     ```
 
-    Using the randomization distribution, conduct a hypothesis test to evaluate if there is a difference between the prices per carat of diamonds that weigh 0.99 carats and diamonds that weigh 1 carat.
-    Make sure to state your hypotheses clearly and interpret your results in context of the data.
+    使用上述随机化分布，进行一项假设检验，以评估重量为 0.99 克拉的钻石与重量为 1 克拉的钻石的每克拉价格是否存在差异。请务必清楚地陈述你的假设，并根据数据背景解释你的结果。
     [@ggplot2]
 
 \clearpage
 
-4.  **Lizards running, randomization test.** In order to assess physiological characteristics of common lizards, data on top speeds (in m/sec) measured on a laboratory race track for two species of lizards: Western fence lizard (Sceloporus occidentalis) and Sagebrush lizard (Sceloporus graciosus).
-    The original observed difference in lizard speeds is $\bar{x}_{Western fence} - \bar{x}_{Sagebrush} = 0.7 \mbox{m/sec}.$ The histogram below shows the distribution of average differences when speed has been randomly allocated across lizard species 1,000 times.
-    Using the randomization distribution, conduct a hypothesis test to evaluate if there is a difference between the average speed of the Western fence lizard as compared to the Sagebrush lizard.
-    Make sure to state your hypotheses clearly and interpret your results in context of the data.[^_20-ex-inference-two-means-2]
+4.  **蜥蜴奔跑，随机化检验。** 为了评估常见蜥蜴的生理特征，我们在实验室跑道上测量了两种蜥蜴的最高速度（米/秒）：西部栅栏蜥蜴（*Sceloporus occidentalis*）和鼠尾草蜥蜴（*Sceloporus graciosus*）。蜥蜴速度的原始观测差异是 $\bar{x}_{Western fence} - \bar{x}_{Sagebrush} = 0.7 \mbox{m/sec}.$。下方的直方图展示了当速度在蜥蜴物种间被随机分配 1,000 次时，均值差的分布情况。使用该随机化分布，进行一项假设检验，以评估西部栅栏蜥蜴与鼠尾草蜥蜴的平均速度是否存在差异。请务必清楚地陈述你的假设，并根据数据背景解释你的结果。[^_20-ex-inference-two-means-2]
     [@Adolph:1987]
 
     ```{r}
@@ -71,20 +58,20 @@ editor_options:
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "diff in means", order = c("Western fence lizard", "Sagebrush lizard")) |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = 0.7, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized differences in means",
-        x = "Difference in randomized means of running speed\nbetween lizard species (Western fence - Sagebush)", 
-        y = "Count"
+        title = "1,000 个随机化均值差",
+        x = "蜥蜴物种间奔跑速度的随机化均值差\n(西部栅栏蜥蜴 - 鼠尾草蜥蜴)",
+        y = "频数"
       )
     ```
 
 \vfill
 
-5.  **Diamonds, bootstrap interval.** We have data on two random samples of diamonds: 23 0.99 carat diamonds and 23 1 carat diamonds.
-    Provided below is a histogram of bootstrap differences in means of price per carat of diamonds that weigh 0.99 carats and diamonds that weigh 1 carat.
+5.  **钻石，自助法区间。** 我们有两个随机钻石样本的数据：23 颗 0.99 克拉的钻石和 23 颗 1 克拉的钻石。
+    下方提供了一张直方图，展示了重量为 0.99 克拉的钻石与 1 克拉的钻石每克拉价格的均值差的自助法分布。
     [@ggplot2]
 
     ```{r}
@@ -93,34 +80,34 @@ editor_options:
     diamonds_100_99_sample <- diamonds |>
       filter(carat %in% c(1, 0.99)) |>
       group_by(carat) |>
-      slice_sample(n = 23) |> 
+      slice_sample(n = 23) |>
       mutate(
         ppc   = price/carat/100,
         carat = if_else(carat == 1, paste(carat, "carat"), paste(carat, "carats"))
       )
-        
+
     diamonds_100_99_sample |>
       specify(ppc ~ carat) |>
       generate(1000, type = "bootstrap") |>
       calculate(stat = "diff in means", order = c("0.99 carats", "1 carat")) |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped differences in means",
-        x = "Difference in bootstrapped means of price per carat\n(0.99 carats - 1 carat)", 
-        y = "Count"
+        title = "1,000 个自助法均值差",
+        x = "每克拉价格的自助法均值差\n(0.99 克拉 - 1 克拉)",
+        y = "频数"
     )
     ```
 
-    a.  Using the bootstrap distribution, create a (rough) 95% bootstrap percentile confidence interval for the true population difference in prices per carat of diamonds that weigh 0.99 carats and 1 carat.
+    a.  使用该自助法分布，为 0.99 克拉与 1 克拉钻石每克拉价格的总体真实差异构造一个（粗略的）95% 自助法百分位置信区间。
 
-    b.  Using the bootstrap distribution, create a (rough) 95% bootstrap SE confidence interval for the true population difference in prices per carat of diamonds that weigh 0.99 carats and 1 carat.
-        Note that the standard error of the bootstrap distribution is 4.64.
+    b.  使用该自助法分布，为 0.99 克拉与 1 克拉钻石每克拉价格的总体真实差异构造一个（粗略的）95% 自助法标准误置信区间。
+        请注意，该自助法分布的标准误是 4.64。
 
 \clearpage
 
-6.  **Lizards running, bootstrap interval.** We have data on top speeds (in m/sec) measured on a laboratory race track for two species of lizards: Western fence lizard (Sceloporus occidentalis) and Sagebrush lizard (Sceloporus graciosus).
-    The bootstrap distribution below describes the variability of difference in means captured from 1,000 bootstrap samples of the lizard data.
+6.  **蜥蜴奔跑，自助法区间。** 我们有两种蜥蜴在实验室跑道上测得的最高速度（单位：米/秒）数据：西部栅栏蜥蜴（*Sceloporus occidentalis*）和鼠尾草蜥蜴（*Sceloporus graciosus*）。
+    下方的自助法分布描述了从蜥蜴数据的 1,000 个自助样本中得到的均值差的变异性。
     [@Adolph:1987]
 
     ```{r}
@@ -131,75 +118,82 @@ editor_options:
       specify(top_speed ~ common_name) |>
       generate(1000, type = "bootstrap") |>
       calculate(stat = "diff in means", order = c("Western fence lizard", "Sagebrush lizard")) |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.04, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped differences in means",
-        x = "Difference in bootstrapped means of running speed\nbetween lizard species (Western fence - Sagebush)", 
-        y = "Count"
+        title = "1,000 个自助法均值差",
+        x = "蜥蜴物种间奔跑速度的自助法均值差\n(西部栅栏蜥蜴 - 鼠尾草蜥蜴)",
+        y = "频数"
       )
     ```
 
-    a.  Using the bootstrap distribution, create a (rough) 90% percentile bootrap confidence interval for the true population difference in average speed of the Western fence lizard as compared with Sagebrush lizard.
+    a.  使用该自助法分布，为西部栅栏蜥与蒿蜥平均奔跑速度的总体真实差异构造一个（粗略的）90% 百分位自助法置信区间。
 
-    b.  Using the bootstrap distribution, create a (rough) 90% bootstrap SE confidence interval for the true population difference in average speed of the Western fence lizard as compared with Sagebrush lizard.
-
-\vfill
-
-7.  **Weight loss.** You are reading an article in which the researchers have created a 95% confidence interval for the difference in average weight loss for two diets.
-    They are 95% confident that the true difference in average weight loss over 6 months for the two diets is somewhere between (1 lb, 25 lbs).
-    The authors claim that, "therefore diet A ($\bar{x}_A$ = 20 lbs average loss) results in a much larger average weight loss as compared to diet B ($\bar{x}_B$ = 7 lbs average loss)." Comment on the authors' claim.
+    b.  使用该自助法分布，为西部栅栏蜥与蒿蜥平均奔跑速度的总体真实差异构造一个（粗略的）90% 自助法标准误置信区间。
 
 \vfill
 
-8.  **Possible randomized means.** Data were collected on data from two groups (A and B).
-    There were 3 measurements taken on Group A and two measurements in Group B.
-    
+7.  **体重减轻。** 你正在阅读一篇文章，其中研究人员为两种节食法（A和B）平均体重减轻的差异构建了一个 95% 置信区间。
+    他们有 95% 的把握认为，两种节食法在 6 个月内平均体重减轻的真实差异在 2 磅到 38 磅之间（且偏向于节食法A）。
+    作者声称：“因此节食法A（平均减轻$\bar{x}_A$ = 20磅）与节食法B（平均减轻$\bar{x}_B$ = 7磅）相比，能带来更大的平均体重减轻。”请评论作者的这一声称。
+
+\vfill
+
+8.  **可能的随机化均值。** 收集了来自两组（A和B）的数据。
+    A组有3个测量值，B组有2个测量值。
+
     \vspace{-2mm}
 
     ```{r}
     tribble(
-      ~Group, ~`Measurement 1`, ~`Measurement 2`, ~`Measurement 3`, 
+      ~组别, ~`测量值1`, ~`测量值2`, ~`测量值3`,
       "A",     1,        15,        5,
       "B",     7,        3,         NA
     ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lccc") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
-                    full_width = FALSE) 
+                    full_width = FALSE)
     ```
-    
-    If the data are (repeatedly) randomly allocated across the two conditions, provide the following: (1) the values which are assigned to group A, (2) the values which are assigned to group B, and (3) the difference in averages $(\bar{x}_A - \bar{x}_B)$ for each of the following:
 
-    a.  When the randomized difference in averages is as large as possible.
+    如果数据被（反复地）随机分配到两种条件下，请针对以下每种情况提供：(1) 分配给组A的值，(2) 分配给组B的值，以及 (3) 均值差 $(\bar{x}_A - \bar{x}_B)$：
 
-    b.  When the randomized difference in averages is as small as possible (a big in magnitude negative number).
+    a.  当随机化均值差尽可能大时。
 
-    c.  When the randomized difference in averages is as close to zero as possible.
+    b.  当随机化均值差尽可能小时（即绝对值很大的负数）。
 
-    d.  When the observed values are randomly assigned to the two groups, to which of the previous parts would you expect the difference in means to fall closest?
-        Explain your reasoning.
+    c.  当随机化均值差尽可能接近零时。
+
+    d.  当观测值被随机分配到两组时，你认为均值差会最接近前面中哪一部分的情况？
+        请解释你的推理。
 
 \clearpage
 
-9.  **Diamonds, mathematical test.** We have data on two random samples of diamonds: one with diamonds that weigh 0.99 carats and one with diamonds that weigh 1 carat.
-    Each sample has 23 diamonds.
-    Sample statistics for the price per carat of diamonds in each sample are provided below.
-    Conduct a hypothesis test using a mathematical model to evaluate if there is a difference between the prices per carat of diamonds that weigh 0.99 carats and diamonds that weigh 1 carat Make sure to state your hypotheses clearly, check relevant conditions, and interpret your results in context of the data.
+9.  **钻石，数学模型检验。** 我们有两个随机钻石样本的数据：一个样本是0.99克拉的钻石，另一个是1克拉的钻石。
+    每个样本有23颗钻石。
+    下方提供了每个样本中钻石每克拉价格的样本统计量。
+    请使用数学模型进行假设检验，以评估0.99克拉的钻石与1克拉钻石的每克拉价格是否存在差异。确保清晰地陈述你的假设、检查相关条件，并在数据背景中解释你的结果。
     [@ggplot2]
-    
+
+    \vspace{-3mm}
+
+9.  **钻石，数学模型检验。** 我们有两个随机抽取的钻石样本数据：一个样本是0.99克拉的钻石，另一个样本是1克拉的钻石。
+    每个样本有23颗钻石。
+    下方提供了每个样本中钻石每克拉价格的样本统计量。
+    请使用数学模型进行假设检验，以评估0.99克拉的钻石与1克拉钻石的每克拉价格是否存在差异。确保清晰地陈述你的假设、检查相关条件，并在数据背景中解释你的结果。
+    [@ggplot2]
+
     \vspace{-3mm}
 
     ```{r}
     #| fig-asp: 0.4
-    #| layout-ncol: 2
     #| fig-width: 4
     #| out-width: 100%
     set.seed(47)
     diamonds_100_99_sample <- diamonds |>
       filter(carat %in% c(1, 0.99)) |>
       group_by(carat) |>
-      slice_sample(n = 23) |> 
+      slice_sample(n = 23) |>
       mutate(
         ppc   = price/carat/100,
         carat = if_else(carat == 1, paste(carat, "carat"), paste(carat, "carats"))
@@ -216,10 +210,10 @@ editor_options:
         Mean = paste0("$", Mean),
         SD = paste0("$", SD)
         )
-        
+
     diamonds_100_99_summary |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("", "Mean", "SD", "n"), digits = 2) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("", "均值", "标准差", "n"), digits = 2) |>
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "5em") |>
@@ -228,22 +222,22 @@ editor_options:
 
     ggplot(diamonds_100_99_sample, aes(y = fct_rev(carat), x = ppc)) +
       geom_boxplot() +
-      labs(y = NULL, x = "Price per carat (USD)") +
+      labs(y = NULL, x = "每克拉价格（美元）") +
       scale_x_continuous(labels = label_dollar())
     ```
 
 \vspace{-2mm}
 
-10. **A/B testing.** A/B testing is a user experience research methodology where two variants of a page are shown to users at random.
-    A company wants to evaluate whether users will spend more time, on average, on Page A or Page B using an A/B test.
-    Two user experience designers at the company, Lucie and Müge, are tasked with conducting the analysis of the data collected.
-    They agree on how the null hypothesis should be set: on average, users spend the same amount of time on Page A and Page B. Lucie believes that Page B will provide a better experience for users and hence wants to use a one-tailed test, Müge believes that a two-tailed test would be a better choice.
-    Which designer do you agree with, and why?
+10. **A/B 检验。** A/B 检验是一种用户体验研究方法，即将页面的两个变体随机展示给用户。
+    一家公司希望使用 A/B 检验来评估：平均而言，用户在页面 A 还是页面 B 上花费的时间更长。
+    公司的两名用户体验设计师 Lucie 和 Müge 负责对收集的数据进行分析。
+    他们对原假设的设定达成了一致：平均而言，用户在页面 A 和页面 B 上花费的时间相同。Lucie 认为页面 B 会给用户带来更好的体验，因此希望使用单尾检验；而 Müge 则认为双尾检验是更好的选择。
+    你同意哪位设计师的看法，为什么？
 
-11. **Diamonds, mathematical interval.** We have data on two random samples of diamonds: one with diamonds that weigh 0.99 carats and one with diamonds that weigh 1 carat.
-    Each sample has 23 diamonds.
-    Sample statistics for the price per carat of diamonds in each sample are provided below.
-    Assuming that the conditions for conducting inference using a mathematical model are satisfied, construct a 95% confidence interval for the true population difference in prices per carat of diamonds that weigh 0.99 carats and 1 carat.
+11. **钻石，数学模型区间。** 我们有两个随机抽取的钻石样本数据：一个样本是0.99克拉的钻石，另一个是1克拉的钻石。
+    每个样本有23颗钻石。
+    下方提供了每个样本中钻石每克拉价格的样本统计量。
+    假设满足使用数学模型进行推断的条件，构造一个 0.99 克拉与 1 克拉钻石每克拉价格的总体真实差异的 95% 置信区间。
     [@ggplot2]
 
     ```{r}
@@ -251,7 +245,7 @@ editor_options:
     diamonds_100_99_sample <- diamonds |>
       filter(carat %in% c(1, 0.99)) |>
       group_by(carat) |>
-      slice_sample(n = 23) |> 
+      slice_sample(n = 23) |>
       mutate(
         ppc   = price/carat/100,
         carat = if_else(carat == 1, paste(carat, "carat"), paste(carat, "carats"))
@@ -268,10 +262,10 @@ editor_options:
         Mean = paste0("$", Mean),
         SD = paste0("$", SD)
         )
-        
+
     diamonds_100_99_summary |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("", "Mean", "SD", "n"), digits = 2) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("", "均值", "标准差", "n"), digits = 2) |>
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1:4, width = "6em")
@@ -279,60 +273,60 @@ editor_options:
 
 \vspace{-5mm}
 
-12. **True / False: comparing means.** Determine if the following statements are true or false, and explain your reasoning for statements you identify as false.
+12. **判断对错：比较均值。** 判断以下陈述是正确还是错误，并为你判定为错误的陈述说明理由。
 
-    a.  As the degrees of freedom increases, the $t$-distribution approaches normality.
+    a.  随着自由度的增加，$t$ 分布趋近于正态分布。
 
-    b.  If a 95% confidence interval for the difference between two population means contains 0, a 99% confidence interval calculated based on the same two samples will also contain 0.
+    b.  如果两个总体均值之差的 95% 置信区间包含 0，那么基于相同两个样本计算的 99% 置信区间也将包含 0。
 
-    c.  If a 95% confidence interval for the difference between two population means contains 0, a 90% confidence interval calculated based on the same two samples will also contain 0.
+    c.  如果两个总体均值之差的 95% 置信区间包含 0，那么基于相同两个样本计算的 90% 置信区间也将包含 0。
 
-13. **Difference of means.** We collect two random samples from two different populations
-    In each part below, consider the sample means $\bar{x}_1$ and $\bar{x}_2$ that we might observe from these two samples.
-    
+13. **均值之差。** 我们从两个不同的总体中各收集了一个随机样本。
+    在下面的每一部分中，考虑我们可能从这两个样本中观察到的样本均值 $\bar{x}_1$ 和 $\bar{x}_2$。
+
     \vspace{-1mm}
 
     ```{r}
     sample_stats <- tribble(
-      ~` `,    ~Mean, ~`Standard deviation`, ~`Sample size`,
-      "Population 1", 15,    20,                    50,
-      "Population 2", 20,    10,                    30,
+      ~` `,    ~均值, ~`标准差`, ~`样本量`,
+      "总体 1", 15,    20,                    50,
+      "总体 2", 20,    10,                    30,
     )
 
     sample_stats |>
       kbl(linesep = "", booktabs = TRUE, align = "lccc") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE)
     ```
 
     \vspace{-3mm}
 
-    a.  What is the associated mean and standard deviation of $\bar{x}_1$?
+    a.  $\bar{x}_1$ 对应的均值和标准差是什么？
 
-    b.  What is the associated mean and standard deviation of $\bar{x}_2$?
+    b.  $\bar{x}_2$ 对应的均值和标准差是什么？
 
-    c.  Calculate and interpret the mean and standard deviation associated with the difference in sample means for the two groups, $\bar{x}_2 - \bar{x}_1$.
+    c.  计算并解释两组样本均值之差 $\bar{x}_2 - \bar{x}_1$ 所对应的均值和标准差。
 
-    d.  How are the standard deviations from parts (a), (b), and (c) related?
+    d.  (a)、 和 部分中的标准差之间有什么关系？
 
 \clearpage
 
-14. **Mindfulness intervention for nurses.** In order to address extremely challenging and stressful situations for intensive care unit nurses, researchers ran a mindfulness-based intervention (MBI) study on 60 nurses working in three hospitals in El-Beheira, Egypt.
-    The participants were randomly allocated to one of the two groups: the treatment group (MBI) received 8 MBI sessions and the control group received no intervention.
-    The nurses' emotional exhaustion was measured using 9 items from a questionnaire of the Maslach Burnout Inventory-Human Services Survey for Medical Personnel; the questions are recorded on a Likert scale where 0 indicated "Never" and 6 indicates "Every day".
-    Nurses in the treatment group had an emotional exhaustion score of 15.47, with a standard deviation of 4.44, and nurses in the control group had an emotional exhaustion score of 32.43, with a standard deviation of 8.87.
-    Do these data provide convincing evidence that the emotional exhaustion decrease is different for the patients in the treatment group compared to the control group?
-    Assume that conditions for conducting inference using mathematical models are satisfied.
+14. **针对护士的正念干预。** 为了应对重症监护室护士面临的极具挑战性和压力的状况，研究人员在埃及 El-Beheira 省的三所医院对 60 名护士进行了一项基于正念的干预（MBI）研究。
+    参与者被随机分配到以下两组之一：处理组（MBI）接受了 8 次 MBI 课程，对照组则不接受任何干预。
+    护士的情绪耗竭程度使用 Maslach 职业倦怠量表人类服务调查医疗人员版问卷中的 9 个条目进行测量；问题采用李克特量表记录，其中 0 表示“从不”，6 表示“每天”。
+    处理组护士的情绪耗竭得分为 15.47，标准差为 4.44；对照组护士的情绪耗竭得分为 32.43，标准差为 8.87。
+    这些数据是否提供了有说服力的证据，表明处理组护士与对照组护士相比，情绪耗竭的下降程度不同？
+    假设满足使用数学模型进行推断的条件。
     [@Othman:2023]
 
 \vfill
 
-15. **Chicken diet: horsebean vs. linseed.** Chicken farming is a multi-billion dollar industry, and any methods that increase the growth rate of young chicks can reduce consumer costs while increasing company profits, possibly by millions of dollars.
-    An experiment was conducted to measure and compare the effectiveness of various feed supplements on the growth rate of chickens.
-    Newly hatched chicks were randomly allocated into six groups, and each group was given a different feed supplement.
-    In this exercise we consider chicks that were fed horsebean and linseed.
-    Below are some summary statistics from this dataset along with box plots showing the distribution of weights by feed type.[^_20-ex-inference-two-means-3]
+15. **鸡饲料：野豌豆 vs. 亚麻籽。** 养鸡业是一个价值数百亿美元的产业，任何能够提高雏鸡生长速率的方法都可以降低消费者成本，同时增加公司利润，甚至可能达到数百万美元。
+    一项实验旨在测量和比较各种饲料补充剂对鸡生长速率的效果。
+    新孵出的小鸡被随机分配到六组中，每组被给予不同的饲料补充剂。
+    在这个练习中，我们考虑喂养了野豌豆和亚麻籽的小鸡。
+    以下是该数据集的一些汇总统计量，以及按饲料类型显示的体重分布的箱线图。[^_20-ex-inference-two-means-3]
     [@data:chickwts]
 
     ```{r}
@@ -352,10 +346,10 @@ editor_options:
       ) |>
       pivot_longer(cols = -feed, names_to = "Statistic", values_to = "Value") |>
       pivot_wider(names_from = feed, values_from = Value) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lrr", 
-          col.names = c("", "Horsebean", "Linseed")) |>
+      kbl(linesep = "", booktabs = TRUE, align = "lrr",
+          col.names = c("", "野豌豆", "亚麻籽")) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       )
@@ -363,35 +357,34 @@ editor_options:
     chickwts_h_l |>
       ggplot(aes(y = fct_rev(feed), x = weight)) +
       geom_boxplot() +
-      labs(y = "Feed type", x = "Weight (in grams)")
+      labs(y = "饲料类型", x = "重量（克）")
 
     chickwts_h_l |>
       ggplot(aes(x = weight)) +
       geom_histogram(binwidth = 25) +
       facet_wrap(~feed, ncol = 1) +
-      labs(y = "Feed type", x = "Weight (in grams)")
+      labs(y = "饲料类型", x = "重量（克）")
     ```
 
-    a.  Describe the distributions of weights of chickens that were fed horsebean and linseed.
+    a.  描述喂养野豌豆和亚麻籽的鸡的体重分布。
 
-    b.  Do these data provide strong evidence that the average weights of chickens that were fed linseed and horsebean are different?
-        Use a 5% discernibility level.
+    b.  这些数据是否提供了有力的证据，证明喂养亚麻籽和野豌豆的鸡的平均体重不同？
+        使用 5% 的可辨识水平。
 
-    c.  What type of error might we have committed?
-        Explain.
+    c.  我们可能犯了哪种类型的错误？
+        请解释。
 
-    d.  Would your conclusion change if we used $\alpha = 0.01$?
+    d.  如果使用 $\alpha = 0.01$，你的结论会改变吗？
 
 \vfill
 
-16. **Fuel efficiency in the city.** Each year the US Environmental Protection Agency (EPA) releases fuel economy data on cars manufactured in that year.
-    Below are summary statistics on fuel efficiency (in miles/gallon) from random samples of cars with manual and automatic transmissions manufactured in 2021.
-    Do these data provide strong evidence of a difference between the average fuel efficiency of cars with manual and automatic transmissions in terms of their average city mileage?[^_20-ex-inference-two-means-4]
+16. **城市燃料效率。** 每年美国环境保护署（EPA）都会发布该年份制造的汽车的燃油经济性数据。
+    以下是 2021 年生产的配备手动和自动变速箱的汽车随机样本的燃料效率（英里/加仑）汇总统计量。
+    这些数据是否提供了有力的证据，表明手动和自动变速箱汽车在平均城市里程上的平均燃料效率存在差异？[^_20-ex-inference-two-means-4]
     [@data:epa2021]
 
     ```{r}
     #| fig-asp: 0.4
-    #| layout-ncol: 2
     #| fig-width: 4
     #| out-width: 100%
     set.seed(1234)
@@ -400,33 +393,26 @@ editor_options:
       group_by(transmission_desc) |>
       sample_n(size = 25)
 
-    epa2021_sample |>
+epa2021_sample |>
       group_by(transmission_desc) |>
       summarise(
         Mean = mean(city_mpg),
         SD   = sd(city_mpg),
         n    = n()
       ) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("CITY", "Mean", "SD", "n"), digits = 2) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("城市", "均值", "标准差", "样本量"), digits = 2) |>
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE)
 
     ggplot(epa2021_sample, aes(y = fct_rev(transmission_desc), x = city_mpg)) +
       geom_boxplot() +
-      labs(y = NULL, x = "City mileage (MPG)")
+      labs(y = NULL, x = "城市里程（MPG）")
     ```
 
 \clearpage
 
-17. **Chicken diet: casein vs. soybean.** Casein is a common weight gain supplement for humans.
-    Does it have an effect on chickens?
-    An experiment was conducted to measure and compare the effectiveness of various feed supplements on the growth rate of chickens.
-    Newly hatched chicks were randomly allocated into six groups, and each group was given a different feed supplement.
-    In this exercise we consider chicks that were fed casein and soybean.
-    Assume that the conditions for conducting inference using mathematical models are met, and using the data provided below, test the hypothesis that the average weight of chickens that were fed casein is different than the average weight of chickens that were fed soybean.
-    If your hypothesis test yields a statistically discernible result, discuss whether the higher average weight of chickens can be attributed to the casein diet.
-    [@data:chickwts]
+17.  **鸡饲料：酪蛋白 vs. 大豆。** 酪蛋白是人类常用的增重补充剂。它对鸡有影响吗？一项实验旨在测量和比较不同饲料补充剂对鸡生长速度的效果。刚孵出的小鸡被随机分配到六个组，每个组给予不同的饲料补充剂。在本练习中，我们考虑喂食酪蛋白和大豆的小鸡。假设满足使用数学模型进行推断的条件，请利用下面提供的数据，检验喂食酪蛋白的鸡的体重平均数与喂食大豆的鸡的体重平均数不同的假设。如果你的假设检验结果在统计上可辨识，请讨论是否可以将鸡较高的平均体重归因于酪蛋白饲料。[@data:chickwts]
 
     ```{r}
     chickwts |>
@@ -437,23 +423,19 @@ editor_options:
         sd   = format(sd(weight), digits = 2, nsmall = 2),
         n    = n()
       ) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc", 
-          col.names = c("Feed type", "Mean", "SD", "n")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kbl(linesep = "", booktabs = TRUE, align = "lccc",
+          col.names = c("饲料类型", "均值", "标准差", "样本量")) |>
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE)
     ```
 
 \vfill
 
-18. **Fuel efficiency on the highway.** Each year the US Environmental Protection Agency (EPA) releases fuel economy data on cars manufactured in that year.
-    Below are summary statistics on fuel efficiency (in miles/gallon) from random samples of cars with manual and automatic transmissions manufactured in 2021.
-    Do these data provide strong evidence of a difference between the average fuel efficiency of cars with manual and automatic transmissions in terms of their average highway mileage?
-    [@data:epa2021]
+18.  **公路燃油效率。** 每年，美国环境保护局（EPA）都会发布该年度制造的汽车的燃油经济性数据。以下是2021年制造的手动和自动变速箱汽车随机样本的燃油效率（单位：英里/加仑）的汇总统计量。这些数据是否为手动和自动变速箱汽车在高速公路平均里程方面的燃油效率平均数存在差异提供了有力证据？[@data:epa2021]
 
     ```{r}
     #| fig-asp: 0.4
-    #| layout-ncol: 2
     #| fig-width: 4
     #| out-width: 100%
     set.seed(1234)
@@ -469,40 +451,34 @@ editor_options:
         SD   = sd(hwy_mpg),
         n    = n()
       ) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("HIGHWAY", "Mean", "SD", "n"), digits = 2) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("高速公路", "均值", "标准差", "样本量"), digits = 2) |>
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE)
 
     ggplot(epa2021_sample, aes(y = fct_rev(transmission_desc), x = city_mpg)) +
       geom_boxplot() +
-      labs(y = NULL, x = "Highway mileage (MPG)")
+      labs(y = NULL, x = "高速公路里程（MPG）")
     ```
 
 \vfill
 
-19. **Gaming, distracted eating, and intake.** A group of researchers who are interested in the possible effects of distracting stimuli during eating, such as an increase or decrease in the amount of food consumption, monitored food intake for a group of 44 patients who were randomized into two equal groups.
-    The treatment group ate lunch while playing solitaire, and the control group ate lunch without any added distractions.
-    Patients in the treatment group ate 52.1 grams of biscuits, with a standard deviation of 45.1 grams, and patients in the control group ate 27.1 grams of biscuits, with a standard deviation of 26.4 grams.
-    Do these data provide convincing evidence that the average food intake (measured in amount of biscuits consumed) is different for the patients in the treatment group compared to the control group?
-    Assume that conditions for conducting inference using mathematical models are satisfied.
-    [@Oldham:2011]
+19.  **游戏、分心进食与摄入量。** 一组研究人员对进食时分心刺激可能产生的影响（例如食物消耗量的增加或减少）感兴趣，他们对44名被随机分配到两个等量组的患者进行了食物摄入量监测。处理组在吃午餐时玩单人纸牌游戏，对照组则在没有任何额外干扰的情况下吃午餐。处理组患者吃了52.1克饼干，标准差为45.1克；对照组患者吃了27.1克饼干，标准差为26.4克。这些数据是否提供了令人信服的证据，表明处理组患者与对照组患者的食物摄入量平均数（以消耗的饼干量衡量）存在差异？假设满足使用数学模型进行推断的条件。[@Oldham:2011]
 
 \vfill
 
-20. **Gaming, distracted eating, and recall.** A group of researchers who are interested in the possible effects of distracting stimuli during eating, such as an increase or decrease in the amount of food consumption, monitored food intake for a group of 44 patients who were randomized into two equal groups.
-    The 22 patients in the treatment group who ate their lunch while playing solitaire were asked to do a serial-order recall of the food lunch items they ate.
-    The average number of items recalled by the patients in this group was 4.
-    9, with a standard deviation of 1.8.
-    The average number of items recalled by the patients in the control group (no distraction) was 6.1, with a standard deviation of 1.8.
-    Do these data provide strong evidence that the average numbers of food items recalled by the patients in the treatment and control groups are different?
-    Assume that conditions for conducting inference using mathematical models are satisfied.
+20.  **游戏、分散注意力进食与回忆。** 一组研究人员对进食时分心刺激可能产生的影响（例如增加或减少食物摄入量）感兴趣，他们监测了 44 名患者的食物摄入量，这些患者被随机分配到两个等量组。
+    处理组中的 22 名患者一边吃午餐一边玩单人纸牌游戏，并被要求按顺序回忆他们所吃的午餐食物项目。
+    该组患者回忆项目数的平均数为 4.9，标准差为 1.8。
+    对照组（无干扰）患者回忆项目数的平均数为 6.1，标准差为 1.8。
+    这些数据是否提供了有力的证据，表明处理组和对照组患者回忆食物项目的平均数不同？
+    假设满足使用数学模型进行推断的条件。
     [@Oldham:2011]
 
-[^_20-ex-inference-two-means-1]: The [`diamonds`](https://ggplot2.tidyverse.org/reference/diamonds.html) data used in this exercise can be found in the [**ggplot2**](http://ggplot2.tidyverse.org/) R package.
+[^_20-ex-inference-two-means-1]: 本练习中使用的 [`diamonds`](https://ggplot2.tidyverse.org/reference/diamonds.html) 数据可在 [**ggplot2**](http://ggplot2.tidyverse.org/) R 包中找到。
 
-[^_20-ex-inference-two-means-2]: The [`lizard_run`](http://openintrostat.github.io/openintro/reference/lizard_run.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_20-ex-inference-two-means-2]: 本练习中使用的 [`lizard_run`](http://openintrostat.github.io/openintro/reference/lizard_run.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_20-ex-inference-two-means-3]: The [`chickwts`](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/chickwts.html) data used in this exercise can be found in the [**datasets**](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html) R package.
+[^_20-ex-inference-two-means-3]: 本练习中使用的 [`chickwts`](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/chickwts.html) 数据可在 [**datasets**](https://stat.ethz.ch/R-manual/R-devel/library/datasets/html/00Index.html) R 包中找到。
 
-[^_20-ex-inference-two-means-4]: The [`epa2021`](http://openintrostat.github.io/openintro/reference/epa2021.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_20-ex-inference-two-means-4]: 本练习中使用的 [`epa2021`](http://openintrostat.github.io/openintro/reference/epa2021.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

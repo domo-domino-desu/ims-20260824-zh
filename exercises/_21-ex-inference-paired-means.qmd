@@ -1,62 +1,62 @@
-1.  **Air quality.** Air quality measurements were collected in a random sample of 25 country capitals in 2013, and then again in the same cities in 2014.
-    We would like to use these data to compare average air quality between the two years.
-    Should we use a paired or non-paired test?
-    Explain your reasoning.
+1.  **空气质量。** 在一个包含 25 个国家首都的随机样本中，收集了 2013 年的空气质量测量值，然后在 2014 年再次在相同城市收集。
+    我们想用这些数据比较两年间的平均空气质量。
+    我们应该使用配对检验还是非配对检验？
+    请解释你的理由。
 
 \vfill
 
-2.  **True / False: paired.** Determine if the following statements are true or false.
-    If false, explain.
+2.  **判断正误：配对。** 判断以下陈述是真是假。
+    如果为假，请解释。
 
-    a.  In a paired analysis we first take the difference of each pair of observations, and then we do inference on these differences.
+    a.  在配对分析中，我们首先计算每一对观测的差值，然后对这些差值进行推断。
 
-    b.  Two datasets of different sizes cannot be analyzed as paired data.
+    b.  两个大小不同的数据集不能作为配对数据分析。
 
-    c.  Consider two sets of data that are paired with each other.
-        Each observation in one dataset has a natural correspondence with exactly one observation from the other dataset.
+    c.  考虑两个彼此配对的数据集。
+        其中一个数据集的每个观测都与另一个数据集的恰好一个观测有自然的对应关系。
 
-    d.  Consider two sets of data that are paired with each other.
-        Each observation in one dataset is subtracted from the average of the other dataset's observations.
-
-\vfill
-
-3.  **Paired or not? I.** In each of the following scenarios, determine if the data are paired.
-
-    a.  Compare pre- (beginning of semester) and post-test (end of semester) scores of students.
-
-    b.  Assess gender-related salary gap by comparing salaries of randomly sampled men and women.
-
-    c.  Compare artery thicknesses at the beginning of a study and after 2 years of taking Vitamin E for the same group of patients.
-
-    d.  Assess effectiveness of a diet regimen by comparing the before and after weights of subjects.
+    d.  考虑两个彼此配对的数据集。
+        将一个数据集的每个观测从另一个数据集观测值的平均数中减去。
 
 \vfill
 
-4.  **Paired or not? II.** In each of the following scenarios, determine if the data are paired.
+3.  **配对与否？I。** 在以下每种情景中，判断数据是否配对。
 
-    a.  We would like to know if Intel's stock and Southwest Airlines' stock have similar rates of return.
-        To find out, we take a random sample of 50 days, and record Intel's and Southwest's stock on those same days.
+    a.  比较学生的前测（学期初）和后测（学期末）成绩。
 
-    b.  We randomly sample 50 items from Target stores and note the price for each.
-        Then we visit Walmart and collect the price for each of those same 50 items.
+    b.  通过比较随机抽样的男性和女性的薪水来评估与性别相关的薪资差距。
 
-    c.  A school board would like to determine whether there is a difference in average SAT scores for students at one high school versus another high school in the district.
-        To check, they take a simple random sample of 100 students from each high school.
+    c.  比较同一组患者研究开始时和服用维生素 E 两年后的动脉厚度。
+
+    d.  通过比较受试者前后的体重来评估饮食方案的有效性。
 
 \vfill
 
-5.  **Sample size and pairing.** Determine if the following statement is true or false, and if false, explain your reasoning: If comparing means of two groups with equal sample sizes, always use a paired test.
+4.  **配对与否？II。** 在以下每种情景中，判断数据是否配对。
+
+    a.  我们想知道英特尔的股票和西南航空公司的股票是否有相似的回报率。
+        为了找出答案，我们抽取一个包含 50 天的随机样本，并记录这些同一天英特尔和西南航空公司的股价。
+
+    b.  我们从 Target 商店随机抽样 50 件商品并记录每件商品的价格。
+        然后我们访问 Walmart 并收集这相同 50 件商品的价格。
+
+    c.  某学校董事会想确定一所高中的学生与该区另一所高中的学生的 SAT 分数的平均数是否存在差异。
+        为了检验，他们从每所高中各抽取了一个包含 100 名学生的简单随机样本。
+
+\vfill
+
+5.  **样本量与配对。** 判断以下陈述是真是假，如果为假，请解释你的理由：如果比较两个样本量相等的组的均值，总是使用配对检验。
 
 \vfill
 
 \clearpage
 
-6.  **High School and Beyond, randomization test.** The National Center of Education Statistics conducted a survey of high school seniors, collecting test data on reading, writing, and several other subjects.
-    Here we examine a simple random sample of 200 students from this survey.
-    
-    Side-by-side box plots of reading and writing scores as well as a histogram of the differences in scores are shown below.
-    Also provided below is a histogram of randomized averages of paired differences of scores (read - write), with the observed difference ($\bar{x}_{read-write} = -0.545$) marked with a red vertical line.
-    The randomization distribution was produced by doing the following 1000 times: for each student, the two scores were randomly assigned to either read or write, and the average was taken across all students in the sample.[^_21-ex-inference-paired-means-1]
+6.  **高中及以上，随机化检验。** 国家教育统计中心对高中高年级学生进行了一项调查，收集了阅读、写作和其他几个科目的考试数据。
+    这里我们考察了该调查中 200 名学生的简单随机样本。
+
+    下方展示了阅读与写作成绩的并列箱线图，以及分数差异的直方图。
+    下方还提供了配对分数差异（阅读 - 写作）的随机化平均数的直方图，其中观测到的差异（$\bar{x}_{read-write} = -0.545$）用一条红色垂直线标出。
+    该随机化分布是通过重复以下步骤 1000 次产生的：对于每位学生，将两个分数随机分配给阅读或写作，并计算样本中所有学生的平均数。[^_21-ex-inference-paired-means-1]
 
     ```{r}
     #| out-width: 100%
@@ -67,11 +67,11 @@
       geom_boxplot(show.legend = FALSE) +
       geom_jitter(alpha = 0.6, width = 0.35, show.legend = FALSE) +
       scale_color_manual(values = c(IMSCOL["green", "full"], IMSCOL["red", "full"])) +
-      labs(x = NULL, y = "Score")
+      labs(x = NULL, y = "分数")
 
     p_hist <- ggplot(hsb2, aes(x = read - write)) +
       geom_histogram(binwidth = 5) +
-      labs(x = "Differences in scores\n(read - write)", y = "Count")
+      labs(x = "分数差异\n（阅读 - 写作）", y = "计数")
 
     set.seed(1234)
     p_rand <- hsb2 |>
@@ -84,45 +84,45 @@
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = -0.545, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 means of randomized differences",
-        x = "Mean of randomized difference scores\n(read - write)", 
-        y = "Count"
+        title = "1,000 个随机化差异的均值",
+        x = "随机化差异分数的均值\n（阅读 - 写作）",
+        y = "计数"
       )
-    
+
     (p_box + p_hist) /
       p_rand
     ```
 
-    a.  Is there a clear difference in the average reading and writing scores?
+    a.  阅读和写作分数的平均数是否存在明显差异？
 
-    b.  Are the reading and writing scores of each student independent of each other?
+    b.  每个学生的阅读和写作分数是否彼此独立的？
 
-    c.  Create hypotheses appropriate for the following research question: is there an evident difference in the average scores of students in the reading and writing exam?
+    c.  为以下研究问题建立适当的假设：学生在阅读和写作考试中分数的平均数是否存在明显差异？
 
-    d.  Is the average of the observed difference in scores $(\bar{x}_{read-write} = -0.545)$ consistent with the distribution of randomized average differences?
-        Explain.
+    d.  观测到的分数差异的平均数 $(\bar{x}_{read-write} = -0.545)$ 是否与随机化平均数差异的分布一致？
+        请解释。
 
-    e.  Do these data provide convincing evidence of a difference between the average scores on the two exams?
-        Estimate the p-value from the randomization test, and conclude the hypothesis test using words like "score on reading test" and "score on writing test."
+    e.  这些数据是否提供了两门考试分数的平均数之间存在差异的有说服力的证据？
+        根据随机化检验估计 p 值，并使用诸如“阅读测试分数”和“写作测试分数”之类的词语得出假设检验的结论。
 
 \clearpage
 
-7.  **Global warming, randomization test.** Let's consider a limited set of climate data, examining temperature differences in 1950 vs 2022.
-    We sampled 26 locations in the US from the National Oceanic and Atmospheric Administration's (NOAA) historical data, where the data was available for both years of interest.
-    [@webpage:noaa19482018] The data are not a random sample, but they are selected to be a representative sample across the land area of the lower 48 United States.
-    Using the hottest day of the year as a measure can make the results susceptible to outliers.
-    Instead, to get a sense for how hot a year was, we calculate the 90$^{th}$ percentile; that is, we find the maximum temperature on the day that was hotter than 90% of the days that year.
-    We want to know: is the 90$^{th}$ percentile high temperature greater in 2022 or in 1950?
-    The difference in 90$^{th}$ percentile high temperature (high temperature for 2022 - high temperature for 1950) was calculated for each of the 26 locations.
-    The average of the 26 differences was 2.52$^\circ$F with a standard deviation of 2.95$^\circ$F.
-    We are interested in determining whether these data provide strong evidence that the 90$^{th}$ percentile high temperature is higher in 2022 than in 1950.[^_21-ex-inference-paired-means-2]
-    
+7.  **全球变暖，随机化检验。** 让我们考虑一个有限的气候数据集，考察 1950 年与 2022 年的温度差异。
+    我们从美国国家海洋和大气管理局（NOAA）的历史数据中抽样了美国 26 个地点，这些地点在我们感兴趣的两年中均有数据。
+    [@webpage:noaa19482018] 这些数据不是随机样本，但它们是被选出的、跨越美国本土 48 个州陆地区域的有代表性的样本。
+    使用一年中最热的一天作为度量可能会使结果容易受到离群值的影响。
+    取而代之，为了了解一年的炎热程度，我们计算第 90$^{th}$ 百分位数；也就是说，我们找到比该年 90% 的日子更热的那天的最高温度。
+    我们想知道：2022 年的第 90$^{th}$ 百分位数高温是更高还是 1950 年的更高？
+    对于 26 个地点中的每一个，都计算了第 90$^{th}$ 百分位数高温的差值（2022 年的高温 - 1950 年的高温）。
+    这 26 个差值的平均数为 2.52$^\circ$F，标准差为 2.95$^\circ$F。
+    我们感兴趣的是确定这些数据是否提供了强有力的证据，表明 2022 年的第 90$^{th}$ 百分位数高温高于 1950 年。[^_21-ex-inference-paired-means-2]
+
     :::: {layout="[-0.05, 0.45, -0.05, 0.45]"}
     :::{#question}
-    a.  Create hypotheses appropriate for the following research question: is there an evident difference in the 90$^{th}$ percentile high temp across the two years (1950 and 2022)?\
-    
-    b.  Is the average of the observed difference in scores $(\bar{x}_{2022-1950} = 2.53$\^\circ$F)$ consistent with the distribution of randomized average differences?
-        Explain.
+    a.  为以下研究问题建立适当的假设：两个年份（1950 年和 2022 年）的第 90$^{th}$ 百分位数高温是否存在明显差异？\
+
+    b.  观测到的差值的平均数 $(\bar{x}_{2022-1950} = 2.53$\^\circ$F)$ 是否与随机化平均数差异的分布一致？
+        请解释。
     :::
     :::{#plot}
     ```{r}
@@ -139,36 +139,32 @@
       specify(response = diff) |>
       hypothesize(null = "paired independence") |>
       generate(1000, type = "permute") |>
-      calculate(stat = "mean") |> 
+      calculate(stat = "mean") |>
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.5, fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = 2.52, color = IMSCOL["red", "full"], linewidth = 1) +
       labs(
-        title = "1,000 means of randomized differences",
-        x = "Mean of randomized difference scores\n(Year 2022 - Year 1950)", 
-        y = "Count"
+        title = "1,000 个随机化差异的均值",
+        x = "随机化差异分数的均值\n（2022 年 - 1950 年）",
+        y = "计数"
       ) +
       theme(plot.title.position = "plot")
     ```
     :::
     ::::
 
-    c.  Do these data provide convincing evidence of a difference between the 90$^{th}$ percentile high temperature?
-        Estimate the p-value from the randomization test, and conclude the hypothesis test using words like "90$^{th}$ percentile high temperature in 1950" and "90$^{th}$ percentile high temperature in 2022."
+    c.  这些数据是否提供了第 90$^{th}$ 百分位数高温之间存在差异的有说服力的证据？
+        根据随机化检验估计 p 值，并使用诸如“1950 年第 90$^{th}$ 百分位数高温”和“2022 年第 90$^{th}$ 百分位数高温”之类的词语得出假设检验的结论。
 
 \vfill
 
-8.  **High School and Beyond, bootstrap interval.** We considered the differences between the reading and writing scores of a random sample of 200 students who took the High School and Beyond Survey.
-    The mean and standard deviation of the differences are $\bar{x}_{read-write} = -0.545$ and $s_{read-write}$ = 8.887 points.
-    The bootstrap distribution below was produced by bootstrapping from the sample of differences in reading and writing scores 1,000 times.
+8.  **高中及以上，自助法区间。** 我们考察了参加“高中及以上”调查的 200 名学生随机样本的阅读和写作分数之差。
+    差值的均值和标准差分别为 $\bar{x}_{read-write} = -0.545$ 和 $s_{read-write}$ = 8.887 分。
+    下方的自助法分布是通过从阅读和写作分数差异的样本中进行 1,000 次自助法重抽样产生的。
 
-    :::: {layout="[-0.05, 0.45, -0.05, 0.45]"}
-    :::{#question}
-    a.  Find an approximate 95% bootstrap percentile confidence interval for the true average difference in scores (read - write).\
+    a.  求一个分数（阅读 - 写作）真实平均差值的近似 95% 自助百分位置信区间。\
 
-    b.  Find an approximate 95% bootstrap SE confidence interval for the true average difference in scores (read - write).
-    :::
-    :::{#plot}
+b.  计算真实的分数平均差值（阅读 - 写作）的一个近似的 95% 自助法标准误置信区间。
     ```{r}
     #| fig-width: 4
     #| out-width: 98%
@@ -178,26 +174,24 @@
       specify(response = diff) |>
       generate(1000, type = "bootstrap") |>
       calculate(stat = "mean") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 means of bootstrapped differences",
-        x = "Mean of bootstrapped difference scores\n(read - write)", 
-        y = "Count"
+        title = "1,000个自助法差异的均值",
+        x = "自助法差异分数的均值\n(阅读 - 写作)",
+        y = "频数"
       )+
       theme(plot.title.position = "plot")
     ```
-    :::
-    ::::
 
-    c.  Interpret both confidence intervals using words like "population" and "score".
+    c.  使用“总体”和“分数”这类词语解释两个置信区间。
 
-    d.  From the confidence intervals calculated above, does it appear that there is a discernible difference in reading and writing scores, on average?
+    d.  根据以上计算的置信区间，平均而言，阅读和写作分数是否看来存在明显差异？
 
 \clearpage
 
-9.  **Global warming, bootstrap interval.** We considered the change in the 90$^{th}$ percentile high temperature in 1950 versus 2022 at 26 sampled locations from the NOAA database.
-    [@webpage:noaa19482018] The mean and standard deviation of the reported differences are 2.53$^\circ$F and 2.95$^\circ$F.
+9.  **全球变暖，自助法区间。** 我们考虑了来自 NOAA 数据库的 26 个采样地点中，1950 年与 2022 年第 90 百分位数最高温度的变化。
+    [@webpage:noaa19482018] 所报告差异的均值和标准差分别为 2.53$^\circ$F 和 2.95$^\circ$F。
 
     ```{r}
     #| fig-asp: 0.4
@@ -210,57 +204,57 @@
       specify(response = diff) |>
       generate(1000, type = "bootstrap") |>
       calculate(stat = "mean") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.25, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped means of differences",
-        x = "Mean of differences in score\n(Year 2022 - Year 1950)", 
-        y = "Count"
+        title = "1,000个自助法差异的均值",
+        x = "差异值的均值\n(2022年 - 1950年)",
+        y = "频数"
       )
     ```
 
-    a.  Calculate a 90% bootstrap percentile confidence interval for the average difference of 90$^{th}$ percentile high temperature between 1950 and 2022.
+    a.  计算一个 1950 年与 2022 年之间第 90 百分位最高温度平均差值的 90% 自助百分位置信区间。
 
-    b.  Calculate a 90% bootstrap SE confidence interval for the average difference of 90$^{th}$ percentile high temperature between 1950 and 2022.
+    b.  计算一个 1950 年与 2022 年之间第 90 百分位最高温度平均差值的 90% 自助标准误置信区间。
 
-    c.  Interpret both intervals in context.
+    c.  结合具体背景解释这两个区间。
 
-    d.  Do the confidence intervals provide convincing evidence that there were hotter high temperatures in 2022 than in 1950 at NOAA stations?
-        Explain your reasoning.
+    d.  置信区间是否提供了令人信服的证据，表明在 NOAA 站点，2022 年的最高温度高于 1950 年？
+        解释你的推理。
 
 \vfill
 
-10. **High School and Beyond, mathematical test.** We considered the differences between the reading and writing scores of a random sample of 200 students who took the High School and Beyond Survey.
+10. **高中及以上，数学检验。** 我们考虑了参加高中及以上调查（High School and Beyond Survey）的 200 名学生的随机样本中，阅读与写作分数的差异。
 
-    a.  Create hypotheses appropriate for the following research question: is there an evident difference in the average scores of students in the reading and writing exam?
+    a.  为以下研究问题创建合适的假设：学生的阅读和写作考试平均分是否存在显著差异？
 
-    b.  Check the conditions required to complete this test.
+    b.  检查完成此检验所需的条件。
 
-    c.  The average observed difference in scores is $\bar{x}_{read-write} = -0.545$, and the standard deviation of the differences is $s_{read-write} = 8.887$ points.
-        Do these data provide convincing evidence of a difference between the average scores on the two exams?
+    c.  观测到的分数差异均值为 $\bar{x}_{read-write} = -0.545$，差异的标准差为 $s_{read-write} = 8.887$ 分。
+        这些数据是否为两门考试的平均分之间存在差异提供了令人信服的证据？
 
-    d.  What type of error might we have made?
-        Explain what the error means in the context of the application.
+    d.  我们可能犯了哪种类型的错误？
+        结合应用背景解释此错误的含义。
 
-    e.  Based on the results of this hypothesis test, would you expect a confidence interval for the average difference between the reading and writing scores to include 0?
-        Explain your reasoning.
+    e.  基于此假设检验的结果，你预计阅读和写作分数的平均差异的置信区间是否会包含 0？
+        解释你的推理。
 
 \vfill
 
 \clearpage
 
-11. **Global warming, mathematical test.** We considered the change in the 90$^{th}$ percentile high temperature in 1950 versus 2022 at 26 sampled locations from the NOAA database.
-    [@webpage:noaa19482018] The mean and standard deviation of the reported differences are 2.53$^\circ$F and 2.95$^\circ$F.
+11. **全球变暖，数学检验。** 我们考虑了来自 NOAA 数据库的 26 个采样地点中，1950 年与 2022 年第 90 百分位数最高温度的变化。
+    [@webpage:noaa19482018] 所报告差异的均值和标准差分别为 2.53$^\circ$F 和 2.95$^\circ$F。
 
     :::: {layout="[-0.05, 0.45, -0.05, 0.45]"}
     :::{#question}
-    a.  Is there a relationship between the observations collected in 1950 and 2022?
-        Or are the observations in the two groups independent?
-        Explain your reasoning.\
+    a.  1950 年和 2022 年收集的观测值之间是否存在关联？
+        或者两组的观测值是否独立的？
+        解释你的推理。\
 
-    b.  Write hypotheses for this research in symbols and in words.\
+    b.  用符号和文字写出此项研究的假设。\
 
-    c.  Check the conditions required to complete this test.    
+    c.  检查完成此检验所需条件。
     :::
     :::{#plot}
     ```{r}
@@ -274,49 +268,49 @@
       ggplot(aes(x = diff)) +
       geom_histogram(binwidth = 1) +
       labs(
-        x = "Difference in 90th percentile high temperature\n(Year 2022 - Year 1950)", 
-        y = "Count"
+        x = "第90百分位数最高温度的差异\n(2022年 - 1950年)",
+        y = "频数"
       )
     ```
     :::
     ::::
-    
+
     \vspace{-2mm}
 
-    d.  Calculate the test statistic and find the p-value.
+    d.  计算检验统计量并求出 p 值。
 
-    e.  Use $\alpha = 0.05$ to evaluate the test, and interpret your conclusion in context.
+    e.  使用 $\alpha = 0.05$ 来评估该检验，并结合语境解释你的结论。
 
-    f.  What type of error might we have made?
-        Explain in context what the error means.
+    f.  我们可能犯了哪种类型的错误？
+        结合具体背景解释此错误的含义。
 
-    g.  Based on the results of this hypothesis test, would you expect a confidence interval for the average difference between the 90$^{th}$ percentile high temperture from 1950 to 2022 to include 0?
-        Explain your reasoning.
+    g.  基于此假设检验的结果，你是否会预期 1950 年与 2022 年第 90 百分位数最高温度的平均差异的置信区间包含 0？
+        解释你的推理。
 
-12. **High school and beyond, mathematical interval.** We considered the differences between the reading and writing scores of a random sample of 200 students who took the High School and Beyond Survey.
-    The mean and standard deviation of the differences are $\bar{x}_{read-write} = -0.545$ and $s_{read-write}$ = 8.887 points.
+12. **高中及以上，数学区间。** 我们考虑了参加过“高中及以上”调查的 200 名学生的随机样本中，阅读与写作分数的差异。
+    差异的均值和标准差分别为 $\bar{x}_{read-write} = -0.545$ 和 $s_{read-write}$ = 8.887 分。
 
-    a.  Calculate a 95% confidence interval for the average difference between the reading and writing scores of all students.
+    a.  计算一个所有学生的阅读与写作分数平均差值的 95% 置信区间。
 
-    b.  Interpret this interval in context.
+    b.  结合语境解释这个区间。
 
-    c.  Does the confidence interval provide convincing evidence that there is a real difference in the average scores?
-        Explain.
+    c.  该置信区间是否提供了令人信服的证据，表明平均分数存在真实差异？
+        请解释。
 
-13. **Global warming, mathematical interval.** We considered the change in the 90$^{th}$ percentile high temperature in 1950 versus 2022 at 26 sampled locations from the NOAA database.
-    [@webpage:noaa19482018] The mean and standard deviation of the reported differences are 2.53$^\circ$F and 2.95$^\circ$F.
+13. **全球变暖，数学区间。** 我们考虑了来自 NOAA 数据库的 26 个采样地点中，1950 年与 2022 年第 90 百分位数最高温度的变化。
+    [@webpage:noaa19482018] 报告差异的均值和标准差分别为 2.53$^\circ$F 和 2.95$^\circ$F。
 
-    a.  Calculate a 90% confidence interval for the average difference of 90$^{th}$ percentile high temperature between 1950 and 2022.
-        We've already checked the conditions for you.
+    a.  计算一个 1950 年与 2022 年之间第 90 百分位最高温度平均差值的 90% 置信区间。
+        我们已经为你检查了相关条件。
 
-    b.  Interpret the interval in context.
+    b.  结合语境解释该区间。
 
-    c.  Does the confidence interval provide convincing evidence that there were hotter high temperatures in 2022 than in 1950 at NOAA stations?
-        Explain your reasoning.
+    c.  该置信区间是否提供了令人信服的证据，表明 2022 年 NOAA 站点的最高温度比 1950 年更高？
+        解释你的推理。
 
-14. **Possible paired randomized differences.** Two observations were collected on each of five people.
-    Which of the following could be a possible randomization of the paired differences given in the table below?
-    If the set of values could not be a randomized set of differences, indicate why not.
+14. **可能的成对随机化差异。** 在五个人身上各收集了两次观测。
+    以下哪一组可能是根据下表给出的成对差值的随机化结果？
+    如果一组值不可能是随机化的差值集合，请说明原因。
 
     :::: {layout="[-0.05, 0.35, -0.02, 0.58]"}
     :::{#question}
@@ -339,10 +333,10 @@
       "Difference", -4, 11, -2, 0, 1,
     ) |>
       kbl(
-        linesep = "", booktabs = TRUE, 
+        linesep = "", booktabs = TRUE,
         col.names = c("", "1", "2", "3", "4", "5")
       ) |>
-      add_header_above(c(" " = 1, "People" = 5)) |>
+      add_header_above(c(" " = 1, "人" = 5)) |>
       kable_styling(
         bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
@@ -354,22 +348,22 @@
 
 \clearpage
 
-15. **Study environment.** In order to test the effects of listening to music while studying versus studying in silence, students agree to be randomized to two treatments (i.e., study with music or study in silence).
-    There are two exams during the semester, so the researchers can either randomize the students to have one exam with music and one with silence (randomly selecting which exam corresponds to which study environment) or the researchers can randomize the students to one study habit for both exams.
+15. **学习环境。** 为了检验边听音乐学习与在安静环境中学习的效果，学生们同意被随机分配到两种处理（即，边听音乐学习或在安静环境中学习）。
+    一个学期有两次考试，因此研究者可以随机分配学生，让他们一次考试边听音乐，一次在安静环境中考试（随机决定哪次考试对应哪种学习环境）；或者，研究者可以随机分配学生，让他们在两次考试中都保持同一种学习习惯。
 
-    The researchers are interested in estimating the true population difference of exam score for those who listen to music while studying as compared to those who study in silence.
+    研究者感兴趣的是估计边听音乐学习者与在安静环境中学习者考试分数的总体真实差异。
 
-    a.  Describe the experiment which is consistent with a paired designed experiment.
-        How is the treatment assigned, and how are the data collected such that the observations are paired?
+    a.  描述与**成对设计实验**一致的实验方案。
+        处理是如何分配的？数据是如何收集的，从而使观测是成对的？
 
-    b.  Describe the experiment which is consistent with an indpenedent samples experiment.
-        How is the treatment assigned, and how are the data collected such that the observations are independent?
+    b.  描述与**独立样本实验**一致的实验方案。
+        处理是如何分配的？数据是如何收集的，从而使观测是独立的？
 
 \vfill
 
-16. **Friday the 13th, traffic.** In the early 1990's, researchers in the UK collected data on traffic flow on Friday the 13th with the goal of addressing issues of how superstitions regarding Friday the 13th affect human behavior and and whether Friday the 13th is an unlucky day.
-    The histograms below show the distributions of numbers of cars passing by a specific intersection on Friday the 6th and Friday the 13th for many such date pairs.
-    Also provided are some sample statistics, where the difference is the number of cars on the 6th minus the number of cars on the 13th.[^_21-ex-inference-paired-means-3]
+16. **13号星期五，交通。** 在 1990 年代早期，英国的研究者收集了 13 号星期五的交通流量数据，旨在探讨关于 13 号星期五的迷信如何影响人类行为，以及 13 号星期五是否是不吉利的日子。
+    下面的直方图显示了在许多这样的日期对中，6 号星期五和 13 号星期五通过特定十字路口的汽车数量的分布。
+    同时提供了一些样本统计量，其中差值是指 6 号的汽车数减去 13 号的汽车数。[^_21-ex-inference-paired-means-3]
     [@Scanlon:1993]
 
     ```{r}
@@ -383,12 +377,12 @@
       ) |>
       mutate(observation = fct_relevel(observation, "sixth", "thirteenth", "diff"))
 
-    friday_traffic |>
+friday_traffic |>
       ggplot(aes(x = count)) +
       geom_histogram(bins = 5) +
       facet_wrap(~observation, scales = "free") +
       scale_x_continuous(labels = label_number(scale = 1/1000, suffix = "K", accuracy = 1)) +
-      labs(x = "Number of cars", y = "Count")
+      labs(x = "车辆数", y = "计数")
 
     friday_traffic |>
       group_by(observation) |>
@@ -399,39 +393,37 @@
       ) |>
       kbl(
         linesep = "", booktabs = TRUE, align = "lrrr",
-        format.args = list(big.mark = ","), col.names = c("", "n", "Mean", "SD")
+        format.args = list(big.mark = ","), col.names = c("", "n", "均值", "标准差")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1:4, width = "5em")
     ```
 
-    a.  Are there any underlying structures in these data that should be considered in an analysis?
-        Explain.
+    a.  这些数据中是否存在任何应在分析中考虑的潜在结构？请解释。
 
-    b.  What are the hypotheses for evaluating whether the number of people out on Friday the 6$^{\text{th}}$ is different than the number out on Friday the 13$^{\text{th}}$?
+    b.  用于评估 6 号星期五外出人数是否与 13 号星期五不同的假设是什么？
 
-    c.  Check conditions to carry out the hypothesis test from part (b) using mathematical models.
+    c.  检查使用数学模型进行 部分的假设检验的条件。
 
-    d.  Calculate the test statistic and the p-value.
+    d.  计算检验统计量和 p 值。
 
-    e.  What is the conclusion of the hypothesis test?
+    e.  假设检验的结论是什么？
 
-    f.  Interpret the p-value in this context.
+    f.  在此背景下解释 p 值。
 
-    g.  What type of error might have been made in the conclusion of your test?
-        Explain.
+    g.  你的检验结论中可能犯了哪类错误？请解释。
 
 \vfill
 
 \clearpage
 
-17. **Friday the 13th, accidents.** In the early 1990's, researchers in the UK collected data the number of traffic accident related emergency room (ER) admissions on Friday the 13th with the goal of addressing issues of how superstitions regarding Friday the 13th affect human behavior and and whether Friday the 13th is an unlucky day.
-    The histograms below show the distributions of numbers of ER admissions at specific emergency rooms on Friday the 6th and Friday the 13th for many such date pairs.
-    Also provided are some sample statistics, where the difference is the ER admissions on the 6th minus the ER admissions on the 13th.[@Scanlon:1993]
+17. **13号星期五，事故。** 在 20 世纪 90 年代初，英国的研究人员收集了 13 号星期五与交通事故相关的急诊室 (ER) 入院人数的数据，旨在探讨关于 13 号星期五的迷信如何影响人类行为，以及 13 号星期五是否是一个不吉利的日子。
+    下面的直方图显示了在许多这样的日期对中，6 号星期五和 13 号星期五特定急诊室的急诊入院人数分布。
+    同时还提供了一些样本统计量，其中差值等于 6 号的急诊入院数减去 13 号的急诊入院数。[@Scanlon:1993]
 
     ```{r}
     #| out-width: 100%
@@ -448,7 +440,7 @@
       ggplot(aes(x = count)) +
       geom_histogram(bins = 5) +
       facet_wrap(~observation, scales = "free") +
-      labs(x = "Number of traffic accident related ER admissions", y = "Count")
+      labs(x = "与交通事故相关的急诊室入院数", y = "计数")
 
     friday_accident |>
       group_by(observation) |>
@@ -459,49 +451,49 @@
       ) |>
       kbl(
         linesep = "", booktabs = TRUE, align = "lrrr", digits = 0,
-        format.args = list(big.mark = ","), col.names = c("", "n", "Mean", "SD")
+        format.args = list(big.mark = ","), col.names = c("", "n", "均值", "标准差")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1:4, width = "5em")
     ```
 
-    a.  Conduct a hypothesis test using mathematical models to evaluate if there is a difference between the average numbers of traffic accident related emergency room admissions between Friday the 6$^{\text{th}}$ and Friday the 13$^{\text{th}}$.
+    a.  使用数学模型进行假设检验，以评估 6 号星期五和 13 号星期五之间与交通事故相关的急诊室入院平均数量是否存在差异。
 
-    b.  Calculate a 95% confidence interval using mathematical models for the difference between the average numbers of traffic accident related emergency room admissions between Friday the 6$^{\text{th}}$ and Friday the 13$^{\text{th}}$.
+    b.  使用数学模型，计算一个 6 日星期五与 13 日星期五之间交通事故相关急诊就诊人数平均差值的 95% 置信区间。
 
-    c.  The conclusion of the original study states, "Friday 13th is unlucky for some. The risk of hospital admission as a result of a transport accident may be increased by as much as 52%. Staying at home is recommended." Do you agree with this statement?
-        Explain your reasoning.
+    c.  原研究的结论指出：“13号星期五对某些人来说是不吉利的。因交通事故入院的风险可能增加多达 52%。建议待在家里。”你同意这种说法吗？
+        解释你的推理。
 
 \vspace{10mm}
 
-18. **Forest management.** Forest rangers wanted to better understand the rate of growth for younger trees in the park.
-    They took measurements of a random sample of 50 young trees in 2009 and again measured those same trees in 2019.
-    The data below summarize their measurements, where the heights are in feet.
+18. **森林管理。** 护林员希望更好地了解公园内幼树的生长速度。
+    他们在 2009 年随机抽取了 50 棵幼树进行测量，并在 2019 年再次测量了这些相同的树木。
+    下面的数据总结了他们的测量结果，其中高度以英尺为单位。
 
     ```{r}
     tribble(
       ~Year,        ~Mean, ~SD, ~n,
       "2009",       12,    3.5, 50,
       "2019",       24.5,  9.5, 50,
-      "Difference", 12.5,  7.2, 50
+      "差值", 12.5,  7.2, 50
       ) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lccc") |>
+      kbl(linesep = "", booktabs = TRUE, align = "lccc", col.names = c("年份", "均值", "标准差", "n")) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1:4, width = "5em")
     ```
 
-    Construct a 99% confidence interval for the average growth of (what had been) younger trees in the park over 2009-2019.
+    构建一个关于公园中（曾经的）幼树在 2009-2019 年间平均生长量的 99% 置信区间。
 
-[^_21-ex-inference-paired-means-1]: The [`hsb2`](http://openintrostat.github.io/openintro/reference/hsb2.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_21-ex-inference-paired-means-1]: 本练习中使用的 [`hsb2`](http://openintrostat.github.io/openintro/reference/hsb2.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_21-ex-inference-paired-means-2]: The [`us_temperature`](http://openintrostat.github.io/openintro/reference/us_temperature.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_21-ex-inference-paired-means-2]: 本练习中使用的 [`us_temperature`](http://openintrostat.github.io/openintro/reference/us_temperature.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_21-ex-inference-paired-means-3]: The [`friday`](http://openintrostat.github.io/openintro/reference/friday.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_21-ex-inference-paired-means-3]: 本练习中使用的 [`friday`](http://openintrostat.github.io/openintro/reference/friday.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

@@ -1,45 +1,45 @@
-# Inference for two-way tables {#sec-inference-tables}
+# 双向表的推断 {#sec-inference-tables}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
-::: {.chapterintro data-latex=""}
-In [Chapter -@sec-inference-two-props] our focus was on the difference in proportions, a statistic calculated from finding the success proportions (from the binary response variable) measured across two groups (the binary explanatory variable).
-As we will see in the examples below, sometimes the explanatory or response variables have more than two possible options.
-In that setting, a difference across two groups is not sufficient, and the proportion of "success" is not well defined if there are 3 or 4 or more possible response levels.
-The primary way to summarize categorical data where the explanatory and response variables both have 2 or more levels is through a two-way table as in @tbl-ipod-ask-data-summary.
 
-Note that with two-way tables, there is not an obvious single parameter of interest.
-Instead, research questions usually focus on how the proportions of the response variable changes (or not) across the different levels of the explanatory variable.
-Because there is not a population parameter to estimate, bootstrapping to find the standard error of the estimate is not meaningful.
-As such, for two-way tables, we will focus on the randomization test and corresponding mathematical approximation (and not bootstrapping).
+::: {.chapterintro data-latex=""}
+在 [第 -@sec-inference-two-props 章] 中，我们关注的是比例差，这是一个通过计算两组（二元解释变量）的成功比例（来自二元响应变量）而得到的统计量。
+如下文示例所示，有时解释变量或响应变量可能有两个以上的选项。
+在这种情况下，两组之间的差异不足以说明问题，并且如果存在 3 个、4 个或更多可能的响应水平，那么“成功”比例的定义也就不再明确。
+当解释变量和响应变量都有 2 个或更多水平时，总结分类数据的主要方法是通过如 @tbl-ipod-ask-data-summary 所示的双向表。
+
+请注意，对于双向表，并没有一个明显且单一的感兴趣的参数。
+相反，研究问题通常关注响应变量的比例在不同解释变量水平下如何变化（或不变）。
+由于没有要估计的总体参数，因此使用自助法来寻找估计值的标准误是没有意义的。
+因此，对于双向表，我们将重点关注随机化检验及相应的数学近似方法（而非自助法）。
 :::
 
-## Randomization test of independence
+## 随机化独立性检验
 
-We all buy used products -- cars, computers, textbooks, and so on -- and we sometimes assume the sellers of those products will be forthright about any underlying problems with what they're selling.
-This is not something we should take for granted.
-Researchers recruited 219 participants in a study where they would sell a used iPod[^18-inference-tables-1] that was known to have frozen twice in the past.
-The participants were incentivized to get as much money as they could for the iPod since they would receive a 5% cut of the sale on top of \$10 for participating.
-The researchers wanted to understand what types of questions would elicit the seller to disclose the freezing issue.
+我们都会购买二手产品——汽车、电脑、教科书等等——而且我们有时会假设这些产品的卖家会坦诚告知他们所售产品的任何潜在问题。
+我们不应将此视为理所当然。
+研究人员招募了 219 名参与者参与一项研究，在研究中他们需要出售一个已知在过去死机过两次的二手 iPod[^18-inference-tables-1]。
+参与者受到激励，要尽可能以高价卖出这个 iPod，因为他们将获得售价 5% 的提成，外加 \$10 的参与报酬。
+研究人员希望了解，什么样的问题能促使卖家披露死机问题。
 
-[^18-inference-tables-1]: For readers not as old as the authors, an iPod is basically an iPhone without any cellular service, assuming it was one of the later generations.
-    Earlier generations were more basic.
+[^18-inference-tables-1]: 对于不如作者年长的读者来说，iPod 基本上就是一个没有任何蜂窝网络服务的 iPhone（假设它是较后期的型号）。早期的型号功能更简单。
 
 \clearpage
 
-Unbeknownst to the participants who were the sellers in the study, the buyers were collaborating with the researchers to evaluate the influence of different questions on the likelihood of getting the sellers to disclose the past issues with the iPod.
-The scripted buyers started with "Okay, I guess I'm supposed to go first. So you've had the iPod for 2 years ..." and ended with one of three questions:
+作为研究中卖家的参与者并不知道，买家正与研究人员合作，以评估不同问题对促使卖家披露 iPod 过去存在问题之可能性的影响。
+照剧本行事的买家以这样的开场白开始：“好的，我想我应该先说。这么说你已经用这个 iPod 两年了……”，然后以以下三个问题之一结束：
 
--   General: What can you tell me about it?
--   Positive Assumption: It does not have any problems, does it?
--   Negative Assumption: What problems does it have?
+-   一般问题：关于它你能告诉我些什么？
+-   正面假定：它没有任何问题，对吧？
+-   负面假定：它有什么问题？
 
-The question is the treatment given to the sellers, and the response is whether the question prompted them to disclose the freezing issue with the iPod.
-The results are shown in @tbl-ipod-ask-data-summary, and the data suggest that asking the, *What problems does it have?*, was the most effective at getting the seller to disclose the past freezing issues.
-However, you should also be asking yourself: could we see these results due to chance alone if there really is no difference in the question asked, or is this in fact evidence that some questions are more effective for getting at the truth?
+所提的问题就是施加给卖家的处理，而响应则是该问题是否促使他们披露了 iPod 的死机问题。
+结果如 @tbl-ipod-ask-data-summary 所示，数据表明，询问“它有什么问题？”在促使卖家披露过去的死机问题方面最为有效。
+然而，你也应该问自己：如果所提问题之间确实没有差异，这些结果是否可能仅仅由偶然造成？或者这实际上是表明某些问题在揭示真相方面更有效的证据？
 
 ```{r}
 #| label: ask-data-prep
@@ -64,11 +64,11 @@ ask <- ask |>
   )
 ```
 
+
 ```{r}
 #| label: tbl-ipod-ask-data-summary
 #| tbl-cap: |
-#|   Summary of the iPod study, where a question was posed to the study
-#|   participant who acted.
+#|   对 iPod 研究的总结，其中向作为卖家的研究参与者提出了一个问题。
 #| tbl-pos: H
 ask |>
   count(question_class, response) |>
@@ -77,7 +77,7 @@ ask |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Question", "Disclose problem", "Hide problem", "Total")
+    col.names = c("问题类型", "披露问题", "隐瞒问题", "合计")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -86,44 +86,47 @@ ask |>
   )
 ```
 
+
 ::: {.data data-latex=""}
-The [`ask`](http://openintrostat.github.io/openintro/reference/ask.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`ask`](http://openintrostat.github.io/openintro/reference/ask.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-The hypothesis test for the iPod experiment is really about assessing whether there is convincing evidence that there was a difference in the success rates that each question had on getting the participant to disclose the problem with the iPod.
-In other words, the goal is to check whether the buyer's question was independent\index{independence} of whether the seller disclosed a problem.
+iPod 实验的假设检验，实际上是评估是否有令人信服的证据表明，每个问题在促使参与者披露 iPod 故障方面的成功率存在差异。
+换言之，目标是检验买家所提的问题是否与卖家是否披露问题**独立**\index{independence}。
 
 ```{r}
 #| include: false
 terms_chp_18 <- c("independence")
 ```
 
-### Expected counts in two-way tables
 
-While we would not expect the number of disclosures to be exactly the same across the three question classes, the rate of disclosure seems substantially different across the three groups.
-In order to investigate whether the differences in rates is due to natural variability in people's honesty or due to a treatment effect (i.e., the question causing the differences), we need to compute estimated counts for each cell in a two-way table.
+
+### 双向表中的期望频数
+
+虽然我们不会预期三个问题类别中披露问题的人数完全相同，但这三组的披露率似乎存在显著差异。
+为了探究这些比例的差异是由于人们在诚实度上的自然变异性，还是由于处理效应（即问题导致了差异），我们需要计算双向表中每个单元格的期望频数。
 
 ::: {.workedexample data-latex=""}
-From the experiment, we can compute the proportion of all sellers who disclosed the freezing problem as $61/219 = 0.2785.$ If there really is no difference among the questions and 27.85% of sellers were going to disclose the freezing problem no matter the question they were asked, how many of the 73 people in the `General` group would we have expected to disclose the freezing problem?
+根据实验，我们可以计算出所有披露死机问题的卖家的比例为 $61/219 = 0.2785$。如果问题之间确实没有差异，并且 27.85% 的卖家无论被问到什么问题都会披露死机问题，那么我们预期 `General` 组的 73 人中有多少人会披露死机问题？
 
 ------------------------------------------------------------------------
 
-We would predict that $0.2785 \times 73 = 20.33$ sellers would disclose the problem.
-Obviously we observed fewer than this, though it is not yet clear if that is due to chance variation or whether that is because the questions vary in how effective they are at getting to the truth.
+我们可以预测，会有 $0.2785 \times 73 = 20.33$ 位卖家披露问题。
+显然，我们观察到披露问题的人数少于这个值，不过目前还不清楚这是由于随机变异，还是因为问题在揭示真相方面的有效性有所不同。
 :::
 
 ::: {.guidedpractice data-latex=""}
-If the questions were actually equally effective, meaning about 27.85% of respondents would disclose the freezing issue regardless of what question they were asked, about how many sellers would we expect to *hide* the freezing problem from the Positive Assumption group?[^18-inference-tables-2]
+如果问题实际上同样有效，这意味着大约 27.85% 的受访者无论被问到什么问题都会披露死机问题，那么我们预期有多少卖家会从积极假设组中*隐藏*死机问题？[^18-inference-tables-2]
 :::
 
-[^18-inference-tables-2]: We would expect $(1 - 0.2785) \times 73 = 52.67.$ It is okay that this result, like the result from the Example above, is a fraction.
+[^18-inference-tables-2]: 我们会预期 $(1 - 0.2785) \times 73 = 52.67.$ 和上面的示例结果一样，这个结果是个分数（小数），这是完全可以的。
 
-We can compute the expected number of sellers who we would expect to disclose or hide the freezing issue for all groups, if the questions had no impact on what they disclosed, using the same strategies employed in the previous Example and Guided Practice to compute expected counts.
-These expected counts were used to construct @tbl-ipod-ask-data-summary-expected, which is the same as @tbl-ipod-ask-data-summary, except now the expected counts have been added in parentheses.
+我们可以使用前面示例和指导练习中采用的相同策略，来计算如果问题对卖家所披露的内容没有影响，我们在所有组中预期会披露或隐瞒死机问题的卖家数量（即期望频数）。
+这些期望频数被用来构建 @tbl-ipod-ask-data-summary-expected，该表与 @tbl-ipod-ask-data-summary 相同，只是现在在括号中加上了期望频数。
 
 ```{r}
 #| label: tbl-ipod-ask-data-summary-expected
-#| tbl-cap: The observed counts and the expected counts for the iPod experiment.
+#| tbl-cap: iPod 实验的观测频数与期望频数。
 #| tbl-pos: H
 ask_chi_sq <- chisq.test(ask$response, ask$question_class)
 
@@ -175,9 +178,9 @@ ask_chi_sq_tabs |>
   column_spec(6, width = "5em") |>
   add_header_above(c(
     " ",
-    "Disclose problem" = 2,
-    "Hide problem" = 2,
-    "Total"
+    "披露问题" = 2,
+    "隐瞒问题" = 2,
+    "合计"
   )) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -186,41 +189,43 @@ ask_chi_sq_tabs |>
   )
 ```
 
-The examples and exercises above provided some help in computing expected counts.
-In general, expected counts for a two-way table may be computed using the row totals, column totals, and the table total.
-For instance, if there was no difference between the groups, then about 27.85% of each row should be in the first column:
+
+
+上面的示例和练习为计算期望频数提供了一些思路。
+通常，可以使用行合计、列合计和表格总计来计算双向表中的期望频数。
+例如，如果各组之间没有差异，那么每一行大约应该有 27.85% 落在第一列：
 
 $$
 \begin{aligned}
-0.2785\times (\text{row 1 total}) &= 20.33 \\
-0.2785\times (\text{row 2 total}) &= 20.33 \\
-0.2785\times (\text{row 3 total}) &= 20.33
-\end{aligned} 
+0.2785\times (\text{第 1 行合计}) &= 20.33 \\
+0.2785\times (\text{第 2 行合计}) &= 20.33 \\
+0.2785\times (\text{第 3 行合计}) &= 20.33
+\end{aligned}
 $$
 
-Looking back to how 0.2785 was computed -- as the fraction of sellers who disclosed the freezing issue $(61/219)$ -- these three expected counts could have been computed as
+回顾 0.2785 是如何计算的——作为披露死机问题的卖家比例 $(61/219)$——这三个期望频数也可以按如下方式计算：
 
 $$
 \begin{aligned}
-\left(\frac{\text{row 1 total}}{\text{table total}}\right)
+\left(\frac{\text{第 1 行合计}}{\text{表格合计}}\right)
     \text{(column 1 total)} &= 20.33 \\
-\left(\frac{\text{row 1 total}}{\text{table total}}\right)
+\left(\frac{\text{第 1 行合计}}{\text{表格合计}}\right)
     \text{(column 2 total)} &= 20.33 \\
-\left(\frac{\text{row 1 total}}{\text{table total}}\right)
+\left(\frac{\text{第 1 行合计}}{\text{表格合计}}\right)
     \text{(column 3 total)} &= 20.33
-\end{aligned} 
+\end{aligned}
 $$
 
-This leads us to a general formula for computing expected counts in a two-way table when we would like to test whether there is strong evidence of an association between the column variable and row variable.
+这引导我们得出一个计算双向表中期望频数的一般公式，当我们想要检验是否存在列变量与行变量之间关联的强有力证据时，就可以使用该公式。
 
 ::: {.important data-latex=""}
-**Computing expected counts in a two-way table.**
+**计算双向表中的期望频数。**
 
 \index{expected counts}
 
-To calculate the expected count for the $i^{th}$ row and $j^{th}$ column, compute
+要计算第 $i$ 行和第 $j$ 列的期望频数，计算公式为：
 
-$$\text{Expected Count}_{\text{row }i,\text{ col }j} = \frac{(\text{row $i$ total}) \times (\text{column $j$ total})}{\text{table total}}$$
+$$\text{期望频数}_{\text{第 }i\text{ 行、第 }j\text{ 列}} = \frac{(\text{第 $i$ 行合计}) \times (\text{第 $j$ 列合计})}{\text{表格合计}}$$
 :::
 
 ```{r}
@@ -228,46 +233,47 @@ $$\text{Expected Count}_{\text{row }i,\text{ col }j} = \frac{(\text{row $i$ tota
 terms_chp_18 <- c(terms_chp_18, "expected counts")
 ```
 
-### The observed chi-squared statistic
 
-The chi-squared test statistic for a two-way table is found by finding the ratio of how far the observed counts are from the expected counts, as compared to the expected counts, for every cell in the table.
-For each table count, compute:
+
+### 观测到的卡方统计量
+
+双向表的卡方检验统计量，是通过计算表中每个单元格的观测频数偏离期望频数的程度（相对于期望频数）的比值来求得的。
+对于表中的每个频数，计算：
 
 $$
 \begin{aligned}
-&\text{General formula} &&
-    \frac{(\text{observed count } - \text{expected count})^2}
-        {\text{expected count}} \\
-&\text{Row 1, Col 1} &&
+&\text{一般公式} &&
+    \frac{(\text{观测频数} - \text{期望频数})^2}
+        {\text{期望频数}} \\
+&\text{第 1 行第 1 列} &&
     \frac{(2 - 20.33)^2}{20.33} = 16.53 \\
-&\text{Row 2, Col 1} &&
+&\text{第 2 行第 1 列} &&
     \frac{(23 - 20.33)^2}{20.33} = 0.35 \\
 & \hspace{9mm}\vdots &&
     \hspace{13mm}\vdots \\
-&\text{Row 3, Col 2} &&
+&\text{第 3 行第 2 列} &&
     \frac{(37 - 52.67)^2}{52.67} = 4.66
 \end{aligned}
 $$
 
-Adding the computed value for each cell gives the chi-squared test statistic $X^2:$
+将每个单元格的计算值相加，即得到卡方检验统计量 $X^2:$
 
 $$X^2 = 16.53 + 0.35 + \dots + 4.66 = 40.13$$
 
-Is 40.13 a big number?
-That is, does it indicate that the observed and expected values are really different?
-Or is 40.13 a value of the statistic that we would expect to see just due to natural variability?
-Previously, we applied the randomization test to the setting where the research question investigated a difference in proportions.
-The same idea of shuffling the data under the null hypothesis can be used in the setting of the two-way table.
+40.13 是一个很大的数值吗？
+也就是说，它是否表明观测频数与期望频数确实存在差异？
+或者说，40.13 这个统计量值是否仅仅是由于自然变异性就可能出现的？
+之前，我们将随机化检验应用于研究问题涉及比例差异的场景。在原假设下对数据进行重排的相同思路，也可以应用于双向表的情况。
 
-### Variability of the statistic
+### 统计量的变异性
 
-Assuming that the individuals would disclose or hide the problems **regardless** of the question they are given (i.e., that the null hypothesis is true), we can randomize the data by reassigning the 61 disclosed problems and 158 hidden problems to the three groups at random.
-@tbl-ipod-ask-data-summary-rand shows a possible randomization of the observed data under the condition that the null hypothesis is true (in contrast to the original observed data in @tbl-ipod-ask-data-summary).
+假设个体无论被问到什么问题，都会做出相同的披露或隐藏决定（即原假设为真），我们可以通过将 61 个“披露问题”和 158 个“隐藏问题”随机重新分配到三个组中来随机化数据。
+@tbl-ipod-ask-data-summary-rand 展示了在原假设为真的条件下，观测数据的一种可能随机化结果（与 @tbl-ipod-ask-data-summary 中的原始观测数据形成对比）。
 
 ```{r}
 #| label: tbl-ipod-ask-data-summary-rand
 #| tbl-cap: |
-#|   Summary of the iPod study.
+#|   iPod研究汇总。
 #| tbl-pos: H
 set.seed(4747)
 
@@ -282,7 +288,7 @@ ask_rand |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Question", "Disclose problem", "Hide problem", "Total")
+    col.names = c("问题", "披露问题", "隐藏问题", "合计")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -291,27 +297,29 @@ ask_rand |>
   )
 ```
 
-As before, the randomized data is used to find a single value for the test statistic (here a chi-squared statistic).
-The chi-squared statistic for the randomized two-way table is found by comparing the observed and expected counts for each cell in the *randomized* table.
-For each cell, compute:
+
+
+像之前一样，使用随机化数据来计算检验统计量（此处为卡方统计量）的一个值。
+随机化双向表的卡方统计量，是通过比较*随机化后*表格中每个单元格的观测频数与期望频数来求得的。
+对于每个单元格，计算：
 
 $$
 \begin{aligned}
-&\text{General formula} &&
-    \frac{(\text{observed count } - \text{expected count})^2}
-        {\text{expected count}} \\
-&\text{Row 1, Col 1} &&
+&\text{一般公式} &&
+    \frac{(\text{观测频数} - \text{期望频数})^2}
+        {\text{期望频数}} \\
+&\text{第 1 行第 1 列} &&
     \frac{(29 - 20.33)^2}{20.33} = 3.7 \\
-&\text{Row 2, Col 1} &&
+&\text{第 2 行第 1 列} &&
     \frac{(15 - 20.33)^2}{20.33} = 1.4 \\
 & \hspace{9mm}\vdots &&
     \hspace{13mm}\vdots \\
-&\text{Row 3, Col 2} &&
+&\text{第 3 行第 2 列} &&
     \frac{(56 - 52.67)^2}{52.67} = 0.211
-\end{aligned} 
+\end{aligned}
 $$
 
-Adding the computed value for each cell gives the chi-squared test statistic $X^2:$ \index{chi-squared statistic}
+将每个单元格的计算值相加，即得到卡方检验统计量 $X^2:$ \index{chi-squared statistic}
 
 $$X^2 = 3.7 + 1.4 + \dots + 0.211 = 8$$
 
@@ -320,31 +328,21 @@ $$X^2 = 3.7 + 1.4 + \dots + 0.211 = 8$$
 terms_chp_18 <- c(terms_chp_18, "chi-squared statistic")
 ```
 
-### Observed statistic vs. null chi-squared statistics
 
-As before, one randomization will not be sufficient for understanding if the observed data are particularly different from the expected chi-squared statistics when $H_0$ is true.
-To investigate whether 40.13 is large enough to indicate the observed and expected counts are substantially different, we need to understand the variability in the values of the chi-squared statistic we would expect to see if the null hypothesis was true.
-@fig-ipodRandDotPlot plots 1,000 chi-squared statistics generated under the null hypothesis.
-We can see that the observed value is so far from the null statistics that the simulated p-value is zero.
-That is, the probability of seeing the observed statistic when the null hypothesis is true is virtually zero.
-In this case we can conclude that the decision of whether to disclose the iPod's problem is changed by the question asked.
-We use the causal language of "changed" because the study was an experiment.
-Note that with a chi-squared test, we only know that the two variables (`question_class` and `response`) are related (i.e., not independent).
-We are not able to claim which type of question causes which type of response.
+
+### 观测统计量与原假设下的卡方统计量
+
+和之前一样，单次随机化不足以判断观测数据是否与 $H_0$ 为真时预期的卡方统计量存在明显差异。
+要研究 40.13 是否大到足以表明观测频数与期望频数存在实质性差异，我们需要了解如果原假设为真，我们预期会看到的卡方统计量值的变异性。
+@fig-ipodRandDotPlot 绘制了在原假设下生成的 1,000 个卡方统计量。我们可以看到，观测值距离原假设下的统计量如此之远，以至于模拟 p 值为零。也就是说，在原假设为真的情况下看到该观测统计量的概率几乎为零。
+在这种情况下，我们可以得出结论：是否披露 iPod 问题的决定被所提问题**改变**了。我们使用“改变”这一因果性语言，是因为该研究是一项实验。请注意，对于卡方检验，我们只知道两个变量（`question_class` 和 `response`）是关联的（即不独立的）。我们无法断言哪种类型的问题导致了哪种类型的响应。
 
 ```{r}
 #| label: fig-ipodRandDotPlot
 #| fig-cap: |
-#|   A histogram of chi-squared statistics from 1,000 simulations produced under
-#|   the null hypothesis, $H_0,$ where the question is independent of the response. The
-#|   observed statistic of 40.13 is marked by the red line. None of the 1,000 simulations
-#|   had a chi-squared value of at least 40.13. In fact, none of the simulated chi-squared
-#|   statistics came anywhere close to the observed statistic!
+#|   在原假设 $H_0$（即问题与响应相互独立）下，由 1,000 次模拟产生的卡方统计量直方图。红线标记了观测到的统计量 40.13。在这 1,000 次模拟中，没有一个卡方值达到至少 40.13。事实上，模拟得到的卡方统计量没有一个接近观测到的统计量！
 #| fig-alt: |
-#|   A histogram of chi-squared statistics from 1,000 simulations produced under
-#|   the null hypothesis, where the question is independent of the response. The
-#|   observed statistic of 40.13 is marked by the red line. None of the 1,000 simulations
-#|   had a chi-squared value of at least 40.13.
+#|   在原假设（问题与响应相互独立）下，由 1,000 次模拟产生的卡方统计量直方图。红线标记了观测到的统计量 40.13。在这 1,000 次模拟中，没有一个卡方值达到至少 40.13。
 #| fig-asp: 0.6
 set.seed(4747)
 
@@ -364,31 +362,29 @@ ggplot(ask_rand_dist, aes(x = stat)) +
   geom_vline(xintercept = ask_rand_obs, col = "red", lwd = 1.5) +
   expand_limits(x = 40.13) +
   labs(
-    x = "Chi-squared statistics assuming a true null hypothesis",
-    y = "Count"
+    x = "假设原假设为真时的卡方统计量",
+    y = "计数"
   )
 ```
 
-## Mathematical model for test of independence {#sec-mathchisq}
 
-### The chi-squared test of independence
 
-Previously, in @sec-math-2prop, we applied the Central Limit Theorem to the sampling variability of $\hat{p}_1 - \hat{p}_2.$ The result was that we could use the normal distribution (e.g., $z^*$ values (see @fig-choosingZForCI) and p-values from $Z$ scores) to complete the mathematical inferential procedure.
-The chi-squared test statistic has a different mathematical distribution called the Chi-squared distribution.
-The important specification to make in describing the chi-squared distribution is something called degrees of freedom.
-The degrees of freedom change the shape of the chi-squared distribution to fit the problem at hand.
-@fig-chisqDistDF visualizes different chi-squared distributions corresponding to different degrees of freedom.
+## 独立性检验的数学模型 {#sec-mathchisq}
+
+### 独立性卡方检验
+
+先前，在 @sec-math-2prop 中，我们将中心极限定理应用于 $\hat{p}_1 - \hat{p}_2.$ 的抽样变异性。结果是我们能够使用正态分布（例如，$z^*$ 值（参见 @fig-choosingZForCI）和来自 $Z$ 分数的 p 值）来完成数学推断过程。
+卡方检验统计量服从一个不同的数学分布，称为卡方分布。
+描述卡方分布时需要明确的一个重要设定是所谓的自由度。
+自由度会改变卡方分布的形状，以适应当前的问题。
+@fig-chisqDistDF 可视化了不同自由度对应的不同卡方分布。
 
 ```{r}
 #| label: fig-chisqDistDF
 #| fig-cap: |
-#|   The chi-squared distribution for differing degrees of freedom. The larger
-#|   the degrees of freedom, the longer the right tail extends. The smaller the degrees
-#|   of freedom, the more peaked the mode on the left becomes.
+#|   不同自由度下的卡方分布。自由度越大，右尾延伸得越长。自由度越小，左侧的众数越尖。
 #| fig-alt: |
-#|   The chi-squared distribution for differing degrees of freedom. The larger
-#|   the degrees of freedom, the longer the right tail extends. The smaller the degrees
-#|   of freedom, the more peaked the mode on the left becomes.
+#|   不同自由度下的卡方分布。自由度越大，右尾延伸得越长。自由度越小，左侧的众数越尖。
 #| fig-asp: 0.5
 x <- c(0, seq(0.0000001, 40, 0.05))
 DF <- c(2.0000001, 4, 9)
@@ -424,57 +420,58 @@ legend(
   col = IMSCOL[c(1, 2, 4)],
   lty = 1:4,
   legend = paste(round(DF)),
-  title = "Degrees of Freedom",
+  title = "自由度",
   cex = 1
 )
 ```
 
-### Variability of the chi-squared statistic
 
-As it turns out, the chi-squared test statistic follows a **Chi-squared distribution**\index{Chi-squared distribution} when the null hypothesis is true.
-For two way tables, the degrees of freedom is equal to: $df = \text{(number of rows minus 1)}\times \text{(number of columns minus 1)}$.
-In our example, the degrees of freedom parameter is $df = (2-1)\times (3-1) = 2$.
+
+### 卡方统计量的变异性
+
+事实证明，当原假设为真时，卡方检验统计量服从**卡方分布**\index{Chi-squared distribution}。
+对于双向表，自由度等于：$df = \text{(行数减 1)}\times \text{(列数减 1)}$。
+在我们的例子中，自由度参数是 $df = (2-1)\times (3-1) = 2$。
 
 ```{r}
 #| include: false
 terms_chp_18 <- c(terms_chp_18, "Chi-squared distribution")
 ```
 
-### Observed statistic vs. null chi-squared statistics
+
+
+### 观测统计量与原假设下的卡方统计量
 
 ::: {.important data-latex=""}
-**The test statistic for assessing the independence between two categorical variables is a** $X^2.$
+**用于评估两个分类变量之间独立性的检验统计量是** $X^2$。
 
-The $X^2$ statistic is a ratio of how the observed counts vary from the expected counts as compared to the expected counts (which are a measure of how large the sample size is).
+$X^2$ 统计量是观测频数偏离期望频数的程度相对于期望频数（期望频数是衡量样本量大小的一个指标）的比值。
 
-$$X^2 = \sum_{i,j} \frac{(\text{observed count} - \text{expected count})^2}{\text{expected count}}$$
+$$X^2 = \sum_{i,j} \frac{(\text{观测频数} - \text{期望频数})^2}{\text{期望频数}}$$
 
-When the null hypothesis is true and the conditions are met, $X^2$ has a Chi-squared distribution with $df = (r-1) \times (c-1).$
+当原假设为真且满足条件时，$X^2$ 服从 $df = (r-1) \times (c-1).$ 的卡方分布。
 
-Conditions:
+条件：
 
--   Independent observations
--   Large samples: 5 expected counts in each cell
+-   观测相互独立
+-   大样本：每个单元格的期望频数至少为 5
 :::
 
-To bring it back to the example, we can safely assume that the observations are independent, as the question groups were randomly assigned.
-Additionally, there are over 5 expected counts in each cell, so the conditions for using the Chi-square distribution are met.
-If the null hypothesis is true (i.e., the questions had no impact on the sellers in the experiment), then the test statistic $X^2 = 40.13$ is expected to follow a Chi-squared distribution with 2 degrees of freedom.
-Using this information, we can compute the p-value for the test, which is depicted in @fig-iPodChiSqTail.
+回到本例，由于问题组是随机分配的，我们可以放心地假设观测是独立的。此外，每个单元格的期望频数都超过了5，因此满足使用卡方分布的条件。如果原假设为真（即问题对实验中的卖家没有影响），那么检验统计量 $X^2 = 40.13$ 预期服从自由度为2的卡方分布。利用这个信息，我们可以计算检验的 p 值，如 @fig-iPodChiSqTail 所示。
 
 ::: {.important data-latex=""}
-**Computing degrees of freedom for a two-way table.**
+**计算双向表的自由度。**
 
 \index{degrees of freedom!chi-squared test}
-When applying the chi-squared test to a two-way table, we use $df = (R-1)\times (C-1)$ where $R$ is the number of rows in the table and $C$ is the number of columns.
+当对双向表应用卡方检验时，我们使用 $df = (R-1)\times (C-1)$，其中 $R$ 是表格中的行数，$C$ 是列数。
 :::
 
 ```{r}
 #| label: fig-iPodChiSqTail
-#| fig-cap: Visualization of the p-value for $X^2 = 40.13$ when $df = 2$.
+#| fig-cap: |
+#|   当 $df = 2$ 时，$X^2 = 40.13$ 的 p 值可视化。
 #| fig-alt: |
-#|   Chi-square distribution (with df = 2) curve, shaded for p-value for
-#|   X2 = 40.13. The p-value is so small that it is not visible on the plot.
+#|   卡方分布曲线（df = 2），为 X2 = 40.13 的 p 值区域上色。p 值非常小，在图上几乎看不到。
 #| fig-asp: 0.5
 par(mar = c(2, 0, 0, 0))
 x <- 40.13
@@ -484,45 +481,43 @@ ChiSquareTail(
   c(0, 50),
   col = IMSCOL["blue", "full"]
 )
-text(x, 0, "Tail area (1 / 500 million)\nis too small to see", pos = 3)
+text(x, 0, "尾部面积 (1 / 5亿)\n太小而看不见", pos = 3)
 lines(c(x, 1000 * x), rep(0, 2), col = IMSCOL["blue", "full"], lwd = 3)
 ```
 
-The software R can be used to find the p-value with the function `pchisq()`.
-Just like `pnorm()`, `pchisq()` always gives the area to the left of the cutoff value.
-Because, in this example, the p-value is represented by the area to the right of 40.13, we subtract the output of `pchisq()` from 1.
+
+
+软件 R 可以通过 `pchisq()` 函数来求 p 值。就像 `pnorm()` 一样，`pchisq()` 总是给出截断值左侧的面积。因为在本例中，p 值由 40.13 右侧的面积表示，所以我们需要用 1 减去 `pchisq()` 的返回值。
 
 ```{r}
 #| echo: true
 1 - pchisq(40.13, df = 2)
 ```
 
+
 ::: {.workedexample data-latex=""}
-Find the p-value and draw a conclusion about whether the question affects the sellers likelihood of reporting the freezing problem.
+计算 p 值，并判断所提问题是否影响卖家报告故障问题的可能性。
 
 ------------------------------------------------------------------------
 
-Using a computer, we can compute a very precise value for the tail area above $X^2 = 40.13$ for a chi-squared distribution with 2 degrees of freedom: 0.000000002.
+利用计算机，我们可以计算出自由度为 2 的卡方分布中，大于 $X^2 = 40.13$ 的尾部面积的非常精确的值：0.000000002。
 
-Using a discernibility level of $\alpha=0.05,$ the null hypothesis is rejected since the p-value is smaller.
-That is, the data provide convincing evidence that the question asked did affect a seller's likelihood to tell the truth about problems with the iPod.
+使用可辨识水平 $\alpha=0.05$，由于 p 值小于该水平，因此拒绝原假设。也就是说，数据提供了令人信服的证据，表明所提问题确实影响了卖家如实报告 iPod 故障问题的可能性。
 :::
 
 ::: {.workedexample data-latex=""}
-@tbl-diabetes2ExpMetRosiLifestyleSummary summarizes the results of an experiment evaluating three treatments for Type 2 Diabetes in patients aged 10-17 who were being treated with metformin.
-The three treatments considered were continued treatment with metformin (`met`), treatment with metformin combined with rosiglitazone (`rosi`), or a `lifestyle` intervention program.
-Each patient had a primary outcome, which was either lacked glycemic control (failure) or did not lack that control (success).
-What are appropriate hypotheses for this test?
+@tbl-diabetes2ExpMetRosiLifestyleSummary 总结了一项实验的结果，该实验评估了三种处理对正在接受二甲双胍治疗的 10-17 岁 2 型糖尿病患者的效果。考虑的三种处理是继续使用二甲双胍（`met`）、二甲双胍联合罗格列酮（`rosi`）或 `lifestyle` 干预计划。每位患者有一个主要结果变量，即血糖控制不佳（失败）或未缺乏该控制（成功）。这个检验的合适假设是什么？
 
 ------------------------------------------------------------------------
 
--   $H_0:$ There is no difference in the effectiveness of the three treatments.
--   $H_A:$ There is some difference in effectiveness between the three treatments, e.g., perhaps the `rosi` treatment performed better than `lifestyle`.
+-   $H_0:$ 三种处理方法的有效性没有差异。
+-   $H_A:$ 三种处理方法的效果存在一些差异，例如，也许 `rosi` 处理比 `lifestyle` 效果更好。
 :::
 
 ```{r}
 #| label: tbl-diabetes2ExpMetRosiLifestyleSummary
-#| tbl-cap: Results for the Type 2 Diabetes study.
+#| tbl-cap: |
+#|   2 型糖尿病研究结果。
 #| tbl-pos: H
 diabetes2 |>
   count(outcome, treatment) |>
@@ -531,7 +526,7 @@ diabetes2 |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Treatment", "Failure", "Success", "Total")
+    col.names = c("处理", "失败", "成功", "合计")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -541,55 +536,56 @@ diabetes2 |>
   column_spec(1:4, width = "5em")
 ```
 
+
 ::: {.data data-latex=""}
-The [`diabetes2`](http://openintrostat.github.io/openintro/reference/diabetes2.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`diabetes2`](http://openintrostat.github.io/openintro/reference/diabetes2.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-Typically we will use a computer to do the computational work of finding the chi-squared statistic.
-However, it is always good to have a sense for what the computer is doing, and in particular, calculating the values which would be expected if the null hypothesis is true can help to understand the null hypothesis claim.
-Additionally, comparing the expected and observed values by eye often gives the researcher some insight into why or why not the null hypothesis for a given test is rejected or not.
+通常我们会使用计算机来完成寻找卡方统计量的计算工作。然而，了解计算机的工作过程总是有益的，特别是计算原假设为真时的期望频数，有助于理解原假设的含义。此外，通过肉眼比较期望频数和观测频数，往往能让研究者洞察某项检验的原假设为何被拒绝或未被拒绝。
 
 ::: {.guidedpractice data-latex=""}
-A chi-squared test for a two-way table may be used to test the hypotheses in the diabetes Example above.
-To get a sense for the statistic used in the chi-squared test, first compute the expected values for each of the six table cells.[^18-inference-tables-3]
+可以使用双向表的卡方检验来检验上述糖尿病示例中的假设。
+为了理解卡方检验中所使用的统计量，请首先计算六个表格单元格各自的期望频数。[^18-inference-tables-3]
 :::
 
-[^18-inference-tables-3]: The expected count for row one / column one is found by multiplying the row one total (234) and column one total (319), then dividing by the table total (699): $\frac{234\times 319}{699} = 106.8.$ Similarly for the second column and the first row: $\frac{234\times 380}{699} = 127.2.$ Row 2: 105.9 and 126.1.
-    Row 3: 106.3 and 126.7.
+[^18-inference-tables-3]: 第一行第一列的期望频数是将第一行的总计（234）乘以第一列的总计（319），再除以表格的总计（699）：$\frac{234\times 319}{699} = 106.8.$ 同理，对于第一行第二列：$\frac{234\times 380}{699} = 127.2.$ 第二行：105.9 和 126.1。
+    第三行：106.3 和 126.7。
 
-Note, when analyzing 2-by-2 contingency tables (that is, when both variables only have two possible options), one guideline is to use the two-proportion methods introduced in [Chapter -@sec-inference-two-props].
+注意，在分析 2×2 列联表（即两个变量都只有两个可能选项）时，一个指导原则是使用 [第 -@sec-inference-two-props 章] 中介绍的两比例方法。
 
 \clearpage
 
-## Chapter review {#sec-chp18-review}
+## 章节回顾 {#sec-chp18-review}
 
-### Summary
+### 小结
 
-In this chapter we extended the randomization / bootstrap / mathematical model paradigm to research questions involving categorical variables.
-We continued working with one population proportion as well as the difference in populations proportions, but the test of independence allowed for hypothesis testing on categorical variables with more than two levels.
-We note that the normal model was an excellent mathematical approximation to the sampling distribution of sample proportions (or differences in sample proportions), but that the questions with categorical variables with more than 2 levels required a new mathematical model, the chi-squared distribution.
-As seen in [Chapter -@sec-foundations-randomization], [Chapter -@sec-foundations-bootstrapping] and [Chapter -@sec-foundations-mathematical], almost all the research questions can be approached using computational methods (e.g., randomization tests or bootstrapping) or using mathematical models.
-We continue to emphasize the importance of experimental design in making conclusions about research claims.
-In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation, see @fig-randsampValloc).
+在本章中，我们将随机化/自助法/数学模型的范式扩展至涉及分类变量的研究问题。
+我们继续讨论单一总体比例以及两总体比例之差，但独立性检验可用于对具有两个以上水平的分类变量进行假设检验。
+值得注意的是，正态模型是样本比例（或样本比例之差）抽样分布的极佳数学近似，但对于涉及超过2个水平的分类变量的问题，则需要一个新的数学模型——卡方分布。
+正如在 [第 -@sec-foundations-randomization 章]、[第 -@sec-foundations-bootstrapping 章] 和 [第 -@sec-foundations-mathematical 章] 中所见，几乎所有的研究问题都可以通过计算方法（例如，随机化检验或自助法）或使用数学模型来解决。
+我们再次强调实验设计在得出研究结论时的重要性。
+特别要记住，变异性可能来自不同的来源（例如，随机抽样与随机分配，参见 @fig-randsampValloc）。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-18.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列于 @tbl-terms-chp-18 中。
+如果你不确定其中某些术语的含义，我们建议你回到正文中复习它们的定义。
+你应该能很容易地识别出它们，因为它们是**粗体文本**。
 
 ```{r}
 #| label: tbl-terms-chp-18
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_18)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp18-exercises}
+## 练习 {#sec-chp18-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-18].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-18] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_18-ex-inference-tables.qmd >}}

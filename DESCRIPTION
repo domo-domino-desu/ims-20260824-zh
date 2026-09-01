@@ -55,6 +55,6 @@ Suggests:
     ragg,
     textshaping
 Remotes:
-    haleyjeppson/ggmosaic,
+    haleyjeppson/ggmosaic@929d25c0b452407ec474a339c0dd570be0391f8d,
     hrbrmstr/waffle
 Encoding: UTF-8

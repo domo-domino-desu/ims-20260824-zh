@@ -1,7 +1,7 @@
-1.  **Body measurements, randomization test.** Researchers studying anthropometry collected body and skeletal diameter measurements, as well as age, weight, height and sex for 507 physically active individuals.
-    A linear model is built to predict height based on shoulder girth (circumference of shoulders measured over deltoid muscles), both measured in centimeters.[^_24-ex-inf-model-slr-1]
-    [@Heinz:2003] Shown below are the linear model output for predicting height from shoulder girth and the histogram of slopes from 1,000 randomized datasets (1,000 times, `hgt` was permuted and regressed against `sho_gi`).
-    The red vertical line is drawn at the observed slope value which was produced in the linear model output.
+1.  **人体测量，随机化检验。** 研究人体测量学的学者们收集了 507 名身体活跃的个体的身体和骨骼直径测量数据，以及年龄、体重、身高和性别信息。
+    研究人员建立了一个线性模型，用于根据肩围（在三角肌上方测量的肩部周长，单位均为厘米）来预测身高。[^_24-ex-inf-model-slr-1]
+    [@Heinz:2003] 下方显示了根据肩围预测身高的线性模型输出结果，以及从 1,000 个随机化数据集（对 `hgt` 进行了 1,000 次置换并针对 `sho_gi` 进行回归分析）得到的斜率直方图。
+    红色垂直线标记了线性模型输出中观察到的斜率值。
 
     :::: {layout="[0.6, 0.4]"}
 
@@ -12,7 +12,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -33,29 +33,29 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.02, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 randomized slopes",
-        x = "Slope from randomly permuted data", 
-        y = "Count"
+        title = "1,000个随机化斜率",
+        x = "随机置换数据得到的斜率",
+        y = "频数"
         ) +
       geom_vline(xintercept = 0.604, color = IMSCOL["red", "full"], size = 1)
     ```
     :::
     ::::
-    
+
     \vspace{-5mm}
 
-    a.  What are the null and alternative hypotheses for evaluating whether the slope of the model predicting height from shoulder girth is differen than 0.
+    a.  为评估用肩围预测身高的模型的斜率是否不等于 0，原假设和备择假设分别是什么？
 
-    b.  Using the histogram which describes the distribution of slopes when the null hypothesis is true, find the p-value and conclude the hypothesis test in the context of the problem (use words like shoulder girth and height).
+    b.  使用描述原假设为真时斜率分布的直方图，求出 p 值，并结合问题背景得出假设检验的结论（使用"肩围"和"身高"等词汇）。
 
-    c.  Is the conclusion based on the histogram of randomized slopes consistent with the conclusion from the mathematical model?
-        Explain your reasoning.
+    c.  基于随机化斜率直方图的结论与基于数学模型的结论是否一致？
+        请解释你的推理。
 
-2.  **Baby's weight and father's age, randomization test.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1000 births from 2014.
-    Here, we study the relationship between the father's age and the weight of the baby.[^_24-ex-inf-model-slr-2]
-    [@data:births14] Shown below are the linear model output for predicting baby's weight (in pounds) from father's age (in years) and the histogram of slopes from 1000 randomized datasets (1000 times, `weight` was permuted and regressed against `fage`).
-    The red vertical line is drawn at the observed slope value which was produced in the linear model output.
+2.  **婴儿体重与父亲年龄，随机化检验。** 美国卫生与公众服务部下属疾病控制与预防中心收集了该国记录的出生信息。
+    这里使用的数据是 2014 年 1,000 个出生记录的随机样本。
+    在本研究中，我们将探讨父亲年龄与婴儿体重之间的关系。[^_24-ex-inf-model-slr-2]
+    [@data:births14] 下方显示了根据父亲年龄（岁）预测婴儿体重（磅）的线性模型输出结果，以及从 1,000 个随机化数据集（对 `weight` 进行了 1,000 次置换并针对 `fage` 进行回归分析）得到的斜率直方图。
+    红色垂直线标记了线性模型输出中观察到的斜率值。
 
     :::: {layout="[0.6, 0.4]"}
     :::{#table}
@@ -67,7 +67,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -89,30 +89,30 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.0025, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 randomized slopes",
-        x = "Slope from randomly permuted data", 
-        y = "Count"
+        title = "1,000个随机化斜率",
+        x = "随机置换数据得到的斜率",
+        y = "频数"
         ) +
       geom_vline(xintercept = 0.005, color = IMSCOL["red", "full"], size = 1)
     ```
     :::
     ::::
-    
+
     \vspace{-5mm}
 
-    a.  What are the null and alternative hypotheses for evaluating whether the slope of the model for predicting baby's weight from father's age is different than 0?
+    a.  为评估用父亲年龄预测婴儿体重的模型的斜率是否不等于 0，原假设和备择假设分别是什么？
 
-    b.  Using the histogram which describes the distribution of slopes when the null hypothesis is true, find the p-value and conclude the hypothesis test in the context of the problem (use words like father's age and weight of baby).
-        What does the conclusion of your test say about whether the father's age is a useful predictor of baby's weight?
+    b.  使用描述原假设为真时斜率分布的直方图，求出 p 值，并结合问题背景得出假设检验的结论（使用"父亲年龄"和"婴儿体重"等词汇）。
+        根据你的检验结论，父亲年龄是否是婴儿体重的有用预测变量？
 
-    c.  Is the conclusion based on the histogram of randomized slopes consistent with the conclusion from the mathematical model?
-        Explain your reasoning.
+    c.  基于随机化斜率直方图的结论与基于数学模型的结论是否一致？
+        请解释你的推理。
 
 \clearpage
 
-3.  **Body measurements, mathematical test.** The scatterplot and least squares summary below show the relationship between weight measured in kilograms and height measured in centimeters of 507 physically active individuals.
+3.  **人体测量，数学检验。** 下面的散点图和最小二乘摘要展示了 507 名身体活跃的个体的体重（千克）和身高（厘米）之间的关系。
     [@Heinz:2003]
-    
+
     :::: {layout="[0.4, 0.6]"}
 
     :::{#plot}
@@ -122,12 +122,12 @@
     ggplot(bdims, aes(x = hgt, y = wgt)) +
       geom_point() +
       labs(
-        x = "Height (cm)",
-        y = "Weight (kg)"
+        x = "身高（厘米）",
+        y = "体重（千克）"
       )
     ```
     :::
-    
+
     :::{#output}
     ```{r}
     m_wgt_hgt <- lm(wgt ~ hgt, data = bdims)
@@ -137,7 +137,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 2) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -146,26 +146,26 @@
       column_spec(4:5, width = "3em")
     ```
     :::
-    
+
     ::::
 
-    a.  Describe the relationship between height and weight.
+    a.  描述身高和体重之间的关系。
 
-    b.  Write the equation of the regression line.
-        Interpret the slope and intercept in context.
+    b.  写出回归直线的方程。
+        在具体情境下解释斜率和截距。
 
-    c.  Do the data provide convincing evidence that the true slope parameter is different than 0?
-        State the null and alternative hypotheses, report the p-value (using a mathematical model), and state your conclusion.
+    c.  数据是否提供了有说服力的证据表明真实的斜率参数不等于 0？
+        陈述原假设和备择假设，报告 p 值（使用数学模型），并陈述你的结论。
 
-    d.  The correlation coefficient for height and weight is `r r_wgt_hgt`.
-        Calculate $R^2$ and interpret it in context.
+    d.  身高与体重的相关系数是 `r r_wgt_hgt`。
+        计算 $R^2$ 并在具体情境中解释其含义。
 
 \vfill
 
-4.  **Baby's weight and father's age, mathematical test.** Is the father's age useful in predicting the baby's weight?
-    The scatterplot and least squares summary below show the relationship between baby's weight (measured in pounds) and father's age for a random sample of babies.
+4.  **婴儿体重与父亲年龄，数学检验。** 父亲年龄有助于预测婴儿的体重吗？
+    下面的散点图和最小二乘摘要展示了一个随机抽取的婴儿样本中婴儿体重（磅）与父亲年龄之间的关系。
     [@data:births14]
-    
+
     :::: {layout="[0.4, 0.6]"}
 
     :::{#plot}
@@ -175,12 +175,12 @@
     ggplot(births14, aes(x = fage, y = weight)) +
       geom_point() +
       labs(
-        x = "Father's age",
-        y = "Weight (lbs)"
+        x = "父亲年龄",
+        y = "体重（磅）"
       )
     ```
     :::
-    
+
     :::{#output}
     ```{r}
     m_weight_fage <- lm(weight ~ fage, data = births14)
@@ -189,7 +189,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -200,20 +200,20 @@
     :::
     ::::
 
-    a.  What is the predicted weight of a baby whose father is 30 years old?
+    a.  父亲年龄为 30 岁时，婴儿的预测体重是多少？
 
-    b.  Do the data provide convincing evidence that the model for predicting baby weights from father's age has a slope different than 0?
-        State the null and alternative hypotheses, report the p-value (using a mathematical model), and state your conclusion.
+    b.  数据是否提供了有说服力的证据表明，基于父亲年龄预测婴儿体重的模型的斜率不等于 0？
+        陈述原假设和备择假设，报告 p 值（使用数学模型），并陈述你的结论。
 
-    c.  Based on your conclusion, is father's age a useful predictor of baby's weight?
+    c.  根据你的结论，父亲年龄是否是婴儿体重的有用预测变量？
 
 \vfill
 
 \clearpage
 
-5.  **Body measurements, bootstrap percentile interval.** In order to estimate the slope of the model predicting height based on shoulder girth (circumference of shoulders measured over deltoid muscles), 1,000 bootstrap samples are taken from a dataset of body measurements from 507 people.
-    A linear model predicting height based on shoulder girth is fit to each bootstrap sample, and the slope is estimated.
-    A histogram of these slopes is shown below.
+5.  **人体测量，自助法百分位区间。** 为了估计基于肩围（在三角肌上方测量的肩部周长）预测身高的模型的斜率，从一个包含 507 人身体测量的数据集中抽取了 1,000 个自助样本。
+    对每个自助样本拟合一个基于肩围预测身高的线性模型，并估计其斜率。
+    这些斜率的直方图如下所示。
     [@Heinz:2003]
 
     ```{r}
@@ -226,22 +226,22 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.01, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrap slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000个自助法斜率",
+        x = "自助法数据得到的斜率",
+        y = "频数"
       )
     ```
 
-    a.  Using the bootstrap percentile method and the histogram above, find a 98% confidence interval for the slope parameter.
+a.  使用自助百分位法和上方的直方图，求斜率参数的一个 98% 置信区间。
 
-    b.  Interpret the confidence interval in the context of the problem.
+    b.  解释该置信区间在该问题背景下的含义。
 
 \vfill
 
-6.  **Baby's weight and father's age, bootstrap percentile interval.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1000 births from 2014.
-    Here, we study the relationship between the father's age and the weight of the baby.
-    Below is the bootstrap distribution of the slope statistic from 1,000 different bootstrap samples of the data.
+6.  **婴儿体重与父亲年龄，自助百分位区间。** 美国卫生与公众服务部、疾病控制与预防中心收集了该国记录的出生信息。
+    这里使用的数据是 2014 年 1000 例出生的随机样本。
+    在此，我们研究父亲年龄与婴儿体重之间的关系。
+    下方是基于 1,000 个不同的自助样本得到的斜率统计量的自助分布。
     [@data:births14]
 
     ```{r}
@@ -255,47 +255,53 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000 个自助样本斜率",
+        x = "基于自助数据的斜率",
+        y = "频数"
       )
     ```
 
-    a.  Using the bootstrap percentile method and the histogram above, find a 95% confidence interval for the slope parameter.
+    a.  使用自助百分位法和上方的直方图，求斜率参数的一个 95% 置信区间。
 
-    b.  Interpret the confidence interval in the context of the problem.
+    b.  解释该置信区间在该问题背景下的含义。
 
 \vfill
 
 \clearpage
 
-7.  **Body measurements, standard error bootstrap interval.** A linear model is built to predict height based on shoulder girth (circumference of shoulders measured over deltoid muscles), both measured in centimeters.
-    [@Heinz:2003] Shown below are the linear model output for predicting height from shoulder girth and the bootstrap distribution of the slope statistic from 1,000 different bootstrap samples of the data.
+7.  **身体测量，标准误自助区间。** 建立了一个线性模型，根据肩围（测量三角肌上方肩部周长，单位均为厘米）来预测身高。
+    [@Heinz:2003] 下方展示了根据肩围预测身高的线性模型输出，以及基于 1,000 个不同自助样本得到的斜率统计量的自助分布。
 
     ```{r}
     lm(hgt ~ sho_gi, data = bdims) |>
       tidy() |>
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
+      kbl(
+        linesep = "",
+        booktabs = TRUE,
+        align = "lrrrr",
+        digits = 3,
+        col.names = c("项", "估计值", "标准误", "统计量", "p 值")
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
-    
+
     :::: {layout="[0.48, -0.02, 0.5]"}
 
     :::{#questions}
-    a.  Using the histogram, approximate the standard error of the slope statistic (that is, quantify the variability of the slope statistic from sample to sample).
+    a.  使用直方图，近似斜率统计量的标准误（即量化斜率统计量从样本到样本的变异性）。
 
-    b.  Find a 98% bootstrap SE confidence interval for the slope parameter.
+    b.  求斜率参数的 98% 自助法标准误置信区间。
 
-    c.  Interpret the confidence interval in the context of the problem.
+    c.  解释该置信区间在该问题背景下的含义。
     :::
-    
+
     :::{#plot}
     ```{r}
     #| out-width: 100%
@@ -308,9 +314,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.01, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000 个自助样本斜率",
+        x = "基于自助数据的斜率",
+        y = "频数"
       )
     ```
     :::
@@ -318,10 +324,10 @@
 
 \vfill
 
-8.  **Baby's weight and father's age, standard error bootstrap interval.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1000 births from 2014.
-    Here, we study the relationship between the father's age and the weight of the baby.
-    [@data:births14] Shown below are the linear model output for predicting baby's weight (in pounds) from father's age (in years) and the the bootstrap distribution of the slope statistic from 1000 different bootstrap samples of the data.
+8.  **婴儿体重与父亲年龄，标准误自助区间。** 美国卫生与公众服务部、疾病控制与预防中心收集了该国记录的出生信息。
+    这里使用的数据是 2014 年 1000 例出生的随机样本。
+    在此，我们研究父亲年龄与婴儿体重（单位磅）之间的关系。
+    [@data:births14] 下方展示了根据父亲年龄（单位岁）预测婴儿体重的线性模型输出，以及基于 1000 个不同自助样本得到的斜率统计量的自助分布。
 
     ```{r}
     births14 |>
@@ -329,26 +335,32 @@
       lm(weight ~ fage, data = _) |>
       tidy() |>
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
+      kbl(
+        linesep = "",
+        booktabs = TRUE,
+        align = "lrrrr",
+        digits = 3,
+        col.names = c("项", "估计值", "标准误", "统计量", "p 值")
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
-    
+
     :::: {layout="[0.48, -0.02, 0.5]"}
 
     :::{#questions}
-    a.  Using the histogram, approximate the standard error of the slope statistic (that is, quantify the variability of the slope statistic from sample to sample).
+    a.  使用直方图，近似斜率统计量的标准误（即量化斜率统计量从样本到样本的变异性）。
 
-    b.  Find a 95% bootstrap SE confidence interval for the slope parameter.
+    b.  求斜率参数的 95% 自助法标准误置信区间。
 
-    c.  Interpret the confidence interval in the context of the problem.
+    c.  解释该置信区间在该问题背景下的含义。
     :::
-    
+
     :::{#plot}
     ```{r}
     #| out-width: 100%
@@ -362,9 +374,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000 个自助样本斜率",
+        x = "基于自助数据的斜率",
+        y = "频数"
       )
     ```
     :::
@@ -374,8 +386,8 @@
 
 \clearpage
 
-9.  **Body measurements, conditions.** The scatterplot below shows the residuals (on the y-axis) from the linear model of weight vs. height from a dataset of body measurements from 507 physically active individuals.
-    The x-axis is the height of the individuals, in cm.
+9.  **身体测量，条件。** 下面的散点图显示了来自一个数据集的线性模型（体重对身高）的残差（在 y 轴上），该数据集包含 507 名经常进行体育锻炼的个体的身体测量值。
+    x 轴是个体的身高，单位为厘米。
     [@Heinz:2003]
 
     ```{r}
@@ -386,29 +398,29 @@
 
     m_wgt_hgt |>
       augment() |>
-      ggplot(aes(x = hgt, y = .resid)) + 
+      ggplot(aes(x = hgt, y = .resid)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lty = 2, se = FALSE) +
       labs(
-        x = "Height (cm)",
-        y = "Residuals"
+        x = "身高（厘米）",
+        y = "残差"
       )
     ```
 
-    a.  For these data, $R^2$ is `r rsq_uo`%.
-        What is the value of the correlation coefficient?
-        How can you tell if it is positive or negative?
-        (Hint: you may need to look at a previous exercise.)
+    a.  对于这些数据，$R^2$ 是 `r rsq_uo`%.。
+        相关系数的值是多少？
+        你如何判断它是正的还是负的？
+        （提示：你可能需要查看之前的练习。）
 
-    b.  Examine the residual plot.
-        What do you observe?
-        Is a simple least squares fit appropriate for these data?
-        Which of the LINE conditions are met or not met?
+    b.  检查残差图。
+        你观察到了什么？
+        对于这些数据，简单的最小二乘拟合是否合适？
+        哪些 LINE 条件被满足，哪些未被满足？
 
 \vfill
 
-10. **Baby's weight and father's age, conditions.** The scatterplot below shows the residuals (on the y-axis) from the linear model of baby's weight (measured in pounds) vs. father's age for a random sample of babies.
-    Father's age is on the x-axis.
+10. **婴儿体重与父亲年龄，条件。** 下面的散点图显示了线性模型（婴儿体重（以磅为单位）对父亲年龄）的残差（在 y 轴上），数据来自一个婴儿随机样本。
+    x 轴是父亲的年龄。
     [@data:births14]
 
     ```{r}
@@ -419,40 +431,46 @@
 
     m_weight_fage_lm |>
       augment() |>
-      ggplot(aes(x = fage, y = .resid)) + 
+      ggplot(aes(x = fage, y = .resid)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lty = 2, se = FALSE) +
       labs(
-        x = "Father's age",
-        y = "Residuals"
+        x = "父亲年龄",
+        y = "残差"
       )
     ```
 
-    a.  For these data, $R^2$ is `r rsq_uo`%.
-        What is the value of the correlation coefficient?
-        How can you tell if it is positive or negative?
-        (Hint: you may need to look at a previous exercise.)
+    a.  对于这些数据，$R^2$ 是 `r rsq_uo`%.。
+        相关系数的值是多少？
+        你如何判断它是正的还是负的？
+        （提示：你可能需要查看之前的练习。）
 
-    b.  Examine the residual plot.
-        What do you observe?
-        Is a simple least squares fit appropriate for these data?
-        Which of the LINE conditions are met or not met?
+    b.  检查残差图。
+        你观察到了什么？
+        对于这些数据，简单的最小二乘拟合是否合适？
+        哪些 LINE 条件被满足，哪些未被满足？
 
 \vfill
 
 \clearpage
 
-11. **Murders and poverty, randomization test.** The following regression output is for predicting annual murders per million (`annual_murders_per_mil`) from percentage living in poverty (`perc_pov`) in a random sample of 20 metropolitan areas.
-    Shown below are the linear model output for predicting annual murders per million from percentage living in poverty for metropolitan areas and the histogram of slopes from 1000 randomized datasets (1000 times, `annual_murders_per_mil` was permuted and regressed against `perc_pov`).
-    The red vertical line is drawn at the observed slope value which was produced in the linear model output.
-    
+11. **谋杀案与贫困，随机化检验。** 以下回归输出是根据一个包含 20 个都会区的随机样本中，生活在贫困中的人口百分比（`perc_pov`）来预测每年每百万人中的谋杀案数量（`annual_murders_per_mil`）的。
+    下方显示了用于根据贫困人口百分比预测都会区每年每百万人中谋杀案数量的线性模型输出，以及来自 1000 个随机化数据集的斜率直方图（重复了 1000 次：将 `annual_murders_per_mil` 进行置换，然后对 `perc_pov` 进行回归）。
+    红色垂直线位于线性模型输出中产生的观测到的斜率值处。
+
     ```{r}
     lm(annual_murders_per_mil ~ perc_pov, data = murders) |>
       tidy() |>
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
-      kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
+      kbl(
+        linesep = "",
+        booktabs = TRUE,
+        align = "lrrrr",
+        digits = 3,
+        col.names = c("项", "估计值", "标准误", "统计量", "p 值")
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -460,18 +478,12 @@
       column_spec(2:5, width = "5em")
     ```
 
-    :::: {layout="[0.48, -0.02, 0.5]"}
-    
-    :::{#questions}
-    a.  What are the null and alternative hypotheses for evaluating whether the slope of the model for predicting annual murder rate from poverty percentage is different than 0?
+    a.  用于评估根据贫困百分比预测年谋杀率的模型斜率是否不同于 0 的原假设和备择假设是什么？
 
-    b.  Using the histogram which describes the distribution of slopes when the null hypothesis is true, find the p-value and conclude the hypothesis test in the context of the problem (use words like murder rate and poverty).
+    b.  使用描述在原假设为真时斜率分布的直方图，求出 p 值，并在问题的背景下（使用“谋杀率”“贫困”等词语）得出假设检验的结论。
 
-    c.  Is the conclusion based on the histogram of randomized slopes consistent with the conclusion which would have been obtained using the mathematical model?
-        Explain your reasoning.
-    :::
-
-    :::{#plot}
+c.  基于随机化斜率直方图的结论，是否与使用数学模型会得到的结论一致？
+        请解释你的推理。
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -484,16 +496,14 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 randomized slopes",
-        x = "Slope from randomly permuted data", 
-        y = "Count"
+        title = "1,000 个随机化斜率",
+        x = "来自随机排列数据的斜率",
+        y = "计数"
         ) +
       geom_vline(xintercept = 2.559, color = IMSCOL["red", "full"], size = 1)
     ```
-    :::
-    ::::
 
-12. **Murders and poverty, mathematical test.** The table below shows the output of a linear model annual murders per million (`annual_murders_per_mil`) from percentage living in poverty (`perc_pov`) in a random sample of 20 metropolitan areas.
+12. **谋杀与贫困，数学检验。** 下表显示了基于 20 个大都市区的随机样本，用贫困率 (`perc_pov`) 预测每百万人年谋杀数 (`annual_murders_per_mil`) 的线性模型输出。
 
     ```{r}
     lm(annual_murders_per_mil ~ perc_pov, data = murders) |>
@@ -501,7 +511,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -509,22 +519,20 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  What are the hypotheses for evaluating whether the slope of the model predicting annual murder rate from poverty percentage is different than 0?
+    a.  评估用贫困率预测年谋杀率的模型斜率是否不等于 0 的假设是什么？
 
-    b.  State the conclusion of the hypothesis test from part (a) in context.
-        What does this say about whether poverty percentage is a useful predictor of annual murder rate?
+    b.  在具体情境中陈述 部分假设检验的结论。这说明了贫困率是否是年谋杀率的一个有用预测变量？
 
-    c.  Calculate a 95% confidence interval for the slope of poverty percentage, and interpret it in context.
+    c.  为贫困百分比的斜率计算一个 95% 置信区间，并结合应用背景进行解释。
 
-    d.  Do your results from the hypothesis test and the confidence interval agree?
-        Explain your reasoning.
+    d.  你的假设检验结果和置信区间一致吗？请解释你的推理。
 
 \clearpage
 
-13. **Murders and poverty, bootstrap percentile interval.** Data on annual murders per million (`annual_murders_per_mil`) and percentage living in poverty (`perc_pov`) is collected from a random sample of 20 metropolitan areas.
-    Using these data we want to estimate the slope of the model predicting `annual_murders_per_mil` from `perc_pov`.
-    We take 1,000 bootstrap samples of the data and fit a linear model predicting `annual_murders_per_mil` from `perc_pov` to each bootstrap sample.
-    A histogram of these slopes is shown below.
+13. **谋杀与贫困，自助法百分位区间。** 从 20 个大都市区的随机样本中收集了每百万人年谋杀数 (`annual_murders_per_mil`) 和贫困率 (`perc_pov`) 的数据。
+    我们想利用这些数据来估计用 `perc_pov` 预测 `annual_murders_per_mil` 的模型斜率。
+    我们抽取了数据的 1,000 个自助样本，并对每个自助样本拟合一个用 `perc_pov` 预测 `annual_murders_per_mil` 的线性模型。
+    这些斜率的直方图如下所示。
 
     ```{r}
     #| fig-asp: 0.4
@@ -536,18 +544,18 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrap slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000 个自助法斜率",
+        x = "来自自助法数据的斜率",
+        y = "计数"
       )
     ```
 
-    a.  Using the percentile bootstrap method and the histogram above, find a 90% confidence interval for the slope parameter.
+    a.  使用百分位自助法以及上面的直方图，求斜率参数的一个 90% 置信区间。
 
-    b.  Interpret the confidence interval in the context of the problem.
+    b.  在具体情境中解释该置信区间。
 
-14. **Murders and poverty, standard error bootstrap interval.** A linear model is built to predict annual murders per million (`annual_murders_per_mil`) from percentage living in poverty (`perc_pov`) in a random sample of 20 metropolitan areas.
-    Shown below are the standard linear model output for predicting annual murders per million from percentage living in poverty for metropolitan areas and the bootstrap distribution of the slope statistic from 1000 different bootstrap samples of the data.
+14. **谋杀与贫困，标准误自助法区间。** 基于 20 个大都市区的随机样本，建立了一个用贫困率 (`perc_pov`) 预测每百万人年谋杀数 (`annual_murders_per_mil`) 的线性模型。
+    下方展示的是针对大都市区用贫困率预测每百万人年谋杀数的标准线性模型输出，以及基于 1000 个不同自助数据样本的斜率统计量的自助法分布。
 
     ```{r}
     #| fig-asp: 0.4
@@ -556,7 +564,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -571,65 +579,64 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped slopes",
-        x = "Slope from bootstrapped data", 
-        y = "Count"
+        title = "1,000 个自助法斜率",
+        x = "来自自助法数据的斜率",
+        y = "计数"
       )
     ```
 
-    a.  Using the histogram, approximate the standard error of the slope statistic (that is, quantify the variability of the slope statistic from sample to sample).
+    a.  使用该直方图，近似估计斜率统计量的标准误（即量化斜率统计量从样本到样本的变异性）。
 
-    b.  Find a 90% bootstrap SE confidence interval for the slope parameter.
+    b.  求斜率参数的 90% 自助法标准误置信区间。
 
-    c.  Interpret the confidence interval in the context of the problem.
+    c.  在具体情境中解释该置信区间。
 
 \clearpage
 
-15. **Murders and poverty, conditions.** The scatterplot below shows the annual murders per million vs. percentage living in poverty in a random sample of 20 metropolitan areas.
-    The second figure plots residuals on the y-axis and percent living in poverty on the x-axis.
+15.  **谋杀与贫困，条件。** 下面的散点图展示了在随机抽取的 20 个大都市区中，每百万人年谋杀数与贫困率的关系。
+    第二个图以 y 轴为残差，x 轴为贫困率进行绘制。
 
     ```{r}
     #| out-width: 100%
     #| fig-asp: 0.5
-    #| layout-ncol: 2
     #| fig-width: 5
     murders_lm <- lm(annual_murders_per_mil ~ perc_pov, data = murders)
     rsq_uo <- round(cor(murders$perc_pov,  murders$annual_murders_per_mil), 2)^2*100
 
     murders_lm |>
       augment() |>
-      ggplot(aes(y = annual_murders_per_mil, x = perc_pov)) + 
+      ggplot(aes(y = annual_murders_per_mil, x = perc_pov)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lwd = 1, se = FALSE) +
       labs(
         x = "% Living in poverty",
-        y = "Annual muders\nper million"
+        y = "每百万人\n年谋杀数"
       )
 
     murders_lm |>
       augment() |>
-      ggplot(aes(x = perc_pov, y = .resid)) + 
+      ggplot(aes(x = perc_pov, y = .resid)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lty = 2, se = FALSE) +
       labs(
         x = NULL,
-        y = "Residuals"
+        y = "残差"
       )
     ```
 
-    a.  For these data, $R^2$ is `r rsq_uo`%.
-        What is the value of the correlation coefficient?
-        How can you tell if it is positive or negative?
+    a.  对于这些数据，$R^2$ 是 `r rsq_uo`%.
+        相关系数的值是多少？
+        你如何判断它是正是负？
 
-    b.  Examine the residual plot.
-        What do you observe?
-        Is a simple least squares fit appropriate for the data?
-        Which of the LINE conditions are met or not met?
+    b.  检查残差图。
+        你观察到了什么？
+        简单最小二乘拟合对这些数据是否合适？
+        LINE 条件中哪些满足，哪些不满足？
 
 \vfill
 
-16. **I heart cats.** Researchers collected data on heart and body weights of 144 domestic adult cats.
-    The table below shows the output of a linear model predicting heart weight (measured in grams) from body weight (measured in kilograms) of these cats.[^_24-ex-inf-model-slr-3]
+16.  **我爱猫咪。** 研究人员收集了 144 只家养成年猫的心脏和体重的数据。
+    下面的表格展示了根据这些猫的体重（以千克计）预测其心脏重量（以克计）的线性模型输出。[^_24-ex-inf-model-slr-3]
 
     ```{r}
     m_cat <- lm(Hwt ~ Bwt, data = cats)
@@ -638,7 +645,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -646,33 +653,32 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  What are the hypotheses for evaluating whether body weight is positively associated with heart weight in cats?
+    a.  用于评估猫的体重是否与其心脏重量有正向关联的假设是什么？
 
-    b.  State the conclusion of the hypothesis test from part (a) in context.
+    b.  在具体情境中陈述 部分假设检验的结论。
 
-    c.  Calculate a 95% confidence interval for the slope of body weight, and interpret it in context.
+    c.  为体重的斜率计算一个 95% 置信区间，并结合应用背景进行解释。
 
-    d.  Do your results from the hypothesis test and the confidence interval agree?
-        Explain your reasoning.
+    d.  你的假设检验结果和置信区间结果是否一致？
+        解释你的推理。
 
 \vfill
 
 \clearpage
 
-17. **Beer and blood alcohol content.** Many people believe that weight, drinking habits, and many other factors are much more important in predicting blood alcohol content (BAC) than simply considering the number of drinks a person consumed.
-    Here we examine data from sixteen student volunteers at Ohio State University who each drank a randomly assigned number of cans of beer.
-    These students were evenly divided between men and women, and they differed in weight and drinking habits.
-    Thirty minutes later, a police officer measured their blood alcohol content (BAC) in grams of alcohol per deciliter of blood.
-    The scatterplot and regression table summarize the findings.
-    [^_24-ex-inf-model-slr-4] [@Malkevitc+Lesser:2008]
+17.  **啤酒与血液酒精含量。** 许多人认为，体重、饮酒习惯以及许多其他因素在预测血液酒精含量（BAC）时，远比仅仅考虑一个人饮用的酒精饮料数量重要得多。
+    这里我们研究了来自俄亥俄州立大学的十六名志愿学生的数据，他们每人被随机分配饮用一定数量的罐装啤酒。
+    这些学生男女各半，他们的体重和饮酒习惯各不相同。
+    三十分钟后，一名警官测量了他们的血液酒精含量（BAC），单位为每分升血液中酒精的克数。
+    散点图和回归表总结了研究结果。[^_24-ex-inf-model-slr-4] [@Malkevitc+Lesser:2008]
 
     ```{r}
     #| fig-asp: 0.5
     ggplot(bac, aes(x = beers, y = bac)) +
       geom_point(size = 2) +
       labs(
-        x = "Cans of beer",
-        y = "BAC (grams / deciliter)"
+        x = "啤酒罐数",
+        y = "BAC (克 / 分升)"
       )
 
     m_bac <- lm(bac ~ beers, data = bac)
@@ -682,7 +688,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -690,70 +696,69 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Describe the relationship between the number of cans of beer and BAC.
+    a.  描述啤酒罐数与 BAC 之间的关系。
 
-    b.  Write the equation of the regression line.
-        Interpret the slope and intercept in context.
+    b.  写出回归线的方程。
+        在具体情境中解释斜率和截距的含义。
 
-    c.  Do the data provide convincing evidence that drinking more cans of beer is associated with an increase in blood alcohol?
-        State the null and alternative hypotheses, report the p-value, and state your conclusion.
+    c.  数据是否提供了有力的证据，表明饮用更多罐装啤酒与血液酒精含量增加有关联？
+        陈述原假设和备择假设，报告 p 值，并陈述你的结论。
 
-    d.  The correlation coefficient for number of cans of beer and BAC is `r r_bac`.
-        Calculate $R^2$ and interpret it in context.
+d.  啤酒罐数与 BAC 的相关系数是 `r r_bac`。
+        计算 $R^2$ 并结合具体情境解释其含义。
 
-    e.  Suppose we visit a bar in our own town, ask people how many drinks they have had, and also measure their BAC.
-        Would the relationship between number of drinks and BAC would be as strong as the relationship found in the Ohio State study?
-        Why?
+    e.  假设我们走访自己镇上的一个酒吧，询问人们喝了多少杯酒，并同时测量他们的 BAC。
+        饮酒量与 BAC 之间的关系会像俄亥俄州立大学研究中发现的关系那样强吗？
+        为什么？
 
 \clearpage
 
-18. **Urban homeowners, conditions.** The scatterplot below shows the percent of families who own their home vs. the percent of the population living in urban areas.
-    [@data:urbanOwner] There are 52 observations, each corresponding to a state in the US.
-    Puerto Rico and District of Columbia are also included.
-    The second figure plots residuals on the y-axis and percent of the population living in urban areas on the x-axis.
+18. **城市房主，条件。** 下面的散点图显示了自有住房家庭百分比与居住在城市地区的人口百分比之间的关系。
+    [@data:urbanOwner] 共有 52 个观测，每个对应美国的一个州。
+    波多黎各和哥伦比亚特区也包括在内。
+    第二张图的 y 轴为残差，x 轴为居住在城市地区的人口百分比。
 
     ```{r}
     #| out-width: 100%
     #| fig-asp: 0.5
-    #| layout-ncol: 2
     #| fig-width: 5
     urban_owner_lm <- lm(pct_owner_occupied ~ poppct_urban, data = urban_owner)
     rsq_uo <- round(cor(urban_owner$poppct_urban,  urban_owner$pct_owner_occupied), 2)^2*100
 
     urban_owner_lm |>
       augment() |>
-      ggplot(aes(y = pct_owner_occupied, x = poppct_urban)) + 
+      ggplot(aes(y = pct_owner_occupied, x = poppct_urban)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lwd = 1, se = FALSE) +
       labs(
-        x = "% Urban population",
-        y = "% Who own home"
+        x = "城市人口百分比",
+        y = "自有住房人口百分比"
       )
 
     urban_owner_lm |>
       augment() |>
-      ggplot(aes(x = poppct_urban, y = .resid)) + 
+      ggplot(aes(x = poppct_urban, y = .resid)) +
       geom_point(col = IMSCOL["blue", "full"]) +
       geom_smooth(method = "lm", col = IMSCOL["gray", "full"], lty = 2, se = FALSE)  +
       labs(
         x = NULL,
-        y = "Residuals"
+        y = "残差"
       )
     ```
 
-    a.  For these data, $R^2$ is `r rsq_uo`%.
-        What is the value of the correlation coefficient?
-        How can you tell if it is positive or negative?
+    a.  对于这些数据，$R^2$ 是 `r rsq_uo`%.
+        相关系数的值是多少？
+        你如何判断它是正还是负？
 
-    b.  Examine the residual plot.
-        What do you observe?
-        Is a simple least squares fit appropriate for the data?
-        Which of the LINE conditions are met or not met?
+    b.  检查残差图。
+        你观察到了什么？
+        简单最小二乘拟合对这些数据合适吗？
+        哪些 LINE 条件被满足或未被满足？
 
 \vfill
 
-19. **I heart cats, LINE conditions.** Researchers collected data on heart and body weights of 144 domestic adult cats.
-    The figure below shows the output of the predicted values and residuals generated from a linear model predicting heart weight (measured in grams) from body weight (measured in kilograms) of these cats.
+19. **我爱猫猫，LINE 条件。** 研究人员收集了 144 只家养成年猫的心脏重量和体重数据。
+    下图显示了由一个线性模型生成的预测值和残差图，该模型根据这些猫的体重（以千克计）预测心脏重量（以克计）。
 
     ```{r}
     #| fig-asp: 0.5
@@ -761,23 +766,23 @@
 
     augment(m_cat) |>
       ggplot(aes(x = .fitted, y = .resid)) +
-      geom_point() + 
+      geom_point() +
       geom_hline(yintercept = 0) +
-      labs(x = "Predicted values", y = "Residuals")
+      labs(x = "预测值", y = "残差")
     ```
 
-    a.  Examine the residual plot.
-        Notice that for the small predicted values the residuals have a smaller magnitude than the larger residuals seen with the larger predicted values.
-        The change in magnitude of the residuals across the predicted values is an indication of violation of which LINE technical condition?
+    a.  检查残差图。
+        请注意，对于较小的预测值，残差的大小比在较大预测值处观察到的较大残差要小。
+        残差大小随预测值变化，这表明违反了哪一个 LINE 技术条件？
 
-    b.  If the LINE condtion described in part (a) is violated, might it lead to an incorrect conclusion about the model (i.e., the least squares regression line itself), the inference of the model (i.e., the p-value associated with the least squares regression line), neither, or both?
-        Explain your reasoning.
+    b.  如果 部分中描述的 LINE 条件被违反，是否可能会导致对模型本身（即最小二乘回归线本身）得出错误结论，或对模型推断（即与最小二乘回归线相关的 p 值）得出错误结论，还是两者都不会，或是两者都会？
+        解释你的推理。
 
 \vfill
 
 \clearpage
 
-20. **Beer and blood alcohol content, LINE conditions.** The figure below shows the output of the predicted values and residuals generated from a linear model predicting the blood alcohol content (BAC) from number of cans of beer drunk by sixteen student volunteers at Ohio State University.[^_24-ex-inf-model-slr-5]
+20. **啤酒与血液酒精含量，LINE 条件。** 下图显示了由一个线性模型生成的预测值和残差图，该模型根据 16 名俄亥俄州立大学学生志愿者饮用的啤酒罐数预测血液酒精含量 (BAC)。[^_24-ex-inf-model-slr-5]
     [@Malkevitc+Lesser:2008]
 
     ```{r}
@@ -785,24 +790,24 @@
     m_bac <- lm(bac ~ beers, data = bac)
     augment(m_bac) |>
       ggplot(aes(x = .fitted, y = .resid)) +
-      geom_point() + 
+      geom_point() +
       geom_hline(yintercept = 0) +
-      labs(x = "Predicted values", y = "Residuals")
+      labs(x = "预测值", y = "残差")
     ```
 
-    a.  Examine the residual plot.
-        Notice that it is difficult to identify any convincing patterns for or against violation of the LINE technical conditions.
-        What is it about the residual plot that makes it difficult to assess the LINE technical conditions?
+    a.  检查残差图。
+        请注意，很难识别出任何令人信服的模式来判断是否违反了 LINE 技术条件。
+        残差图的什么特征使得评估 LINE 技术条件变得困难？
 
-    b.  Is there anything about the residual plot which would make you hesitate about using the linear model for inference about all students?
-        Is there anything about the experimental design of the study which would make you hesitate about using the linear model for inference about all students?
+    b.  残差图中是否有任何特征会让你对使用该线性模型对所有学生进行推断感到犹豫？
+        该研究的实验设计中是否有任何特征会让你对使用该线性模型对所有学生进行推断感到犹豫？
 
-[^_24-ex-inf-model-slr-1]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_24-ex-inf-model-slr-1]: 本练习中使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_24-ex-inf-model-slr-2]: The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_24-ex-inf-model-slr-2]: 本练习中使用的 [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据可在 [`openintro`](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_24-ex-inf-model-slr-3]: The [`cats`](https://stat.ethz.ch/R-manual/R-patched/library/MASS/html/cats.html) data used in this exercise can be found in the [**MASS**](https://cran.r-project.org/web/packages/MASS/index.html) R package.
+[^_24-ex-inf-model-slr-3]: 本练习中使用的 [`cats`](https://stat.ethz.ch/R-manual/R-patched/library/MASS/html/cats.html) 数据可在 [`MASS`](https://cran.r-project.org/web/packages/MASS/index.html) R 包中找到。
 
-[^_24-ex-inf-model-slr-4]: The [`bac`](http://openintrostat.github.io/openintro/reference/bac.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_24-ex-inf-model-slr-4]: 本练习中使用的 [`bac`](http://openintrostat.github.io/openintro/reference/bac.html) 数据可在 [`openintro`](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_24-ex-inf-model-slr-5]: The [`bac`](http://openintrostat.github.io/openintro/reference/bac.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_24-ex-inf-model-slr-5]: 本练习中使用的 [`bac`](http://openintrostat.github.io/openintro/reference/bac.html) 数据可在 [`openintro`](http://openintrostat.github.io/openintro) R 包中找到。

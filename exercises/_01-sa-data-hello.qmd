@@ -1,29 +1,29 @@
-1.  23 observations and 7 variables.
+1.  23 个观测和 7 个变量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) "Is there an association between air pollution exposure and preterm births?" (b) 143,196 births in Southern California between 1989 and 1993. (c) Concentrations of carbon monoxide, nitrogen dioxide, ozone, and particulate matter with an aerodynamic diameter of 10 micrometres or less (PM$_{10}$) measured at air quality monitoring stations as well as length of gestation. Continuous numerical variables.
+1.  \(a\) "暴露于空气污染与早产之间是否存在关联？" (b) 1989 年至 1993 年间南加州的 143,196 次分娩。 (c) 在空气质量监测站测量的一氧化碳、二氧化氮、臭氧及空气动力学直径小于或等于 10 微米的颗粒物（PM$_{10}$）浓度，以及妊娠期长度。均为连续的数值变量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) "What is the effect of gamification on learning outcomes compared to traditional teaching methods?" (b) 365 college students taking a statistics course (c) Gender (categorical), level of studies (categorical, ordinal), academic major (categorical), expertise in English language (categorical, ordinal), use of personal computers and games (categorical, ordinal), treatment group (categorical), score (numerical, discrete).
+1.  \(a\) "与传统教学方法相比，游戏化对学习结果有何影响？" (b) 365 名学习统计课程的大学生 (c) 性别（分类的）、学习阶段（分类的、有序的）、专业（分类的）、英语语言熟练程度（分类的、有序的）、使用个人电脑和游戏的情况（分类的、有序的）、处理组（分类的）、成绩（数值的、离散的）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Treatment: $10/43 = 0.23 \rightarrow 23\%$. (b) Control: $2/46 = 0.04 \rightarrow 4\%$. (c) A higher percentage of patients in the treatment group were pain free 24 hours after receiving acupuncture. (d) It is possible that the observed difference between the two group percentages is due to chance. (e) Explanatory: acupuncture or not. Response: if the patient was pain free or not.
+1.  \(a\) 处理组：$10/43 = 0.23 \rightarrow 23\%$。 (b) 对照组：$2/46 = 0.04 \rightarrow 4\%$。 (c) 在接受针灸 24 小时后，处理组中无痛的患者百分比较高。 (d) 观察到的两个组别间的百分比差异可能源于偶然性。 (e) 解释变量：是否接受针灸。响应变量：患者是否无痛。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Experiment; researchers are evaluating the effect of fines on parents' behavior related to picking up their children late from daycare. (b) 200 cases: the weekly observations of the 10 daycare centers over the 20 weeks. (c) Number of late pickups (discrete numerical). (d) Week (numerical, discrete), group (categorical, nominal), and study period (categorical, ordinal).
+1.  \(a\) 实验；研究者正在评估罚款对家长延迟接孩子行为的影响。 (b) 200 个观测单位：10 个日托中心在 20 周内的每周观测。 (c) 迟到接送的次数（数值的、离散的）。 (d) 周次（数值的、离散的）、组别（分类的、名义的）、以及研究阶段（分类的、有序的）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) 344 cases (penguins) are included in the data. (b) There are 4 numerical variables in the data: bill length, bill depth, and flipper length (measured in millimeters) and body mass (measured in grams). They are all continuous. (c) There are 3 categorical variables in the data: species (Adelie, Chinstrap, Gentoo), island (Torgersen, Biscoe, and Dream), and sex (female and male).
+1.  \(a\) 数据中包含 344 个观测单位（企鹅）。 (b) 数据中有 4 个数值变量：喙长、喙深、鳍肢长度（以毫米计）和体重（以克计）。它们都是连续的。 (c) 数据中有 3 个分类变量：物种（阿德利、帽带、巴布亚）、岛屿（托格森、比斯科、梦想岛）和性别（雌性、雄性）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Airport ownership status (public/private), airport usage status (public/private), region (Central, Eastern, Great Lakes, New England, Northwest Mountain, Southern, Southwest, Western Pacific), latitude, and longitude. (b) Airport ownership status: categorical, not ordinal. Airport usage status: categorical, not ordinal. Region: categorical, not ordinal. Latitude: numerical, continuous. Longitude: numerical, continuous.
+1.  \(a\) 机场所有权状态（公有/私有）、机场使用状态（公有/私有）、区域（中部、东部、大湖区、新英格兰、西北山区、南部、西南部、西太平洋沿岸）、纬度和经度。 (b) 机场所有权状态：分类的，非有序。机场使用状态：分类的，非有序。区域：分类的，非有序。纬度：数值的，连续的。经度：数值的，连续的。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Year, number of baby girls named Fiona born in that year, nation. (b) Year (numerical, discrete), number of baby girls named Fiona born in that year (numerical, discrete), nation (categorical, nominal).
+1.  \(a\) 年份、当年出生的名为菲奥娜的女婴数量、国家。 (b) 年份（数值的、离散的）、当年出生的名为菲奥娜的女婴数量（数值的、离散的）、国家（分类的、名义的）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) County, state, driver's race, whether the car was searched or not, and whether the driver was arrested or not. (b) All categorical, non-ordinal. (c) Response: whether the car was searched or not. Explanatory: race of the driver.
+1.  \(a\) 县、州、司机种族、车辆是否被搜查、以及司机是否被捕。 (b) 全部为分类变量，非有序。 (c) 响应变量：车辆是否被搜查。解释变量：司机的种族。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Observational study. (b) Dog: Lucy. Cat: Luna. (c) Oliver and Lily. (d) Positive, as the popularity of a name for dogs increases, so does the popularity of that name for cats.
+1.  \(a\) 观察性研究。 狗：露西。猫：露娜。 奥利弗和莉莉。 正相关，因为一个名字在狗中的受欢迎度增加时，它在猫中的受欢迎度也会增加。
 \addtocounter{enumi}{1}

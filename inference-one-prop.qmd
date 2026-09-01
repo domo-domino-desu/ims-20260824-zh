@@ -1,114 +1,115 @@
-# Inference for a single proportion {#sec-inference-one-prop}
+# 单比例推断 {#sec-inference-one-prop}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
+
 \vspace{-10mm}
 
 ::: {.chapterintro data-latex=""}
-Focusing now on statistical inference for categorical data, we will revisit many of the foundational aspects of hypothesis testing from [Chapter -@sec-foundations-randomization].
+现在我们将重点放在分类数据的统计推断上，并回顾 [第 -@sec-foundations-randomization 章] 中假设检验的许多基础内容。
 
-The three data structures we detail are one binary variable, summarized using a single proportion; two binary variables, summarized using a difference of two proportions; and two categorical variables, summarized using a two-way table.
-When appropriate, each of the data structures will be analyzed using the three methods from [Chapter -@sec-foundations-randomization], [Chapter -@sec-foundations-bootstrapping], and [Chapter -@sec-foundations-mathematical]: randomization test, bootstrapping, and mathematical models, respectively.
+我们将详细阐述三种数据结构：一个二分类变量，用一个比例概括；两个二分类变量，用两个比例之差概括；以及两个分类变量，用列联表概括。
+视情况而定，每种数据结构将分别采用 [第 -@sec-foundations-randomization 章]、[第 -@sec-foundations-bootstrapping 章] 和 [第 -@sec-foundations-mathematical 章] 中的三种方法进行分析：即随机化检验、自助法和数学模型。
 
-As we build on the inferential ideas, we will visit new foundational concepts in statistical inference.
-For example, we will cover the conditions for when a normal model is appropriate; the two different error rates in hypothesis testing; and choosing the confidence level for a confidence interval.
+随着我们对推断思想的深入探讨，我们将引入统计推断中的新基础概念。
+例如，我们将介绍正态模型适用的条件；假设检验中的两种不同错误率；以及如何为置信区间选择置信水平。
 :::
 
-We encountered inference methods for a single proportion in [Chapter -@sec-foundations-bootstrapping], exploring point estimates and confidence intervals.
-In this section, we'll do a review of these topics and how to choose an appropriate sample size when collecting data for single proportion contexts.
+我们在 [第 -@sec-foundations-bootstrapping 章] 中接触过单比例的推断方法，探索了点估计和置信区间。
+在本节中，我们将回顾这些主题，并讨论在单比例背景下收集数据时如何选择合适的样本量。
 
-Note that there is only one variable being measured in a study which focuses on one proportion.
-For each observational unit, the single variable is measured as either a success or failure (e.g., "surgical complication" vs. "no surgical complication").
-Because the nature of the research question at hand focuses on only a single variable, there is not a way to randomize the variable across a different (explanatory) variable.
-For this reason, we will not use randomization as an analysis tool when focusing on a single proportion.
-Instead, we will apply bootstrapping techniques to test a given hypothesis, and we will also revisit the associated mathematical models.
+请注意，在专注于一个比例的研究中，只测量了一个变量。
+对于每个观测单位，该变量的测量结果为成功或失败（例如，“手术并发症”与“无手术并发症”）。
+由于当前研究问题的性质只关注单个变量，因此无法将此变量在不同的（解释）变量上进行随机分配。
+出于这个原因，在关注单比例时，我们不会使用随机化作为分析工具。
+相反，我们将应用自助法技术来检验给定的假设，并重新审视相关的数学模型。
 
 \vspace{-3mm}
 
-## Bootstrap test for a proportion {#sec-one-prop-null-boot}
+## 比例的自助法检验 {#sec-one-prop-null-boot}
 
-The bootstrap simulation concept when $H_0$ is true is similar to the ideas used in the case studies presented in [Chapter -@sec-foundations-bootstrapping] where we bootstrapped without an assumption about $H_0.$ Because we will be testing a hypothesized value of $p$ (referred to as $p_0),$ the bootstrap simulation for hypothesis testing has a fantastic advantage that it can be used for any sample size (a huge benefit for small samples, a nice alternative for large samples).
+当 $H_0$ 为真时，自助法模拟的概念类似于 [第 -@sec-foundations-bootstrapping 章] 中介绍的自助法案例研究里使用的思想，在那儿我们没有对 $H_0$ 作出假设就进行了自助法。因为我们将检验 $p$ 的假设值（称为 $p_0$），所以用于假设检验的自助法模拟有一个巨大的优势：它可以用于任何样本量（对小样本极为有益，对大样本也是很好的替代方法）。
 
-We expand on the medical consultant example from @sec-case-study-med-consult, but instead of finding an interval estimate for the true complication rate, we test a specific claim.
+我们将扩展 @sec-case-study-med-consult 中的医疗顾问示例，但不再是寻找真实并发症率的区间估计，而是检验一个具体的声称。
 
-### Observed data
+### 观测数据
 
-Recall the set-up for the example:
-People providing an organ for donation sometimes seek the help of a special "medical consultant".
-These consultants assist the patient in all aspects of the surgery, with the goal of reducing the possibility of complications during the medical procedure and recovery.
-Patients might choose a consultant based in part on the historical complication rate of the consultant's clients.
-One consultant tried to attract patients by noting the average complication rate for liver donor surgeries in the US is about 10%, but her clients have only had 3 complications in the 62 liver donor surgeries she has facilitated.
-She claims this is strong evidence that her work meaningfully contributes to reducing complications (and therefore she should be hired!).
+回顾该示例的设置：
+提供器官捐赠的人有时会寻求特殊"医疗顾问"的帮助。
+这些顾问在手术的各个方面协助患者，旨在降低医疗过程和恢复期间发生并发症的可能性。
+患者选择顾问可能部分基于顾问客户的历史并发症率。
+一位顾问试图吸引患者，指出美国肝脏捐献手术的平均并发症率约为 10%，而她的客户在她协助的 62 例肝脏捐献手术中仅发生了 3 例并发症。
+她声称这是强有力的证据，表明她的工作对减少并发症有实质性贡献（因此她应该被聘用！）。
 
 ::: {.workedexample data-latex=""}
-Using the data, is it possible to assess the consultant's claim that her complication rate is less than 10%?
+使用这些数据，能否评估该顾问有关其并发症率低于 10% 的声称？
 
 ------------------------------------------------------------------------
 
-No.
-The claim is that there is a causal connection, but the data are observational.
-Patients who hire this medical consultant may have lower complication rates for other reasons.
+不能。
+该声称暗示了因果关系，但数据是观察性的。
+雇用这位医疗顾问的患者可能因其他原因而有更低的并发症率。
 
-While it is not possible to assess this causal claim, it is still possible to test for an association using these data.
-For this question we ask, could the low complication rate of $\hat{p} = 0.0484$ have simply occurred by chance, if her complication rate does not differ from the US standard rate?
+虽然无法评估这一因果声称，但仍然可以使用这些数据检验关联。
+对于这个问题，我们问：如果她的并发症率与美国标准率没有差异，那么低并发症率 $\hat{p} = 0.0484$ 是否可能只是偶然发生？
 :::
 
 ::: {.guidedpractice data-latex=""}
-Write out hypotheses in both plain and statistical language to test for the association between the consultant's work and the true complication rate, $p,$ for the consultant's clients.[^16-inference-one-prop-1]
+用日常语言和统计语言写出假设，以检验顾问的工作与顾问客户的真实并发症率 $p$ 之间的关联。[^16-inference-one-prop-1]
 :::
 
-[^16-inference-one-prop-1]: $H_0:$ There is no association between the consultant's contributions and the clients' complication rate.
-    In statistical language, $p = 0.10.$ $H_A:$ Patients who work with the consultant tend to have a complication rate lower than 10%, i.e., $p < 0.10.$
+[^16-inference-one-prop-1]: $H_0:$ 顾问的贡献与客户的并发症率之间没有关联。
+    用统计语言表述，$p = 0.10$。$H_A$：与顾问合作的患者，其并发症率倾向于低于 10%，即 $p < 0.10$。
 
-Because, as it turns out, the conditions of working with the normal distribution are not met (see @sec-one-prop-norm), the uncertainty associated with the sample proportion should not be modeled using the normal distribution, as doing so would underestimate the uncertainty associated with the sample statistic.
-However, we would still like to assess the hypotheses from the previous Guided Practice in absence of the normal framework.
-To do so, we need to evaluate the possibility of a sample value $(\hat{p})$ as far below the null value, $p_0 = 0.10$ as what was observed.
-The deviation of the sample value from the hypothesized parameter is usually quantified with a p-value.
+因为事实上，使用正态分布的条件并未满足（参见 @sec-one-prop-norm），所以与样本比例相关的不确定性不应使用正态分布来建模，因为这会低估与样本统计量相关的不确定性。
+然而，我们仍然希望在缺乏正态框架的情况下，评估前面“引导练习”中的假设。
+为此，我们需要评估样本值 $(\hat{p})$ 低于原假设值 $p_0 = 0.10$ 的程度达到甚至超过观测值的可能性。
+样本值偏离假设参数的程度通常用 p 值来量化。
 
-The p-value is computed based on the null distribution, which is the distribution of the test statistic if the null hypothesis is true.
-Supposing the null hypothesis is true, we can compute the p-value by identifying the probability of observing a test statistic that favors the alternative hypothesis at least as strongly as the observed test statistic.
-Here we will use a bootstrap simulation to calculate the p-value.
+p 值是基于原假设分布（即原假设为真时检验统计量的分布）来计算的。
+假设原假设为真，我们可以通过计算观察到至少像观测到的检验统计量那样强烈地支持备择假设的检验统计量的概率，来获得 p 值。
+这里我们将使用自助法模拟来计算 p 值。
 
-### Variability of the statistic
+### 统计量的变异性
 
-We want to identify the sampling distribution of the test statistic $(\hat{p})$ if the null hypothesis was true.
-In other words, we want to see the variability we can expect from sample proportions if the null hypothesis was true.
-Then we plan to use this information to decide whether there is enough evidence to reject the null hypothesis.
+我们想要确定，若原假设为真，检验统计量 $(\hat{p})$ 的抽样分布是怎样的。
+换句话说，我们想了解，如果原假设为真，我们可以预期样本比例有多大的变异性。
+然后我们计划利用这一信息来决定是否有足够的证据拒绝原假设。
 
-Under the null hypothesis, 10% of liver donors have complications during or after surgery.
-Suppose this rate was really no different for the consultant's clients (for *all* the consultant's clients, not just the 62 previously measured).
-If this was the case, we could *simulate* 62 clients to get a sample proportion for the complication rate from the null distribution.
-Simulating observations using a hypothesized null parameter value is often called a **parametric bootstrap simulation**\index{parametric bootstrap}, but we will refer to it descriptively as "simulating under the null hypothesis claim."
+在原假设下，10% 的肝脏捐献者在手术期间或术后发生并发症。
+假设对于该顾问的所有客户（而不仅仅是之前测量过的 62 位），这一比例实际上并无差异。
+若是如此，我们可以*模拟* 62 位客户，从原假设分布中获取一个并发症率的样本比例。
+使用假定的原假设参数值模拟观测值的过程，通常被称为**参数自助法**\index{parametric bootstrap}，但我们将将其描述性地称为"在原假设主张下进行模拟"。
 
 ```{r}
 #| include: false
 terms_chp_16 <- c("parametric bootstrap")
 ```
 
-Similar to the process described in [Chapter -@sec-foundations-bootstrapping], each client can be simulated using a bag of marbles with 10% red marbles and 90% white marbles.
-Sampling a marble from the bag (with 10% red marbles) is one way of simulating whether a patient has a complication *if the true complication rate is 10%*.
-If we select 62 marbles and then compute the proportion of patients with complications in the simulation, $\hat{p}_{sim1},$ then the resulting sample proportion is a sample from the null distribution.
 
-There were 5 simulated cases with a complication and 57 simulated cases without a complication, i.e., $\hat{p}_{sim1} = 5/62 = 0.081.$
+
+类似于 [第 -@sec-foundations-bootstrapping 章] 中描述的过程，每位患者都可以通过装有 10% 红色弹珠和 90% 白色弹珠的袋子来模拟。从袋中抽取一个弹珠（其中 10% 是红色弹珠，代表并发症）是模拟患者是否发生并发症的一种方法，前提是真实的并发症率为 10%。如果我们选取 62 个弹珠，然后计算模拟中发生并发症的患者比例，$\hat{p}_{sim1},$ 那么得到的样本比例就是原假设分布的一个样本。
+
+这次模拟中有 5 例发生了并发症，57 例没有发生，即 $\hat{p}_{sim1} = 5/62 = 0.081.$
 
 ::: {.workedexample data-latex=""}
-Is this one simulation enough to determine whether we should reject the null hypothesis?
+单凭这一次模拟是否足以决定我们是否应该拒绝原假设？
 
 ------------------------------------------------------------------------
-
-No.
-To assess the hypotheses, we need to see a distribution of many values of $\hat{p}_{sim},$ not just a *single* draw from this sampling distribution.
+不能。
+要评估假设，我们需要看到由 $\hat{p}_{sim}$ 的许多值构成的一个分布，而不仅仅是来自这个抽样分布的*一次*抽取。
 :::
 
-### Observed statistic vs. null statistics
+### 观测统计量与原假设下的统计量
 
-One simulation isn't enough to get a sense of the null distribution; many simulation studies are needed.
-Roughly 10,000 seems sufficient.
-However, paying someone to simulate 10,000 studies by hand is a waste of time and money.
-Instead, simulations are typically programmed into a computer, which is much more efficient.
+一次模拟不足以感知原假设分布；需要许多次模拟研究。
+大约 10,000 次似乎就足够了。
+然而，花钱请人手动模拟 10,000 次研究既费时又费钱。
+因此，模拟通常通过计算机编程完成，这样效率要高得多。
 
 ```{r}
 #| include: false
@@ -122,25 +123,25 @@ medical_consultant_n_sim <- medical_consultant_sim_dist |>
 medical_consultant_p_val <- round(medical_consultant_n_sim / 10000, 3)
 ```
 
-@fig-nullDistForPHatIfLiverTransplantConsultantIsNotHelpful shows the results of 10,000 simulated studies.
-The proportions that are equal to or less than $\hat{p} = 0.0484$ are shaded.
-The shaded areas represent sample proportions under the null distribution that provide at least as much evidence as $\hat{p}$ favoring the alternative hypothesis.
-There were `r medical_consultant_n_sim` simulated sample proportions with $\hat{p}_{sim} \leq 0.0484.$ We use these to construct the null distribution's left-tail area and find the p-value:
 
-$$\text{left tail area} = \frac{\text{Number of observed simulations with }\hat{p}_{sim} \leq \text{ 0.0484}}{10000}$$
 
-Of the 10,000 simulated $\hat{p}_{sim},$ `r medical_consultant_n_sim` were equal to or smaller than $\hat{p}.$ Since the hypothesis test is one-sided, the estimated p-value is equal to this tail area: `r medical_consultant_p_val`.
+@fig-nullDistForPHatIfLiverTransplantConsultantIsNotHelpful 展示了 10,000 次模拟研究的结果。
+其中小于或等于 $\hat{p} = 0.0484$ 的比例已被着色。
+阴影区域代表原假设分布中，提供至少与 $\hat{p}$ 同样多证据支持备择假设的样本比例。
+有 `r medical_consultant_n_sim` 个模拟的样本比例 $\hat{p}_{sim} \leq 0.0484.$ 我们利用这些来构建原假设分布的左尾面积，并找到 p 值：
+
+$$\text{左尾面积} = \frac{\text{满足 } \hat{p}_{sim} \leq 0.0484 \text{ 的模拟观测数}}{10000}$$
+
+在 10,000 个模拟的 $\hat{p}_{sim}$ 中，有 `r medical_consultant_n_sim` 个小于或等于 $\hat{p}.$ 由于这是单侧假设检验，估计的 p 值就等于该尾部面积：`r medical_consultant_p_val`。
 
 ```{r}
 #| label: fig-nullDistForPHatIfLiverTransplantConsultantIsNotHelpful
 #| fig-cap: |
-#|   The null distribution for $\hat{p},$ created from 10,000 simulated studies.
-#|   The left tail, representing the p-value for the hypothesis test is colored
-#|   in blue.
+#|   $\hat{p}$ 的原假设分布，基于 10,000 次模拟试验生成。
+#|   代表假设检验 p 值的左侧尾部用蓝色标出。
 #| fig-alt: |
-#|   Histogram of 10,000 simulated sample proportions,
-#|   from the null distribution, where the true proportion is 0.1. The left tail, representing the
-#|   p-value for the hypothesis test, is colored in blue.
+#|   来自原假设分布的 10,000 个模拟样本比例的直方图，
+#|   其中真实比例为 0.1。代表假设检验 p 值的左侧尾部用蓝色标出。
 #| fig-asp: 0.4
 #| fig-width: 7
 ggplot(medical_consultant_sim_dist, aes(x = stat)) +
@@ -152,67 +153,67 @@ ggplot(medical_consultant_sim_dist, aes(x = stat)) +
   ) +
   labs(
     x = expression(hat(p)[sim]),
-    y = "Number of\nsimulated scenarios"
+    y = "模拟场景数"
   )
 ```
 
-::: {.guidedpractice data-latex=""}
-Because the estimated p-value is `r medical_consultant_p_val`, which is larger than the discernibility level 0.05, we cannot reject the null hypothesis.
-Explain what this means in plain language in the context of the problem.[^16-inference-one-prop-2]
-:::
-
-[^16-inference-one-prop-2]: There is not enough evidence to reject the null hypothesis in favor of the alternative hypothesis.
-    We cannot conclude that there is evidence that the consultant's surgery complication rate is lower than the US standard rate of 10%.  That said, we also cannot conclude that there is evidence that the consultant's surgery complication rate is higher than the US standard rate of 10%.  When the p-value is larger than the discernibility level, we are unable to make conclusions about the research statement.
 
 ::: {.guidedpractice data-latex=""}
-Does the conclusion in the previous Guided Practice imply the consultant is good at their job?
-Explain.[^16-inference-one-prop-3]
+由于估计的 p 值为 `r medical_consultant_p_val`，大于可辨识水平 0.05，我们不能拒绝原假设。
+请结合问题背景，用通俗的语言解释这意味着什么。[^16-inference-one-prop-2]
 :::
 
-[^16-inference-one-prop-3]: Not necessarily.
-    There is no evidence to make a claim in either direction, so we cannot make any claims about whether the consultant is good at their job.
+[^16-inference-one-prop-2]: 我们没有足够的证据拒绝原假设以支持备择假设。我们无法得出有证据表明该顾问的手术并发症率低于美国 10% 标准率的结论。话虽如此，我们同样无法得出该顾问的手术并发症率高于美国 10% 标准率的结论。当 p 值大于显著性水平时，我们无法对研究陈述做出结论。
+
+::: {.guidedpractice data-latex=""}
+前一则指导练习中的结论是否意味着该顾问工作很出色？
+请解释。[^16-inference-one-prop-3]
+:::
+
+[^16-inference-one-prop-3]: 不一定。
+    没有证据支持任何一方的论断，因此我们不能对该顾问是否工作出色做出任何断言。
 
 ::: {.important data-latex=""}
-**Null distribution of** $\hat{p}$ **with bootstrap simulation.**
+**使用自助法模拟的** $\hat{p}$ **的原假设分布。**
 
-Regardless of the statistical method chosen, the p-value is always derived by analyzing the null distribution of the test statistic.
-The normal model poorly approximates the null distribution for $\hat{p}$ (the sample proportion) when the success-failure condition is not satisfied.
-As a substitute, we can generate the null distribution using simulated sample proportions and use this distribution to compute the tail area, i.e., the p-value.
+无论选择哪种统计方法，p 值总是通过分析检验统计量的原假设分布得到的。
+当成功—失败条件不满足时，正态模型难以较好地近似 $\hat{p}$（样本比例）的原假设分布。
+作为一种替代，我们可以使用模拟的样本比例生成原假设分布，并利用该分布计算尾部面积，即 p 值。
 :::
 
 \vspace{-5mm}
 
-In the previous Guided Practice, the p-value is *estimated*.
-It is not exact because the simulated null distribution itself is only a close approximation of the sampling distribution of the sample statistic.
-An exact p-value can be generated using the binomial distribution, but that method will not be covered in this text.
+在前一则指导练习中，p 值是*估计的*。
+它并不精确，因为模拟的原假设分布本身也只是样本统计量抽样分布的一个近似。
+精确的 p 值可以通过二项分布生成，但本书将不涉及该方法。
 
-## Mathematical model for a proportion {#sec-one-prop-norm}
+## 比例的数学模型 {#sec-one-prop-norm}
 
-### Conditions
+### 条件
 
-In @sec-normalDist, we introduced the normal distribution and showed how it can be used as a mathematical model to describe the variability of a statistic.
-There are conditions under which a sample proportion $\hat{p}$ is well modeled with a normal distribution.
-When the observations are independent and the sample size is sufficiently large, the normal model will describe the sampling distribution of the sample proportion quite well; when the observations violate the conditions, the normal model can be inaccurate.
-Particularly, it can underestimate the variability of the sample proportion.
+在 @sec-normalDist 中，我们介绍了正态分布，并展示了它如何作为一个数学模型来描述统计量的变异性。
+存在一些条件，在这些条件下样本比例 $\hat{p}$ 可以用正态分布很好地建模。
+当观测相互独立且样本量足够大时，正态模型能相当好地描述样本比例的抽样分布；当观测违反这些条件时，正态模型可能不准确。
+特别是，它可能低估样本比例的变异性。
 
 ::: {.important data-latex=""}
-**Sampling distribution of** $\hat{p}.$
+**$\hat{p}$ 的抽样分布。**
 
-The sampling distribution for $\hat{p}$ (the sample proportion) based on a sample of size $n$ from a population with a true proportion $p$ is nearly normal when:
+基于来自真实比例为 $p$ 的总体中抽取的容量为 $n$ 的样本，$\hat{p}$（样本比例）的抽样分布近似正态，当满足以下条件时：
 
-1.  The sample's observations are independent, e.g., are from a simple random sample.
-2.  We expected to see at least 10 successes and 10 failures in the sample, i.e., $np\geq10$ and $n(1-p)\geq10.$ This is called the **success-failure condition**.
+1.  样本观测是独立的，例如，来自简单随机样本。
+2.  我们预期在样本中看到至少 10 个成功和 10 个失败，即 $np\geq10$ 且 $n(1-p)\geq10.$ 这称为**成功—失败条件**。
 
-When these conditions are met, then the sampling distribution of $\hat{p}$ is nearly normal with mean $p$ and standard error of $\hat{p}$ as $SE = \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}.$
+当这些条件满足时，$\hat{p}$ 的抽样分布近似正态，均值为 $p$，$\hat{p}$ 的标准误为 $SE = \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}.$
 :::
 
-Recall that the margin of error is defined by the standard error.
-The margin of error for $\hat{p}$ can be directly obtained from $SE(\hat{p}).$
+回顾一下，误差界是由标准误定义的。
+$\hat{p}$ 的误差界可以直接从 $SE(\hat{p})$ 得到。
 
 ::: {.important data-latex=""}
-**Margin of error for** $\hat{p}.$
+**$\hat{p}$ 的误差界。**
 
-The margin of error is $z^\star \times \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}$ where $z^\star$ is calculated from a specified percentile on the normal distribution.
+误差界为 $z^\star \times \sqrt{\frac{\ \hat{p}(1-\hat{p})\ }{n}}$，其中 $z^\star$ 是根据正态分布的指定百分位数计算得到的。
 :::
 
 \index{success-failure condition} \index{standard error (SE)!single proportion}\index{single proportion!standard error (SE)}
@@ -226,169 +227,166 @@ terms_chp_16 <- c(
 )
 ```
 
-Typically we do not know the true proportion $p,$ so we substitute some value to check conditions and estimate the standard error.
-For confidence intervals, the sample proportion $\hat{p}$ is used to check the success-failure condition and compute the standard error.
-For hypothesis tests, typically the null value -- that is, the proportion claimed in the null hypothesis -- is used in place of $p.$
 
-The independence condition is a more nuanced requirement.
-When it isn't met, it is important to understand how and why it is violated.
-For example, there exist no statistical methods available to truly correct the inherent biases of data from a convenience sample.
-On the other hand, if we took a cluster sample (see @sec-samp-methods), the observations wouldn't be independent, but suitable statistical methods are available for analyzing the data (but they are beyond the scope of even most second or third courses in statistics).
+
+通常我们不知道真实的比例 $p,$ 因此需要代入某个值来检查条件和估计标准误。
+在置信区间中，我们使用样本比例 $\hat{p}$ 来检查成功—失败条件并计算标准误。
+在假设检验中，通常则使用原假设值——即原假设中声称的比例——来代替 $p.$
+
+独立性条件是一个更微妙的要求。
+当它不被满足时，理解它如何及为何被违反是非常重要的。
+例如，没有任何可用的统计方法能真正修正来自便利样本数据的固有偏误。
+另一方面，如果我们采用整群抽样 (参见 @sec-samp-methods)，观测将不会是独立的，但有合适的统计方法可用于分析数据（但这些方法甚至超出了大部分第二或第三门统计学课程的范围）。
 
 ::: {.workedexample data-latex=""}
-In the examples based on large sample theory, we modeled $\hat{p}$ using the normal distribution.
-Why is this not appropriate for the case study on the medical consultant?
+**在基于大样本理论的例子中，我们用正态分布对 $\hat{p}$ 建模。**
+为什么这不适用于医疗顾问的案例研究？
 
 ------------------------------------------------------------------------
 
-The independence assumption may be reasonable if each of the surgeries is from a different surgical team.
-However, the success-failure condition is not satisfied.
-Under the null hypothesis, we would anticipate seeing $62 \times 0.10 = 6.2$ complications, not the 10 required for the normal approximation.
+如果每台手术都由不同的手术团队完成，独立性假设可能是合理的。
+然而，成功—失败条件并未得到满足。
+在原假设下，我们预期看到 $62 \times 0.10 = 6.2$ 例并发症，而不是正态近似所要求的 10 例。
 :::
 
-While this book is scoped to well-constrained statistical problems, do remember that this is just the first book in what is a large library of statistical methods that are suitable for a very wide range of data and contexts.
+尽管本书的范围限定于约束良好的统计问题，但请记住，这只是庞大的统计学方法库中的第一本书，这些方法适用于非常广泛的数据和情境。
 
-### Confidence interval for a proportion
+### 比例的置信区间
 
 \index{point estimate!single proportion}
 \index{single proportion!point estimate}
 
-A confidence interval provides a range of plausible values for the parameter $p,$ and when $\hat{p}$ can be modeled using a normal distribution, the confidence interval for $p$ takes the form $\hat{p} \pm z^{\star} \times SE.$ We have seen $\hat{p}$ to be the sample proportion.
-The value $z^{\star}$ determines the confidence level (previously set to be 1.96) and will be discussed in detail in the examples following.
-The value of the standard error, $SE,$ depends heavily on the sample size.
+置信区间为参数 $p$ 提供了一个合理的取值范围，并且当可以用正态分布对 $\hat{p}$ 建模时，$p$ 的置信区间形式为 $\hat{p} \pm z^{\star} \times SE.$ 我们知道 $\hat{p}$ 是样本比例。
+值 $z^{\star}$ 决定了置信水平（先前设定为 1.96），并将在后续的例子中详细讨论。
+标准误 $SE$ 的值在很大程度上取决于样本量。
 
 ::: {.important data-latex=""}
-**Standard error of one proportion,** $\hat{p}.$
+**单总体比例 $\hat{p}$ 的标准误。**
 
-When the conditions are met so that the distribution of $\widehat{p}$ (the sample proportion) is nearly normal, the **variability** of a single proportion, $\widehat{p}$ is well described by:
+当条件满足，使得样本比例 $\widehat{p}$ 的分布近似正态时，单总体比例 $\widehat{p}$ 的**变异性**可以通过以下公式很好地描述：
 
 \vspace{-5mm}
 
 $$SE(\hat{p}) = \sqrt{\frac{p(1-p)}{n}}$$
 
-Note that we almost never know the true value of $p$ (the population probability or proportion). A more helpful formula to use is:
+请注意，我们几乎从不知道 $p$（总体概率或比例）的真实值。一个更有用的公式是：
 
 \vspace{-5mm}
 
 $$
-SE(\hat{p}) \approx \sqrt{\frac{(\mbox{best guess of }p)(1 - \mbox{best guess of }p)}{n}}
+SE(\hat{p}) \approx \sqrt{\frac{(\mbox{p 的最佳估计})(1 - \mbox{p 的最佳估计})}{n}}
 $$
 
-For hypothesis testing, we use $p_0$ (the proportion specified in the null hypothesis) as the best guess of $p.$ For confidence intervals, we use $\widehat{p}$ as the best guess of $p.$
+对于假设检验，我们使用 $p_0$（原假设中指定的比例）作为对 $p$ 的最佳猜测。对于置信区间，我们使用 $\widehat{p}$ 作为对 $p$ 的最佳猜测。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Consider taking many polls of registered voters (i.e., random samples) of size 300 asking them if they support legalized marijuana.
-It is suspected that about 2/3 of all voters support legalized marijuana.
-To understand how the sample proportion $(\hat{p})$ would vary across the samples, calculate the standard error of $\hat{p}.$[^16-inference-one-prop-4]
+考虑对注册选民（即随机样本）进行多项民意调查，每份样本量为 300 人，询问他们是否支持大麻合法化。
+据推测，大约三分之二的选民支持大麻合法化。
+为了理解样本比例 $(\hat{p})$ 在不同样本间会有多大变化，请计算 $\hat{p}$ 的标准误。[^16-inference-one-prop-4]
 :::
 
-[^16-inference-one-prop-4]: Because the $p$ is unknown but expected to be around 2/3, we will use 2/3 in place of $p$ in the formula for the standard error.
+[^16-inference-one-prop-4]: 由于 $p$ 未知但预期在 2/3 左右，我们将在标准误公式中用 2/3 代替 $p$。
     $SE = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{2/3 (1 - 2/3)} {300}} = 0.027.$
 
-### Variability of the sample proportion
+### 样本比例的变异性
 
 ::: {.workedexample data-latex=""}
-A simple random sample of 826 payday loan borrowers was surveyed to better understand their interests around regulation and costs.
-70% of the responses supported new regulations on payday lenders.
+对 826 名发薪日贷款借款人抽取了一个简单随机样本进行调查，以更好地了解他们对监管和成本的兴趣。70% 的受访者支持对发薪日贷款机构实施新的监管规定。
 
-1.  Is it reasonable to model the distribution of $\hat{p}$ using a normal distribution?
-
-2.  Estimate the standard error of $\hat{p}.$
-
-3.  Construct a 95% confidence interval for $p,$ the proportion of payday borrowers who support increased regulation for payday lenders.
+1.  用正态分布来建模 $\hat{p}$ 的分布是否合理？
+2.  估计 $\hat{p}$ 的标准误。
+3.  为 $p$（即支持加强对发薪日贷款机构监管的发薪日借款人比例）构建一个 95% 置信区间。
 
 ------------------------------------------------------------------------
 
-1.  The data are a random sample, so it is reasonable to assume that the observations are independent and representative of the population of interest. We also must check the success-failure condition, using $\hat{p}$ in place of $p$ when computing a confidence interval. Since both values are at least 10, we can use the normal distribution to model $\hat{p}.$
+1.  数据来自一个随机样本，因此可以合理地假设观测是独立的且能代表感兴趣的总体。我们还必须检查成功—失败条件，在计算置信区间时用 $\hat{p}$ 代替 $p$ 进行计算。由于这两个值都至少为 10，因此可以用正态分布来建模 $\hat{p}$。
 
 $$
 \begin{aligned}
-  \text{Support: }
+  \text{支持：}
       n p &
           \approx 826 \times 0.70
       = 578\\
-  \text{Not: }
+  \text{不支持：}
       n (1 - p) &
         \approx 826 \times (1 - 0.70)
       = 248
 \end{aligned}
 $$
-2.  Because $p$ is unknown and the standard error is for a confidence interval, use $\hat{p}$ in place of $p$ in the formula.
+2.  因为 $p$ 未知，且标准误是用于置信区间的，因此在公式中用 $\hat{p}$ 代替 $p$。
 
 $$SE = \sqrt{\frac{p(1-p)}{n}} \approx \sqrt{\frac{0.70 (1 - 0.70)} {826}} = 0.016.$$
 
-3.  Using $\hat{p} = 0.70$, $z^{\star} = 1.96$ for a 95% confidence interval, and the standard error $SE = 0.016$ from the previous Guided Practice, the confidence interval is
+3.  使用 $\hat{p} = 0.70$，并取 $z^{\star} = 1.96$，结合前一个“引导练习”中的标准误 $SE = 0.016$ 来构建 95% 置信区间，该置信区间为
 
-$$ 
+$$
 \begin{aligned}
-\text{point estimate} \ &\pm \ z^{\star} \times \ SE \\
-0.70 \ &\pm \ 1.96 \ \times \ 0.016 \\ 
+\text{点估计} \ &\pm \ z^{\star} \times \ SE \\
+0.70 \ &\pm \ 1.96 \ \times \ 0.016 \\
 (0.669 \ &, \ 0.731)
 \end{aligned}
 $$
-We are 95% confident that the true proportion of payday borrowers who supported regulation at the time of the poll was between 0.669 and 0.731.
+我们有 95% 的信心认为，在民意调查时支持加强监管的发薪日借款人的真实比例在 0.669 到 0.731 之间。
 :::
 
 ::: {.important data-latex=""}
-**Constructing a confidence interval for a single proportion.**
+**构建单一比例的置信区间。**
 
-There are three steps to constructing a confidence interval for $p$ (the true population proportion or probability).
+为 $p$（真实的总体比例或概率）构建置信区间需要三个步骤。
 
-1.  Check if it seems reasonable to assume the observations are independent and check the success-failure condition using $\hat{p}$ (the sample proportion). If the conditions are met, the sampling distribution of $\hat{p}$ may be well-approximated by the normal model.
-2.  Calculate the standard error using $\hat{p}$ instead of $p$.
-3.  Apply the general confidence interval formula.
+1.  检查假设观测独立是否合理，并使用 $\hat{p}$（样本比例）检查成功—失败条件。如果满足条件，$\hat{p}$ 的抽样分布可能会由正态模型很好地近似。
+2.  使用 $\hat{p}$ 代替 $p$ 计算标准误。
+3.  应用通用的置信区间公式。
 :::
 
-For additional one-proportion confidence interval examples, see @sec-ConfidenceIntervals.
+有关更多单比例置信区间的示例，请参阅 @sec-ConfidenceIntervals。
 
 \clearpage
 
-### Changing the confidence level
+### 改变置信水平
 
 \index{confidence level}
 
-Suppose we want to consider confidence intervals where the confidence level is somewhat higher than 95%: perhaps we would like a confidence level of 99%.
-Think back to the analogy about trying to catch a fish: if we want to be more sure that we will catch the fish, we should use a wider net.
-To create a 99% confidence level, we must also widen our 95% interval.
-On the other hand, if we want an interval with lower confidence, such as 90%, we could make our original 95% interval slightly slimmer.
+假设我们想考虑置信水平略高于 95% 的置信区间，比如我们想要 99% 的置信水平。
+回想一下关于捕鱼的类比：如果我们想更确定能捕到鱼，就应该使用一张更宽的网。
+要构建一个 99% 置信水平的区间，我们也必须加宽 95% 的区间，……
+另一方面，如果我们想要一个置信度较低的区间，例如 90%，我们可以让原来的 95% 区间稍微窄一点，……
 
-The 95% confidence interval structure provides guidance in how to make intervals with new confidence levels.
-Below is a general 95% confidence interval for a point estimate that comes from a nearly normal distribution:
+95% 置信区间的结构为如何构建具有新置信水平的区间提供了指导。
+下面是针对来自近似正态分布的点估计的通用 95% 置信区间：
 
 \vspace{-5mm}
 
 $$
-\text{point estimate} \ \pm \ 1.96 \ \times \ SE
+\text{点估计} \ \pm \ 1.96 \ \times \ SE
 $$
 
-There are three components to this interval: the point estimate, "1.96", and the standard error.
-The choice of $1.96 \times SE$ was based on capturing 95% of the data since the estimate is within 1.96 standard errors of the true value about 95% of the time.
-1.96 corresponds to the 95% confidence level.
+这个区间包含三个部分：点估计、“1.96”和标准误。
+选择 $1.96 \times SE$ 是因为估计值在大约 95% 的情况下落在真实值的 1.96 个标准误之内，从而能捕捉 95% 的数据。
+1.96 对应于 95% 的置信水平。
 
 ::: {.guidedpractice data-latex=""}
-If $X$ is a normally distributed random variable, how often will $X$ be within 2.58 standard deviations of the mean?[^16-inference-one-prop-5]
+如果 $X$ 是一个正态分布的随机变量，$X$ 落在距离均值 2.58 个标准差范围内的概率有多大？[^16-inference-one-prop-5]
 :::
 
-[^16-inference-one-prop-5]: This is equivalent to asking how often the $Z$ score will be larger than -2.58 but less than 2.58.
-    (For a picture, see @fig-choosingZForCI.) To determine this probability, look up -2.58 and 2.58 in the normal probability table (0.0049 and 0.9951).
-    Thus, there is a $0.9951-0.0049 \approx 0.99$ probability that the unobserved random variable $X$ will be within 2.58 standard deviations of the mean.
+[^16-inference-one-prop-5]: 这等价于询问 $z$ 统计量大于 -2.58 且小于 2.58 的概率有多大。
+    （有关图示，请参阅 @fig-choosingZForCI。）要确定这个概率，请在标准正态分布表中查找 -2.58 和 2.58（对应的概率分别为 0.0049 和 0.9951）。
+    因此，未观测到的随机变量 $X$ 落在距离均值 2.58 个标准差范围内的概率为 $0.9951-0.0049 \approx 0.99$。
 
 ```{r}
 #| label: fig-choosingZForCI
 #| fig-cap: |
-#|   The area between -$z^{\star}$ and $z^{\star}$ increases as $|z^{\star}|$
-#|   becomes larger. If the confidence level is 99%, we choose $z^{\star}$ such
-#|   that 99% of the normal curve is between -$z^{\star}$ and $z^{\star},$
-#|   which corresponds to 0.5% in the lower tail and 0.5% in the upper
-#|   tail: $z^{\star}=2.58.$
+#|   随着 $|z^{\star}|$ 增大，$-z^{\star}$ 和 $z^{\star}$ 之间的面积也增大。如果置信水平是 99%，
+#|   我们选择的 $z^{\star}$ 应使正态曲线 99% 的面积位于 $-z^{\star}$ 和 $z^{\star}$ 之间，
+#|   这对应于下尾部和上尾部各有 0.5% 的面积，
+#|   $z^{\star}=2.58.$
 #| fig-alt: |
-#|   A normal curve with 99% of the area between negative z star and positive z star.
-#|   The area between negative z star and positive z star increases as $| z star
-#|   becomes larger. If the confidence level is 99 percent, we choose z star such
-#|   that 99 percent of the normal curve is between negative z star and positive z star,
-#|   which corresponds to 0.5 percent  in the lower tail and 0.5 percent in the upper
-#|   tail.  The z star value is 2.58.
+#|   一条正态曲线，其中 99% 的面积位于负 $z^{\star}$ 与正 $z^{\star}$ 之间。
+#|   随着 $|z^{\star}|$ 增大，$-z^{\star}$ 和 $z^{\star}$ 之间的面积也增大。如果置信水平是 99%，
+#|   我们选择的 $z^{\star}$ 使得 99% 的正态曲线落在 $-z^{\star}$ 和 $z^{\star}$ 之间，
+#|   这对应于在下尾部有 0.5% 的面积和在上尾部有 0.5% 的面积。
+#|   $z^{\star}$ 的值为 2.58。
 #| fig-asp: 0.5
 par(mar = c(3.3, 1, .5, 1), mgp = c(2.1, 0.6, 0))
 X <- rev(seq(-4, 4, 0.025))
@@ -397,7 +395,7 @@ plot(
   X,
   Y,
   type = "l",
-  xlab = "Standard deviations from the mean",
+  xlab = "距均值的标准差数",
   ylab = "",
   axes = FALSE,
   xlim = 3.3 * c(-1, 1),
@@ -423,88 +421,89 @@ polygon(x, y, col = IMSCOL["blue", "full"], border = "#00000000")
 lines(1.96 * c(-1, 1), rep(yMax, 2), lwd = 2)
 lines(rep(-1.96, 2), c(0, yMax), lty = 2, col = IMSCOL["gray", "full"])
 lines(rep(1.96, 2), c(0, yMax), lty = 2, col = IMSCOL["gray", "full"])
-text(0, yMax, "95%, extends -1.96 to 1.96", pos = 3)
+text(0, yMax, "95%，范围为 -1.96 至 1.96", pos = 3)
 
 yMax <- 0.53
 lines(2.58 * c(-1, 1), rep(yMax, 2), lwd = 2)
 lines(rep(-2.58, 2), c(0, yMax), lty = 2, col = "#00000055")
 lines(rep(2.58, 2), c(0, yMax), lty = 2, col = "#00000055")
-text(0, yMax, "99%, extends -2.58 to 2.58", pos = 3)
+text(0, yMax, "99%，范围为 -2.58 至 2.58", pos = 3)
 ```
+
+
 
 \index{confidence interval}\index{Z-CI!single proportion}
 
-To create a 99% confidence interval, change 1.96 in the 95% confidence interval formula to be $2.58.$ The previous Guided Practice highlights that 99% of the time a normal random variable will be within 2.58 standard deviations of its mean.
-This approach -- using the Z scores in the normal model to compute confidence levels -- is appropriate when the point estimate is associated with a normal distribution and we can properly compute the standard error.
-Thus, the formula for a 99% confidence interval is:
+要构建一个 99% 置信区间，只需将 95% 置信区间公式中的 1.96 改为 $2.58$。前面的引导练习指出，正态随机变量有 99% 的概率落在其均值上下 2.58 个标准差以内。
+这种方法——使用正态模型中的 z 统计量来计算置信水平——在点估计与正态分布有关联的，且我们能正确计算标准误的情况下是适用的。
+因此，99% 置信区间的公式为
 
 $$
-\text{point estimate} \ \pm \ 2.58 \ \times \ SE
+\text{点估计} \ \pm \ 2.58 \ \times \ SE
 $$
 
-The normal approximation is crucial to the precision of the $z^\star$ confidence intervals (in contrast to the bootstrap percentile confidence intervals).
-When the normal model is not a good fit, we will use alternative distributions that better characterize the sampling distribution or we will use bootstrapping procedures.
+正态近似对于 $z^\star$ 置信区间的精度（与自助法百分位置信区间相比）至关重要。
+当正态模型拟合不佳时，我们将使用能更好刻画抽样分布的替代分布，或使用自助法过程。
 
 ::: {.guidedpractice data-latex=""}
-Create a 99% confidence interval for the impact of the stent on the risk of stroke using the data from @sec-case-study-stents-strokes.
-The point estimate is 0.090, and the standard error is $SE = 0.028.$ It has been verified for you that the point estimate can reasonably be modeled by a normal distribution.[^16-inference-one-prop-6]
+使用 @sec-case-study-stents-strokes 中的数据，创建一个支架对脑卒中风险影响的 99% 置信区间。
+点估计值为 0.090，标准误为 $SE = 0.028.$ 已经为你验证过，该点估计值可以合理地用正态分布来建模。[^16-inference-one-prop-6]
 :::
 
-[^16-inference-one-prop-6]: Since the necessary conditions for applying the normal model have already been checked for us, we can go straight to the construction of the confidence interval: $\text{point estimate} \pm 2.58 \times SE$ Which gives an interval of (0.018, 0.162).\$ We are 99% confident that implanting a stent in the brain of a patient who is at risk of stroke increases the risk of stroke within 30 days by a rate of 0.018 to 0.162 (assuming the patients are representative of the population).
+[^16-inference-one-prop-6]: 由于应用正态模型所需的必要条件已经为我们验证过，我们可以直接构建置信区间：$\text{点估计} \pm 2.58 \times SE$，由此得到区间 (0.018, 0.162)。我们有 99% 的把握认为，对有中风风险的患者脑部植入支架会使 30 天内的中风风险增加 0.018 到 0.162 的比率（假设患者具有人群代表性）。
 
 ::: {.important data-latex=""}
-**Mathematical model confidence interval for any confidence level.**
+**适用于任何置信水平的数学模型置信区间。**
 
-If the point estimate follows the normal model with standard error $SE,$ then a confidence interval for the population parameter is
+如果点估计服从标准误为 $SE$ 的正态模型，则总体参数的置信区间为
 
 $$
-\text{point estimate} \ \pm \ z^{\star} \ \times \ SE
+\text{点估计} \ \pm \ z^{\star} \ \times \ SE
 $$
 
-where $z^{\star}$ corresponds to the confidence level selected.
+其中 $z^{\star}$ 对应于所选的置信水平。
 :::
 
-@fig-choosingZForCI provides a picture of how to identify $z^{\star}$ based on a confidence level.
-We select $z^{\star}$ so that the area between -$z^{\star}$ and $z^{\star}$ in the normal model corresponds to the confidence level.
+@fig-choosingZForCI 提供了如何根据置信水平确定 $z^{\star}$ 的图示。
+我们选择 $z^{\star}$，使得正态模型中 $-z^{\star}$ 和 $z^{\star}$ 之间的面积对应于置信水平。
 
 ::: {.guidedpractice data-latex=""}
-Previously, we found that implanting a stent in the brain of a patient at risk for a stroke *increased* the risk of a stroke.
-The study estimated a 9% increase in the number of patients who had a stroke, and the standard error of this estimate was about $SE = 2.8%.$ Compute a 90% confidence interval for the effect.[^16-inference-one-prop-7]
+之前我们发现，在脑卒中高危患者的大脑中植入支架会*增加*脑卒中的风险。
+该研究估计发生脑卒中的患者数量增加了 9%，该估计的标准误约为 $SE = 2.8\%$。计算该效应的 90% 置信区间。[^16-inference-one-prop-7]
 :::
 
-[^16-inference-one-prop-7]: We must find $z^{\star}$ such that 90% of the distribution falls between -$z^{\star}$ and $z^{\star}$ in the standard normal model, $N(\mu=0, \sigma=1).$ We can look up -$z^{\star}$ in the normal probability table by looking for a lower tail of 5% (the other 5% is in the upper tail), thus $z^{\star} = 1.65.$ The 90% confidence interval can then be computed as $\text{point estimate} \pm 1.65 \times SE \to (4.4\%, 13.6\%).$ (Note: the conditions for normality had earlier been confirmed for us.) That is, we are 90% confident that implanting a stent in a stroke patient's brain increased the risk of stroke within 30 days by 4.4% to 13.6%.\
-    Note, the problem was set up as 90% to indicate that there was not a need for a high level of confidence (such as 95% or 99%).
-    A lower degree of confidence increases potential for error, but it also produces a more narrow interval.
+[^16-inference-one-prop-7]: 我们必须找到 $z^{\star}$，使得在标准正态模型 $N(\mu=0, \sigma=1)$ 中，90% 的分布落在 $-z^{\star}$ 和 $z^{\star}$ 之间。我们可以通过在正态概率表中查找下尾概率为 5%（另外 5% 在上尾）来找到 $-z^{\star}$，从而得到 $z^{\star} = 1.65$。90% 置信区间可以计算为 $\text{点估计} \pm 1.65 \times SE \to (4.4\%, 13.6\%)$。（注：正态性条件此前已得到验证。）也就是说，我们有 90% 的把握认为，对中风患者脑部植入支架会使 30 天内的中风风险增加 4.4% 到 13.6%。\
+    注意，问题设定为 90% 表明不需要高置信水平（如 95% 或 99%）。较低的置信水平会增大出错的可能性，但同时也会产生一个更窄的区间。
 
-### Hypothesis test for a proportion
+### 比例的假设检验
 
-One possible regulation for payday lenders is that they would be required to do a credit check and evaluate debt payments against the borrower's finances.
-We would like to know: would borrowers support this form of regulation?
+针对发薪日贷款机构的一项可能规定是，要求他们进行信用检查，并根据借款人的财务状况评估其债务偿还能力。
+我们想知道：借款人会支持这种形式的监管吗？
 
 ::: {.guidedpractice data-latex=""}
-Set up hypotheses to evaluate whether borrowers have a majority support for this type of regulation.[^16-inference-one-prop-8]
+建立假设来评估借款人是否有多数人支持此类监管。[^16-inference-one-prop-8]
 :::
 
-[^16-inference-one-prop-8]: $H_0:$ there is not support for the regulation; $H_0:$ $p \leq 0.50.$ $H_A:$ the majority of borrowers support the regulation; $H_A:$ $p > 0.50.$
+[^16-inference-one-prop-8]: $H_0:$ 不支持该监管；$H_0:$ $p \leq 0.50.$ $H_A:$ 大多数借款人支持该监管；$H_A:$ $p > 0.50.$
 
-To apply the normal distribution framework in the context of a hypothesis test for a proportion, the independence and success-failure conditions must be satisfied.
-In a hypothesis test, the success-failure condition is checked using the null proportion: we verify $np_0$ and $n(1-p_0)$ are at least 10, where $p_0$ is the null value.
+要在比例的假设检验中应用正态分布框架，必须满足独立性和成功—失败条件。
+在假设检验中，使用原假设比例来检查成功—失败条件：我们验证 $np_0$ 和 $n(1-p_0)$ 至少为 10，其中 $p_0$ 是原假设值。
 
 ::: {.important data-latex=""}
-**The test statistic for assessing a single proportion is a Z.**
+**评估单个比例的检验统计量是 z 统计量。**
 
-The **Z score**\index{Z score}\index{Z score!single proportion}\index{single proportion!Z score} is a ratio of how the sample proportion differs from the hypothesized proportion $(p_0)$ as compared to the expected variability of the $\hat{p}$ (sample proportion) values.
+**z 统计量**\index{Z score}\index{Z score!single proportion}\index{single proportion!Z score} 是样本比例与假设比例 $(p_0)$ 之间的差异相对于 $\hat{p}$（样本比例）值的预期变异性的比值。
 
 $$
 Z = \frac{\hat{p} - p_0}{\sqrt{p_0(1 - p_0)/n}}
 $$
 
-When the null hypothesis is true and the conditions are met, Z has a standard normal distribution.
+当原假设为真且条件满足时，z 统计量服从标准正态分布。
 
-Conditions:
+条件：
 
--   independent observations\
--   large samples $(n p_0 \geq 10$ and $n (1-p_0) \geq 10)$\
+-   独立观测\
+-   大样本 $(n p_0 \geq 10$ 且 $n (1-p_0) \geq 10)$\
 :::
 
 ```{r}
@@ -512,32 +511,33 @@ Conditions:
 terms_chp_16 <- c(terms_chp_16, "Z score")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Do payday loan borrowers support a regulation that would require lenders to pull their credit report and evaluate their debt payments?
-From a random sample of 826 borrowers, 51% said they would support such a regulation.
-Is it reasonable to use a normal distribution to model $\hat{p}$ for a hypothesis test here?[^16-inference-one-prop-9]
+发薪日贷款借款人是否支持一项要求贷款机构调取借款人信用报告并评估其债务偿还能力的监管规定？
+从一个包含 826 名借款人的随机样本中，51% 的受访者表示他们会支持这样的监管规定。
+在这里，使用正态分布来对 $\hat{p}$ 进行假设检验建模是否合理？[^16-inference-one-prop-9]
 :::
 
-[^16-inference-one-prop-9]: Independence holds since the poll is based on a random sample.
-    The success-failure condition also holds, which is checked using the null value $(p_0 = 0.5)$ from $H_0:$ $np_0 = 826 \times 0.5 = 413,$ $n(1 - p_0) = 826 \times 0.5 = 413.$ Recall that here, the best guess for $p$ is $p_0$ which comes from the null hypothesis (because we assume the null hypothesis is true when performing the testing procedure steps).
-    $H_0:$ there is not support for the regulation; $H_0:$ $p \leq 0.50.$ $H_A:$ the majority of borrowers support the regulation; $H_A:$ $p > 0.50.$
+[^16-inference-one-prop-9]: 由于民意调查基于随机样本，独立性成立。
+    成功—失败条件也成立，这是使用来自 $H_0$ 的原假设值 $(p_0 = 0.5)$ 进行检查的：$np_0 = 826 \times 0.5 = 413,$ $n(1 - p_0) = 826 \times 0.5 = 413.$ 回想一下，这里对 $p$ 的最佳猜测是 $p_0$，它来自原假设（因为我们在执行检验步骤时假设原假设为真）。
+    $H_0:$ 不支持该监管；$H_0:$ $p \leq 0.50.$ $H_A:$ 大多数借款人支持该监管；$H_A:$ $p > 0.50.$
 
 ::: {.important data-latex=""}
-**Mathematical model hypothesis test for a proportion.**
+**比例的数学模型假设检验。**
 
-Set up hypotheses and verify the conditions using the null value, $p_0,$ to ensure $\hat{p}$ (the sample proportion) is nearly normal under $H_0.$ If the conditions hold, calculate the standard error, again using $p_0,$ and show the p-value in a drawing.
-Lastly, compute the p-value and evaluate the hypotheses.
+建立假设，并使用原假设值 $p_0$ 验证条件，以确保 $\hat{p}$（样本比例）在 $H_0$ 下近似服从正态分布。若条件满足，则再次使用 $p_0$ 计算标准误，并在图中标出 p 值。
+最后，计算 p 值并对假设进行评估。
 :::
 
-For additional one-proportion hypothesis test examples, see @sec-HypothesisTesting.
+有关更多单比例假设检验的示例，请参见 @sec-HypothesisTesting。
 
 ::: {.workedexample data-latex=""}
-Using the hypotheses and data from the previous Guided Practices, evaluate whether the poll on lending regulations provides convincing evidence that a majority of payday loan borrowers support a new regulation that would require lenders to pull credit reports and evaluate debt payments.
+利用前面指导练习中的假设和数据，评估关于借贷法规的民意调查是否提供了有说服力的证据，证明大多数发薪日贷款借款人支持一项要求贷款机构查询信用报告并评估债务偿还情况的新法规。
 
 ------------------------------------------------------------------------
 
-With hypotheses already set up and conditions checked, we can move onto calculations.
-The standard error in the context of a one-proportion hypothesis test is computed using the null value, $p_0:$
+既然假设已经建立且条件也已检查，我们可以开始进行计算。
+在单比例假设检验中，标准误是使用原假设值 $p_0$ 计算的：
 
 \vspace{-5mm}
 
@@ -545,13 +545,13 @@ $$
 SE = \sqrt{\frac{p_0 (1 - p_0)}{n}} = \sqrt{\frac{0.5 (1 - 0.5)}{826}} = 0.017
 $$
 
-A picture of the normal model is shown below with the p-value represented by the shaded region.
+下图展示了正态模型，其中阴影区域代表 p 值。
 
 ```{r}
 #| label: normTail-51
 #| fig-alt: |
-#|   A normal curve centered at 0.5 with a standard deviation of 0.017.
-#|   The area to the right of 0.51 is shaded.
+#|   一条均值为 0.5、标准差为 0.017 的正态曲线。
+#|   0.51 右侧的区域被阴影覆盖。
 #| fig-asp: 0.4
 #| out-width: 60%
 #| fig-align: center
@@ -559,66 +559,68 @@ par(mar = c(2, 0, 0, 0))
 normTail(0.5, 0.017, U = 0.51, col = IMSCOL["blue", "full"])
 ```
 
-Based on the normal model, the test statistic can be computed as the Z score of the point estimate:
+根据正态模型，检验统计量可以计算为点估计的 z 统计量：
 
 \vspace{-5mm}
 
 $$
-Z = \frac{\text{point estimate} - \text{null value}}{SE} = \frac{0.51 - 0.50}{0.017} = 0.59
+Z = \frac{\text{点估计} - \text{零值}}{SE} = \frac{0.51 - 0.50}{0.017} = 0.59
 $$
 
-The single tail area which represents the p-value is 0.2776.
-Because the p-value is larger than 0.05, we do not reject $H_0.$ The poll does not provide convincing evidence that a majority of payday loan borrowers support regulations around credit checks and evaluation of debt payments.
+代表 p 值的单尾面积为 0.2776。
+因为 p 值大于 0.05，我们不拒绝 $H_0$。该民意调查没有提供有说服力的证据，表明大多数发薪日贷款借款人支持有关信用核查和债务偿还评估的法规。
 
-In @sec-two-prop-errors we discuss two-sided hypothesis tests of which the payday example may have been better structured.
-That is, we might have wanted to ask whether the borrowers **support or oppose** the regulations (to study opinion in either direction away from the 50% benchmark).
-In that case, the p-value would have been doubled to 0.5552 (again, we would not reject $H_0).$ In the two-sided hypothesis setting, the appropriate conclusion would be to claim that the poll does not provide convincing evidence that a majority of payday loan borrowers support or oppose regulations around credit checks and evaluation of debt payments.
+在 @sec-two-prop-errors 中，我们讨论了双侧假设检验，而发薪日贷款的例子如果采用这种结构可能会更好。
+也就是说，我们本应询问借款人究竟是**支持还是反对**这些法规（以研究相对于 50% 基准值的两个方向的偏离）。
+在那种情况下，p 值会翻倍至 0.5552（同样，我们不会拒绝 $H_0$）。在双侧假设检验的设定下，适当的结论应该是声称：该民意调查没有提供有说服力的证据，表明大多数发薪日贷款借款人支持或反对有关信用核查和债务偿还评估的法规。
 
-In both the one-sided or two-sided setting, the conclusion is somewhat unsatisfactory because there is no conclusion.
-That is, there is no resolution one way or the other about public opinion.
-We cannot claim that exactly 50% of people support the regulation, but we cannot claim a majority in either direction.
+无论采用单侧还是双侧设定，结论都有些令人不满意，因为没有（明确的）结论。
+也就是说，对于公众意见，无论哪个方向都无法得出确切的结论。
+我们不能声称正好有 50% 的人支持该监管规定，也不能声称任一方向占多数。
 :::
 
-### Violating conditions
+### 违反条件
 
-We've spent a lot of time discussing conditions for when $\hat{p}$ can be reasonably modeled by a normal distribution.
-What happens when the success-failure condition fails?
-What about when the independence condition fails?
-In either case, the general ideas of confidence intervals and hypothesis tests remain the same, but the strategy or technique used to generate the interval or p-value change.
+我们花了很多时间讨论 $\hat{p}$ 何时能被正态分布合理建模所需的条件。
+当成功—失败条件不满足时会发生什么？
+那么当独立性条件不满足时呢？
+无论哪种情况，置信区间和假设检验的基本思想保持不变，但用于生成区间或 p 值的策略或技术会发生变化。
 
-When the success-failure condition isn't met for a hypothesis test, we can simulate the null distribution of $\hat{p}$ using the null value, $p_0,$ as seen in @sec-one-prop-null-boot.
-Unfortunately, methods for dealing with observations which are not independent (e.g., repeated measurements on subjects where measurements are taken pre and post study) are outside the scope of this book.
+当假设检验的成功—失败条件不满足时，我们可以使用原假设值 $p_0$ 来模拟 $\hat{p}$ 的原假设分布，如 @sec-one-prop-null-boot 所示。
+遗憾的是，处理非独立观测（例如，对研究对象在研究前后进行的重复测量）的方法超出了本书的范围。
 
 \clearpage
 
-## Chapter review {#sec-chp16-review}
+## 章节回顾 {#sec-chp16-review}
 
-### Summary
+### 总结
 
-Building on the foundational ideas from the previous few ideas, this chapter focused exclusively on the single population proportion as the parameter of interest.
-Note that it is not possible to do a randomization test with only one variable, so to do computational hypothesis testing, we applied a bootstrapping framework.
-The bootstrap confidence interval and the mathematical framework for both hypothesis testing and confidence intervals are similar to those applied to other data structures and parameters.
-When using the mathematical model, keep in mind the success-failure conditions.
-Additionally, know that bootstrapping is always more accurate with larger samples.
+在前几章基础思想之上，本章专门关注单总体比例作为感兴趣的参数。
+请注意，仅在一个变量的情况下无法进行随机化检验，因此要进行基于计算的假设检验，我们应用了自助法框架。
+自助法置信区间以及用于假设检验和置信区间的数学框架，与其他数据结构和参数所应用的框架相似。
+使用数学模型时，请记住成功—失败条件。
+此外，需知样本量越大，自助法的结果越准确。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-16.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列举在 @tbl-terms-chp-16 中。
+如果你不确定其中某些术语的含义，我们建议你返回正文复习其定义。
+你应该能轻易地发现它们，因为它们以**粗体**标出。
 
 ```{r}
 #| label: tbl-terms-chp-16
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章引入的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_16)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp16-exercises}
+## 练习题 {#sec-chp16-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-16].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-16] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_16-ex-inference-one-prop.qmd >}}

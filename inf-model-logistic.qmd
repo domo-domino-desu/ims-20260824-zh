@@ -1,13 +1,14 @@
-# Inference for logistic regression {#sec-inf-model-logistic}
+# 逻辑斯谛回归推断 {#sec-inf-model-logistic}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-Combining ideas from [Chapter -@sec-model-logistic] on logistic regression, [Chapter -@sec-foundations-mathematical] on inference with mathematical models, and [Chapter -@sec-inf-model-slr] and [Chapter -@sec-inf-model-mlr] which apply inferential techniques to the linear model, we wrap up the book by considering inferential methods applied to a logistic regression model.
-Additionally, we use cross-validation as a method for independent assessment of the logistic regression model.
+结合 [第 -@sec-model-logistic 章] 逻辑斯谛回归、[第 -@sec-foundations-mathematical 章] 数学模型推断，以及 [第 -@sec-inf-model-slr 章] 和 [第 -@sec-inf-model-mlr 章] 将推断技术应用于线性模型的内容，我们将推断方法应用于逻辑斯谛回归模型，以此为本书收尾。
+此外，我们使用交叉验证作为逻辑斯谛回归模型的一种独立评估方法。
 :::
 
 ```{r}
@@ -15,46 +16,47 @@ Additionally, we use cross-validation as a method for independent assessment of 
 terms_chp_26 <- c("inference on logistic regression")
 ```
 
-As with multiple linear regression, the inference aspect for logistic regression will focus on interpretation of coefficients and relationships between explanatory variables.
-Both p-values and cross-validation will be used for assessing a logistic regression model.
 
-Consider the `email` data which describes email characteristics which can be used to predict whether a particular incoming email is spam (unsolicited bulk email).
-Without reading every incoming message, it might be nice to have an automated way to identify spam emails.
-Which of the variables describing each email are important for predicting the status of the email?
+
+与多元线性回归类似，逻辑斯谛回归的推断将侧重于对系数的解释以及解释变量之间关系的理解。
+p 值和交叉验证都将用于评估逻辑斯谛回归模型。
+
+考虑 `email` 数据，它描述了可用于预测特定收件邮件是否为垃圾邮件（未经请求的批量电子邮件）的特征。
+如果不逐一阅读收到的邮件，能有一种自动识别垃圾邮件的方法会很有用。
+描述每封邮件的变量中，哪些对于预测邮件状态是重要的？
 
 ::: {.data data-latex=""}
-The [`email`](http://openintrostat.github.io/openintro/reference/email.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`email`](http://openintrostat.github.io/openintro/reference/email.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ```{r}
 #| label: tbl-resume-variables
 #| tbl-cap: |
-#|   Variables and their descriptions for the `email` dataset. Many of the
-#|   variables are indicator variables, meaning they take the value 1 if the
-#|   specified characteristic is present and 0 otherwise.
+#|   `email` 数据集中的变量及其描述。其中许多变量是指示变量，
+#|   这意味着如果存在指定的特征，则取值为 1，否则为 0。
 email_variables <- tribble(
   ~variable      , ~description                                                                                                 ,
-  "spam"         , "Indicator for whether the email was spam."                                                                  ,
-  "to_multiple"  , "Indicator for whether the email was addressed to more than one recipient."                                  ,
-  "from"         , "Whether the message was listed as from anyone (this is usually set by default for regular outgoing email)." ,
-  "cc"           , "Number of people cc'ed."                                                                                    ,
-  "sent_email"   , "Indicator for whether the sender had been sent an email in the last 30 days."                               ,
-  "attach"       , "The number of attached files."                                                                              ,
-  "dollar"       , "The number of times a dollar sign or the word “dollar” appeared in the email."                              ,
-  "winner"       , "Indicates whether “winner” appeared in the email."                                                          ,
-  "format"       , "Indicates whether the email was written using HTML (e.g., may have included bolding or active links)."      ,
-  "re_subj"      , "Whether the subject started with “Re:”, “RE:”, “re:”, or “rE:”"                                             ,
-  "exclaim_subj" , "Whether there was an exclamation point in the subject."                                                     ,
-  "urgent_subj"  , "Whether the word “urgent” was in the email subject."                                                        ,
-  "exclaim_mess" , "The number of exclamation points in the email message."                                                     ,
-  "number"       , "Factor variable saying whether there was no number, a small number (under 1 million), or a big number."
+  "spam"         , "指示电子邮件是否为垃圾邮件。"                                                                               ,
+  "to_multiple"  , "指示电子邮件是否发送给多位收件人。"                                                                         ,
+  "from"         , "邮件是否列出了发件人（常规外发邮件通常默认列出）。"                                                         ,
+  "cc"           , "抄送的人数。"                                                                                               ,
+  "sent_email"   , "指示发件人在过去 30 天内是否发送过电子邮件。"                                                               ,
+  "attach"       , "附件数量。"                                                                                                 ,
+  "dollar"       , "电子邮件中出现美元符号或单词“dollar”的次数。"                                                               ,
+  "winner"       , "指示电子邮件中是否出现“winner”。"                                                                           ,
+  "format"       , "指示电子邮件是否使用 HTML 编写（例如，可能包含加粗或活动链接）。"                                             ,
+  "re_subj"      , "主题是否以“Re:”、“RE:”、“re:”或“rE:”开头。"                                                                 ,
+  "exclaim_subj" , "主题中是否有感叹号。"                                                                                       ,
+  "urgent_subj"  , "电子邮件主题中是否包含单词“urgent”。"                                                                       ,
+  "exclaim_mess" , "电子邮件正文中的感叹号数量。"                                                                               ,
+  "number"       , "因子变量，表示其中没有数字、有小数字（小于 100 万）还是大数字。"
 )
 
 email_variables |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Variable", "Description")
+    col.names = c("变量", "描述")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -65,23 +67,25 @@ email_variables |>
   column_spec(2, width = "30em")
 ```
 
-## Model diagnostics
 
-Before looking at the hypothesis tests associated with the coefficients (turns out they are very similar to those in linear regression!), it is valuable to understand the technical conditions that underlie the inference applied to the logistic regression model.
-Generally, as you've seen in the logistic regression modeling examples, it is imperative that the response variable is binary.
-Additionally, the key technical condition for logistic regression has to do with the relationship between the predictor variables ($x_i$ values) and the probability the outcome will be a success.
-It turns out, the relationship is a specific functional form called a logit function, where ${\rm logit}(p) = \log_e(\frac{p}{1-p}).$ The function may feel complicated, and memorizing the formula of the logit is not necessary for understanding logistic regression.
-What you do need to remember is that the probability of the outcome being a success is a function of a linear combination of the explanatory variables.
+
+## 模型诊断
+
+在讨论与系数相关的假设检验之前（结果证明它们与线性回归中的检验非常相似！），理解逻辑斯谛回归推断所依赖的技术条件是很有帮助的。
+通常，正如你在逻辑斯谛回归建模例子中看到的那样，响应变量必须是二元的，这一点至关重要。
+此外，逻辑斯谛回归的关键技术条件涉及预测变量（$x_i$ 值）与结果为“成功”的概率之间的关系。
+事实证明，这种关系是一种称为 logit 函数的特定函数形式，其中 ${\rm logit}(p) = \log_e(\frac{p}{1-p}).$ 这个函数可能看起来有些复杂，而且记住 logit 的公式对于理解逻辑斯谛回归并非必需。
+你需要记住的是，结果为“成功”的概率是解释变量线性组合的函数。
 
 ::: {.important data-latex=""}
-**Logistic regression conditions.**
+**逻辑斯谛回归条件。**
 
 \index{technical conditions logistic regression}
 
-There are two key conditions for fitting a logistic regression model:
+拟合逻辑斯谛回归模型有两个关键条件：
 
-1.  Each outcome $Y_i$ is independent of the other outcomes.
-2.  Each predictor $x_i$ is linearly related to logit$(p_i)$ if all other predictors are held constant.
+1.  每个结果 $Y_i$ 都与其他结果相互独立。
+2.  当所有其他预测变量保持不变时，每个预测变量 $x_i$ 都与 logit$(p_i)$ 呈线性关系。
 :::
 
 ```{r}
@@ -89,23 +93,22 @@ There are two key conditions for fitting a logistic regression model:
 terms_chp_26 <- c(terms_chp_26, "technical conditions")
 ```
 
-The first logistic regression model condition --- independence of the outcomes --- is reasonable if we can assume that the emails that arrive in an inbox within a few months are independent of each other with respect to whether they're spam or not.
 
-The second condition of the logistic regression model is not easily checked without a fairly sizable amount of data.
-Luckily, we have `r nrow(email)` emails in the dataset!
-Let's first visualize these data by plotting the true classification of the emails against the model's fitted probabilities, as shown in @fig-spam-predict.
+
+如果我们可以假设几个月内到达收件箱的邮件在是否为垃圾邮件方面相互独立，那么逻辑斯谛回归模型的第一个条件——结果的独立性——就是合理的。
+
+逻辑斯谛回归模型的第二个条件，如果没有相当大量的数据，是不容易检验的。
+幸运的是，我们的数据集中有 `r nrow(email)` 封邮件！
+让我们首先通过绘制邮件的真实分类与模型的拟合概率来对这些数据进行可视化，如 @fig-spam-predict 所示。
 
 ```{r}
 #| label: fig-spam-predict
 #| fig-cap: |
-#|   The predicted probability that each of the 3921 emails are spam. Points
-#|   have been jittered so that those with nearly identical values aren’t plotted
-#|   exactly on top of one another.
+#|   3921 封邮件中每一封被预测为垃圾邮件的概率。对点进行了抖动处理，
+#|   以免数值几乎相同的点完全重叠绘制。
 #| fig-alt: |
-#|   Scatterplot with predicted probability of being spam on the x-axis and
-#|   original class, either spam or not spam, on the y-axis. We can see that
-#|   the predictions do not perfectly classify the emails; however, the not spam
-#|   emails generally have lower prediction probabilities than the spam emails.
+#|   散点图，x 轴为被预测为垃圾邮件的概率，y 轴为原始类别（垃圾邮件或非垃圾邮件）。
+#|   可以看到预测并未完美分类所有邮件；然而，非垃圾邮件通常比垃圾邮件具有更低的预测概率。
 #| fig-asp: 0.43
 #| fig-width: 7
 spam_fit <- logistic_reg() |>
@@ -124,39 +127,32 @@ ggplot(spam_pred, aes(x = .pred_1, y = spam)) +
   coord_cartesian(xlim = c(0, 1)) +
   labs(
     y = NULL,
-    x = "Predicted probability that email is spam"
+    x = "电子邮件被预测为垃圾邮件的概率"
   ) +
-  scale_y_discrete(labels = c("Not spam (0)", "Spam (1)"))
+  scale_y_discrete(labels = c("非垃圾邮件 (0)", "垃圾邮件 (1)"))
 ```
 
-We'd like to assess the quality of the model.
-For example, we might ask: if we look at emails that we modeled as having 10% chance of being spam, do we find out 10% of them actually are spam?
-We can check this for groups of the data by constructing a plot as follows:
 
-1.  Bucket the observations into groups based on their predicted probabilities.
-2.  Compute the average predicted probability for each group.
-3.  Compute the observed probability for each group, along with a 95% confidence interval for the true probability of success for those individuals.
-4.  Plot the observed probabilities (with 95% confidence intervals) against the average predicted probabilities for each group.
 
-If the model does a good job describing the data, the plotted points should fall close to the line $y = x$, since the predicted probabilities should be similar to the observed probabilities.
-We can use the confidence intervals to roughly gauge whether anything might be amiss.
-Such a plot is shown in @fig-logisticModelBucketDiag.
+我们希望评估模型的质量。
+例如，我们可能会问：如果我们查看那些被模型预测为有10%概率是垃圾邮件的邮件，其中实际是垃圾邮件的比例是否接近10%？
+我们可以通过如下步骤对数据进行分组并构建图形来检查这一点：
+
+1.  根据预测概率将观测分箱。
+2.  计算每组的平均预测概率。
+3.  计算每组的观测概率，以及这些个体成功真实概率的95%置信区间。
+4.  将观测概率（带有95%置信区间）与每组的平均预测概率进行对比绘制。
+
+如果模型能很好地描述数据，那么绘制的点应该接近直线 $y = x$，因为预测概率应该与观测概率相似。
+我们可以利用置信区间来粗略判断是否存在问题。
+这样的图形展示在 @fig-logisticModelBucketDiag 中。
 
 ```{r}
 #| label: fig-logisticModelBucketDiag
 #| fig-cap: |
-#|   A reconfiguration of @fig-spam-predict. Again, the predicted probabilities
-#|   are on the x-axis and the truth is on the y-axis for each email. After data
-#|   have been bucketed into predicted probability groups, the proportion of spam
-#|   emails (i.e., the observed probability) is given by the black circles. The
-#|   dashed line is within the confidence bound of the 95% confidence intervals
-#|   for many of the buckets, suggesting the logistic fit is reasonable.
+#|   对 @fig-spam-predict 的重新配置。同样，对于每封邮件，x 轴是预测概率，y 轴是真实类别。数据按预测概率分桶后，垃圾邮件的比例（即观测概率）由黑色圆点表示。虚线落在许多桶的 95% 置信区间内，表明逻辑斯谛拟合是合理的。
 #| fig-alt: |
-#|   Scatterplot with predicted probability of being spam on the x-axis and
-#|   original class, either spam or not spam, on the y-axis. Superimposed are
-#|   the observed probabilities of being spam, calculated by the proportion of
-#|   spam emails in each bucket of predicted probabilities. The observed
-#|   probabilities and predicted probabilities line up reasonably well.
+#|   散点图，x 轴为成为垃圾邮件的预测概率，y 轴为原始类别（垃圾邮件或非垃圾邮件）。叠加显示的是成为垃圾邮件的观测概率，由每个预测概率分桶中垃圾邮件的比例计算得出。观测概率与预测概率吻合得相当好。
 #| out-width: 90%
 #| fig-asp: 0.6
 par_og <- par(no.readonly = TRUE) # save original par
@@ -181,11 +177,11 @@ plot(
   xlim = 0:1,
   ylim = c(-0.07, 1.07),
   axes = FALSE,
-  xlab = "Predicted Probability",
+  xlab = "预测概率",
   ylab = ""
 )
 par(las = 0)
-mtext("Truth", 2, 5.5)
+mtext("真实类别", 2, 5.5)
 par(las = 1)
 rect(0, 0, 1, 1, border = IMSCOL["gray", "full"], col = "#00000000", lwd = 1.5)
 lines(0:1, 0:1, lty = 2, col = IMSCOL["gray", "full"], lwd = 1.5)
@@ -198,12 +194,12 @@ points(
 axis(1)
 at <- seq(0, 1, length.out = 6)
 labels <- c(
-  "0 (Not spam)",
+  "0 (非垃圾邮件)",
   "0.2  ",
   "0.4  ",
   "0.6  ",
   "0.8  ",
-  "1 (Spam)"
+  "1 (垃圾邮件)"
 )
 axis(2, at, labels)
 eps <- 1e-4
@@ -245,10 +241,10 @@ text(
   0.3,
   0.15,
   paste(
-    "Observations are bucketed, then we compute",
-    "the observed probability in each bucket (y)",
-    "against the average predicted probability (x)",
-    "for each of the buckets with 95% confidence intervals.",
+    "将观测分桶后，我们计算",
+    "每个桶内的观测概率",
+    "与平均预测概率",
+    "的对应关系，并附上 95% 置信区间。",
     sep = "\n"
   ),
   cex = 0.85,
@@ -257,17 +253,13 @@ text(
 par(par_og) # restore original par
 ```
 
-
-A plot like @fig-logisticModelBucketDiag helps to better understand the deviations.
-Additional diagnostics may be created that are similar to those featured in @sec-tech-cond-linmod.
-For instance, we could compute residuals as the observed outcome minus the expected outcome ($e_i = Y_i - \hat{p}_i$), and then we could create plots of these residuals against each predictor.
+像 @fig-logisticModelBucketDiag 这样的图有助于更好地理解这些离差。还可以创建类似于 @sec-tech-cond-linmod 中所展示的额外诊断方法。例如，我们可以将残差计算为观测到的结果变量值减去期望结果变量值（$e_i = Y_i - \hat{p}_i$），然后绘制这些残差对各个预测变量的散点图。
 
 \index{logistic regression}
 
-## Multiple logistic regression output from software {#sec-inf-log-reg-soft}
+## 软件的多元逻辑斯谛回归输出 {#sec-inf-log-reg-soft}
 
-As you learned in @sec-model-mlr, optimization can be used to find the coefficient estimates for the logistic model.
-The unknown population model can be written as:
+正如你在 [第 -@sec-model-mlr 章] 中所学到的，可以使用优化方法来寻找逻辑斯谛模型的系数估计值。未知的总体模型可以写为：
 
 $$
 \begin{aligned}
@@ -278,7 +270,7 @@ $$
 \end{aligned}
 $$
 
-The estimated equation for the regression model may be written as a model with four predictor variables, where $\hat{p}$ is the estimated probability of being a spam email message:
+该回归模型的估计方程可以写成一个包含四个预测变量的模型，其中 $\hat{p}$ 是一封邮件为垃圾邮件的估计概率：
 
 $$
 \begin{aligned}
@@ -292,9 +284,8 @@ $$
 ```{r}
 #| label: tbl-emaillogmodel
 #| tbl-cap: |
-#|   Summary of a logistic model for predicting whether an email is spam based
-#|   on the variables to_multiple, cc, dollar, and urgent_subj. Each of the
-#|   variables has its own coefficient estimate and p-value.
+#|   基于变量 to_multiple、cc、dollar 和 urgent_subj 预测邮件是否为垃圾邮件的逻辑斯谛模型汇总。
+#|   每个变量都有自己的系数估计值和 p 值。
 #| tbl-pos: H
 glm(
   spam ~ to_multiple + cc + dollar + urgent_subj,
@@ -317,56 +308,47 @@ glm(
   column_spec(2:5, width = "5em")
 ```
 
-Not only does @tbl-emaillogmodel provide the estimates for the coefficients, it also provides information on the inference analysis (i.e., hypothesis testing) which is the focus of this chapter.
+@tbl-emaillogmodel 不仅提供了系数的估计值，还提供了关于推断分析（即假设检验）的信息，这正是本章的重点。
 
-As in @sec-inf-model-mlr, with **multiple predictors**\index{variable!multiple predictors}\index{multiple predictors}, each hypothesis test (for each of the explanatory variables) is conditioned on each of the other variables remaining in the model.
+与 [第 -@sec-inf-model-mlr 章] 一样，当存在**多个预测变量**\index{variable!multiple predictors}\index{multiple predictors}时，每一个（针对解释变量的）假设检验都是以模型中包含的其他变量为条件的。
 
 ```{r}
 #| include: false
 terms_chp_26 <- c(terms_chp_26, "multiple predictors")
 ```
 
-> if multiple predictors $H_0: \beta_i = 0$ given other variables in the model
+> 若有多个预测变量：$H_0: \beta_i = 0$（在给定模型中包含其他变量的情况下）
 
-Using the example above and focusing on each of the variable p-values (here we won't discuss the p-value associated with the intercept), we can write out the four different hypotheses (associated with the p-value corresponding to each of the coefficients / rows in @tbl-emaillogmodel):
+使用上面的例子，并关注每个变量的 p 值（这里我们不讨论与截距关联的 p 值），我们可以写出四个不同的假设（与 @tbl-emaillogmodel 中每个系数/行的 p 值相关联）：
 
--   $H_0: \beta_1 = 0$ given `cc`, `dollar`, and `urgent_subj` are included in the model
--   $H_0: \beta_2 = 0$ given `to_multiple`, `dollar`, and `urgent_subj` are included in the model
--   $H_0: \beta_3 = 0$ given `to_multiple`, `cc`, and `urgent_subj` are included in the model
--   $H_0: \beta_4 = 0$ given `to_multiple`, `cc`, and `dollar` are included in the model
+-   $H_0: \beta_1 = 0$（给定模型中包含 `cc`、`dollar` 和 `urgent_subj`）
+-   $H_0: \beta_2 = 0$（给定模型中包含 `to_multiple`、`dollar` 和 `urgent_subj`）
+-   $H_0: \beta_3 = 0$（给定模型中包含 `to_multiple`、`cc` 和 `urgent_subj`）
+-   $H_0: \beta_4 = 0$（给定模型中包含 `to_multiple`、`cc` 和 `dollar`）
 
-The very low p-values from the software output tell us that three of the variables (that is, not `cc`) act as statistically discernible predictors in the model at the discernibility level of 0.05, despite the inclusion of any of the other variables.
-Consider the p-value on $H_0: \beta_1 = 0$.
-The low p-value says that it would be extremely unlikely to observe data that yield a coefficient on `to_multiple` at least as far from 0 as -1.91 (i.e., $|b_1| > 1.91$) if the true relationship between `to_multiple` and `spam` was non-existent (i.e., if $\beta_1 = 0$) **and** the model also included `cc` and `dollar` and `urgent_subj`.
-Note also that the coefficient on `dollar` has a small associated p-value, but the magnitude of the coefficient is also seemingly small (0.07).
-It turns out that in units of standard errors (0.02 here), 0.07 is actually quite far from zero, it's all about context!
-The p-values on the remaining variables are interpreted similarly.
-From the initial output (p-values) in @tbl-emaillogmodel, it seems as though `to_multiple`, `dollar`, and `urgent_subj` are important variables for modeling whether an email is `spam`.
-We remind you that although p-values provide some information about the importance of each of the predictors in the model, there are many, arguably more important, aspects to consider when choosing the best model.
+软件输出的极低 p 值告诉我们，在 0.05 的可辨识水平下，三个变量（即除 `cc` 之外）在模型中充当统计上可辨识的预测变量，无论模型中是否包含其他任何变量。考虑 $H_0: \beta_1 = 0$ 的 p 值。低 p 值表明，如果 `to_multiple` 与 `spam` 之间的真实关联不存在（即如果 $\beta_1 = 0$），**并且**模型中也包含了 `cc`、`dollar` 和 `urgent_subj`，那么观测到系数至少偏离 0 达 -1.91（即 $|b_1| > 1.91$）的数据的可能性极低。还要注意，`dollar` 的系数有一个很小的关联 p 值，但系数的大小看起来也很小（0.07）。事实证明，以标准误为单位衡量（此处为 0.02），0.07 实际上距离零相当远，这完全取决于语境！其他变量的 p 值解释方式类似。根据 @tbl-emaillogmodel 中的初步输出（p 值），`to_multiple`、`dollar` 和 `urgent_subj` 似乎是建模邮件是否为 `spam` 的重要变量。我们提醒你，虽然 p 值提供了有关模型中每个预测变量重要性的某些信息，但在选择最佳模型时，还有许多可以说更重要的方面需要考虑。
 
-As with linear regression (see @sec-inf-mult-reg-collin), existence of predictors that are correlated with each other can affect both the coefficient estimates and the associated p-values.
-However, investigating multicollinearity in a logistic regression model is saved for a text which provides more detail about logistic regression.
-Next, as a model building alternative (or enhancement) to p-values, we revisit cross-validation within the context of predicting status for each of the individual emails.
+与线性回归一样（参见 @sec-inf-mult-reg-collin），存在彼此相关的预测变量会同时影响系数估计值和关联的 p 值。然而，对逻辑斯谛回归模型中多重共线性的探讨，将留给更详细介绍逻辑斯谛回归的教材。接下来，作为模型构建中 p 值方法的替代（或补充），我们将在预测每封单独邮件状态的背景下，重新审视交叉验证。
 
-## Cross-validation for prediction error {#sec-inf-log-reg-cv}
+## 针对预测误差的交叉验证 {#sec-inf-log-reg-cv}
 
-The p-value is a probability measure under a setting of no relationship.
-That p-value provides information about the degree of the relationship (e.g., above we measure the relationship between `spam` and `to_multiple` using a p-value), but the p-value does not measure how well the model will predict the individual emails (e.g., the accuracy of the model).
-Depending on the goal of the research project, you might be inclined to focus on variable importance (through p-values) or you might be inclined to focus on prediction accuracy (through cross-validation).
+p 值是在无关联设定下的一种概率度量。该 p 值提供了有关关联程度的信息（例如，上文我们使用 p 值衡量了 `spam` 与 `to_multiple` 之间的关联），但 p 值并不能衡量模型预测每封单独邮件的效果如何（例如，模型的准确率）。根据研究项目的目标，你可能倾向于关注变量的重要性（通过 p 值），也可能倾向于关注预测准确率（通过交叉验证）。
 
-Here we present a method for using **cross-validation**\index{cross-validation} **accuracy**\index{accuracy} to determine which variables (if any) should be used in a model which predicts whether an email is spam.
-A full treatment of cross-validation and logistic regression models is beyond the scope of this text.
-Using $k$-fold cross-validation, we can build $k$ different models which are used to predict the observations in each of the $k$ holdout samples.
-As with linear regression (see @sec-inf-mult-reg-cv), we compare a smaller logistic regression model to a larger logistic regression model.
-The smaller model uses only the `to_multiple` variable, see the complete dataset (not cross-validated) model output in @tbl-emaillogmodel1.
-The logistic regression model can be written as follows, where $\hat{p}$ is the estimated probability of being a spam email message.
+这里我们介绍一种利用**交叉验证**\index{cross-validation} **准确率**\index{accuracy}来确定哪些变量（如果有的话）应该纳入预测电子邮件是否为垃圾邮件的模型中的方法。
+对交叉验证和逻辑斯谛回归模型的详细讨论超出了本教材的范围。
+使用 $k$ 折交叉验证，我们可以建立 $k$ 个不同的模型，用于预测 $k$ 个留出样本中的观测。
+与线性回归类似（参见 @sec-inf-mult-reg-cv），我们将一个较小的逻辑斯谛回归模型与一个较大的逻辑斯谛回归模型进行比较。
+较小的模型仅使用 `to_multiple` 变量，完整数据集（未经交叉验证）的模型输出见 @tbl-emaillogmodel1。
+该逻辑斯谛回归模型可以写成如下形式，其中 $\hat{p}$ 是邮件为垃圾邮件的估计概率。
 
 ```{r}
 #| include: false
 terms_chp_26 <- c(terms_chp_26, "cross-validation", "accuracy")
 ```
 
-**The smaller model:**
+
+
+**较小的模型：**
 
 \vspace{-5mm}
 
@@ -375,9 +357,8 @@ $$\log_e\bigg(\frac{\hat{p}}{1-\hat{p}}\bigg) =  -2.12 + -1.81 \times \texttt{to
 ```{r}
 #| label: tbl-emaillogmodel1
 #| tbl-cap: |
-#|   The smaller model. Summary of a logistic model for predicting whether an
-#|   email is spam based on only the predictor variable to_multiple. Each of
-#|   the variables has its own coefficient estimate and p-value.
+#|   较小的模型。仅基于预测变量 `to_multiple` 预测电子邮件是否为垃圾邮件的逻辑斯谛回归模型摘要。
+#|   每个变量都有各自的系数估计值和 p 值。
 #| tbl-pos: H
 glm(spam ~ to_multiple, data = email, family = "binomial") |>
   tidy() |>
@@ -396,28 +377,26 @@ glm(spam ~ to_multiple, data = email, family = "binomial") |>
   column_spec(2:5, width = "5em")
 ```
 
-For each cross-validated model, the coefficients change slightly, and the model is used to make independent predictions on the holdout sample.
-The model from the first cross-validation sample is given in @fig-emailCV1 and can be compared to the coefficients in @tbl-emaillogmodel1.
+
+
+对于每个交叉验证模型，其系数都会略有变化，并且该模型被用于对留出样本做出独立的预测。
+第一个交叉验证样本得出的模型在 @fig-emailCV1 中给出，可以与 @tbl-emaillogmodel1 中的系数进行比较。
 
 ```{r}
 #| label: fig-emailCV1
 #| fig-cap: |
-#|   The smaller model. The coefficients are estimated using the least squares
-#|   model on 3/4 of the data with a single predictor variable. Predictions
-#|   are made on the remaining 1/4 of the observations. Note that the prediction
-#|   error rate is quite high.
+#|   较小的模型。系数是基于单个预测变量，使用 3/4 的数据通过最小二乘模型
+#|   估计得到的。对剩余 1/4 的观测进行预测。注意，预测的错误率相当高。
 #| fig-alt: |
-#|   The left panel shows the logistic model predicting the probability of an
-#|   email being spam as a function of whether the email was sent to multiple
-#|   individuals; the model was built using the red, green, and yellow triangular
-#|   sections of the observed data. The right panel shows a confusion matrix of
-#|   the predicted spam label crossed with the observed spam label for the set of
-#|   observations in the blue triangular section of the observed data. Of the 83
-#|   spam emails, 80 were correctly classified as spam. Of the 897 non-spam
-#|   emails, 143 were correctly classified as not spam.
+#|   左图显示了逻辑斯谛回归模型，该模型根据电子邮件是否发送给多个接收者来预测
+#|   其为垃圾邮件的概率；该模型是使用观测数据中红色、绿色和黄色三角形部分的数据
+#|   构建的。右图展示了观测数据的蓝色三角形部分中，预测的垃圾邮件标签与实际观测
+#|   的垃圾邮件标签的混淆矩阵。在 83 封垃圾邮件中，有 80 封被正确分类为垃圾邮件。
+#|   在 897 封非垃圾邮件中，有 143 封被正确分类为非垃圾邮件。
 #| out-width: 90%
 include_graphics("images/emailCV1.png")
 ```
+
 
 ```{r}
 #| echo: false
@@ -489,17 +468,14 @@ logCV1 <- data.frame(
 #  mutate(estimate = round(estimate,2))
 ```
 
+
 ```{r}
 #| label: tbl-email-spam
 #| tbl-cap: |
-#|   The smaller model. One quarter at a time, the data were removed from the
-#|   model building, and whether the email was spam (TRUE) or not (FALSE) was
-#|   predicted. The logistic regression model was fit independently of the
-#|   removed emails. Only `to_multiple` is used to predict whether the email is
-#|   spam. Because we used a cutoff designed to identify spam emails, the
-#|   accuracy of the non-spam email predictions is very low. `spamTP` is the
-#|   proportion of true spam emails that were predicted to be spam. `notspamTP`
-#|   is the proportion of true not spam emails that were predicted to be not spam.
+#|   较小的模型。每次剔除四分之一的数据来构建模型，并预测邮件是否为垃圾邮件（TRUE 或 FALSE）。
+#|   逻辑斯谛回归模型的拟合独立于被剔除的邮件。该模型仅使用 `to_multiple` 来预测邮件是否为垃圾邮件。
+#|   由于我们使用了旨在识别垃圾邮件的截断值，因此对非垃圾邮件的预测准确率很低。
+#|   `spamTP` 是真正是垃圾邮件中被预测为垃圾邮件的比例。`notspamTP` 是真正不是垃圾邮件中被预测为非垃圾邮件的比例。
 #| tbl-pos: H
 logCV1 |>
   group_by(fold) |>
@@ -512,6 +488,7 @@ logCV1 |>
   kbl(
     linesep = "",
     booktabs = TRUE,
+    col.names = c("折次", "计数", "准确率", "notspamTP", "spamTP"),
     digits = 2
   ) |>
   kable_styling(
@@ -521,19 +498,21 @@ logCV1 |>
   )
 ```
 
-Because the `email` dataset has a ratio of roughly 90% non-spam and 10% spam emails, a model which randomly guessed all non-spam would have an overall accuracy of 90%!
-Clearly, we would like to capture the information with the spam emails, so our interest is in the percent of spam emails which are identified as spam (see @tbl-email-spam).
-Additionally, in the logistic regression model, we use a 10% cutoff to predict whether the email is spam.
-Fortunately, we have done a great job of predicting!
-However, the trade-off was that most of the non-spam emails are now predicted to be spam which is not acceptable for a prediction algorithm.
-Adding more variables to the model may help with both the spam and non-spam predictions.
 
-The larger model uses `to_multiple`, `attach`, `winner`, `format`, `re_subj`, `exclaim_mess`, and `number` as the set of seven predictor variables, see the complete dataset (not cross-validated) model output in @tbl-emaillogmodel2.
-The logistic regression model can be written as follows, where $\hat{p}$ is the estimated probability of being a spam email message.
+
+由于 `email` 数据集中约90%为非垃圾邮件、10%为垃圾邮件，一个将所有邮件都随机猜测为非垃圾邮件的模型将具有90%的总体准确率！
+显然，我们希望捕获垃圾邮件的信息，因此我们关注的是垃圾邮件中被识别为垃圾邮件的百分比（见 @tbl-email-spam）。
+此外，在这个逻辑斯谛回归模型中，我们使用了10%的截断值来预测邮件是否为垃圾邮件。
+幸运的是，我们的预测做得很好！
+然而，代价是现在大多数非垃圾邮件都被预测为垃圾邮件，这对一个预测算法而言是不可接受的。
+在模型中加入更多变量或许能同时改善对垃圾邮件和非垃圾邮件的预测。
+
+较大的模型使用了 `to_multiple`、`attach`、`winner`、`format`、`re_subj`、`exclaim_mess` 和 `number` 这组七个预测变量，完整数据集（未经交叉验证）的模型输出见 @tbl-emaillogmodel2。
+该逻辑斯谛回归模型可以写成如下形式，其中 $\hat{p}$ 是邮件为垃圾邮件的估计概率。
 
 \vspace{5mm}
 
-**The larger model:**
+**较大的模型：**
 
 $$
 \begin{aligned}
@@ -546,10 +525,9 @@ $$
 ```{r}
 #| label: tbl-emaillogmodel2
 #| tbl-cap: |
-#|   The larger model. Summary of a logistic model for predicting whether an
-#|   email is spam based on the variables `to_multiple`, `attach`, `winner`,
-#|   `format`, `re_subj`, `exclaim_mess`, and `number`. Each of the variables
-#|   has its own coefficient estimate and p-value.
+#|   较大的模型。基于变量 `to_multiple`、`attach`、`winner`、
+#|   `format`、`re_subj`、`exclaim_mess` 和 `number` 预测邮件是否为垃圾邮件的
+#|   逻辑斯谛回归模型摘要。每个变量都有各自的系数估计值和 p 值。
 #| tbl-pos: H
 glm(
   spam ~ to_multiple +
@@ -568,6 +546,7 @@ glm(
     linesep = "",
     booktabs = TRUE,
     digits = 2,
+    col.names = c("项", "估计值", "标准误", "统计量", "p 值"),
     align = "lrrrr"
   ) |>
   kable_styling(
@@ -581,27 +560,21 @@ glm(
 ```{r}
 #| label: fig-emailCV2
 #| fig-cap: |
-#|   The larger model. The coefficients are estimated using the least squares
-#|   model on 3/4 of the dataset with the seven specified predictor variables.
-#|   Predictions are made on the remaining 1/4 of the observations. Note that the
-#|   predictions are independent of the estimated model coefficients. The
-#|   predictions are now much better for both the spam and the non-spam emails
-#|   (than they were with a single predictor variable).
+#|   较大的模型。模型系数是使用最小二乘模型在数据集的 3/4 部分上、
+#|   基于七个指定的预测变量进行估计的。预测在剩余的 1/4 观测上进行。
+#|   请注意，这些预测值独立于所估计的模型系数。
+#|   当前模型对垃圾邮件和非垃圾邮件的预测效果都比之前（仅用单一预测变量时）要好得多。
 #| fig-alt: |
-#|   The left panel shows the logistic model predicting the probability of an
-#|   email being spam as a function of the email being sent to multiple
-#|   recipients, number of attachments, using the word winner, format of HTML,
-#|   RE in the subject line, number of exclamation points in the message, and
-#|   the existence of a number in the email; the model was built using the red,
-#|   green, and yellow triangular sections of the observed data. The right panel
-#|   shows a confusion matrix of the predicted spam label crossed with the
-#|   observed spam label for the set of observations in the blue triangular
-#|   section of the observed data. Of the 97 spam emails, 73 were correctly
-#|   classified as spam. Of the 883 non-spam emails, 688 were correctly classified
-#|   as not spam.
+#|   左图显示了预测邮件为垃圾邮件概率的逻辑斯谛模型，该概率是以下变量的函数：
+#|   收件人是否为多人、附件数量、是否使用了“winner”一词、是否为HTML格式、
+#|   主题行是否包含“RE”、邮件中感叹号数量以及邮件中是否包含数字；该模型是使用观测数据中的
+#|   红色、绿色和黄色三角形部分构建的。右图显示了针对观测数据中蓝色三角形部分的那组观测，
+#|   预测的垃圾邮件标签与观测到的垃圾邮件标签交叉的混淆矩阵。在 97 封垃圾邮件中，
+#|   有 73 封被正确分类为垃圾邮件。在 883 封非垃圾邮件中，有 688 封被正确分类为非垃圾邮件。
 #| out-width: 100%
 include_graphics("images/emailCV2.png")
 ```
+
 
 ```{r}
 set.seed(470)
@@ -635,7 +608,7 @@ logCV2 <- data.frame(
       type = "response"
     ),
   obs = email[emailfolds$Fold1, ]$spam,
-  fold = rep("1st quarter", length(emailfolds$Fold1))
+  fold = rep("第 1 折", length(emailfolds$Fold1))
 ) |>
   rbind(data.frame(
     predicted = glm(
@@ -665,7 +638,7 @@ logCV2 <- data.frame(
         type = "response"
       ),
     obs = email[emailfolds$Fold2, ]$spam,
-    fold = rep("2nd quarter", length(emailfolds$Fold2))
+    fold = rep("第 2 折", length(emailfolds$Fold2))
   )) |>
   rbind(data.frame(
     predicted = glm(
@@ -695,7 +668,7 @@ logCV2 <- data.frame(
         type = "response"
       ),
     obs = email[emailfolds$Fold3, ]$spam,
-    fold = rep("3rd quarter", length(emailfolds$Fold3))
+    fold = rep("第 3 折", length(emailfolds$Fold3))
   )) |>
   rbind(data.frame(
     predicted = glm(
@@ -725,7 +698,7 @@ logCV2 <- data.frame(
         type = "response"
       ),
     obs = email[emailfolds$Fold4, ]$spam,
-    fold = rep("4th quarter", length(emailfolds$Fold4))
+    fold = rep("第 4 折", length(emailfolds$Fold4))
   )) |>
   mutate(predspam = ifelse(predicted <= 0.1, 0, 1))
 ```
@@ -733,14 +706,10 @@ logCV2 <- data.frame(
 ```{r}
 #| label: tbl-email-spam2
 #| tbl-cap: |
-#|   The larger model. One quarter at a time, the data were removed from the
-#|   model building, and whether the email was spam (TRUE) or not (FALSE) was
-#|   predicted. The logistic regression model was fit independently of the
-#|   removed emails. Now, the variables `to_multiple`, `attach`, `winner`,
-#|   `format`, `re_subj`, `exclaim_mess`, and `number` are used to predict
-#|   whether the email is  spam. `spamTP` is the proportion of true spam emails
-#|   that were predicted to be spam. `notspamTP` is the proportion of true not
-#|   spam emails that were predicted to be not spam.'
+#|   较大的模型。数据被逐折地从模型构建中移除，并预测电子邮件是否为垃圾邮件（TRUE 或 FALSE）。
+#|   逻辑斯谛回归模型的拟合独立于被移除的电子邮件。现在，使用变量 `to_multiple`、`attach`、`winner`、
+#|   `format`、`re_subj`、`exclaim_mess` 和 `number` 来预测电子邮件是否为垃圾邮件。`spamTP` 是
+#|   被预测为垃圾邮件的真实垃圾邮件的比例。`notspamTP` 是被预测为非垃圾邮件的真实非垃圾邮件的比例。
 #| tbl-pos: H
 logCV2 |>
   group_by(fold) |>
@@ -762,47 +731,51 @@ logCV2 |>
   )
 ```
 
-Somewhat expected, the larger model (see @tbl-email-spam2) was able to capture more nuance in the emails which lead to better predictions.
-However, it is not true that adding variables will always lead to better predictions, as correlated or noise variables may dampen the signal from the set of variables that truly predict the status.
-We encourage you to learn more about multiple variable models and cross-validation in your future exploration of statistical topics.
+
+
+不出所料，较大的模型（参见 @tbl-email-spam2）能够捕捉电子邮件中更细微的特征，从而带来更好的预测。
+然而，添加变量并不总是能带来更好的预测，因为存在相关性的或噪声变量可能会削弱真正用于预测状态的变量集合所携带的信号。
+我们鼓励你在未来探索统计主题时，深入学习多元模型和交叉验证。
 
 \clearpage
 
-## Chapter review {#sec-chp27-review}
+## 章节回顾 {#sec-chp27-review}
 
-### Summary
+### 总结
 
-Throughout the text, we have presented a modern view to introduction to statistics.
-Earlier, we presented graphical techniques which communicated relationships across multiple variables.
-We also used modeling to formalize the relationships.
-In @sec-inf-model-logistic we considered inferential claims on models which include many variables used to predict the probability of the outcome being a success.
-We continue to emphasize the importance of experimental design in making conclusions about research claims.
-In particular, recall that variability can come from different sources (e.g., random sampling vs. random allocation, see @fig-randsampValloc).
+在全书中，我们呈现了现代视角的统计学入门。
+在前面，我们介绍了能够展示多个变量间关系的图形技术。
+我们还使用模型将这些关系形式化。
+在 [第 -@sec-inf-model-logistic 章] 中，我们探讨了关于模型的推断主张，这些模型包含多个用于预测结果变量为成功的概率的变量。
+我们继续强调实验设计在得出研究结论中的重要性。
+特别要记住，变异性可能有不同的来源（例如，随机抽样与随机分配，参见 @fig-randsampValloc）。
 
-As you might guess, this text has only scratched the surface of the world of statistical analyses that can be applied to different datasets.
-In particular, to do justice to the topic, the linear models and generalized linear models we have introduced can each be covered with their own course or book.
-Hierarchical models, alternative methods for fitting parameters (e.g., Ridge Regression or LASSO), and advanced computational methods applied to multivariable models (e.g., permuting the response variable? one explanatory variable? all the explanatory variables?) are all beyond the scope of this book.
-However, your successful understanding of the ideas we have covered has set you up perfectly to move on to a higher level of statistical modeling and inference.
-Enjoy!
+正如你所猜测的，本书仅仅触及了可应用于不同数据集的统计分析世界的皮毛。
+具体来说，为了充分探讨这一主题，我们所介绍的线性模型和广义线性模型各自都可以用一门课程或一本书来专门讲解。
+分层模型、拟合参数的替代方法（例如，岭回归或 LASSO），以及应用于多元模型的高级计算方法（例如，置换响应变量？一个解释变量？所有解释变量？）都超出了本书的范围。
+然而，你对已介绍概念的成功理解，已为你迈向更高层次的统计建模和推断奠定了完美的基础。
+祝你学习愉快！
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-26.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章引入的术语列于 @tbl-terms-chp-26。
+如果你不确定其中某些术语的含义，我们建议你回到正文中复习它们的定义。
+你应该能够容易地发现它们，因为它们都以**粗体**标出。
 
 ```{r}
 #| label: tbl-terms-chp-26
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_26)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp26-exercises}
+## 练习题 {#sec-chp26-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-26].
+奇数编号练习题的答案可在 [附录 -@sec-exercise-solutions-26] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_26-ex-inf-model-logistic.qmd >}}

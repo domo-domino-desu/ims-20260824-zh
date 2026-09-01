@@ -1,26 +1,23 @@
 1.  \(a\) `r pnorm(-1.35, mean = 0, sd = 1)` (b) `r 1 - pnorm(1.48, mean = 0, sd = 1)` (c) `r pnorm(1.5, mean = 0, sd = 1) - pnorm(-0.4, mean = 0, sd = 1)` (d) $P(|Z| > 2) = P(Z < -2) + P(Z > 2)$ `r pnorm(-2, mean = 0, sd = 1) + 1 - pnorm(2, mean = 0, sd = 1)`
 \addtocounter{enumi}{1}
 
-1.  \(a\) Verbal: $N(\mu = 151, \sigma = 7)$, Quant: $N(\mu = 153, \sigma = 7.67)$. (b) $Z_{VR} = 1.29$, $Z_{QR} = 0.52$. (c) She scored 1.29 standard deviations above the mean on the Verbal  Reasoning section and 0.52 standard deviations above the mean on the Quantitative Reasoning section.
-(d) She did better on the Verbal Reasoning section since her Z score on that section was higher. (e)$Perc_{VR} = 0.9007 \approx 90\%$, $Perc_{QR} = 0.6990 \approx 70\%$. (f) $100\% - 90\% = 10\%$ did better than her on VR, and $100\% - 70\% = 30\%$ did better than her on QR. (g) We cannot compare the raw scores since they are on different scales. Comparing her percentile scores is more appropriate when comparing her performance to others. (h) Answer to part (b) would not change as Z scores can be calculated for 
-distributions that are not normal. However, we could not answer parts (d)-(f) since we cannot use the normal probability table to calculate probabilities and percentiles without a normal model.
+1.  \(a\) 语文：$N(\mu = 151, \sigma = 7)$，数学：$N(\mu = 153, \sigma = 7.67)$。 (b) $Z_{VR} = 1.29$，$Z_{QR} = 0.52$。 (c) 她在语文推理部分的得分比均值高1.29个标准差，在数学推理部分的得分比均值高0.52个标准差。 (d) 她在语文推理部分表现得更好，因为该部分的 z 统计量更高。 (e)$Perc_{VR} = 0.9007 \approx 90\%$，$Perc_{QR} = 0.6990 \approx 70\%$。 (f) $100\% - 90\% = 10\%$ 在 VR 上比她表现更好，而 $100\% - 70\% = 30\%$ 在 QR 上比她表现更好。 (g) 我们无法直接比较原始分数，因为它们尺度不同。在将她的表现与他人比较时，比较百分位数更为合适。 (h) 第 (b) 部分的答案不会改变，因为即使对于非正态分布也能计算 z 统计量。但是，如果没有正态模型，我们就无法使用标准正态分布表来计算概率和百分位数，因此将无法回答 (d)-(f) 部分。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $Z = 0.84$, which corresponds to approximately 159 on QR. (b) $Z = -0.52$, which corresponds to approximately 147 on VR.
+1.  \(a\) $Z = 0.84$，对应 QR 上约 159 分。 (b) $Z = -0.52$，对应 VR 上约 147 分。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $Z = 1.2$, $P(Z > 1.2) = 0.1151$. (b) $Z= -1.28 \to 70.6\circ$F or colder.
+1.  \(a\) $Z = 1.2$，$P(Z > 1.2) = 0.1151$。 (b) $Z= -1.28 \to 70.6\circ$华氏度或更冷。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $N(25, 2.78)$. (b) $Z = 1.08$, $P(Z > 1.08) = 0.1401$. (c)The answers are very close because only the units were changed. (The only 
-reason why they differ at all because 28$^\circ$ C is 82.4$^\circ$ F, not precisely 83$^\circ$ F.) (d) Since $IQR = Q3 - Q1$, we first need to find $Q3$ and $Q1$ and take the difference between the two. Remember that $Q3$ is the $75^{th}$ and $Q1$ is the $25^{th}$ percentile of a distribution. Q1 = 23.13, Q3 = 26.86, IQR = 26. 86 - 23.13 = 3.73.
+1.  \(a\) $N(25, 2.78)$。 (b) $Z = 1.08$，$P(Z > 1.08) = 0.1401$。 (c) 答案非常接近，因为只是单位发生了变化。（两者存在差异的唯一原因是 28$^\circ$ C 等于 82.4$^\circ$ F，并不精确等于 83$^\circ$ F。） (d) 由于 $IQR = Q3 - Q1$，我们首先需要找到 $Q3$ 和 $Q1$，然后计算两者之差。请记住，$Q3$ 是分布的 $75^{th}$ 百分位数，$Q1$ 是 $25^{th}$ 百分位数。Q1 = 23.13, Q3 = 26.86, IQR = 26.86 - 23.13 = 3.73。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Recall that the general formula is $point~estimate \pm z^{\star} \times SE$. First, identify the three different values. The point estimate is 45%, $z^{\star} = 1.96$ for a 95% confidence level, and $SE = 1.2\%$. Then, plug the values into the formula: $45\% \pm 1.96 \times 1.2\% \quad\to\quad (42.6\%, 47.4\%)$ We are 95% confident that the proportion of US adults who live with one or more chronic conditions is between 42.6% and 47.4%. (b) (i) False. Confidence intervals provide a range of plausible values, and sometimes the truth is missed. A 95% confidence interval "misses" about 5% of the time. (ii) True. Notice that the description focuses on the true population value. (iii) True. If we examine the 95% confidence interval, we can see that 50% is not included in this interval. This means that in a hypothesis test, we would reject the null hypothesis that the proportion is 0.5. (iv) False. The standard error describes the uncertainty in the overall estimate from natural fluctuations due to randomness, not the uncertainty corresponding to individuals' responses.
+1.  \(a\) 回想一下，通用公式是 $\text{点估计} \pm z^{\star} \times SE$。首先，确定三个不同的值。点估计是 45%，对于 95% 的置信水平 $z^{\star} = 1.96$，且 $SE = 1.2\%$。然后，将这些值代入公式：$45\% \pm 1.96 \times 1.2\% \quad\to\quad (42.6\%, 47.4\%)$。我们有 95% 的信心认为，患有一种或多种慢性病的美国成年人的比例在 42.6% 到 47.4% 之间。 （i）错误。置信区间提供了一个合理值的范围，有时也会遗漏真实值。95% 的置信区间在大约 5% 的情况下会“遗漏”真实值。 （ii）正确。请注意，该描述关注的是真实的总体值。 （iii）正确。如果我们检查 95% 的置信区间，可以看到 50% 不包含在该区间内。这意味着在假设检验中，我们将拒绝比例为 0.5 的原假设。 （iv）错误。标准误描述的是由于随机性的自然波动导致的整体估计中的不确定性，而不是与个人回答相对应的不确定性。
 \addtocounter{enumi}{1}
 
-1. A Z score of 0.47 denotes that the sample proportion is 0.47 standard errors greater than the hypothesized value of the population proportion. 
+1.  z 统计量为 0.47 表示样本比例比假设的总体比例值高了 0.47 个标准误。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Sampling distribution. (b) To know whether the distribution is skewed, we need to know the proportion. We've been told the proportion is likely above 5% and below 30%, and the success-failure condition would be satisfied for any of these values. If the population proportion is in this range, the sampling distribution will be symmetric. (c) Standard error. (d) The distribution will tend to be more variable when we have fewer observations per sample.
+1.  \(a\) 抽样分布。 要知道分布是否偏态，我们需要知道比例。我们已知该比例可能高于 5% 且低于 30%，并且对于这些值中的任何一个，成功-失败条件都会得到满足。如果总体比例在此范围内，抽样分布将是对称的。 标准误。 当每个样本的观测值较少时，分布往往会有更大的变异性。
 \addtocounter{enumi}{1}

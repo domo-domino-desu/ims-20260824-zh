@@ -1,33 +1,33 @@
-1.  \(a\) Average sleep of 25 in sample vs. all New Yorkers. (b) Average height of students in study vs all undergraduates.
+1.  \(a\) 样本中 25 人的平均睡眠时间与所有纽约人相比。(b) 研究中学生的平均身高与所有本科生相比。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Use the sample mean to estimate the population mean: 171.1. Likewise, use the sample median to estimate the population median: 170.3. (b) Use the sample standard deviation (9.4) and sample IQR ($177.8-163.8 = 14$). (c) $Z_{180} = 0.95$ and $Z_{155} = -1.71.$ Neither of these observations is more than two standard deviations away from the mean, so neither would be considered unusual. (d) No, sample point estimates only estimate the population parameter, and they vary from one sample to another. Therefore we cannot expect to get the same mean and standard deviation with each random sample. (e) We use the standard error of the mean to measure the variability in means of random samples of same size taken from a population. The variability in the means of random samples is quantified by the standard error. Based on this sample, $SE_{\bar{x}} = \frac{9.4}{\sqrt{507}} = 0.417.$
+1.  \(a\) 使用样本均值来估计总体均值：171.1。同样地，使用样本中位数来估计总体中位数：170.3。(b) 使用样本标准差 (9.4) 和样本四分位距（IQR）($177.8-163.8 = 14$)。(c) $Z_{180} = 0.95$ 且 $Z_{155} = -1.71.$ 这两个观测值距离均值都不超过两个标准差，因此两者都不会被视为不寻常。(d) 不能。样本点估计只是对总体参数的估计，并且它们会随样本的不同而变化。因此，我们不能期望每次随机抽样都得到相同的均值和标准差。(e) 我们使用均值的标准误来衡量从同一总体中抽取的相同大小的随机样本的均值的变异性。随机样本均值的变异性由标准误来量化。基于此样本，$SE_{\bar{x}} = \frac{9.4}{\sqrt{507}} = 0.417.$
 \addtocounter{enumi}{1}
 
-1.  \(a\) The kindergartners will have a smaller standard deviation of heights. We would expect their heights to be more similar to each other compared to a group of adults' heights. (b) The standard error of the mean will depend on the variability of individual heights. The standard error of the adult sample averages will be around 9.4/$\sqrt{100}$ = `r round(9.4/sqrt(100), 2)`cm. The standard error of the kindergartner sample averages will be smaller.
+1.  \(a\) 幼儿园儿童身高的标准差会更小。与一组成年人的身高相比，我们预期他们的身高彼此更为相似。(b) 均值的标准误取决于个体身高的变异性。成人样本平均数的标准误约为 9.4/$\sqrt{100}$ = `r round(9.4/sqrt(100), 2)`cm。幼儿园儿童样本平均数的标准误会更小。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $df=6-1=5$, $t_{5}^{\star} = 2.02$. (b) $df=21-1=20$, $t_{20}^{\star} = 2.53$. (c) $df=28$, $t_{28}^{\star} = 2.05$. (d) $df=11$, $t_{11}^{\star} = 3.11$.
+1.  \(a\) $df=6-1=5$，$t_{5}^{\star} = 2.02$。(b) $df=21-1=20$，$t_{20}^{\star} = 2.53$。(c) $df=28$，$t_{28}^{\star} = 2.05$。(d) $df=11$，$t_{11}^{\star} = 3.11$。
 \addtocounter{enumi}{1}
 
-1.  \(a\) 0.085, do not reject $H_0$. (b) 0.003, reject $H_0$. (c) 0.438, do not reject $H_0$. (d) 0.042, reject $H_0$.
+1.  \(a\) 0.085，不拒绝 $H_0$。(b) 0.003，拒绝 $H_0$。(c) 0.438，不拒绝 $H_0$。(d) 0.042，拒绝 $H_0$。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Roughly 0.1 weeks. (b) Roughly (38.45 weeks, 38.85 weeks). (c) Roughly (38.49 weeks, 38.91 weeks).
+1.  \(a\) 大约 0.1 周。(b) 大约 (38.45 周, 38.85 周)。(c) 大约 (38.49 周, 38.91 周)。
 \addtocounter{enumi}{1}
 
-1.  \(a\) False (b) False. (c) True. (d) False.
+1.  \(a\) 错误。(b) 错误。(c) 正确。(d) 错误。
 \addtocounter{enumi}{1}
 
-1. The mean is the midpoint: $\bar{x} = 20$. Identify the margin of error: $ME = 1.015$, then use $t^{\star}_{35} = 2.03$ and $SE = s/ \sqrt{n}$ in the formula for margin of error to identify $s = 3$.
+1.  均值是中点：$\bar{x} = 20$。确定误差界：$ME = 1.015$，然后使用 $t^{\star}_{35} = 2.03$ 并将 $SE = s/ \sqrt{n}$ 代入误差界公式，求得 $s = 3$。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $H_0$: $\mu = 8$ (New Yorkers sleep 8 hrs per night on average.) 
-$H_A$: $\mu \neq 8$ (New Yorkers sleep less or more than 8 hrs per night on average.) (b) Independence: The sample is random. The min/max suggest there are no concerning outliers. $T = -1.75$. $df=25-1=24$. (c) p-value $= 0.093$. If in fact the true population mean of the amount New Yorkers sleep per night was 8 hours, the probability of getting a random sample of 25 New Yorkers where the average amount of sleep is 7.73 hours per night or less (or 8.27 hours or more) is 0.093. (d) Since p-value $>$ 0.05, do not reject $H_0$. The data do not provide strong evidence that New Yorkers sleep more or less than 8 hours per night on average. (e) Yes, since we did not rejected $H_0$.
+1.  \(a\) $H_0$：$\mu = 8$（纽约人平均每晚睡眠 8 小时。）
+$H_A$：$\mu \neq 8$（纽约人平均每晚睡眠时间少于或多于 8 小时。） 独立性：样本是随机的。最小值/最大值表明没有值得关注的离群值。$T = -1.75$。$df=25-1=24$。(c) p 值 $= 0.093$。如果事实上纽约人每晚睡眠时间的真实总体均值是 8 小时，那么获得一个由 25 位纽约人组成的随机样本，其平均睡眠时间为每晚 7.73 小时或更少（或 8.27 小时或更多）的概率是 0.093。(d) 因为 p 值 $>$ 0.05，所以不拒绝 $H_0$。数据并未提供强有力的证据证明纽约人平均每晚睡眠时间多于或少于 8 小时。(e) 是的，因为我们没有拒绝 $H_0$。
 \addtocounter{enumi}{1}
 
-1. With a larger critical value, the confidence interval ends up being wider. This makes intuitive sense as when we have a small sample size and the population standard deviation is unknown, we should have a wider interval than if we knew the population standard deviation, or if we had a large enough sample size.
+1.  临界值越大，置信区间最终越宽。这很直观：当样本量较小且总体标准差未知时，相较于我们知道总体标准差，或者我们有足够大的样本量，我们应该得到一个更宽的区间。
 \addtocounter{enumi}{1}
 
-1.  \(a\) We will conduct a 1-sample $t$-test. $H_0$: $\mu = 5$. $H_A$: $\mu \neq 5$. We'll use $\alpha = 0.05$. This is a random sample, so the observations are independent. To proceed, we assume the distribution of years of piano lessons is approximately normal. $SE = 2.2 / \sqrt{20} = 0.4919$. The test statistic is $T = (4.6 - 5) / SE = -0.81$. $df = 20 - 1 = 19$. The one-tail area is about 0.21, so the p-value is about 0.42, which is bigger than $\alpha = 0.05$ and we do not reject $H_0$. That is, we do not have sufficiently strong evidence to reject the notion that the average is 5 years. (b) Using $SE = 0.4919$ and $t_{df = 19}^{\star} = 2.093$, the confidence interval is (3.57, 5.63). We are 95% confident that the average number of years a child takes piano lessons in this city is 3.57 to 5.63 years. (c) They agree, since we did not reject the null hypothesis and the null value of 5 was in the $t$-interval.
+1.  \(a\) 我们将进行单样本 $t$ 检验。$H_0$：$\mu = 5$。$H_A$：$\mu \neq 5$。我们将使用 $\alpha = 0.05$。这是一个随机样本，因此观测是独立的。为了继续进行，我们假设钢琴学习年数的分布大致呈正态。$SE = 2.2 / \sqrt{20} = 0.4919$。检验统计量是 $T = (4.6 - 5) / SE = -0.81$。$df = 20 - 1 = 19$。单尾面积约为 0.21，所以 p 值约为 0.42，大于 $\alpha = 0.05$，因此我们不拒绝 $H_0$。也就是说，我们没有足够强有力的证据来反驳平均学习年数为 5 年的说法。(b) 使用 $SE = 0.4919$ 和 $t_{df = 19}^{\star} = 2.093$，置信区间为 (3.57, 5.63)。我们有 95% 的把握认为，该城市儿童学习钢琴的平均年数为 3.57 至 5.63 年。(c) 两者一致，因为我们没有拒绝零假设，且零假设值 5 包含在 $t$ 区间内。
 \addtocounter{enumi}{1}

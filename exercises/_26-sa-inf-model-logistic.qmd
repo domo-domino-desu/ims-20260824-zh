@@ -1,11 +1,11 @@
-1. No, logistic regression is not appropriate because the response (or outcome) variable is not binary. Linear regression is likely to be more appropriate.
+1.  不，逻辑斯谛回归不合适，因为响应（或结果）变量不是二元的。线性回归可能更合适。
 \addtocounter{enumi}{1}
 
-1.  $H_0: \beta_1 = 0$, the slope of the model predicting kids' marijuana use in college from their parents' marijuana use in college is 0. $H_A: \beta_1 \neq 0$, the slope of the model predicting kids' marijuana use in college from their parents' marijuana use in college is different than 0. The test statistic is $Z = 4.09$ and the associated p-value is less than 0.0001. With a small p-value we reject $H_0$. The data provide convincing evidence that the slope of the model predicting kids' marijuana use in college from their parents' marijuana use in college is different than 0, i.e., that parents' marijuana use in college is a discernible predictor of kids' marijuana use in college.
+1.  $H_0: \beta_1 = 0$，即以父母大学期间大麻使用预测子女大学期间大麻使用的模型，其斜率为 0。$H_A: \beta_1 \neq 0$，即该模型的斜率不等于 0。检验统计量为 $Z = 4.09$，对应的 p 值小于 0.0001。由于 p 值很小，我们拒绝 $H_0$。数据提供了有说服力的证据，表明以父母大学期间大麻使用预测子女大学期间大麻使用的模型，其斜率不等于 0，也就是说，父母大学期间的大麻使用是子女大学期间大麻使用的一个可辨识的预测变量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) 26 observations are in Fold2. 8 correctly and 2 incorrectly predicted to be from Victoria. (b) 78 observations are used to build the model. (c) 2 coefficients for tail length; 3 coefficients for total length and sex.
+1.  \(a\) Fold2 中有 26 个观测。其中 8 个被正确预测为来自 Victoria，2 个被错误预测为来自 Victoria。 (b) 有 78 个观测被用于建立模型。 (c) 尾长有 2 个系数；总长和性别有 3 个系数。
 \addtocounter{enumi}{1}
 
-1.  \(a\) 76, 73.1%. (b) 58, 55.8%. (c) The tail length model should be chosen for classification purposes. (d) A model using all three predictors might be superior to either of the smaller models.
+1.  \(a\) 76, 73.1%。(b) 58, 55.8%。(c) 出于分类目的，应选择尾长模型。(d) 使用全部三个预测变量的模型可能优于任一较小模型。
 \addtocounter{enumi}{1}

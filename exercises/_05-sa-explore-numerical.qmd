@@ -1,59 +1,60 @@
-1.  \(a\) Positive association: mammals with longer gestation periods tend to live longer as well. (b) Association would still be positive. (c) No, they are not independent. See part (a).
+1.  \(a\) 正关联：孕期较长的哺乳动物往往寿命也更长。 关联仍为正关联。 否，它们不是独立的。参见 部分。
 
     \addtocounter{enumi}{1}
 
-1.  The graph below shows a ramp up period. There may also be a period of exponential growth at the start before the size of the petri dish becomes a factor in slowing growth.
+1.  下图显示了一个加速增长期。在培养皿大小成为减缓生长的因素之前，开始阶段可能还有一段指数增长期。
 
     ```{r}
     #| out-width: 30%
     set.seed(2406)
     par(mar = c(1.5, 1.5, 0.5, 0.5), mgp = c(0.3, 0.7, 0),  mfrow = c(1,1), cex.lab = 1.5)
-    curve(-1*dexp(x, rate = 4), lwd = 2, xlab = "time", ylab = "number of bacteria cells", axes = FALSE)
+    curve(-1*dexp(x, rate = 4), lwd = 2, xlab = "时间", ylab = "细菌细胞数量", axes = FALSE)
     box()
     ```
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) Decrease: the new score is smaller than the mean of the 24 previous scores. (b) Calculate a weighted mean. Use a weight of 24 for the old mean and 1 for the new mean: $(24\times 74 + 1\times64)/(24+1) = 73.6$. (c) The new score is more than 1 standard deviation away from the previous mean, so increase.
+1.  \(a\) 下降：新分数低于先前 24 个分数的均值。 计算加权均值。对旧均值使用权重 24，对新均值使用权重 1：$(24\times 74 + 1\times64)/(24+1) = 73.6$。 新分数偏离先前均值超过 1 个标准差，所以增加。
 
     \addtocounter{enumi}{1}
 
-1.  Any 10 employees whose average number of days off is between the minimum and the mean number of days off for the entire workforce at this plant.
+1.  任何平均休假天数介于该厂全体员工休假天数的最小值与均值之间的 10 名员工。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) Dist B has a higher mean since $20 > 13$, and a higher standard deviation since 20 is further from the rest of the data than 13. (b) Dist A has a higher mean since $-20 > -40$, and Dist B has a higher standard deviation since -40 is farther away from the rest of the data than -20. (c) Dist B has a higher mean since all values in this Dist Are higher than those in Dist A, but both distribution have the same standard deviation since they are equally variable around their respective means. (d) Both distributions have the same mean since they're both centered at 300, but Dist B has a higher standard deviation since the observations are farther from the mean than in Dist A.
+1.  \(a\) 分布 B 的均值更高，因为 $20 > 13$；标准差也更高，因为 20 比 13 离其余数据更远。 分布 A 的均值更高，因为 $-20 > -40$；分布 B 的标准差更高，因为 -40 比 -20 离其余数据更远。 分布 B 的均值更高，因为该分布中的所有值都高于分布 A 中的值；但两个分布具有相同的标准差，因为它们围绕各自均值的变异性相同。 两个分布的均值相同，因为均以 300 为中心；但分布 B 的标准差更高，因为其观测值比分布 A 中的观测值离均值更远。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) About 26. (b) Since the distribution is right skewed the mean is higher than the median. (c) Q1: between 15 and 20, Q3: between 35 and 40, IQR: about 20. (d) Values that are considered to be unusually low or high lie more than 1.5$\times$IQR away from the quartiles. Upper fence: Q3 + 1.5 $\times$ IQR = $37.5 + 1.5 \times 20 = 67.5$; Lower fence: Q1 - 1.5 $\times$ IQR = $17.5 + 1.5 \times 20 =  -12.5$; The lowest AQI recorded is not lower than 5 and the highest AQI recorded is not higher than 65, which are both within the fences. Therefore none of the days in this sample would be considered to have an unusually low or high AQI.
+1.  \(a\) 大约 26。 由于分布是右偏的，均值高于中位数。 Q1：介于 15 和 20 之间，Q3：介于 35 和 40 之间，IQR：大约 20。 被视为异常低或异常高的值，是指偏离四分位数超过 1.5$\times$IQR 的值。上围栏：Q3 + 1.5 $\times$ IQR = $37.5 + 1.5 \times 20 = 67.5$；下围栏：Q1 - 1.5 $\times$ IQR = $17.5 + 1.5 \times 20 =  -12.5$；记录的最低 AQI 不低于 5，最高 AQI 不高于 65，二者均在围栏之内。因此，本样本中没有哪一天会被认为具有异常低或异常高的 AQI。
 
     \addtocounter{enumi}{1}
 
-1.  The histogram shows that the distribution is bimodal, which is not apparent in the box plot. The box plot makes it easy to identify more precise values of observations outside of the whiskers.
+1.  直方图显示该分布是双峰的，这在箱线图中并不明显。箱线图使我们更容易识别须之外的观测值的更精确数值。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) Right skewed, there is a natural boundary at 0 and only a few people have many pets. Center: median, variability: IQR. (b) Right skewed, there is a natural boundary at 0 and only a few people live a very long distance from work. Center: median, variability: IQR. (c) Symmetric. Center: mean, variability: standard deviation. (d) Left skewed. Center: median, variability: IQR. (e) Left skewed. Center: median, variability: IQR.
+1.  \(a\) 右偏的，存在一个自然边界 0，并且只有少数人拥有许多宠物。中心：中位数，变异性：IQR。 右偏的，存在一个自然边界 0，并且只有少数人居住地离工作地点非常远。中心：中位数，变异性：IQR。 对称。中心：均值，变异性：标准差。 左偏的。中心：中位数，变异性：IQR。 左偏的。中心：中位数，变异性：IQR。
 
     \addtocounter{enumi}{1}
 
-1.  No, we would expect this distribution to be right skewed. There are two reasons for this: there is a natural boundary at 0 (it is not possible to watch less than 0 hours of TV) and the standard deviation of the distribution is very large compared to the mean.
+1.  否，我们预期该分布是右偏的。原因有二：存在一个自然边界 0（看电视的时间不可能少于 0 小时），并且该分布的标准差相对于均值非常大。
 
     \addtocounter{enumi}{1}
 
-1.  No, the outliers are likely the maximum and the minimum of the distribution so a statistic based on these values cannot be robust to outliers.
+1.  否，离群值很可能是分布的最大值和最小值，因此基于这些值的统计量不可能对离群值具有稳健性。
 
     \addtocounter{enumi}{1}
 
-1.  The 75th percentile is 82.5, so 5 students will get an A. Also, by definition 25% of students will be above the 75th percentile.
+1.  第 75 百分位数是 82.5，所以将有 5 名学生获得 A。另外，根据定义，25% 的学生将高于第 75 百分位数。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) If $\frac{\bar{x}}{median} = 1$, then $\bar{x} = median$. This is most likely to be the case for symmetric distributions. (b) If $\frac{\bar{x}}{median} < 1$, then $\bar{x} < median$. This is most likely to be the case for left skewed distributions, since the mean is affected (and pulled down) by the lower values more so than the median. (c) If $\frac{\bar{x}}{median} > 1$, then $\bar{x} > median$. This is most likely to be the case for right skewed distributions, since the mean is affected (and pulled up) by the higher values more so than the median.
+1.  \(a\) 如果 $\frac{\bar{x}}{median} = 1$，则 $\bar{x} = 中位数$。这最可能发生在对称分布中。 如果 $\frac{\bar{x}}{median} < 1$，则 $\bar{x} < 中位数$。这最可能发生在左偏的分布中，因为均值比中位数更容易受到较小值的影响（从而被拉低）。 如果 $\frac{\bar{x}}{median} > 1$，则 $\bar{x} > 中位数$。这最可能发生在右偏的分布中，因为均值比中位数更容易受到较大值的影响（从而被拉高）。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) The distribution of percentage of population that is Hispanic is extremely right skewed with majority of counties with less than 10% Hispanic residents. However there are a few counties that have more than 90% Hispanic population. It might be preferable to, in certain analyses, to use the log-transformed values since this distribution is much less skewed. (b) The map reveals that counties with higher proportions of Hispanic residents are clustered along the Southwest border, all of New Mexico, a large swath of Southwest Texas, the bottom two-thirds of California, and in Southern Florida. In the map all counties with more than 40% of Hispanic residents are indicated by the darker shading, so it is impossible to discern how high Hispanic percentages go. The histogram reveals that there are counties with over 90% Hispanic residents. The histogram is also useful for estimating measures of center and spread. (c) Both visualizations are useful, but if we could only examine one, we should examine the map since it explicitly ties geographic data to each county's percentage.
+1.  \(a\) 西班牙裔人口百分比的分布极度右偏，大多数县的西班牙裔居民比例低于 10%。然而，有少数县的西班牙裔人口比例超过 90%。在某些分析中，使用对数转换后的值可能更可取，因为该分布的偏态会大大减弱。 地图显示，西班牙裔居民比例较高的县集中在西南边境、整个新墨西哥州、得克萨斯州西南部的大片区域、加利福尼亚州南部的三分之二区域以及南佛罗里达州。在地图中，所有西班牙裔居民比例超过 40% 的县都由较深的阴影表示，因此无法辨别西班牙裔比例究竟有多高。直方图显示有些县的西班牙裔居民比例超过 90%。直方图还可用于估计中心度量和离散度。 两种可视化方法都很有用，但如果只能检查一种，我们应该检查地图，因为它明确地将地理数据与每个县的比例联系在一起。
+\addtocounter{enumi}{1}
 
     \addtocounter{enumi}{1}

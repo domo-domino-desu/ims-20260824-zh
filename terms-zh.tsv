@@ -1,0 +1,229 @@
+95% confidence interval	95% 置信区间
+95% confident	置信度为 95%
+accuracy	准确率
+adjusted R-squared	调整决定系数
+AIC	AIC
+Akaike information criterion	Akaike 信息准则
+alternative hypothesis	备择假设
+analysis of variance	方差分析
+anecdotal evidence	轶事证据
+ANOVA	方差分析（ANOVA）
+associated	有关联的
+average	平均数
+backward elimination	后向消去法
+bias	偏差
+bimodal	双峰的
+blind	盲法
+blocking	区组化
+bootstrap CI for the slope	斜率的自助法置信区间
+bootstrap CI paired difference	配对差值的自助法置信区间
+bootstrap percentile confidence interval	自助法百分位置信区间
+bootstrap sample	自助样本
+bootstrapping	自助法
+box plot	箱线图
+case	观测单位
+categorical	分类的
+census	普查
+Central Limit Theorem	中心极限定理
+Chi-squared distribution	卡方分布
+chi-squared statistic	卡方统计量
+cluster	群
+cluster sampling	整群抽样
+coefficient of determination	决定系数
+cohort	队列
+collinear	共线的
+column proportions	列比例
+column totals	列合计
+conditional proportions	条件比例
+confidence interval	置信区间
+confirmation bias	确认偏差
+confounding variable	混杂变量
+contingency table	列联表
+continuous	连续的
+control	对照
+control group	对照组
+convenience sample	便利样本
+correlation	相关系数
+cross-validation	交叉验证
+data	数据
+data density	数据密度
+data fishing	数据钓鱼（即数据窥探）
+data frame	数据框
+data snooping	数据窥探
+degrees of freedom	自由度
+density plot	密度图
+dependent	相依的
+deviation	离差
+difference in means	均值差
+discernibility level	可辨识水平
+discrete	离散的
+distribution	分布
+dodged bar plot	并列条形图
+dot plot	点图
+double-blind	双盲
+expected counts	期望频数
+experiment	实验
+explanatory variable	解释变量
+extrapolation	外推
+F-test	F 检验
+faceted plot	分面图
+filled bar plot	标准化条形图
+first quartile	第一四分位数
+forward selection	前向选择法
+full model	全模型
+generalized linear model	广义线性模型
+high leverage	高杠杆
+histogram	直方图
+hypothesis test	假设检验
+independence	独立性
+independent	独立的
+indicator variable	指示变量
+inference on logistic regression	逻辑斯谛回归推断
+inference on multiple linear regression	多元线性回归推断
+inference with single predictor regression	单预测变量回归推断
+influential point	强影响点
+intensity map	强度图
+interquartile range	四分位距
+IQR	四分位距（IQR）
+least squares line	最小二乘回归线
+left skewed	左偏的
+level	水平
+leverage point	杠杆点
+logistic regression	逻辑斯谛回归
+logit transformation	logit 变换（对数几率变换）
+margin of error	误差界
+mean	均值
+median	中位数
+mosaic plot	马赛克图
+multicollinearity	多重共线性
+multimodal	多峰的
+multiple comparisons	多重比较
+multiple predictors	多个预测变量
+multiple regression	多元回归
+multistage sample	多阶段样本
+negative association	负关联
+nominal	名义的
+non-response bias	无回答偏差
+non-response rate	无回答率
+nonlinear	非线性的
+normal curve	正态曲线
+normal distribution	正态分布
+normal model	正态模型
+normal probability table	标准正态分布表
+null distribution	原假设分布
+null hypothesis	原假设
+numerical	数值的
+numerical data	数值数据
+observation	观测
+observational study	观察性研究
+one-sided hypothesis test	单侧假设检验
+ordinal	有序的
+outcome	结果变量
+outlier	离群值
+p-value	p 值
+paired data	配对数据
+paired difference CI	配对差值置信区间
+paired difference t-test	配对差值 t 检验
+parameter	参数
+parametric bootstrap	参数自助法
+parsimonious	简约的
+percentile	百分位数
+percentile interval	百分位区间
+permutation test	置换检验
+placebo	安慰剂
+placebo effect	安慰剂效应
+point estimate	点估计
+pooled proportion	合并比例
+population	总体
+population parameter	总体参数
+positive association	正关联
+power	检验功效
+prediction error	预测误差
+predictor	预测变量
+probability of an event	事件概率
+prospective study	前瞻性研究
+pseudoreplication	伪重复
+R-squared	决定系数 R²
+randomization test	随机化检验
+randomization test for the slope	斜率的随机化检验
+randomized experiment	随机化实验
+reference level	参照水平
+regression sum of squares	回归平方和
+replication	重复
+replication crisis	可重复性危机
+representative	有代表性的
+residuals	残差
+response variable	响应变量
+retrospective study	回顾性研究
+ridge plot	山脊图
+right skewed	右偏的
+robust statistics	稳健统计量
+row proportions	行比例
+row totals	行合计
+sample	样本
+sample bias	样本偏差
+sample statistic	样本统计量
+sampling distribution	抽样分布
+sampling with replacement	有放回抽样
+scatterplot	散点图
+SD of observations	观测值的标准差
+SE difference in means	均值差的标准误
+SE difference in proportions	比例差的标准误
+SE interval	标准误区间
+SE single mean	单总体均值的标准误
+SE single proportion	单总体比例的标准误
+side-by-side box plot	并列箱线图
+significance level	显著性水平
+simple random sample	简单随机样本
+simple random sampling	简单随机抽样
+simulation	模拟
+stacked bar plot	堆叠条形图
+standard deviation	标准差
+standard error	标准误
+standard normal distribution	标准正态分布
+standardized bar plot	标准化条形图
+statistic	统计量
+statistical inference	统计推断
+statistically discernible	统计上可辨识的
+statistically significant	统计显著的
+stepwise selection	逐步选择法
+strata	层
+stratified sampling	分层抽样
+success	成功
+success-failure condition	成功—失败条件
+sum of squared error	误差平方和（残差平方和）
+mean square between groups (MSG)	组间均方（MSG）
+sum of squares between groups (SSG)	组间平方和（SSG）
+mean square error (MSE)	均方误差（MSE）
+sum of squares total (SST)	总平方和（SST）
+summary statistic	汇总统计量
+symmetric	对称的
+T score	t 统计量
+T score paired difference	配对差值的 t 统计量
+T score single mean	单总体均值的 t 统计量
+t-CI	t 置信区间
+t-distribution	t 分布
+t-distribution for slope	斜率的 t 分布
+t-test	t 检验
+tail	尾部
+technical conditions	技术条件
+technical conditions linear regression	线性回归的技术条件
+test statistic	检验统计量
+third quartile	第三四分位数
+tidy data	整洁数据
+total sum of squares	总平方和
+transformation	变换
+treatment group	处理组
+two-sided hypothesis test	双侧假设检验
+Type I error	第一类错误
+Type II error	第二类错误
+unimodal	单峰的
+unit of observation	观测单位
+variability	变异性
+variability of the slope	斜率的变异性
+variable	变量
+variance	方差
+weighted mean	加权均值
+whiskers	须
+Z score	z 统计量
+Z score two proportions	两总体比例的 z 统计量

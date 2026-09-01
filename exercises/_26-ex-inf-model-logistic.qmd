@@ -1,24 +1,17 @@
-1.  **Passing the driver's test.** A consulting company is hired to assess whether certain characteristics of a DMV (e.g., location, number of test takers, number of test givers, hours of operation, etc.) are associated with the pass rate of the driver's test.
-    The company is given information on 100 randomly selected DMVs across the country.
-    For each DMV the annual driving test pass rate is recorded, along with other characteristics describing the DMV.
-    Can logistic regression with multiple predictors be used to predict annual driving test pass rate for DMVs in this setting?
-    Explain your reasoning.
+1.  **通过驾照考试。** 一家咨询公司受雇评估车管所（DMV）的某些特征（例如地点、考生人数、考官人数、营业时间等）是否与驾照考试的通过率有关联。公司获得了全国范围内随机抽取的 100 个车管所的信息。每个车管所都记录了年驾照考试通过率，以及描述该车管所的其他特征。
+    在此情境下，能否使用带有多个预测变量的逻辑斯谛回归来预测车管所的年驾照考试通过率？请解释你的推理。
 
 \vfill
 
-2.  **Oceans and skin cancer.** A researcher wants to investigate the relationship between living within 10 miles of an ocean for at least one year of life and developing skin cancer before the age of 50.
+2.  **海洋与皮肤癌。** 一位研究者想要探究一生中至少有一年居住在距海洋 10 英里范围内与 50 岁之前罹患皮肤癌之间的关系。
 
-    a.  Explain why logistic regression can be used to study the relationship between these two binary variables?
-        What is the technical assumption describing the relationship between the response (outcome) and explanatory (predictor) variables?
+    a.  解释为什么逻辑斯谛回归可以用来研究这两个二值变量之间的关系？描述响应（结果）变量与解释（预测）变量之间关系的技术性假设是什么？
 
-    b.  What other methods covered in this text might be used to address the research question of interest? What advantages does logistic regression have over these methods?
+    b.  本教材涵盖的哪些其他方法可用于解决感兴趣的研究问题？逻辑斯谛回归相较于这些方法有何优势？
 
 \vfill
 
-3.  **Marijuana use in college.** Researchers studying whether the value systems of adolescents conflict with those of their parents asked 445 college students if they use marijuana.
-    They also asked the students' parents if they used marijuana when they were in college.
-    Based on the regression output shown below for predicting student drug use from parent drug use, evaluate whether parents' marijuana usage is a discernible predictor of their kids' marijuana usage. 
-    State the hypotheses, the test statistics, the p-value, and the conclusion in context of the data and the research question.[^_26-ex-inf-model-logistic-1]
+3.  **大学时期大麻使用情况。** 研究青少年价值观是否与其父母价值观冲突的研究人员，询问了 445 名大学生是否使用过大麻。他们还询问了这些学生的父母，了解其在大学时期是否使用过大麻。基于下方显示的用于根据父母药物使用情况预测学生药物使用情况的回归输出，评估父母的药物使用情况是否是子女药物使用情况的可辨别预测变量。陈述假设、检验统计量、p 值，并结合数据和研究问题背景给出结论。[^_26-ex-inf-model-logistic-1]
     [@Ellis:1979]
 
     ```{r}
@@ -27,7 +20,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -37,9 +30,7 @@
 
 \vfill
 
-4.  **Treating heart attacks.** Researchers studying the effectiveness of Sulfinpyrazone in the prevention of sudden death after a heart attack conducted a randomized experiment on 1,475 patients.
-    Based on the regression output shown below for predicting the outcome (`died` or `lived`, where success is defined as `lived`) from the treatment group (`control` and `treatment`), evaluate whether treatment group is a discernible predictor of the outcome. 
-    State the hypotheses, the test statistics, the p-value, and the conclusion in context of the data and the research question.[^_26-ex-inf-model-logistic-2]
+4.  **治疗心脏病发作。** 研究 Sulfinpyrazone 在预防心脏病发作后猝死方面疗效的研究人员，对 1,475 名患者进行了一项随机化实验。基于下方显示的用于根据处理组（`control` 和 `treatment`）预测结果（`died` 或 `lived`，其中成功定义为 `lived`）的回归输出，评估处理组是否是结果变量的可辨别预测变量。陈述假设、检验统计量、p 值，并结合数据和研究问题背景给出结论。[^_26-ex-inf-model-logistic-2]
     [@Anturane:1980]
 
     ```{r}
@@ -48,7 +39,7 @@
      mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
      kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 3) |>
      kable_styling(
-       bootstrap_options = c("striped", "condensed"), 
+       bootstrap_options = c("striped", "condensed"),
        latex_options = "HOLD_position",
        full_width = FALSE
       ) |>
@@ -58,13 +49,8 @@
 
 \clearpage
 
-5.  **Possum classification, cross-validation.** The common brushtail possum of the Australia region is a bit cuter than its distant cousin, the American opossum.
-    We consider 104 brushtail possums from two regions in Australia, where the possums may be considered a random sample from the population.
-    The first region is Victoria, which is in the eastern half of Australia and traverses the southern coast.
-    The second region consists of New South Wales and Queensland, which make up eastern and northeastern Australia.
-    We use logistic regression to differentiate between possums in these two regions.
-    The outcome variable, called `pop`, takes value 1 when a possum is from Victoria and 0 when it is from New South Wales or Queensland.[^_26-ex-inf-model-logistic-3]
-    
+5.  **负鼠分类，交叉验证。** 澳洲地区的普通刷尾负鼠比其远亲美国负鼠稍微可爱一点。我们考虑来自澳大利亚两个地区的 104 只刷尾负鼠，这些负鼠可以视为总体中的一个随机样本。第一个地区是维多利亚州，位于澳大利亚东半部，横跨南海岸。第二个地区包括新南威尔士州和昆士兰州，它们构成了澳大利亚的东部和东北部。我们使用逻辑斯谛回归来区分这两个地区的负鼠。结果变量名为 `pop`，当负鼠来自维多利亚州时取值为 1，来自新南威尔士州或昆士兰州时取值为 0。[^_26-ex-inf-model-logistic-3]
+
     ```{r}
     possum <- openintro::possum |>
       mutate(pop = as.factor(ifelse(pop == "Vic", "Victoria", "other")))
@@ -93,14 +79,14 @@
       )
     )
     ```
-    
+
     :::: {layout="[0.49, -0.02, 0.49]" layout-valign="top"}
-    
+
     :::{#smaller}
     $$
     \log_e \bigg(\frac{p}{1-p}\bigg) = \beta_0 + \beta_1 \times \texttt{tail\_l}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -112,9 +98,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted region",
-        y = "Observed region",
-        title = "Model with tail length as predictor"
+        x = "预测地区",
+        y = "观测地区",
+        title = "以尾长为预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -139,9 +125,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted region",
-        y = "Observed region",
-        title = "Model with total length and sex as predictors"
+        x = "预测地区",
+        y = "观测地区",
+        title = "以总长度和性别为预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -149,26 +135,20 @@
       scale_fill_continuous(high = IMSCOL["blue", 1], low = IMSCOL["blue", 6])
     ```
     :::
-    
+
     ::::
 
-    a.  How many observations are in Fold2?
-        Use the model with only tail length as a predictor variable.
-        Of the observations in Fold2, how many of them were correctly predicted to be from Victoria?
-        How many of them were incorrectly predicted to be from Victoria?
+    a.  Fold2 中有多少观测？使用仅以尾长为预测变量的模型。在 Fold2 的观测中，有多少被正确预测为来自维多利亚州？有多少被错误预测为来自维多利亚州？
 
-    b.  How many observations are used to build the model which predicts for the observations in Fold2?
+    b.  用于构建对 Fold2 中的观测进行预测的模型使用了多少观测？
 
-    c.  For one of the cross-validation folds, how many coefficients were estimated for the model which uses tail length as a predictor?
-        For one of the cross-validation folds, how many coefficients were estimated for the model which uses total length and sex as predictors?
+    c.  对于某一个交叉验证折，使用尾长作为预测变量的模型估计了多少个系数？对于某一个交叉验证折，使用总长度和性别作为预测变量的模型估计了多少个系数？
 
 \clearpage
 
-6.  **Premature babies, cross-validation.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1000 births from 2014 (with some rows removed due to missing data).
-    We use logistic regression to model whether the baby is premature from various explanatory variables.[^_26-ex-inf-model-logistic-4]
+6.  **早产儿，交叉验证。** 美国卫生与公众服务部疾病控制与预防中心收集全国范围内的出生记录信息。这里使用的数据是 2014 年 1000 例出生记录的随机样本（由于数据缺失，移除了部分行）。我们使用逻辑斯谛回归，基于各种解释变量对婴儿是否早产进行建模。[^_26-ex-inf-model-logistic-4]
     [@data:births14]
-    
+
     ```{r}
     births14_nona <- births14 |>
       select(-fage) |>
@@ -201,10 +181,7 @@
       )
     )
     ```
-    
-    :::: {layout="[0.49, -0.02, 0.49]" layout-valign="bottom"}
 
-    :::{#larger}
     $$
     \begin{aligned}
     \log_e \bigg(\frac{p}{1-p}\bigg) = \beta_0 &+ \beta_1\times \texttt{mage} \\
@@ -215,7 +192,7 @@
     &+ \beta_6 \times \texttt{habit}
     \end{aligned}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -227,25 +204,22 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted birth",
-        y = "Observed birth",
-        title = "Model with 6 predictors"
+        x = "预测的出生类型",
+        y = "观测的出生类型",
+        title = "包含 6 个预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
       theme(legend.position = "none") +
       scale_fill_continuous(high = IMSCOL["blue", 1], low = IMSCOL["blue", 6])
     ```
-    :::
-    
-    :::{#smaller}
     $$
     \begin{aligned}
     \log_e \bigg(\frac{p}{1-p}\bigg)  = \beta_0 &+ \beta_1\times \texttt{weight} \\
     &+ \beta_2 \times \texttt{mature}
     \end{aligned}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -257,37 +231,35 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted birth",
-        y = "Observed birth",
-        title = "Model with 2 predictors"
+        x = "预测的出生类型",
+        y = "观测的出生类型",
+        title = "包含 2 个预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
       theme(legend.position = "none") +
       scale_fill_continuous(high = IMSCOL["blue", 1], low = IMSCOL["blue", 6])
     ```
-    :::
-    ::::
 
-    a.  How many observations are in Fold2?
-        Use the model with only `weight` and `mature` as predictor variables.
-        Of the observations in Fold2, how many of them were correctly predicted to be premature?
-        How many of them were incorrectly predicted to be premature?
+    a.  Fold2 中有多少观测？
+        使用仅以 `weight` 和 `mature` 作为预测变量的模型。
+        在 Fold2 的观测中，有多少被正确预测为早产？
+        有多少被错误预测为早产？
 
-    b.  How many observations are used to build the model which predicts for the observations in Fold2?
+    b.  为预测 Fold2 中的观测而构建的模型使用了多少观测？
 
-    c.  In the original dataset, are most of the births premature or full term?
-        Explain.
+    c.  在原始数据集中，大部分分娩是早产还是足月产？
+        请解释。
 
-    d.  For one of the cross-validation folds, how many coefficients were estimated for the model which uses `mage`, `weight`, `mature`, `visits`, `gained`, and `habit` as predictors?
-        For one of the cross-validation folds, how many coefficients were estimated for the model which uses `weight` and `mature` as predictors?
+    d.  对于其中一个交叉验证折，使用 `mage`、`weight`、`mature`、`visits`、`gained` 和 `habit` 作为预测变量的模型估计了多少个系数？
+        对于其中一个交叉验证折，使用 `weight` 和 `mature` 作为预测变量的模型估计了多少个系数？
 
 \clearpage
 
-7.  **Possum classification, cross-validation to choose model.** In this exercise we consider 104 brushtail possums from two regions in Australia (the first region is Victoria and the second is New South Wales and Queensland), where the possums may be considered a random sample from the population.
-    We use logistic regression to classify the possums into the two regions.
-    The outcome variable, called `pop`, takes value 1 when a possum is from Victoria and 0 when it is from New South Wales or Queensland.
-    
+7.  **负鼠分类，用交叉验证选择模型。** 在本练习中，我们考虑来自澳大利亚两个地区的 104 只刷尾负鼠（第一个地区是维多利亚州，第二个是新南威尔士州和昆士兰州），这些负鼠可被视为来自总体的随机样本。
+    我们使用逻辑斯谛回归将负鼠分类到这两个地区。
+    结果变量名为 `pop`，当负鼠来自维多利亚州时取值为 1，来自新南威尔士州或昆士兰州时取值为 0。
+
     ```{r}
     possum <- openintro::possum |>
       mutate(pop = as.factor(ifelse(pop == "Vic", "Victoria", "other")))
@@ -318,12 +290,12 @@
     ```
 
     :::: {layout="[0.49, -0.02, 0.49]" layout-valign="top"}
-    
+
     :::{#smaller}
     $$
     \log_e \bigg(\frac{p}{1-p}\bigg) = \beta_0 + \beta_1\times \texttt{tail\_l}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -335,9 +307,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted region",
-        y = "Observed region",
-        title = "Model with tail length as predictor"
+        x = "预测的地区",
+        y = "观测的地区",
+        title = "以尾长为预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -362,9 +334,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted region",
-        y = "Observed region",
-        title = "Model with total length and sex as predictors"
+        x = "预测的地区",
+        y = "观测的地区",
+        title = "以总长度和性别为预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -372,28 +344,25 @@
       scale_fill_continuous(high = IMSCOL["blue", 1], low = IMSCOL["blue", 6])
     ```
     :::
-    
+
     ::::
 
-    a.  For the model with tail length, how many of the observations were correctly classified?
-        What proportion of the observations were correctly classified?
+    a.  对于以尾长为预测变量的模型，有多少个观测被正确分类？
+        正确分类的观测比例是多少？
 
-    b.  For the model with total length and sex, how many of the observations were correctly classified?
-        What proportion of the observations were correctly classified?
+    b.  对于以总长度和性别为预测变量的模型，有多少个观测被正确分类？
+        正确分类的观测比例是多少？
 
-    c.  If you have to choose between using only tail length as a predictor versus using total length and sex as predictors (for classification into region), which model would you choose?
-        Explain.
+    c.  如果必须在仅使用尾长作为预测变量与使用总长度和性别作为预测变量之间做出选择（用于分类到地区），你会选择哪个模型？
+        请解释。
 
-    d.  Given the predictions above, what third model might be preferable to either of the models above?
-        Explain.
+    d.  根据以上预测，哪种第三种模型可能比上述两个模型都更优？
+        请解释。
 
 \clearpage
 
-8.  **Premature babies, cross-validation to choose model.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1000 births from 2014 (with some rows removed due to missing data).
-    We use logistic regression to model whether the baby is premature from various explanatory variables.
-    [@data:births14]
-    
+8.  **早产儿，用交叉验证选择模型。** 美国卫生与公共服务部疾病控制与预防中心收集了全国记录的出生信息。这里使用的数据是 2014 年 1000 例出生的随机样本（部分行因数据缺失而被移除）。我们使用逻辑斯谛回归，根据各种解释变量对婴儿是否早产进行建模。[@data:births14]
+
     ```{r}
     births14_nona <- births14 |>
       select(-fage) |>
@@ -440,7 +409,7 @@
     &+ \beta_6 \times \texttt{habit}
     \end{aligned}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -452,9 +421,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted birth",
-        y = "Observed birth",
-        title = "Model with 6 predictors"
+        x = "预测的出生类型",
+        y = "观测的出生类型",
+        title = "包含 6 个预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -462,7 +431,7 @@
       scale_fill_continuous(high = IMSCOL["blue", 1], low = IMSCOL["blue", 6])
     ```
     :::
-    
+
     :::{#smaller}
     $$
     \begin{aligned}
@@ -470,7 +439,7 @@
     &+ \beta_2 \times \texttt{mature}
     \end{aligned}
     $$
-    
+
     ```{r}
     #| out-width: 100%
     #| fig-width: 5
@@ -482,9 +451,9 @@
       ggplot(aes(x = forcats::fct_rev(pred), y = obs)) +
       geom_tile(aes(fill = Freq)) +
       labs(
-        x = "Predicted birth",
-        y = "Observed birth",
-        title = "Model with 2 predictors"
+        x = "预测的出生类型",
+        y = "观测的出生类型",
+        title = "包含 2 个预测变量的模型"
       ) +
       geom_text(aes(label = sprintf("%1.0f", Freq)), vjust = 1) +
       facet_wrap(~Resample) +
@@ -494,19 +463,19 @@
     :::
     ::::
 
-    a.  For the model with 6 predictors, how many of the observations were correctly classified?
-        What proportion of the observations were correctly classified?
+    a.  对于包含 6 个预测变量的模型，有多少个观测被正确分类？
+        正确分类的观测比例是多少？
 
-    b.  For the model with 2 predictors, how many of the observations were correctly classified?
-        What proportion of the observations were correctly classified?
+    b.  对于包含 2 个预测变量的模型，有多少个观测被正确分类？
+        正确分类的观测比例是多少？
 
-    c.  If you have to choose between the model with 6 predictors and the model with 2 predictors (for predicting whether a baby will be premature), which model would you choose?
-        Explain.
+    c.  如果必须在包含 6 个预测变量的模型和包含 2 个预测变量的模型之间做出选择（用于预测婴儿是否早产），你会选择哪个模型？
+        请解释。
 
-[^_26-ex-inf-model-logistic-1]: The [`drug_use`](http://openintrostat.github.io/openintro/reference/drug_use.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_26-ex-inf-model-logistic-1]: 本练习中使用的 [`drug_use`](http://openintrostat.github.io/openintro/reference/drug_use.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_26-ex-inf-model-logistic-2]: The [`sulphinpyrazone`](http://openintrostat.github.io/openintro/reference/sulphinpyrazone.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_26-ex-inf-model-logistic-2]: 本练习中使用的 [`sulphinpyrazone`](http://openintrostat.github.io/openintro/reference/sulphinpyrazone.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_26-ex-inf-model-logistic-3]: The [`possum`](http://openintrostat.github.io/openintro/reference/possum.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_26-ex-inf-model-logistic-3]: 本练习中使用的 [`possum`](http://openintrostat.github.io/openintro/reference/possum.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_26-ex-inf-model-logistic-4]: The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_26-ex-inf-model-logistic-4]: 本练习中使用的 [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

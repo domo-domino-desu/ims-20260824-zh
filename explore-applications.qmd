@@ -1,42 +1,32 @@
 ---
 output: html_document
-editor_options: 
+editor_options:
   chunk_output_type: console
 ---
-# Applications: Explore {#sec-explore-applications}
+# 应用：探索性分析 {#sec-explore-applications}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
+
 \vspace{10mm}
 
-## Case study: Effective communication of exploratory results {#sec-case-study-effective-comms}
+## 案例研究：探索性结果的有效传达 {#sec-case-study-effective-comms}
 
-Graphs can powerfully communicate ideas directly and quickly.
-We all know, after all, that "a picture is worth 1000 words." Unfortunately, however, there are times when an image conveys a message which is inaccurate or misleading.
+图形能够强有力且直接、快速地传达观点。毕竟我们都知道“一图胜千言”。然而，不幸的是，有时图像传达的信息并不准确，甚至具有误导性。
 
-This chapter focuses on how graphs can best be utilized to present data accurately and effectively.
-Along with data modeling, creative visualization is somewhat of an art.
-However, even with an art, there are recommended guiding principles.
-We provide a few best practices for creating data visualizations.
+本章重点讨论如何最好地利用图形来准确、有效地呈现数据。与数据建模一样，创意可视化在某种程度上是一门艺术。然而，即便是一门艺术，也有一些推荐的指导原则。我们将提供一些创建数据可视化的最佳实践。
 
-### Keep it simple
+### 保持简洁
 
-When creating a graphic, keep in mind what it is that you'd like your reader to see.
-Colors should be used to group items or differentiate levels in meaningful ways.
-Colors can be distracting when they are only used to brighten up the plot.
+在创建图形时，请牢记你希望读者看到什么。颜色应当用于对项目进行分组，或以有意义的方式区分不同的水平。如果颜色仅仅是为了让图形看起来更亮丽而使用，可能会分散读者的注意力。
 
-Consider a manufacturing company that has summarized its costs into five different categories.
-In the two graphics provided in @fig-pie-to-bar, notice that the magnitudes in the pie chart in @fig-pie-to-bar-1 are difficult for the eye to compare.
-That is, can your eye tell how different "Buildings and administration" is from "Workplace materials" when looking at the slices of pie?
-Additionally, the colors in the pie chart do not mean anything and are therefore distracting.
-Lastly, the three-dimensional aspect of the image does not improve the reader's ability to understand the data presented.
+假设有一家制造公司将其成本汇总为五个不同的类别。在 @fig-pie-to-bar 提供的两个图形中，请注意 @fig-pie-to-bar-1 中饼图的量值很难用肉眼进行比较。也就是说，看着饼图的扇区，你的肉眼能分辨出“建筑与行政管理”与“工作场所材料”之间有多大差异吗？此外，饼图中的颜色没有任何实际意义，因此会分散注意力。最后，图像的三维效果并不能提高读者理解所呈现数据的能力。
 
-As an alternative, a bar plot is been provided in @fig-pie-to-bar-2.
-Notice how much easier it is to identify the magnitude of the differences across categories while not being distracted by other aspects of the image.
-Typically, a bar plot will be easier for the reader to digest than a pie chart, especially if the categorical data being plotted has more than just a few levels.
+作为替代方案，@fig-pie-to-bar-2 提供了一个条形图。请注意，现在识别各类别之间差异的量值变得容易得多，同时也不会被图像的其他方面分散注意力。通常，条形图比饼图更容易被读者理解，尤其是在所绘制的分类数据具有不止几个水平时。
 
 \clearpage
 
@@ -53,16 +43,17 @@ expenses <- tribble(
   uncount(weights = value)
 ```
 
+
 ```{r}
 #| label: fig-pie-to-bar
-#| fig-cap: Same information displayed with two very different visualizations.
+#| fig-cap: |
+#|   以两种截然不同的可视化方式呈现相同信息。
 #| fig-subcap:
-#|   - A three-dimensional pie chart.
-#|   - A bar plot.
+#|   - 三维饼图。
+#|   - 条形图。
 #| fig-alt: |
-#|   A three dimensional pie chart and a bar plot. Both plots show that the
-#|   biggest sources of cost are labor, machinery, and buildings & administration,
-#|   in that order. Very little of the costs are due to cutting tools.
+#|   一幅三维饼图和一幅条形图。两幅图都显示最大的成本来源
+#|   依次是人工、机械以及建筑与行政管理。切割工具导致的成本非常少。
 #| fig-width: 3.5
 #| layout: [[40,60]]
 knitr::include_graphics("images/pie-3d.jpg")
@@ -73,33 +64,26 @@ ggplot(expenses, aes(x = fct_infreq(category))) +
   labs(x = NULL, y = NULL)
 ```
 
-### Use color to draw attention
 
-There are many reasons why you might choose to add **color** to your plots.
-An important principle to keep in mind is to use color to draw attention.
-Of course, you should still think about how visually pleasing your visualization is, and if you're adding color for making it visually pleasing without drawing attention to a particular feature, that might be fine.
-However, you should be critical of default coloring and explicitly decide whether to include color and how.
-Notice that in @fig-red-bar-2 the coloring is done in such a way to draw the reader's attention to one particular piece of information.
-The default coloring in @fig-red-bar-1 can be distracting and makes the reader question, for example, is there something similar about the red and purple bars?
-Also note that not everyone sees color the same way, often it's useful to add color and one more feature (e.g., pattern) so that you can refer to the features you're drawing attention to in multiple ways, as shown in @fig-red-bar-3.
+
+### 使用颜色吸引注意力
+
+你可能有多种理由选择在图形中添加**颜色**。需要牢记的一个重要原则是：使用颜色来吸引注意力。当然，你仍然应该考虑可视化在视觉上是否令人愉悦，如果你添加颜色只是为了让它看起来悦目，而没有将注意力引向某个特定的特征，那可能也未尝不可。然而，你应当对默认配色持批判态度，并明确决定是否使用颜色以及如何使用。请注意，在 @fig-red-bar-2 中，颜色的使用方式将读者的注意力引向了某条特定的信息。而 @fig-red-bar-1 中的默认配色可能会分散注意力，并让读者产生疑问，例如，红色条形和紫色条形之间是否存在某种相似之处？还需注意，并非每个人都以相同的方式感知颜色，通常有用的做法是除了颜色之外再添加一个特征（例如图案），这样你就可以通过多种方式来指代你想要吸引注意力的特征，如 @fig-red-bar-3 所示。
 
 \vspace{-2mm}
 
 ```{r}
 #| label: fig-red-bar
 #| fig-cap: |
-#|   Three bar charts visualizing the same information with different coloring
-#|   to highlight different aspects.
+#|   三张条形图以不同的用色对相同信息进行可视化，以突显不同方面。
 #| fig-subcap:
-#|   - Default coloring does nothing for the understanding of the data.
-#|   - Color draws attention directly to the bar on Buildings and Administration.
-#|   - Color and linetype draw attention directly to the bar on Buildings and Administration.
+#|   - 默认用色对理解数据毫无帮助。
+#|   - 用色将注意力直接引向“建筑与行政管理”条形。
+#|   - 用色和线型将注意力直接引向“建筑与行政管理”条形。
 #| fig-alt: |
-#|   Three bar charts visualizing the same information with different coloring
-#|   to highlight different aspects. First plot colors each bar (Cutting tools,
-#|   Workspace materials, Buildings and Administration, Machinery, and Labor)
-#|   differently, while in the second and third plots Buildings and
-#|   Administration is highlighted in red and the rest of the bars are grey.
+#|   三张条形图以不同的用色对相同信息进行可视化，以突显不同方面。第一张图中每个条形
+#|   （切割工具、工作场所材料、建筑与行政管理、机械和人工）颜色各异，而在第二张和
+#|   第三张图中，“建筑与行政管理”条形以红色突出显示，其余条形为灰色。
 #| fig-width: 4.0
 #| fig-asp: 0.57
 #| out-width: 100%
@@ -143,27 +127,25 @@ expenses |>
   scale_y_discrete(labels = label_wrap(14))
 ```
 
+
+
 \clearpage
 
-### Tell a story
+### 讲述故事
 
-For many graphs, an important aspect is the inclusion of information which is not provided in the dataset that is being plotted.
-The external information serves to contextualize the data and helps communicate the narrative of the research.
+对于许多图形来说，一个重要的方面是加入未被包含在所绘制数据集中的信息。这些外部信息的作用是为数据提供背景，并有助于传达研究的叙事。
 
-In @fig-duke-hires, the graph on the right is **annotated** with information about the start of the university's fiscal year which contextualizes the information provided by the data.
-Sometimes the additional information may be a diagonal line given by $y = x$, points above the line quickly show the reader which values have a $y$ coordinate larger than the $x$ coordinate; points below the line show the opposite.
+在 @fig-duke-hires 中，右侧的图形**标注了**关于大学财年开始的信息，这为数据所提供的信息增添了背景。有时，附加信息可能是一条由 $y = x$ 给出的对角线，线上方的点可以快速向读者展示哪些值的 $y$ 坐标大于 $x$ 坐标；线下方的点则表示相反的情况。
 
 ```{r}
 #| label: fig-duke-hires
 #| fig-cap: |
-#|   Time series plot showing monthly Duke University hiring trends
-#|   over five calendar years.
+#|   展示杜克大学五个日历年月度招聘趋势的时间序列图。
 #| fig-alp: |
-#|   Time series plot showing monthly Duke University hiring trends
-#|   over five calendar years. Hiring spikes in July.
+#|   展示杜克大学五个日历年月度招聘趋势的时间序列图。招聘在七月达到峰值。
 #| fig-subcap:
-#|   - Colored by year
-#|   - Same color for all years, annotation summarizing trend
+#|   - 按年份着色
+#|   - 所有年份使用相同颜色，带有总结趋势的注释
 #| out-width: 100%
 #| fig-asp: 0.3
 #| fig-width: 10
@@ -201,7 +183,7 @@ ggplot(duke_hires, aes(x = month, y = n, color = year)) +
   scale_x_continuous(breaks = 1:12, labels = month.abb, minor_breaks = NULL) +
   scale_y_continuous(breaks = seq(0, 800, 100), minor_breaks = NULL) +
   labs(
-    title = "Duke hires by month",
+    title = "杜克大学月度招聘人数",
     y = NULL,
     x = NULL,
     color = NULL
@@ -217,7 +199,7 @@ ggplot(duke_hires, aes(x = month, y = n, group = year)) +
   scale_x_continuous(breaks = 1:12, labels = month.abb, minor_breaks = NULL) +
   scale_y_continuous(breaks = seq(0, 800, 200), minor_breaks = NULL) +
   labs(
-    title = "Duke hires by month",
+    title = "杜克大学月度招聘人数",
     y = NULL,
     x = NULL
   ) +
@@ -225,70 +207,68 @@ ggplot(duke_hires, aes(x = month, y = n, group = year)) +
     "label",
     x = 7,
     y = 250,
-    label = "Hires always peak in\nJuly, which is the start\nof Duke's fiscal year.",
+    label = "招聘总是在七月达到峰值，\n这是杜克大学财年的开始。",
     hjust = -0.1
   )
 ```
 
-### Order matters
 
-Most software programs have built in methods for some of the plot details -- some order levels alphabetically, some provide functionality for arranging them in a custom order.
-As seen in @fig-brexit-bars-1, the alphabetical ordering isn't particularly meaningful for describing the data.
-Sometimes it makes sense to **order** the bars from tallest to shortest (or vice versa), as shown in @fig-brexit-bars-2.
-But in this case, the best ordering is probably the one in which the questions were asked, as shown in @fig-brexit-bars-3.
-An ordering which does not make sense in the context of the problem (e.g., alphabetically here), can mislead the reader who might take a quick glance at the axes and not read the bar labels carefully.
 
-In September 2019, YouGov survey asked 1,639 Great Britain adults the following question[^06-explore-applications-1]:
+### 顺序很重要
 
-[^06-explore-applications-1]: Source: [YouGov Survey Results](https://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/x0msmggx08/YouGov%20-%20Brexit%20and%202019%20election.pdf), retrieved Oct 7, 2019.
+大多数软件程序对一些绘图细节有内置的处理方式——有的按字母顺序对水平进行排序，有的则提供自定义排序的功能。如 @fig-brexit-bars-1 所示，按字母排序对于描述数据来说没有特别的意义。有时，将条形从高到矮（或反之）进行**排序**会更有意义，如 @fig-brexit-bars-2 所示。但在这个案例中，最好的排序方式可能正如 @fig-brexit-bars-3 所示，即按照提问的顺序排列。在问题情境下毫无意义的排序（例如这里的字母顺序），可能会误导那些只是快速扫一眼坐标轴而没有仔细阅读条形标签的读者。
+
+2019年9月，YouGov调查向1,639名大不列颠成年人提出了以下问题[^06-explore-applications-1]：
+
+[^06-explore-applications-1]: 来源: [YouGov Survey Results](https://d25d2506sfb94s.cloudfront.net/cumulus_uploads/document/x0msmggx08/YouGov%20-%20Brexit%20and%202019%20election.pdf), retrieved Oct 7, 2019.
 
 \vspace{3mm}
 
-> How well or badly do you think the government are doing at handling Britain's exit from the European Union?
+> 你认为政府在处理英国脱欧事务上表现得如何？
 >
-> -   Very well
-> -   Fairly well
-> -   Fairly badly
-> -   Very badly
-> -   Don't know
+> -   非常好
+> -   比较好
+> -   比较差
+> -   非常差
+> -   不知道
 
 \clearpage
 
 ```{r}
 brexit <- tibble(
   opinion = c(
-    rep("Very well", 123),
-    rep("Fairly well", 219),
-    rep("Fairly badly", 332),
-    rep("Very badly", 818),
-    rep("Don't know", 151)
+    rep("非常好", 123),
+    rep("比较好", 219),
+    rep("比较差", 332),
+    rep("非常差", 818),
+    rep("不知道", 151)
   ),
   region = c(
-    rep("london", 10),
-    rep("rest_of_south", 49),
-    rep("midlands_wales", 32),
-    rep("north", 24),
-    rep("scot", 8),
-    rep("london", 18),
-    rep("rest_of_south", 93),
-    rep("midlands_wales", 50),
-    rep("north", 48),
-    rep("scot", 10),
-    rep("london", 33),
-    rep("rest_of_south", 126),
-    rep("midlands_wales", 74),
-    rep("north", 76),
-    rep("scot", 23),
-    rep("london", 118),
-    rep("rest_of_south", 246),
-    rep("midlands_wales", 152),
-    rep("north", 212),
-    rep("scot", 90),
-    rep("london", 16),
-    rep("rest_of_south", 38),
-    rep("midlands_wales", 46),
-    rep("north", 40),
-    rep("scot", 11)
+    rep("伦敦", 10),
+    rep("南部其他地区", 49),
+    rep("米德兰兹-威尔士", 32),
+    rep("北部", 24),
+    rep("苏格兰", 8),
+    rep("伦敦", 18),
+    rep("南部其他地区", 93),
+    rep("米德兰兹-威尔士", 50),
+    rep("北部", 48),
+    rep("苏格兰", 10),
+    rep("伦敦", 33),
+    rep("南部其他地区", 126),
+    rep("米德兰兹-威尔士", 74),
+    rep("北部", 76),
+    rep("苏格兰", 23),
+    rep("伦敦", 118),
+    rep("南部其他地区", 246),
+    rep("米德兰兹-威尔士", 152),
+    rep("北部", 212),
+    rep("苏格兰", 90),
+    rep("伦敦", 16),
+    rep("南部其他地区", 38),
+    rep("米德兰兹-威尔士", 46),
+    rep("北部", 40),
+    rep("苏格兰", 11)
   )
 )
 ```
@@ -296,28 +276,27 @@ brexit <- tibble(
 ```{r}
 #| label: fig-brexit-bars
 #| fig-cap: |
-#|   Three bar charts visualizing the same information with arrangement of levels.
+#|   三个条形图，以不同的水平排列顺序可视化相同的信息。
 #| fig-subcap:
-#|   - Alphabetic order
-#|   - Frequecy order
-#|   - Same order as presented in the survey question
+#|   - 按字母顺序
+#|   - 按频数顺序
+#|   - 与调查问题中呈现的顺序相同
 #| fig-alt: |
-#|   Three bar plots with the bars (Very well, Fairly well, Fairly badly,
-#|   Very badly, Don't know) arranged differently in each plot. In the first
-#|   plot they're in alphabetical order, in the second in frequency order
-#|   (highest Very badly to lowest Very well), and in the third plot in the
-#|   same order as presented in the survey question.
+#|   三个条形图，每个图中的条形（“非常好”、“相当好”、“相当差”、
+#|   “非常差”、“不知道”）以不同顺序排列。第一个图中按字母顺序排列，
+#|   第二个按频数顺序排列（从最高的“非常差”到最低的“非常好”），
+#|   第三个则与调查问题中呈现的顺序相同。
 #| fig-width: 4.0
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-asp: 0.5
 ggplot(brexit, aes(y = fct_rev(opinion))) +
   geom_bar() +
-  labs(y = "Opinion", x = "Count")
+  labs(y = "看法", x = "数量")
 
 ggplot(brexit, aes(y = fct_rev(fct_infreq(opinion)))) +
   geom_bar() +
-  labs(y = "Opinion", x = "Count")
+  labs(y = "看法", x = "数量")
 
 brexit |>
   mutate(
@@ -332,17 +311,19 @@ brexit |>
   ) |>
   ggplot(aes(y = opinion)) +
   geom_bar() +
-  labs(y = "Opinion", x = "Count")
+  labs(y = "看法", x = "数量")
 ```
 
-### Make the labels as easy to read as possible
 
-The Brexit survey results were additionally broken down by region in Great Britain.
-The stacked bar plot allows for comparison of Brexit opinion across the five regions.
-In @fig-brexit-region-1 the bars are vertical and in @fig-brexit-region-2 they are horizontal. 
-While the quantitative information in the two graphics is identical, flipping the graph and creating horizontal bars provides more space for the **axis labels**.
-The easier the categories are to read, the more the reader will learn from the visualization.
-Remember, the goal is to convey as much information as possible in a succinct and clear manner.
+
+### 让标签尽可能易于阅读
+
+英国脱欧民意调查的结果还按英国各地区进行了细分。
+堆叠条形图可以用来比较五个地区对英国脱欧的看法。
+在 @fig-brexit-region-1 中条形是垂直的，而在 @fig-brexit-region-2 中它们是水平的。
+虽然两幅图包含的定量信息完全相同，但翻转图形并创建水平条形可以为**轴标签**提供更多空间。
+类别越容易阅读，读者从可视化中获取的信息就越多。
+请记住，目标是以简洁明了的方式传达尽可能多的信息。
 
 ```{r}
 brexit <- brexit |>
@@ -372,66 +353,65 @@ brexit <- brexit |>
   )
 ```
 
+
 ::: {#fig-brexit-region layout="[[100], [100]]"}
 
 ```{r}
 #| label: fig-brexit-region-1
-#| fig-cap: Vertical bars across the x-axis.
+#| fig-cap: 沿 x 轴排列的垂直条形。
 #| fig-alt: |
-#|   Stacked bar plot of region and opinion, where vertical bars are on
-#|   the x-axis.
+#|   地区和看法的堆叠条形图，其中垂直条形沿 x 轴排列。
 #| fig-asp: 0.25
 #| out-width: 100%
 ggplot(brexit, aes(x = region, fill = Opinion)) +
   geom_bar(show.legend = FALSE) +
   scale_fill_openintro("five") +
-  labs(x = "Region", y = "Count")
+  labs(x = "地区", y = "数量")
 ```
 
 ```{r}
 #| label: fig-brexit-region-2
-#| fig-cap: Horizontal bars across the y-axis.
+#| fig-cap: 沿 y 轴排列的水平条形。
 #| fig-alt: |
-#|   Stacked bar plot of region and opinion, where horizontal bars are on
-#|   the y-axis.
+#|   地区和看法的堆叠条形图，其中水平条形沿 y 轴排列。
 #| fig-asp: 0.3
 #| out-width: 100%
 ggplot(brexit, aes(y = region, fill = Opinion)) +
   geom_bar() +
-  labs(x = "Count", y = NULL) +
+  labs(x = "数量", y = NULL) +
   scale_fill_openintro("five") +
   theme(legend.position = "bottom")
 ```
 
-Stacked bar plots. Horizontal orientation makes the region labels easier to read.
+堆叠条形图。水平方向使地区标签更易于阅读。
 
 :::
 
 \clearpage
 
-### Pick a purpose
+### 明确目的
 
-Every graphical decision should be made with a **purpose**.
-As previously mentioned, sticking with default options is not always best for conveying the narrative of your data story.
-Stacked bar plots tell one part of a story.
-Depending on your research question, they may not tell the part of the story most important to the research.
+每个图形决策都应带有明确的**目的**。
+如前所述，坚持使用默认选项并不总是讲述数据故事的最佳方式。
+堆叠条形图讲述的只是故事的一部分。
+根据你的研究问题，它们可能无法传达对研究而言最关键的那部分故事。
 
-@fig-seg-three-ways provides three different ways of representing the same information.
-If the most important comparison across regions is proportion, you might prefer @fig-seg-three-ways-1. If the most important comparison across regions also considers the total number of individuals in the region, you might prefer @fig-seg-three-ways-2. If a separate bar plot for each region makes the point you'd like, use @fig-seg-three-ways-3, which has been **faceted** by region.
-@fig-seg-three-ways-3 also provides full titles and a succinct URL with the data source.
-Other deliberate decisions to consider include using informative labels and avoiding redundancy.
+@fig-seg-three-ways 展示了表示相同信息的三种不同方式。
+如果各地区之间最重要的比较是比例，你可能会倾向于 @fig-seg-three-ways-1。如果在跨地区比较时还需要考虑各地区的总人数，你可能会更倾向于 @fig-seg-three-ways-2。如果为每个地区绘制单独的条形图能更好地表达你的观点，则可以使用 @fig-seg-three-ways-3，该图已按地区进行了**分面**。
+@fig-seg-three-ways-3 还提供了完整的标题以及包含数据来源的简洁 URL。
+其他值得刻意考虑的决策包括使用信息丰富的标签和避免冗余。
 
 ::: {#fig-seg-three-ways layout="[[100], [100], [100]]"}
 
 ```{r}
 #| label: fig-seg-three-ways-1
-#| fig-cap: Stacked bar plot of region and opinion, showing percentages.
-#| fig-alt: Stacked bar plot of region and opinion, showing percentages.
+#| fig-cap: 地区与意见的堆叠条形图，显示百分比。
+#| fig-alt: 地区与意见的堆叠条形图，显示百分比。
 #| fig-asp: 0.3
 #| out-width: 100%
 ggplot(brexit, aes(y = region, fill = Opinion)) +
   geom_bar(position = "fill") +
-  labs(x = "Percent", y = NULL) +
+  labs(x = "百分比", y = NULL) +
   scale_fill_openintro("five") +
   scale_x_continuous(labels = label_percent()) +
   theme(legend.position = "top")
@@ -439,21 +419,21 @@ ggplot(brexit, aes(y = region, fill = Opinion)) +
 
 ```{r}
 #| label: fig-seg-three-ways-2
-#| fig-cap: Stacked bar plot of region and opinion, showing counts.
-#| fig-alt: Stacked bar plot of region and opinion, showing counts.
+#| fig-cap: 地区与意见的堆叠条形图，显示频数。
+#| fig-alt: 地区与意见的堆叠条形图，显示频数。
 #| fig-asp: 0.3
 #| out-width: 100%
 ggplot(brexit, aes(y = region, fill = Opinion)) +
   geom_bar() +
-  labs(x = "Count", y = NULL) +
+  labs(x = "频数", y = NULL) +
   scale_fill_openintro("five") +
   theme(legend.position = "top")
 ```
 
 ```{r}
 #| label: fig-seg-three-ways-3
-#| fig-cap: Dodged bar plot of region and opinion, showing counts.
-#| fig-alt: Dodged bar plot of region and opinion, showing counts.
+#| fig-cap: 地区与意见的并列条形图，显示频数。
+#| fig-alt: 地区与意见的并列条形图，显示频数。
 #| fig-asp: 0.4
 #| out-width: 100%
 #| fig-width: 10
@@ -462,45 +442,45 @@ ggplot(brexit, aes(y = Opinion)) +
   facet_grid(. ~ region, labeller = label_wrap_gen(width = 12)) +
   scale_x_continuous(breaks = c(0, 100, 200)) +
   labs(
-    title = "How well or badly do you think the government are doing at handling Britain's exit\nfrom the European Union?",
-    subtitle = "YouGov Survey Results, 2-3 September 2019",
-    caption = "Source: bit.ly/2lCJZVg",
+    title = "你认为政府在处理英国脱欧问题上的表现如何？\n是好还是坏？",
+    subtitle = "YouGov 调查结果，2019年9月2-3日",
+    caption = "来源：bit.ly/2lCJZVg",
     x = NULL,
     y = NULL
   ) +
   theme(plot.title.position = "plot")
 ```
 
-Three different representations of two variables from the survey, region and opinion.
+调查中地区和意见这两个变量的三种不同表示形式。
 :::
 
 \clearpage
 
-### Select meaningful colors
+### 选择有意义的颜色
 
-One last consideration for building graphs is to consider color choices.
-Default or rainbow colors are not always the choice which will best distinguish the level of your variables.
-Much research has been done to find color combinations which are distinct and which are clear for differently sighted individuals.
-The cividis scale works well with ordinal data.
-[@Nunez:2018] @fig-brexit-viridis shows the same plot with two different color themes.
+构建图形时最后需要考虑的一点是颜色的选择。
+默认颜色或彩虹色并不总是能最好地区分变量各个水平的选择。
+已有大量研究致力于寻找那些区分明显且对色觉不同的人群都清晰易辨的颜色组合。
+cividis 色阶适用于有序数据。
+[@Nunez:2018] @fig-brexit-viridis 展示了使用两种不同配色方案的同一图形。
 
 \vspace{5mm}
 
 ```{r}
 #| label: fig-brexit-viridis
-#| fig-cap: Identical bar plots with two different coloring options.
+#| fig-cap: 使用两种不同配色方案的相同条形图。
 #| fig-subcap:
-#|   - Default color scale
-#|   - Cividis scale
-#| fig-alt: Identical bar plots with two different coloring options.
+#|   - 默认配色方案
+#|   - Cividis 配色方案
+#| fig-alt: 使用两种不同配色方案的相同条形图。
 #| fig-asp: 0.4
 #| out-width: 100%
 p <- ggplot(brexit, aes(y = region, fill = Opinion)) +
   geom_bar(position = "fill") +
   labs(
-    title = "How well or badly do you think the government are doing at handling Britain's exit\nfrom the European Union?",
-    subtitle = "YouGov Survey Results, 2-3 September 2019",
-    caption = "Source: bit.ly/2lCJZVg",
+    title = "你认为政府在处理英国脱欧问题上的表现如何？\n是好还是坏？",
+    subtitle = "YouGov 调查结果，2019年9月2-3日",
+    caption = "来源：bit.ly/2lCJZVg",
     x = NULL,
     y = NULL,
     fill = NULL
@@ -514,22 +494,24 @@ p +
   scale_fill_viridis_d(option = "E")
 ```
 
+
+
 \vspace{5mm}
 
-In this chapter different representations are contrasted to demonstrate best practices in creating graphs.
-The fundamental principle is that your graph should provide maximal information succinctly and clearly.
-Labels should be clear and oriented horizontally for the reader.
-Don't forget titles and, if possible, include the source of the data.
+本章通过对比不同的图形表示方式来演示创建图形的最佳实践。
+基本原则是，图形应当简洁、清晰地提供最大化的信息量。
+标签应当清晰明了，并为方便读者而水平排列。
+不要遗漏标题，且如果可能，请标明数据来源。
 
 \clearpage
 
-## Interactive R tutorials {#sec-explore-tutorials}
+## 交互式 R 教程 {#sec-explore-tutorials}
 
-Navigate the concepts you've learned in this part in R using the following self-paced tutorials.
-All you need is your browser to get started!
+通过以下自定进度的教程，在 R 中演练本部分所学的概念。
+你只需要一个浏览器就可以开始了！
 
 ::: {.alltutorials data-latex=""}
-[Tutorial 2: Exploratory data analysis](https://openintrostat.github.io/ims-tutorials/02-explore/)
+[教程 2：探索性数据分析](https://openintrostat.github.io/ims-tutorials/02-explore/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintrostat.github.io/ims-tutorials/02-explore>
@@ -537,7 +519,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 2 - Lesson 1: Visualizing categorical data](https://openintro.shinyapps.io/ims-02-explore-01/)
+[教程 2 - 课程 1：可视化分类数据](https://openintro.shinyapps.io/ims-02-explore-01/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-02-explore-01>
@@ -545,7 +527,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 2 - Lesson 2: Visualizing numerical data](https://openintro.shinyapps.io/ims-02-explore-02/)
+[教程 2 - 课程 2：可视化数值数据](https://openintro.shinyapps.io/ims-02-explore-02/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-02-explore-02>
@@ -553,7 +535,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 2 - Lesson 3: Summarizing with statistics](https://openintro.shinyapps.io/ims-02-explore-03/)
+[教程 2 - 课程 3：用统计量进行汇总](https://openintro.shinyapps.io/ims-02-explore-03/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-02-explore-03>
@@ -561,7 +543,7 @@ All you need is your browser to get started!
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 2 - Lesson 4: Case study](https://openintro.shinyapps.io/ims-02-explore-04/)
+[教程 2 - 课程 4：案例研究](https://openintro.shinyapps.io/ims-02-explore-04/)
 
 ::: {.content-hidden unless-format="pdf"}
 <https://openintro.shinyapps.io/ims-02-explore-04>
@@ -569,19 +551,19 @@ All you need is your browser to get started!
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of tutorials supporting this book at <https://openintrostat.github.io/ims-tutorials>.
+你还可以在 <https://openintrostat.github.io/ims-tutorials> 获取支持本书的完整教程列表。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of tutorials supporting this book [here](https://openintrostat.github.io/ims-tutorials).
+你还可以在此处获取支持本书的完整教程列表：[https://openintrostat.github.io/ims-tutorials](https://openintrostat.github.io/ims-tutorials)。
 :::
 
-## R labs {#sec-explore-labs}
+## R 实验 {#sec-explore-labs}
 
-Further apply the concepts you've learned in this part in R with computational labs that walk you through a data analysis case study.
+通过引导你完成数据分析案例研究的计算实验，进一步在 R 中应用本部分所学的概念。
 
 ::: {.singlelab data-latex=""}
-[Intro to data - Flight delays](https://www.openintro.org/go?id=ims-r-lab-intro-to-data)\
+[数据入门——航班延误](https://www.openintro.org/go?id=ims-r-lab-intro-to-data)\
 
 ::: {.content-hidden unless-format="pdf"}
 <https://www.openintro.org/go?id=ims-r-lab-intro-to-data>
@@ -589,9 +571,9 @@ Further apply the concepts you've learned in this part in R with computational l
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of labs supporting this book at <https://www.openintro.org/go?id=ims-r-labs>.
+你还可以在 <https://www.openintro.org/go?id=ims-r-labs> 获取支持本书的完整实验列表。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of labs supporting this book [here](https://www.openintro.org/go?id=ims-r-labs).
+你还可以在此处获取支持本书的完整实验列表：[https://www.openintro.org/go?id=ims-r-labs](https://www.openintro.org/go?id=ims-r-labs)。
 :::

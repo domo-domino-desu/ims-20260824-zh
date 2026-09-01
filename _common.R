@@ -107,8 +107,20 @@ caption_helper <- function(txt) {
 
 # function: make terms table ---------------------------------------------------
 
+terms_zh <- read.delim(
+  "terms-zh.tsv",
+  header = FALSE,
+  sep = "\t",
+  quote = "",
+  col.names = c("en", "zh"),
+  stringsAsFactors = FALSE
+)
+terms_zh_lookup <- stats::setNames(terms_zh$zh, terms_zh$en)
+
 make_terms_table <- function(x, n_cols = 3){
   x <- sort(x) |> unique()
+  translated <- unname(terms_zh_lookup[x])
+  x <- ifelse(is.na(translated), x, translated)
   n_rows <- (length(x) / n_cols) |> ceiling()
   desired_length <- n_rows * n_cols
   x_updated <- c(x, rep("", (desired_length - length(x))))
@@ -131,28 +143,28 @@ inference_method_summary_table <- tribble(
     ~randomization, 
     ~bootstrapping, 
     ~mathematical,
-  "What does it do?", 
-    "Shuffles the explanatory variable to mimic the natural variability  found in a randomized experiment", 
-    "Resamples (with replacement) from the observed data to mimic the sampling variability found by collecting data from a population", 
-    "Uses theory (primarily the Central Limit Theorem) to describe the hypothetical variability resulting from either repeated randomized experiments or random samples",
-  "What is the random process described?", 
-    "Randomized experiment", 
-    "Random sampling from a population", 
-    "Randomized experiment or random sampling",
-  "What other random processes can be approximated?", 
-    "Can also be used to describe random sampling in an observational model", 
-    "Can also be used to describe random allocation in an experiment", 
-    "Can also be used to describe random sampling in an observational model or random allocation in an experiment",
-  "What is it best for?", 
-    "Hypothesis testing (can also be used for confidence intervals, but not covered in this text)", 
-    "Confidence intervals (can also be used for bootstrap hypothesis testing for one proportion as well)", 
-    "Quick analyses through, for example, calculating a Z score",
-  "What physical object represents the simulation process?", 
-    "Shuffling cards", 
-    "Pulling marbles from a bag with replacement", 
-    "Not applicable",
-  "What are the technical conditions?", 
-    "Independence", 
-    "Independence, large n", 
-    "Independence, large n"
+  "它做什么？",
+    "打乱解释变量，以模拟随机化实验中的自然变异性",
+    "从观测数据中进行有放回重抽样，以模拟从总体收集数据时的抽样变异性",
+    "运用理论（主要是中心极限定理）描述重复随机化实验或随机抽样产生的假想变异性",
+  "所描述的随机过程是什么？",
+    "随机化实验",
+    "从总体中随机抽样",
+    "随机化实验或随机抽样",
+  "还能近似哪些随机过程？",
+    "也可描述观察性模型中的随机抽样",
+    "也可描述实验中的随机分配",
+    "也可描述观察性模型中的随机抽样或实验中的随机分配",
+  "最适合用于什么？",
+    "假设检验（也可用于置信区间，但本书不作介绍）",
+    "置信区间（也可用于单比例的自助法假设检验）",
+    "快速分析，例如计算 z 统计量",
+  "什么实物可以表示模拟过程？",
+    "洗牌",
+    "从袋中有放回地抽取弹珠",
+    "不适用",
+  "需要哪些技术条件？",
+    "独立性",
+    "独立性、大样本量",
+    "独立性、大样本量"
 )

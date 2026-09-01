@@ -1,14 +1,14 @@
-1.  \(a\) False. The line is fit to predict the probability of success, not the binary outcome. (b) False. Residuals are not used in logistic regression like they are in linear regression because the observed value is always either zero or one (and the predicted value is a probability). The goal of the logistic regression is not to get a perfect prediction (of zero or one), so minimizing residuals is not part of the modeling process. (c) True.
+1.  \(a\) 错误。该直线的拟合目的是预测成功的概率，而非二元结果。 错误。逻辑斯谛回归并不像线性回归那样使用残差，因为观测值总是 0 或 1（而预测值是概率）。逻辑斯谛回归的目标不是获得完美的预测（0 或 1），因此最小化残差并非建模过程的一部分。 正确。
 \addtocounter{enumi}{1}
 
-1.  \(a\) There are a few potential outliers, e.g., on the left in the variable total length, but nothing that will be of serious concern in a dataset this large. (b) When coefficient estimates are sensitive to which variables are included in the model, this typically indicates that some variables are collinear. For example, a possum's gender may be related to its head length, which would explain why the coefficient for `sex` changed when we removed the variable. Likewise, a possum's skull width is likely to be related to its head length and probably even much more closely related than the head length was to gender.
+1.  \(a\) 存在几个潜在的离群值，例如在变量 total length（全长）的左侧，但在如此大的数据集中，没有什么需要严重担忧的。 当系数估计对模型中包含哪些变量敏感时，这通常表明某些变量是共线的。例如，负鼠的性别可能与其头长有关，这就解释了为什么移除该变量（头长）时，`sex` 的系数会发生变化。同样，负鼠的头骨宽度很可能与其头长相关，甚至可能比头长与性别之间的关联还要密切得多。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The logistic model relating $\hat{p}$ to the predictors may be written as $\log\left( \frac{\hat{p}}{1 - \hat{p}} \right) = 33.5095 - 1.4207\times \texttt{sex}_{\texttt{male}} - 0.2787 \times \texttt{skull\_w} + 0.5687 \times \texttt{total\_l} - 1.8057 \times \texttt{tail\_l}.$ Only `total_l` has a positive association with a possum being from Victoria. (b) $\hat{p} = 0.0062$. While the probability is very near zero, we have not run diagnostics on the model. We might also be a little skeptical that the model will remain accurate for a possum found in a US zoo. For example, perhaps the zoo selected a possum with specific characteristics but only looked in one region. On the other hand, it is encouraging that the possum was caught in the wild. (Answers regarding the reliability of the model probability will vary.)
+1.  \(a\) 将 $\hat{p}$ 与预测变量联系起来的逻辑斯谛模型可以写为 $\log\left( \frac{\hat{p}}{1 - \hat{p}} \right) = 33.5095 - 1.4207\times \texttt{sex}_{\texttt{male}} - 0.2787 \times \texttt{skull\_w} + 0.5687 \times \texttt{total\_l} - 1.8057 \times \texttt{tail\_l}.$ 只有 `total_l` 与负鼠来自维多利亚州呈正关联。 $\hat{p} = 0.0062$。虽然概率非常接近于零，但我们尚未对该模型进行诊断。对于在美国动物园发现的负鼠，我们可能也会对模型是否依然准确持怀疑态度。例如，也许动物园挑选了具有特定特征的负鼠，但只在一个地区进行了寻找。另一方面，这只负鼠是在野外捕获的，这一点令人鼓舞。（关于模型概率可靠性的答案会有所不同。）
 \addtocounter{enumi}{1}
 
-1.  \(a\) The variable `exclaim_subj` should be removed, since it's removal reduces AIC the most (and the resulting model has lower AIC than the None Dropped model). (b) The variable `cc` should be removed. (c) Removing any variable will increase AIC, so we should not remove any variables from this set.
+1.  \(a\) 变量 `exclaim_subj` 应该被移除，因为移除它使 AIC 降低得最多（并且结果模型的 AIC 低于“None Dropped”模型）。 变量 `cc` 应该被移除。 移除任何变量都会增加 AIC，因此我们不应该从这组变量中移除任何变量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The AIC is smallest using the variables `sex`, `head_l`, `skull_w`, `total_l`, and `tail_l` to predict region (AIC = 83.52), so we would choose that model. (b) If the metric is equivalent across two models with different numbers of variables, we usually want the model with smaller number of variables. Sometimes refered to as Occam's razor, the simplest explanation is often the one that will generalize most effectively.
+1.  \(a\) 使用变量 `sex`、`head_l`、`skull_w`、`total_l` 和 `tail_l` 来预测 region 时，AIC 最小（AIC = 83.52），因此我们会选择该模型。 如果度量指标在两个变量数不同的模型之间是等价的，我们通常选择变量数较少的模型。有时这被称为奥卡姆剃刀原理：最简单的解释往往是最能有效泛化的。
 \addtocounter{enumi}{1}

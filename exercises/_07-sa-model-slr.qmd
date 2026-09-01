@@ -1,47 +1,47 @@
-1.  \(a\) The residual plot will show randomly distributed residuals around 0. The variance is also approximately constant. (b) The residuals will show a fan shape, with higher variability for smaller $x$. There will also be many points on the right above the line. There is trouble with the model being fit here.
+1.  \(a\) 残差图将显示残差围绕0随机分布。方差也近似常数。 残差将呈现扇形分布，对于较小的 $x$，变异性更高。在右侧也有许多点位于直线上方。此处拟合的模型存在问题。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Strong relationship, but a straight line would not fit the data. (b) Strong relationship, and a linear fit would be reasonable. (c) Weak relationship, and trying a linear fit would be reasonable. (d) Moderate relationship, but a straight line would not fit the data. (e) Strong relationship, and a linear fit would be reasonable. (f) Weak relationship, and trying a linear fit would be reasonable.
+1.  \(a\) 关系强，但直线无法拟合数据。 关系强，且线性拟合是合理的。 关系弱，但尝试线性拟合是合理的。 关系中等，但直线无法拟合数据。 关系强，且线性拟合是合理的。 关系弱，但尝试线性拟合是合理的。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Exam 2 since there is less of a scatter in the plot of course grade versus exam 2. Notice that the relationship between Exam 1 and the course grade appears to be slightly nonlinear. (b) (Answers may vary.) If Exam 2 is cumulative it might be a better indicator of how a student is doing in the class.
+1.  \(a\) 考试2，因为课程成绩与考试2的散点图中散布更小。注意考试1与课程成绩的关系似乎略微呈非线性。 （答案可能不唯一。）如果考试2是累积性的，它可能是学生课堂表现的更好指标。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $r = -0.7$ $\rightarrow$ (4). (b) $r = 0.45$ $\rightarrow$ (3). (c) $r = 0.06$ $\rightarrow$ (1). (d) $r = 0.92$ $\rightarrow$ (2).
+1.  \(a\) $r = -0.7$ $\rightarrow$ (4)。 $r = 0.45$ $\rightarrow$ (3)。 $r = 0.06$ $\rightarrow$ (1)。 $r = 0.92$ $\rightarrow$ (2)。
 \addtocounter{enumi}{1}
 
-1.  \(a\) There is a moderate, positive, and linear relationship between shoulder girth and height. (b) Changing the units, even if just for one of the variables, will not change the form, direction or strength of the relationship between the two variables.
+1.  \(a\) 肩围与身高之间存在中等、正向、线性的关系。 改变单位，即使只改变其中一个变量的单位，也不会改变两个变量之间关系的形态、方向或强度。
 \addtocounter{enumi}{1}
 
-1.  \(a\) There is a somewhat weak, positive, possibly linear relationship between the distance traveled and travel time. There is clustering near the lower left corner that we should take special note of. (b) Changing the units will not change the form, direction or strength of the relationship between the two variables. If longer distances measured in miles are associated with longer travel time measured in minutes, longer distances measured in kilometers will be associated with longer travel time measured in hours. (c) Changing units doesn't affect correlation: $r = 0.636$.
+1.  \(a\) 行驶距离与行驶时间之间存在略弱、正向、可能为线性的关系。左下角有聚集现象，我们应特别注意。 改变单位不会改变两个变量之间关系的形态、方向或强度。如果以英里度量的较长距离与以分钟度量的较长行驶时间有关联，那么以千米度量的较长距离也将与以小时度量的较长行驶时间有关联。 改变单位不影响相关系数：$r = 0.636$。
 \addtocounter{enumi}{1}
 
-1. we can write the amount of meat consumption as an exact linear function of the amount of carbohydrate consumption. (a) $carbs = meat - 3.$ (b) $carbs = meat + 2.$ (c) $carbs = 2 \times meat.$ Since the slopes are positive and these are perfect linear relationships, the correlation will be exactly 1 in all three parts. An alternative way to gain insight into this solution is to create a mock dataset, e.g., 5 countries with meat consumption of 10, 20, 50, 75, and 100 kg per capita, find the related carbohydrate consumption for each mock country, then create a scatterplot.
+1. 我们可以将肉类消费量表示为碳水化合物消费量的精确线性函数。 $carbs = meat - 3.$ $carbs = meat + 2.$ $carbs = 2 \times meat.$ 由于斜率为正且这些都是完全线性关系，这三部分的相关系数都恰好为1。理解这一解答的另一种方法是创建一个模拟数据集，例如，5个国家的人均肉类消费量为10、20、50、75和100公斤，找出每个模拟国家对应的碳水化合物消费量，然后绘制散点图。
 \addtocounter{enumi}{1}
 
-1. Correlation: no units. Intercept: cal. Slope: cal/cm.
+1. 相关系数：无单位。截距：cal。斜率：cal/cm。
 \addtocounter{enumi}{1}
 
-1. Over-estimate. Since the residual is calculated as $observed - predicted$, a negative residual means that the predicted value is higher than the observed value.
+1. 高估。因为残差的计算公式为 $观测值 - 预测值$，负残差意味着预测值高于观测值。
 \addtocounter{enumi}{1}
 
-1.  \(a\) There is a positive, moderate, linear association between number of calories and amount of carbohydrates. In addition, the amount of carbohydrates is more variable for menu items with higher calories, indicating non-constant variance. There also appear to be two clusters of data: a patch of about a dozen observations in the lower left and a larger patch on the right side. (b) Explanatory: number of calories. Response: amount of carbohydrates (in grams). (c) With a regression line, we can predict the amount of carbohydrates for a given number of calories. This may be useful if only calorie counts for the food items are posted but the amount of carbohydrates in each food item is not readily available. (d) Food menu items with higher predicted protein are predicted with higher variability than those without, suggesting that the model is doing a better job predicting protein amount for food menu items with lower predicted proteins.
+1.  \(a\) 卡路里数与碳水化合物含量之间存在正向、中等、线性的关联。此外，对于卡路里数较高的菜单项，碳水化合物含量的变异性更大，表明方差非常数。数据中似乎还有两个群：左下角大约十几个观测点构成的一片，以及右侧更大的一片。 解释变量：卡路里数。响应变量：碳水化合物含量（以克计）。 利用回归线，我们可以预测给定卡路里数对应的碳水化合物含量。如果只公布了菜品的卡路里数，而每个菜品中碳水化合物含量不易获取，这可能很有用。 预测蛋白质含量较高的菜品，其预测的变异性高于预测蛋白质含量较低的菜品，这表明模型在预测蛋白质含量较低的菜品的蛋白质含量时表现更好。
 \addtocounter{enumi}{1}
 
-1.  \(a\) First calculate the slope: $b_1 = R\times s_y/s_x = 0.636 \times 113 / 99 = 0.726$. Next, make use of the fact that the regression line passes through the point $(\bar{x},\bar{y})$: $\bar{y} = b_0 + b_1 \times \bar{x}$. Plug in $\bar{x}$, $\bar{y}$, and $b_1$, and solve for $b_0$: 51. Solution: $\widehat{travel~time} = 51 + 0.726 \times distance$. (b) $b_1$: For each additional mile in distance, the model predicts an additional 0.726 minutes in travel time. $b_0$: When the distance travelled is 0 miles, the travel time is expected to be 51 minutes. It does not make sense to have a travel distance of 0 miles in this context. Here, the $y$-intercept serves only to adjust the height of the line and is meaningless by itself. (c) $R^2 = 0.636^2 = 0.40$. About 40% of the variability in travel time is accounted for by the model, i.e., explained by the distance travelled. (d) $\widehat{travel~time} = 51 + 0.726 \times distance  = 51 + 0.726 \times 103 \approx 126$ minutes. (Note: we should be cautious in our predictions with this model since we have not yet evaluated whether it is a well-fit model.) (e) $e_i = y_i - \hat{y}_i = 168 - 126 = 42$ minutes. A positive residual means that the model underestimates the travel time. (f) No, this calculation would require extrapolation.
+1.  \(a\) 首先计算斜率：$b_1 = R\times s_y/s_x = 0.636 \times 113 / 99 = 0.726$。接着，利用回归线经过点 $(\bar{x},\bar{y})$ 这一事实：$\bar{y} = b_0 + b_1 \times \bar{x}$。代入 $\bar{x}$、$\bar{y}$ 和 $b_1$，解出 $b_0$：51。完整解为：$\widehat{travel~time} = 51 + 0.726 \times distance$。 $b_1$：距离每增加1英里，模型预测行驶时间增加0.726分钟。$b_0$：当行驶距离为0英里时，预计行驶时间为51分钟。在此情境中，行驶距离为0英里没有意义。这里的 $y$ 截距仅用于调整直线高度，本身没有意义。 $R^2 = 0.636^2 = 0.40$。模型解释了行驶时间中约 40% 的变异性，即由行驶距离解释的变异性。 $\widehat{travel~time} = 51 + 0.726 \times distance  = 51 + 0.726 \times 103 \approx 126$ 分钟。（注意：我们对该模型的预测应保持谨慎，因为我们尚未评估它是否是一个拟合良好的模型。） $e_i = y_i - \hat{y}_i = 168 - 126 = 42$ 分钟。正残差意味着模型低估了行驶时间。 不会，这种计算需要进行外推。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $\widehat{\texttt{poverty}} = 4.60 + 2.05 \times \texttt{unemployment\_rate}.$ (b) The model predicts a poverty rate of 4.60\% for counties with 0\% unemployment, on average. This is not a meaningful value as no counties have such low unexmployment, it just serves to adjust the height of the regression line. (c) For each additional percentage increase in unemployment rate, poverty rate is predicted to be higher, on average, by 2.05\%. (d) Unemployment rate explains 46\% of the variability in poverty levels in US counties. (e) $\sqrt{0.46} = 0.678.$
+1.  \(a\) $\widehat{\texttt{poverty}} = 4.60 + 2.05 \times \texttt{unemployment\_rate}.$ 模型预测，对于失业率为0%的县，其贫困率平均为4.60\%。由于没有哪个县的失业率如此之低，这个值并无实际意义，它只是用于调整回归线的高度。 失业率每增加一个百分点，贫困率*预测*平均高出2.05\%。 失业率解释了美国各县贫困水平变异性的46\%。 $\sqrt{0.46} = 0.678.$
 \addtocounter{enumi}{1}
 
-1.  \(a\) There is an outlier in the bottom right. Since it is far from the center of the data, it is a point with high leverage. It is also an influential point since, without that observation, the regression line would have a very different slope. (b) There is an outlier in the bottom right. Since it is far from the center of the data, it is a point with high leverage. However, it does not appear to be affecting the line much, so it is not an influential point. (c) The observation is in the center of the data (in the x-axis direction), so this point does *not* have high leverage. This means the point won't have much effect on the slope of the line and so is not an influential point.
+1.  \(a\) 右下角有一个离群值。由于它远离数据中心，所以是一个高杠杆点。同时它也是一个强影响点，因为如果去掉这个观测，回归线的斜率会有很大不同。 右下角有一个离群值。由于它远离数据中心，所以是一个高杠杆点。然而，它似乎对回归线影响不大，因此不是强影响点。 该观测点在 x 轴方向上处于数据的中心位置，因此这个点*不*具有高杠杆。这意味着该点对回归线的斜率影响不大，所以不是强影响点。
 \addtocounter{enumi}{1}
 
-1.  \(a\) There is a negative, moderate-to-strong, somewhat linear relationship between percent of families who own their home and the percent of the population living in urban areas in 2010. There is one outlier: a state where 100% of the population is urban. The variability in the percent of homeownership also increases as we move from left to right in the plot. (b) The outlier is located in the bottom right corner, horizontally far from the center of the other points, so it is a point with high leverage. It is an influential point since excluding this point from the analysis would greatly affect the slope of the regression line.
+1.  \(a\) 在2010年，拥有自有住房的家庭占比与居住在城市地区的人口占比之间存在一种负向、中等到强、略呈线性的关系。有一个离群值：一个州100%的人口居住在城市地区。随着我们在图中从左向右移动，自有住房比例的变异性也会增加。 离群值位于右下角，在水平方向上远离其他点的中心，因此它是一个具有高杠杆率的点。它也是一个具有高影响力的点，因为从分析中排除该点将极大影响回归线的斜率。
 \addtocounter{enumi}{1}
 
-1.  \(a\) True. (b) False, correlation is a measure of the linear association between any two numerical variables.
+1.  \(a\) 正确。 错误，相关系数是衡量任意两个数值变量之间线性关联的度量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) $r = 0.7 \to (1)$ (b) $r = 0.09 \to (4)$ (c) $r = -0.91 \to (2)$ (d) $r = 0.96 \to (3)$.
+1.  \(a\) $r = 0.7 \to (1)$ $r = 0.09 \to (4)$ $r = -0.91 \to (2)$ $r = 0.96 \to (3)$。
 \addtocounter{enumi}{1}

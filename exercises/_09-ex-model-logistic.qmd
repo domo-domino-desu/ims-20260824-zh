@@ -1,42 +1,31 @@
-1.  **True / False.** Determine which of the following statements are true and false.
-    For each statement that is false, explain why it is false.
+1.  **判断正误。** 判断以下陈述的正误。对于每个错误陈述，请解释其原因。
 
-    a.  In logistic regression we fit a line to model the relationship between the predictor(s) and the binary outcome.
+    a.  在逻辑斯谛回归中，我们拟合一条直线来建模预测变量与二元结果变量之间的关系。
 
-    b.  In logistic regression, we expect the residuals to be even scattered on either side of zero, just like with linear regression.
+    b.  在逻辑斯谛回归中，我们期望残差能像在线性回归中那样均匀散布在零的两侧。
 
-    c.  In logistic regression, the outcome variable is binary but the predictor variable(s) can be either binary or continuous.
-
-\vfill
-
-2.  **Logistic regression fact checking.** Determine which of the following statements are true and false.
-    For each statement that is false, explain why it is false.
-
-    a.  Suppose we consider the first two observations based on a logistic regression model, where the first variable in observation 1 takes a value of $x_1 = 6$ and observation 2 has $x_1 = 4$.
-        Suppose we realized we made an error for these two observations, and the first observation was actually $x_1 = 7$ (instead of 6) and the second observation actually had $x_1 = 5$ (instead of 4).
-        Then the predicted probability from the logistic regression model would increase the same amount for each observation after we correct these variables.
-
-    b.  When using a logistic regression model, it is impossible for the model to predict a probability that is negative or a probability that is greater than 1.
-
-    c.  Because logistic regression predicts probabilities of outcomes, observations used to build a logistic regression model need not be independent.
-
-    d.  When fitting logistic regression, we typically complete model selection using adjusted $R^2$.
+    c.  在逻辑斯谛回归中，结果变量是二元的，但预测变量可以是二元的，也可以是连续的。
 
 \vfill
 
-3.  **Possum classification, comparing models.** The common brushtail possum of the Australia region is a bit cuter than its distant cousin, the American opossum (see @fig-brushtail-possum).
-    We consider 104 brushtail possums from two regions in Australia, where the possums may be considered a random sample from the population.
-    The first region is Victoria, which is in the eastern half of Australia and traverses the southern coast.
-    The second region consists of New South Wales and Queensland, which make up eastern and northeastern Australia.[^_09-ex-model-logistic-1]
+2.  **逻辑斯谛回归事实核查。** 判断以下陈述的正误。对于每个错误陈述，请解释其原因。
 
-    We use logistic regression to differentiate between possums in these two regions.
-    The outcome variable, called `pop`, takes value 1 when a possum is from Victoria and 0 when it is from New South Wales or Queensland.
-    We consider five predictors: `sex` (an indicator for a possum being male), `head_l` (head length), `skull_w` (skull width), `total_l` (total length), and `tail_l` (tail length).
-    Each variable is summarized in a histogram.
-    The full logistic regression model and a reduced model after variable selection are summarized in the tables below.
-    
+    a.  假设我们基于一个逻辑斯谛回归模型考虑前两个观测，其中观测1的第一个变量取值为 $x_1 = 6$，观测2的取值为 $x_1 = 4$。若我们意识到对这两个观测的记录有误，实际上第一个观测应为 $x_1 = 7$（而不是6），第二个观测应为 $x_1 = 5$（而不是4）。那么，在我们修正这些变量后，逻辑斯谛回归模型给出的预测概率对每个观测的增加量将是相同的。
+
+    b.  当使用逻辑斯谛回归模型时，模型不可能预测出一个负值或一个大于1的概率。
+
+    c.  因为逻辑斯谛回归预测的是结果的概率，所以用于构建逻辑斯谛回归模型的观测不需要是独立的。
+
+    d.  在拟合逻辑斯谛回归时，我们通常使用调整 $R^2$ 来完成模型选择。
+
+\vfill
+
+3.  **袋貂分类，模型比较。** 澳大利亚地区的普通刷尾袋貂比其远亲美洲负鼠要可爱一些（参见 @fig-brushtail-possum）。我们考虑了来自澳大利亚两个地区的104只刷尾袋貂，这些袋貂可视为来自总体的一个随机样本。第一个地区是维多利亚州，位于澳大利亚东部，横跨南部海岸。第二个地区包括新南威尔士州和昆士兰州，它们构成了澳大利亚的东部和东北部。[^_09-ex-model-logistic-1]
+
+    我们使用逻辑斯谛回归来区分这两个地区的袋貂。结果变量名为 `pop`，当袋貂来自维多利亚州时取值为1，当来自新南威尔士州或昆士兰州时取值为0。我们考虑了五个预测变量：`sex`（袋貂为雄性的指示变量）、`head_l`（头长）、`skull_w`（头骨宽度）、`total_l`（总长）和 `tail_l`（尾长）。每个变量均以直方图进行汇总。完整的逻辑斯谛回归模型以及变量选择后的简化模型总结于下表中。
+
     ::: {.content-visible when-format="pdf"}
-    *See the next page for the questions.*
+    *问题见下页。*
     :::
 
     \clearpage
@@ -52,47 +41,47 @@
     hist_sex <- ggplot(possum, aes(x = sex)) +
       geom_bar() +
       labs(
-        x = "Sex",
-        y = "Count"
-      ) 
+        x = "性别",
+        y = "计数"
+      )
 
     hist_head <- ggplot(possum, aes(x = head_l)) +
       geom_histogram() +
       labs(
-        x = "Head length (in mm)",
-        y = "Count"
-      ) 
+        x = "头长（毫米）",
+        y = "计数"
+      )
 
     hist_skull <- ggplot(possum, aes(x = skull_w)) +
       geom_histogram() +
       labs(
-        x = "Skull width (in mm)",
-        y = "Count"
-      )     
+        x = "头骨宽度（毫米）",
+        y = "计数"
+      )
 
     hist_total <- ggplot(possum, aes(x = total_l)) +
       geom_histogram() +
       labs(
-        x = "Total length (in cm)",
-        y = "Count"
-      )   
+        x = "总长（厘米）",
+        y = "计数"
+      )
 
     hist_tail <- ggplot(possum, aes(x = tail_l)) +
       geom_histogram() +
       labs(
-        x = "Tail length (in cm)",
-        y = "Count"
-      )     
+        x = "尾长（厘米）",
+        y = "计数"
+      )
 
     hist_pop <- ggplot(possum, aes(x = pop)) +
       geom_bar() +
       labs(
-        x = "Population",
-        y = "Count"
+        x = "种群",
+        y = "计数"
       )
 
     hist_sex + hist_head + hist_skull + hist_total + hist_tail + hist_pop +
-      plot_layout(ncol = 3) 
+      plot_layout(ncol = 3)
     ```
 
     ```{r}
@@ -109,7 +98,9 @@
       ) |>
       column_spec(1, width = "8em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
+    ```
 
+    ```{r}
     glm(pop ~ sex + skull_w + total_l + tail_l, data = possum, family = "binomial") |>
       tidy() |>
       mutate(p.value = ifelse(p.value < .0001, "<0.0001", round(p.value, 4))) |>
@@ -125,21 +116,20 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Examine each of the predictors given by the individual graphs.
-        Are there any outliers that are likely to have a very large influence on the logistic regression model?
+    a.  通过各个图形检查每个预测变量。是否存在很可能对逻辑斯谛回归模型产生极大影响的离群值？
 
-    b.  Two models are provided above for predicting the region of the possum.
-        (In @sec-inf-model-logistic we will cover a method for deciding between the models based on p-values.) The first model includes `head_l` and the second model does not.
-        Explain why the remaining estimates (model coefficients) change between the two models.
+    b.  上文提供了两个用于预测袋貂所在地区的模型。
+        （我们将在 [第 -@sec-inf-model-logistic 章] 中介绍一种基于 p 值在不同模型间进行选择的方法。）第一个模型包含 `head_l`，而第二个模型不包含。
+        解释为什么其余的估计值（模型系数）在两个模型之间会发生变化。
 
 \clearpage
 
-4.  **Challenger disaster and model building.** On January 28, 1986, a routine launch was anticipated for the Challenger space shuttle.
-    Seventy-three seconds into the flight, disaster happened: the shuttle broke apart, killing all seven crew members on board.
-    An investigation into the cause of the disaster focused on a critical seal called an O-ring, and it is believed that damage to these O-rings during a shuttle launch may be related to the ambient temperature during the launch.
-    The table below summarizes observational data on O-rings for 23 shuttle missions, where the mission order is based on the temperature at the time of the launch.
-    `temperature` gives the temperature in Fahrenheit, `damaged` represents the number of damaged O-rings, and `undamaged` represents the number of O-rings that were not damaged.[^_09-ex-model-logistic-2]
-    
+4.  **挑战者号灾难与模型构建。** 1986年1月28日，挑战者号航天飞机计划进行一次例行发射。
+    然而，在飞行进行到第73秒时，灾难发生了：航天飞机解体，机上七名机组人员全部遇难。
+    对灾难起因的调查聚焦于一个名为O型环的关键密封件，据信，航天飞机发射期间这些O型环的损坏可能与发射时的环境温度有关。
+    下表汇总了23次航天飞机任务中关于O型环的观测数据，其中任务顺序基于发射时的温度排列。
+    `temperature` 给出华氏温度，`damaged` 表示损坏的O型环数量，`undamaged` 表示未损坏的O型环数量。[^_09-ex-model-logistic-2]
+
     ```{r}
     orings |>
       slice_head(n = 12) |>
@@ -161,7 +151,7 @@
         position = "left"
       )
     ```
-    
+
     ```{r}
     orings |>
       pivot_longer(cols = c(damaged, undamaged), names_to = "outcome", values_to = "n") |>
@@ -182,22 +172,22 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Each column of the table above represents a different shuttle mission.
-        Examine these data and describe what you observe with respect to the relationship between temperatures and damaged O-rings.
+    a.  上表的每一列代表一次不同的航天飞机任务。
+        检查这些数据，并描述你观察到的温度与损坏的O型环之间的关联。
 
-    b.  Failures have been coded as 1 for a damaged O-ring and 0 for an undamaged O-ring, and a logistic regression model was fit to these data.
-        The regression output for this model is given above.
-        Describe the key components of the output in words.
+    b.  故障已被编码为1（表示O型环损坏）和0（表示O型环未损坏），并且已对这些数据拟合了一个逻辑斯谛回归模型。
+        上方给出了该模型的回归输出结果。
+        用文字描述输出结果的关键组成部分。
 
-    c.  Write out the logistic model using the point estimates of the model parameters.
+    c.  使用模型参数的点估计写出逻辑斯谛模型。
 
-    d.  Based on the model, do you think concerns regarding O-rings are justified?
-        Explain.
+    d.  基于该模型，你认为对O型环的担忧是否合理？
+        请解释。
 
 \vfill
 
-5.  **Possum classification, prediction.** A logistic regression model was proposed for classifying common brushtail possums into their two regions.
-    The outcome variable took value 1 if the possum was from Victoria and 0 otherwise.
+5.  **袋貂分类，预测。** 提出了一个逻辑斯谛回归模型，用于将普通刷尾袋貂分类到其两个所在地区。
+    如果袋貂来自维多利亚州，则结果变量取值为1，否则为0。
 
     ```{r}
     openintro::possum |>
@@ -220,20 +210,19 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write out the form of the model.
-        Also identify which of the variables are positively associated with the outcome of living in Victoria, when controlling for other variables.
+a.  写出模型的形式。同时指出在控制其他变量的情况下，哪些变量与居住在维多利亚州这一结果变量呈正关联。
 
-    b.  Suppose we see a brushtail possum at a zoo in the US, and a sign says the possum had been captured in the wild in Australia, but it doesn't say which part of Australia.
-        However, the sign does indicate that the possum is male, its skull is about 63 mm wide, its tail is 37 cm long, and its total length is 83 cm.
-        What is the reduced model's computed probability that this possum is from Victoria?
-        How confident are you in the model's accuracy of this probability calculation?
+    b.  假设我们在美国的一家动物园看到一只刷尾负鼠，标牌上说这只负鼠是在澳大利亚野外捕获的，但没有说明来自澳大利亚的哪个地区。
+        不过，标牌上注明这只负鼠是雄性，头骨宽度约为 63 毫米，尾巴长 37 厘米，总长度为 83 厘米。
+        简化模型计算出这只负鼠来自维多利亚州的概率是多少？
+        你对模型计算此概率的准确率有多大把握？
 
 \clearpage
 
-6.  **Challenger disaster and prediction.** On January 28, 1986, a routine launch was anticipated for the Challenger space shuttle.
-    Seventy-three seconds into the flight, disaster happened: the shuttle broke apart, killing all seven crew members on board.
-    An investigation into the cause of the disaster focused on a critical seal called an O-ring, and it is believed that damage to these O-rings during a shuttle launch may be related to the ambient temperature during the launch.
-    The investigation found that the ambient temperature at the time of the shuttle launch was closely related to the damage of O-rings, which are a critical component of the shuttle.
+6.  **挑战者号灾难与预测。** 1986 年 1 月 28 日，挑战者号航天飞机预计进行一次例行发射。
+    飞行 73 秒后，灾难发生：航天飞机解体，机上七名机组人员全部遇难。
+    对灾难原因的调查聚焦于一种称为 O 形环的关键密封件，人们认为航天飞机发射期间这些 O 形环的损坏可能与发射时的环境温度有关。
+    调查发现，航天飞机发射时的环境温度与 O 形环（航天飞机的一个关键部件）的损坏密切相关。
 
     ```{r}
     orings |>
@@ -244,19 +233,19 @@
         ggplot() +
         geom_point(aes(x = temperature, y = prop_damaged), size = 2) +
         labs(
-          x = "Temperature (Fahrenehit)",
-          y = "Probability of damage",
+          x = "温度（华氏度）",
+          y = "损坏概率",
         ) +
         lims(x = c(50,85))
     ```
 
-    a.  The data provided in the previous exercise are shown in the plot. The logistic model fit to these data may be written as
+    a.  前一练习中提供的数据已展示在图中。拟合这些数据的逻辑斯谛模型可以写为
 
     $$\log\left( \frac{\hat{p}}{1 - \hat{p}} \right) = 11.6630 - 0.2162\times \texttt{temperature}$$
 
-    where $\hat{p}$ is the model-estimated probability that an O-ring will become damaged.
-    Use the model to calculate the probability that an O-ring will become damaged at each of the following ambient temperatures: 51, 53, and 55 degrees Fahrenheit.
-    The model-estimated probabilities for several additional ambient temperatures are provided below, where subscripts indicate the temperature:
+    其中 $\hat{p}$ 是模型估计的 O 形环发生损坏的概率。
+    使用该模型计算环境温度为以下各值时，O 形环发生损坏的概率：51、53 和 55 华氏度。
+    其他几个环境温度下的模型估计概率提供如下，下标表示温度：
 
     $$
     \begin{aligned}
@@ -271,15 +260,15 @@
     \end{aligned}
     $$
 
-    b.  Add the model-estimated probabilities from part (a) on the plot, then connect these dots using a smooth curve to represent the model-estimated probabilities.
+    b.  将 部分得到的模型估计概率添加到图上，然后用一条光滑曲线连接这些点，以表示模型估计的概率。
 
-    c.  Describe any concerns you may have regarding applying logistic regression in this application, and note any assumptions that are required to accept the model's validity.
+    c.  描述你对于在此应用中运用逻辑斯谛回归可能存在的任何顾虑，并指出接受该模型有效性所需的假设。
 
 \clearpage
 
-7.  **Spam filtering, model selection.** Spam filters are built on principles similar to those used in logistic regression.
-    Using characteristics of individual emails, we fit a probability that each message is spam or not spam.
-    We have several email variables for this problem, and we won't describe what each variable means here for the sake of brevity, but each is either a numerical or indicator variable.[^_09-ex-model-logistic-3]
+7.  **垃圾邮件过滤，模型选择。** 垃圾邮件过滤器的构建原理与逻辑斯谛回归类似。
+    利用单个电子邮件的特征，我们拟合每封邮件是垃圾邮件或非垃圾邮件的概率。
+    为此问题我们有几个电子邮件变量，为简洁起见此处不逐一解释每个变量的含义，但它们都是数值变量或指示变量。[^_09-ex-model-logistic-3]
 
     ```{r}
     m_full <- glm(spam ~ to_multiple + cc + attach + dollar +
@@ -303,83 +292,83 @@
       column_spec(2:5, width = "5em")
     ```
 
-    The AIC of the full model is `r m_full_aic`.
-    We remove each variable one by one, refit the model, and record the updated AIC.
+    全模型的 AIC 为 `r m_full_aic`。
+    我们逐一剔除每个变量，重新拟合模型，并记录更新后的 AIC。
 
     ```{r}
-    m_tm <- update(m_full, . ~ . - to_multiple, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_cc <- update(m_full, . ~ . - cc, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_a <- update(m_full, . ~ . - attach, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_d <- update(m_full, . ~ . - dollar, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_w <- update(m_full, . ~ . - winner, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_i <- update(m_full, . ~ . - inherit, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_p <- update(m_full, . ~ . - password, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_f <- update(m_full, . ~ . - format, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_re <- update(m_full, . ~ . - re_subj, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_ex <- update(m_full, . ~ . - exclaim_subj, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
-    m_se <- update(m_full, . ~ . - sent_email, data = email) |>
-      glance() |>
-      pull(AIC) |>
-      round(1)
+m_tm <- update(m_full, . ~ . - to_multiple, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_cc <- update(m_full, . ~ . - cc, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_a <- update(m_full, . ~ . - attach, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_d <- update(m_full, . ~ . - dollar, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_w <- update(m_full, . ~ . - winner, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_i <- update(m_full, . ~ . - inherit, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_p <- update(m_full, . ~ . - password, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_f <- update(m_full, . ~ . - format, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_re <- update(m_full, . ~ . - re_subj, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_ex <- update(m_full, . ~ . - exclaim_subj, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
+m_se <- update(m_full, . ~ . - sent_email, data = email) |>
+  glance() |>
+  pull(AIC) |>
+  round(1)
     ```
 
-    a.  For variable selection, we fit the full model, which includes all variables, and then we also fit each model where we've dropped exactly one of the variables. In each of these reduced models, the AIC value for the model is reported below. Based on these results, which variable, if any, should we drop as part of model selection? Explain.
+    a.  在变量选择过程中，我们先拟合包含所有变量的全模型，然后我们再分别拟合每次恰好剔除一个变量的模型。下面列出了每个简化模型的 AIC 值。根据这些结果，在模型选择中，我们应该剔除哪个变量（如果有的话）？请解释。
 
     :::: {layout="[-0.05, 0.45, 0.5]"}
     :::{#list1}
-    -   None Dropped: `r m_full_aic`
-    -   Drop `to_multiple`: `r m_tm`
-    -   Drop `cc`: `r m_cc`
-    -   Drop `attach`: `r m_a`
-    -   Drop `dollar`: `r m_d`
-    -   Drop `winner`: `r m_w`
+    -   未剔除任何变量: `r m_full_aic`
+    -   剔除 `to_multiple`: `r m_tm`
+    -   剔除 `cc`: `r m_cc`
+    -   剔除 `attach`: `r m_a`
+    -   剔除 `dollar`: `r m_d`
+    -   剔除 `winner`: `r m_w`
     :::
     :::{#list2}
-    -   Drop `inherit`: `r m_i`
-    -   Drop `password`: `r m_p`
-    -   Drop `format`: `r m_f`
-    -   Drop `re_subj`: `r m_re`
-    -   Drop `exclaim_subj`: `r m_ex`
-    -   Drop `sent_email`: `r m_se`
+    -   剔除 `inherit`: `r m_i`
+    -   剔除 `password`: `r m_p`
+    -   剔除 `format`: `r m_f`
+    -   剔除 `re_subj`: `r m_re`
+    -   剔除 `exclaim_subj`: `r m_ex`
+    -   剔除 `sent_email`: `r m_se`
     :::
     ::::
 
-    b.  Consider the subsequent model selection stage (where the variable from part (a) has been removed, and we are considering removal of a second variable). Here again we've computed the AIC for each leave-one-variable-out model. Based on the results, which variable, if any, should we drop as part of model selection? Explain.
+    b.  考虑模型选择的后续阶段（假设部分中剔除的那个变量已被剔除，我们正在考虑剔除第二个变量）。这里我们同样计算了每次剔除一个变量后的模型的 AIC。根据这些结果，在模型选择中，我们应该剔除哪个变量（如果有的话）？请解释。
 
     ```{r}
-    m_full2 <- glm(spam ~ to_multiple + cc + attach + dollar + 
+    m_full2 <- glm(spam ~ to_multiple + cc + attach + dollar +
                       winner + inherit + password + format+
-                      re_subj + sent_email, 
+                      re_subj + sent_email,
                   data = email, family = "binomial")
     m_full2_aic <- round(glance(m_full2)$AIC, 1)
 
@@ -427,28 +416,28 @@
 
     :::: {layout="[-0.05, 0.45, 0.5]"}
     :::{#list1}
-    -   None dropped: `r m_full2_aic`
-    -   Drop `to_multiple`: `r m_tm_no_ex`
-    -   Drop `cc`: `r m_cc_no_ex`
-    -   Drop `attach`: `r m_a_no_ex`
-    -   Drop `dollar`: `r m_d_no_ex`
-    -   Drop `winner`: `r m_w_no_ex`
+    -   未剔除任何变量: `r m_full2_aic`
+    -   剔除 `to_multiple`: `r m_tm_no_ex`
+    -   剔除 `cc`: `r m_cc_no_ex`
+    -   剔除 `attach`: `r m_a_no_ex`
+    -   剔除 `dollar`: `r m_d_no_ex`
+    -   剔除 `winner`: `r m_w_no_ex`
     :::
     :::{#list1}
-    -   Drop `inherit`: `r m_i_no_ex`
-    -   Drop `password`: `r m_p_no_ex`
-    -   Drop `format`: `r m_f_no_ex`
-    -   Drop `re_subj`: `r m_re_no_ex`
-    -   Drop `sent_email`: `r m_se_no_ex`
+    -   剔除 `inherit`: `r m_i_no_ex`
+    -   剔除 `password`: `r m_p_no_ex`
+    -   剔除 `format`: `r m_f_no_ex`
+    -   剔除 `re_subj`: `r m_re_no_ex`
+    -   剔除 `sent_email`: `r m_se_no_ex`
     :::
     ::::
 
-    c.  Consider one more step in the process. Here again we've computed the AIC for each leave-one-variable-out model. Based on the results, which variable, if any, should we drop as part of model selection? Explain.
+    c.  再考虑这个过程中的另一步。这里我们同样计算了每次剔除一个变量后的模型的 AIC。根据这些结果，在模型选择中，我们应该剔除哪个变量（如果有的话）？请解释。
 
     ```{r}
-    m_full3 <- glm(spam ~ to_multiple + attach + dollar + 
+    m_full3 <- glm(spam ~ to_multiple + attach + dollar +
                       winner + inherit + password + format+
-                      re_subj + sent_email, 
+                      re_subj + sent_email,
                   data = email, family = "binomial")
     m_full3_aic <- round(glance(m_full3)$AIC, 1)
 
@@ -492,25 +481,25 @@
 
     :::: {layout="[-0.05, 0.45, 0.5]"}
     :::{#list1}
-    -   None Dropped: `r m_full3_aic`
-    -   Drop `to_multiple`: `r m_tm_no_ex_no_cc`
-    -   Drop `attach`: `r m_a_no_ex_no_cc`
-    -   Drop `dollar`: `r m_d_no_ex_no_cc`
-    -   Drop `winner`: `r m_w_no_ex_no_cc`
+    -   未剔除任何变量: `r m_full3_aic`
+    -   剔除 `to_multiple`: `r m_tm_no_ex_no_cc`
+    -   剔除 `attach`: `r m_a_no_ex_no_cc`
+    -   剔除 `dollar`: `r m_d_no_ex_no_cc`
+    -   剔除 `winner`: `r m_w_no_ex_no_cc`
     :::
     :::{#list2}
-    -   Drop `inherit`: `r m_i_no_ex_no_cc`
-    -   Drop `password`: `r m_p_no_ex_no_cc`
-    -   Drop `format`: `r m_f_no_ex_no_cc`
-    -   Drop `re_subj`: `r m_re_no_ex_no_cc`
-    -   Drop `sent_email`: `r m_se_no_ex_no_cc`
+    -   剔除 `inherit`: `r m_i_no_ex_no_cc`
+    -   剔除 `password`: `r m_p_no_ex_no_cc`
+    -   剔除 `format`: `r m_f_no_ex_no_cc`
+    -   剔除 `re_subj`: `r m_re_no_ex_no_cc`
+    -   剔除 `sent_email`: `r m_se_no_ex_no_cc`
     :::
     ::::
 
 \clearpage
 
-8.  **Spam filtering, prediction.** Recall running a logistic regression to aid in spam classification for individual emails.
-    In this exercise, we've taken a small set of the variables and fit a logistic model with the following output:
+8.  **垃圾邮件过滤，预测。** 回想一下，我们曾使用逻辑斯谛回归来辅助对单封电子邮件进行垃圾邮件分类。
+    在这个练习中，我们选取了一小部分变量，并拟合了一个逻辑斯谛模型，其输出如下：
 
     ```{r}
     glm(spam ~ to_multiple + winner + format + re_subj,
@@ -530,24 +519,24 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write down the model using the coefficients from the model fit.
+    a.  根据模型拟合得到的系数写出该模型。
 
-    b.  Suppose we have an observation where $\texttt{to\_multiple} = 0$, $\texttt{winner}= 1$, $\texttt{format} = 0$, and $\texttt{re\_subj} = 0$.
-        What is the predicted probability that this message is spam?
+    b.  假设我们有一个观测，其中 $\texttt{to\_multiple} = 0$，$\texttt{winner}= 1$，$\texttt{format} = 0$，且 $\texttt{re\_subj} = 0$。
+        预测该邮件是垃圾邮件的概率是多少？
 
-    c.  Put yourself in the shoes of a data scientist working on a spam filter.
-        For a given message, how high must the probability a message is spam be before you think it would be reasonable to put it in a *spambox* (which the user is unlikely to check)?
-        What tradeoffs might you consider?
-        Any ideas about how you might make your spam-filtering system even better from the perspective of someone using your email service?
+    c.  假设你是一名从事垃圾邮件过滤工作的数据科学家。
+        对于给定的邮件，你认为邮件是垃圾邮件的概率需要达到多高，才适合将其放入用户不太可能去查看的*垃圾邮件箱*？
+        你可能需要考虑哪些权衡取舍？
+        从电子邮件服务用户的角度来看，你有什么想法可以让你的垃圾邮件过滤系统变得更好？
 
 \vfill
 
-9.  **Possum classification, model selection via AIC.** A logistic regression model was proposed for classifying common brushtail possums into their two regions.
-    The outcome variable took value 1 if the possum was from Victoria and 0 otherwise.
+9.  **负鼠分类，基于 AIC 的模型选择。** 提出了一个逻辑斯谛回归模型，用于将普通刷尾负鼠分类到它们所属的两个区域中。
+    如果负鼠来自维多利亚州，结果变量取值为 1，否则为 0。
 
-    We use logistic regression to classify the 104 possums in our dataset in these two regions.
-    The outcome variable, called `pop`, takes value 1 when the possum is from Victoria and 0 when it is from New South Wales or Queensland.
-    We consider five predictors: `sex` (an indicator for a possum being male), `head_l` (head length), `skull_w` (skull width), `total_l` (total length), and `tail_l` (tail length).
+    我们使用逻辑斯谛回归对我们数据集中的 104 只负鼠进行分类，将其归入这两个区域。
+    名为 `pop` 的结果变量，当负鼠来自维多利亚州时取值为 1，来自新南威尔士州或昆士兰州时取值为 0。
+    我们考虑了五个预测变量：`sex`（负鼠为雄性的指示变量）、`head_l`（头长）、`skull_w`（颅宽）、`total_l`（总长）和 `tail_l`（尾长）。
 
     ```{r}
     possum <- openintro::possum |>
@@ -555,14 +544,14 @@
       mutate(pop = as.factor(ifelse(pop == "Vic", "Victoria", "other")))
     ```
 
-    A summary of the three models we fit and their AIC values are given below:
+    下面给出了我们拟合的三个模型及其 AIC 值的汇总：
 
     ```{r}
     pop_m1 <- glm(pop ~ sex + head_l + skull_w + total_l + tail_l, data = possum, family = "binomial")
     pop_m2 <- glm(pop ~ sex + skull_w + total_l + tail_l, data = possum, family = "binomial")
     pop_m3 <- glm(pop ~ sex + head_l + total_l + tail_l, data = possum, family = "binomial")
 
-    pop_m1_stats <- glance(pop_m1) |>
+pop_m1_stats <- glance(pop_m1) |>
       select(AIC) |>
       mutate(formula = as.character(pop_m1$formula)[3])
 
@@ -585,27 +574,27 @@
         latex_options = "HOLD_position", full_width = F
       ) |>
       column_spec(1, width = "25em", monospace = TRUE) |>
-      column_spec(2, width = "5em") 
+      column_spec(2, width = "5em")
     ```
 
-    a.  Using the AIC metric, which of the three models would be best to report?
+    a.  基于 AIC 指标，这三个模型中哪一个最适合报告？
 
-    b.  If, for example, the AIC is virtually equivalent for two models that have differing numbers of variables, which model would be prefered: the model with more variables or the model with fewer variables?
-        Explain.
-
-\vfill
-
-10. **Model selection.** An important aspect of building a logistic regression model is figuring out which variables to include in the model.
-    In @sec-model-logistic we covered using AIC to choose between variable subsets.
-    In @sec-inf-model-logistic we will cover using something called p-values to choose between variables subsets.
-    Alternatively, you might hope that a model gave the smallest number of false positives, the smallest number of false negatives, or the highest overall accuracy.
-    If different criteria produce outcomes of *different variable subsets* for the final model, how might you decide which model to put forward?
-    (Hint: There is no single correct answer to this question.)
+    b.  例如，如果两个变量数量不同的模型，其 AIC 值几乎相同，那么哪个模型更可取：是变量较多的模型，还是变量较少的模型？
+        请解释。
 
 \vfill
 
-[^_09-ex-model-logistic-1]: The [`possum`](http://openintrostat.github.io/openintro/reference/possum.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+10. **模型选择。** 构建逻辑斯谛回归模型的一个重要方面是确定模型中应包含哪些变量。
+    在 [第 -@sec-model-logistic 章] 中，我们介绍了使用 AIC 在不同变量子集之间进行选择。
+    在 [第 -@sec-inf-model-logistic 章] 中，我们将介绍使用所谓的 p 值在不同变量子集之间进行选择。
+    或者，你可能希望模型具有最少的假阳性、最少的假阴性，或者最高的整体准确率。
+    如果不同的标准为最终模型选出的*变量子集*不同，你可能会如何决定提出哪个模型？
+    （提示：这个问题没有唯一正确的答案。）
 
-[^_09-ex-model-logistic-2]: The [`orings`](http://openintrostat.github.io/openintro/reference/orings.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+\vfill
 
-[^_09-ex-model-logistic-3]: The [`email`](http://openintrostat.github.io/openintro/reference/email.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_09-ex-model-logistic-1]: 本练习中使用的 [`possum`](http://openintrostat.github.io/openintro/reference/possum.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_09-ex-model-logistic-2]: 本练习中使用的 [`orings`](http://openintrostat.github.io/openintro/reference/orings.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_09-ex-model-logistic-3]: 本练习中使用的 [`email`](http://openintrostat.github.io/openintro/reference/email.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

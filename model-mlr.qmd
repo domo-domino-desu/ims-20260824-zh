@@ -1,19 +1,20 @@
-# Linear regression with multiple predictors {#sec-model-mlr}
+# 具有多个预测变量的线性回归 {#sec-model-mlr}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-Building on the ideas of one predictor variable in a linear regression model (from [Chapter -@sec-model-slr]), a multiple linear regression model is now fit to two or more predictor variables.
-By considering how different explanatory variables interact, we can uncover complicated relationships between the predictor variables and the response variable.
-One challenge to working with multiple variables is that it is sometimes difficult to know which variables are most important to include in the model.
-Model building is an extensive topic, and we scratch the surface here by defining and utilizing the adjusted $R^2$ value.
+在[第 -@sec-model-slr 章]介绍的单预测变量线性回归模型的基础上，现在来拟合包含两个或更多预测变量的多元线性回归模型。
+通过考虑不同解释变量如何共同作用，我们可以揭示预测变量与响应变量之间复杂的关系。
+处理多个变量时的一个挑战是，有时很难确定哪些变量应纳入模型。
+模型构建是一个内容广泛的主题，我们在此仅作初步探讨，通过定义和使用调整后的 $R^2$ 值来入门。
 :::
 
-Multiple regression extends single predictor variable regression to the case that still has one response but many predictors (denoted $x_1$, $x_2$, $x_3$, ...).
-The method is motivated by scenarios where many variables may be simultaneously connected to an output.
+多元回归将单预测变量回归扩展到仍包含一个响应变量，但具有多个预测变量（记为 $x_1$, $x_2$, $x_3$, ...）的情形。
+该方法的动机源于多个变量可能同时与某个结果变量相关联的场景。
 
 ```{r}
 #| label: loans-prep
@@ -37,12 +38,14 @@ loans <- loans_full_schema |>
   )
 ```
 
-We will consider data about loans from the peer-to-peer lender, Lending Club, which is a dataset we first encountered in [Chapter -@sec-data-hello].
-The loan data includes terms of the loan as well as information about the borrower.
-The outcome variable we would like to better understand is the interest rate assigned to the loan.
-For instance, all other characteristics held constant, does it matter how much debt someone already has?
-Does it matter if their income has been verified?
-Multiple regression will help us answer these and other questions.
+
+
+我们将考虑来自点对点（P2P）贷款机构 Lending Club 的贷款数据，这是我们在[第 -@sec-data-hello 章]中首次遇到的数据集。
+贷款数据包括贷款条款以及借款人的信息。
+我们希望深入了解的结果变量是贷款的利率。
+例如，在其他所有特征保持不变的情况下，借款人已有的债务金额是否会产生影响？
+收入是否经过验证是否会产生影响？
+多元回归将帮助我们回答这些及其他问题。
 
 ```{r}
 #| label: loans-n-rows-to-show
@@ -51,21 +54,23 @@ n_rows_to_show <- 6
 n_rows_to_show_string <- "six"
 ```
 
-The dataset includes information on `r nrow(loans)` loans, and we'll be looking at a subset of the available variables, some of which will be new from those we saw in earlier chapters.
-The first `r n_rows_to_show_string` observations in the dataset are shown in @tbl-loans-data-matrix, and descriptions for each variable are shown in @tbl-loans-variables.
-Notice that the past bankruptcy variable (`bankruptcy`) is an indicator variable, where it takes the value 1 if the borrower had a past bankruptcy in their record and 0 if not.
-Using an indicator variable in place of a category name allows for these variables to be directly used in regression.
-Two of the other variables are categorical (`verified_income` and `issue_month`), each of which can take one of a few different non-numerical values; we'll discuss how these are handled in the model in @sec-ind-and-cat-predictors.
+
+
+该数据集包含 `r nrow(loans)` 笔贷款的信息，我们将考察可用变量的一个子集，其中一些是前面章节未曾介绍过的新变量。
+数据集中的前 `r n_rows_to_show_string` 个观测如 @tbl-loans-data-matrix 所示，每个变量的描述如 @tbl-loans-variables 所示。
+请注意，过去的破产记录变量（`bankruptcy`）是一个指示变量，如果借款人记录中有破产记录则取值为 1，否则取值为 0。
+使用指示变量代替类别名称，使得这些变量可以在回归中直接使用。
+另外两个变量是分类变量（`verified_income` 和 `issue_month`），每个都可以取几个不同的非数值之一；我们将在 @sec-ind-and-cat-predictors 中讨论如何在模型中处理这些变量。
 
 ::: {.data data-latex=""}
-The [`loans_full_schema`](http://openintrostat.github.io/openintro/reference/loans_full_schema.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
-Based on the data in this dataset we have created two new variables: `credit_util` which is calculated as the total credit utilized divided by the total credit limit and `bankruptcy` which turns the number of bankruptcies to an indicator variable (0 for no bankruptcies and 1 for at least 1 bankruptcy).
-We will refer to this modified dataset as `loans`.
+[`loans_full_schema`](http://openintrostat.github.io/openintro/reference/loans_full_schema.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+基于该数据集中的数据，我们创建了两个新变量：`credit_util`（计算方式为总已用信贷额度除以总信贷额度）和 `bankruptcy`（将破产次数转化为指示变量，0 表示无破产，1 表示至少有 1 次破产）。
+我们将这个修改后的数据集称为 `loans`。
 :::
 
 ```{r}
 #| label: tbl-loans-data-matrix
-#| tbl-cap: First six rows of the `loans` dataset.
+#| tbl-cap: "`loans` 数据集的前六行。"
 #| tbl-pos: H
 loans |>
   slice_head(n = n_rows_to_show) |>
@@ -83,25 +88,25 @@ loans |>
 
 ```{r}
 #| label: tbl-loans-variables
-#| tbl-cap: Variables and their descriptions for the `loans` dataset.
+#| tbl-cap: "`loans` 数据集中的变量及其描述。"
 #| tbl-pos: H
 loans_var_def <- tribble(
   ~variable         , ~description                                                                                                                                                                                                       ,
-  "interest_rate"   , "Interest rate on the loan, in an annual percentage."                                                                                                                                                              ,
-  "verified_income" , "Categorical variable describing whether the borrower's income source and amount have been verified, with levels Verified (source and amount verified), Source Verified (source only verified), and Not Verified." ,
-  "debt_to_income"  , "Debt-to-income ratio, which is the percentage of total debt of the borrower divided by their total income."                                                                                                       ,
-  "credit_util"     , "Of all the credit available to the borrower, what fraction are they utilizing. For example, the credit utilization on a credit card would be the card's balance divided by the card's credit limit."              ,
-  "bankruptcy"      , "An indicator variable for whether the borrower has a past bankruptcy in their record. This variable takes a value of `1` if the answer is *yes* and `0` if the answer is *no*."                                   ,
-  "term"            , "The length of the loan, in months."                                                                                                                                                                               ,
-  "issue_month"     , "The month and year the loan was issued, which for these loans is always during the first quarter of 2018."                                                                                                        ,
-  "credit_checks"   , "Number of credit checks in the last 12 months. For example, when filing an application for a credit card, it is common for the company receiving the application to run a credit check."                          ,
+  "interest_rate"   , "贷款利率，以年化百分比表示。"                                                                                                                                                                                                 ,
+  "verified_income" , "描述借款人收入来源和金额是否经过验证的分类变量，其水平包括：Verified（来源和金额均已验证）、Source Verified（仅来源已验证）和 Not Verified（未验证）。"                                                                                     ,
+  "debt_to_income"  , "债务收入比，即借款人总债务除以其总收入的百分比。"                                                                                                                                                                    ,
+  "credit_util"     , "借款人可用信贷总额的使用比例。例如，信用卡的信贷利用率就是该卡的余额除以该卡的信用额度。"                                                                                                              ,
+  "bankruptcy"      , "指示借款人记录中是否有破产记录的指示变量。如果答案为*是*，则该变量取值为 `1`；如果答案为*否*，则取值为 `0`。"                                                                                                      ,
+  "term"            , "贷款期限，以月为单位。"                                                                                                                                                                                                    ,
+  "issue_month"     , "贷款发放的月份和年份，对于这些贷款，发放时间总是在 2018 年第一季度。"                                                                                                                                                     ,
+  "credit_checks"   , "过去 12 个月内的信用查询次数。例如，提交信用卡申请时，接收申请的公司通常会进行一次信用查询。"                                                                                                                                  ,
 )
 
 loans_var_def |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Variable", "Description"),
+    col.names = c("变量", "描述"),
     format = "markdown"
   ) |>
   kable_styling(
@@ -113,22 +118,23 @@ loans_var_def |>
   column_spec(2, width = "30em")
 ```
 
-## Indicator and categorical predictors {#sec-ind-and-cat-predictors}
 
-Let's start by fitting a linear regression model for interest rate with a single predictor indicating whether a person has a bankruptcy in their record:
+
+## 指示变量和分类预测变量 {#sec-ind-and-cat-predictors}
+
+首先，我们拟合一个利率对单个预测变量（指示借款人记录中是否有破产记录）的线性回归模型：
 
 $$
 \widehat{\texttt{interest\_rate}} = 12.34 + 0.74 \times \texttt{bankruptcy}
 $$
 
-Results of this model are shown in @tbl-int-rate-bankruptcy.
+该模型的结果如 @tbl-int-rate-bankruptcy 所示。
 
 ```{r}
 #| label: tbl-int-rate-bankruptcy
 #| tbl-cap: |
-#|   Summary of a linear model for predicting `interest_rate`
-#|   based on whether the borrower has a bankruptcy in their
-#|   record. Degrees of freedom for this model is 9998.
+#|   基于借款人是否有破产记录来预测 `interest_rate` 的线性模型摘要。
+#|   该模型的自由度为 9998。
 #| tbl-pos: H
 m_bankruptcy <- lm(interest_rate ~ bankruptcy, data = loans)
 
@@ -149,22 +155,23 @@ m_bankruptcy |>
   column_spec(2:5, width = "4em")
 ```
 
+
 ::: {.workedexample data-latex=""}
-Interpret the coefficient for the past bankruptcy variable in the model.
+请解释模型中过去破产记录变量的系数。
 
 ------------------------------------------------------------------------
 
-The variable takes one of two values: 1 when the borrower has a bankruptcy in their history and 0 otherwise.
-A slope of 0.74 means that the model predicts a 0.74% higher interest rate for those borrowers with a bankruptcy in their record.
-(See @sec-categorical-predictor-two-levels for a review of the interpretation for two-level categorical predictor variables.)
+该变量取两个值之一：借款人有破产记录时取 1，否则取 0。
+斜率为 0.74 意味着模型预测有破产记录的借款人的利率比无破产记录的借款人高出 0.74%。
+（回顾二水平分类预测变量的解释，请参见 @sec-categorical-predictor-two-levels。）
 :::
 
-Suppose we had fit a model using a 3-level categorical variable, such as `verified_income`.
-The output from software is shown in @tbl-int-rate-ver-income.
-This regression output provides multiple rows for the variable.
-Each row represents the relative difference for each level of `verified_income`.
-However, we are missing one of the levels: `Not Verified`.
-The missing level is called the **reference level**\index{reference level} and it represents the default level that other levels are measured against.
+假设我们使用一个三水平分类变量（如 `verified_income`）来拟合模型。
+软件输出的结果如 @tbl-int-rate-ver-income 所示。
+该回归输出为这个变量提供了多行结果。
+每一行代表 `verified_income` 每个水平的相对差异。
+然而，其中缺少了一个水平：`Not Verified`。
+这个缺失的水平被称为**参照水平**\index{reference level}，它代表了其他水平进行比较时的默认基准水平。
 
 ```{r}
 #| include: false
@@ -174,10 +181,8 @@ terms_chp_08 <- c("reference level")
 ```{r}
 #| label: tbl-int-rate-ver-income
 #| tbl-cap: |
-#|   Summary of a linear model for predicting `interest_rate` from
-#|   the borrower’s income source and amount verification.
-#|   This predictor has three levels, which results in 2
-#|   rows in the regression output.
+#|   根据借款人收入来源与金额验证情况预测 `interest_rate` 的线性模型摘要。
+#|   该预测变量有三个水平，因此在回归输出中产生两行。
 #| tbl-pos: H
 m_verified_income <- lm(interest_rate ~ verified_income, data = loans)
 
@@ -198,12 +203,13 @@ m_verified_income |>
   column_spec(2:5, width = "5em")
 ```
 
+
 ::: {.workedexample data-latex=""}
-How would we write an equation for this regression model?
+我们如何写出这个回归模型的方程？
 
 ------------------------------------------------------------------------
 
-The equation for the regression model may be written as a model with two predictors:
+该回归模型的方程可以写成包含两个预测变量的模型：
 
 \vspace{-5mm}
 
@@ -215,91 +221,88 @@ $$
 \end{aligned}
 $$
 
-We use the notation $\texttt{variable}_{\texttt{level}}$ to represent indicator variables for when the categorical variable takes a particular value.
-For example, $\texttt{verified\_income}_{\texttt{Source Verified}}$ would take a value of 1 if it was for a borrower that was source verified, and it would take a value of 0 otherwise.
-Likewise, $\texttt{verified\_income}_{\texttt{Verified}}$ would take a value of 1 if it was for a borrower that was verified, and 0 if it took any other value.
+我们使用记号 $\texttt{variable}_{\texttt{level}}$ 来表示当分类变量取特定值时的指示变量。
+例如，当借款人属于“来源已验证”时，$\texttt{verified\_income}_{\texttt{Source Verified}}$ 取值为 1，否则为 0。
+类似地，当借款人属于“已验证”时，$\texttt{verified\_income}_{\texttt{Verified}}$ 取值为 1，否则为 0。
 :::
 
-The notation $\texttt{variable}_{\texttt{level}}$ may feel a bit confusing.
-Let's figure out how to use the equation for each level of the `verified_income` variable.
+记号 $\texttt{variable}_{\texttt{level}}$ 可能让人觉得有些困惑。
+让我们来看看如何对 `verified_income` 变量的每个水平使用这个方程。
 
 ::: {.workedexample data-latex=""}
-Using the model for predicting interest rate from income verification type, compute the average interest rate for borrowers whose income source and amount are both *unverified*.
+使用根据收入验证类型预测利率的模型，计算收入来源和金额均*未验证*的借款人的平均利率。
 
 ------------------------------------------------------------------------
 
-When `verified_income` takes a value of `Not Verified`, then both indicator functions in the equation for the linear model are set to 0:
+当 `verified_income` 取值为 `Not Verified` 时，线性模型方程中的两个指示函数都设为 0：
 
 $$
 \widehat{\texttt{interest\_rate}} = 11.10 + 1.42 \times 0 + 3.25 \times 0 = 11.10
 $$
 
-The average interest rate for these borrowers is 11.1%.
-Because the level does not have its own coefficient and it is the reference value, the indicators for the other levels for this variable all drop out.
+这些借款人的平均利率为 11.1%.
+由于该水平没有自己的系数且为参照水平，该变量的其他水平的指示变量就都被消去了。
 :::
 
 ::: {.workedexample data-latex=""}
-Using the model for predicting interest rate from income verification type, compute the average interest rate for borrowers whose income source is *source verified*.
+使用根据收入验证类型预测利率的模型，计算收入来源为*来源已验证*的借款人的平均利率。
 
 ------------------------------------------------------------------------
 
-When `verified_income` takes a value of `Source Verified`, then the corresponding variable takes a value of 1 while the other is 0:
+当 `verified_income` 取值为 `Source Verified` 时，对应变量取值为 1，而另一个为 0：
 
 $$
 \widehat{\texttt{interest\_rate}} = 11.10 + 1.42 \times 1 + 3.25 \times 0 = 12.52
 $$
 
-The average interest rate for these borrowers is 12.52%.
+这些借款人的平均利率为 12.52%.
 :::
 
 ::: {.guidedpractice data-latex=""}
-Compute the average interest rate for borrowers whose income source and amount are both *verified*.[^08-model-mlr-1]
+计算收入来源和金额均*已验证*的借款人的平均利率。[^08-model-mlr-1]
 :::
 
-[^08-model-mlr-1]: When `verified_income` takes a value of `Verified`, then the corresponding variable takes a value of 1 while the other is 0: $11.10 + 1.42 \times 0 + 3.25 \times 1 = 14.35.$ The average interest rate for these borrowers is 14.35%.
+[^08-model-mlr-1]: 当 `verified_income` 取值为 `Verified` 时，对应变量取值为 1，而另一个为 0：$11.10 + 1.42 \times 0 + 3.25 \times 1 = 14.35.$ 这些借款人的平均利率为 14.35%.
 
 ::: {.important data-latex=""}
-**Predictors with several categories.**
+**具有多个类别的预测变量。**
 
-When fitting a regression model with a categorical variable that has $k$ levels where $k > 2$, software will provide a coefficient for $k - 1$ of those levels.
-For the last level that does not receive a coefficient, this is the reference level, and the coefficients listed for the other levels are all considered relative to this reference level.
+当拟合一个具有 $k$ 个水平（其中 $k > 2$）的分类变量的回归模型时，软件会提供其中 $k - 1$ 个水平的系数。
+对于没有获得系数的最后一个水平，这就是参照水平，而列出的其他水平的系数都是相对于这个参照水平而言的。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Interpret the coefficients from the model above.[^08-model-mlr-2]
+解释上述模型的系数。[^08-model-mlr-2]
 :::
 
-[^08-model-mlr-2]: Each of the coefficients gives the incremental interest rate for the corresponding level relative to the `Not Verified` level, which is the reference level.
-    For example, for a borrower whose income source and amount have been verified, the model predicts that they will have a 3.25% higher interest rate than a borrower who has not had their income source or amount verified.
+[^08-model-mlr-2]: 每个系数给出了相应水平相对于参照水平（即 `Not Verified` 水平）的利率增量。
+    例如，对于收入来源和金额都已验证的借款人，模型预测其利率将比未验证收入来源或金额的借款人高出 3.25%。
 
-The higher interest rate for borrowers who have verified their income source or amount is surprising.
-Intuitively, we would think that a loan would look *less* risky if the borrower's income has been verified.
-However, note that the situation may be more complex, and there may be confounding variables that we didn't account for.
-For example, perhaps lenders require borrowers with poor credit to verify their income.
-That is, verifying income in our dataset might be a signal of some concerns about the borrower rather than a reassurance that the borrower will pay back the loan.
-For this reason, the borrower could be deemed higher risk, resulting in a higher interest rate.
-(What other confounding variables might explain this counter-intuitive relationship suggested by the model?)
+已验证收入来源或金额的借款人利率更高，这令人惊讶。
+直觉上，我们会认为如果借款人的收入已经过验证，贷款看起来风险应该*更低*。
+然而，请注意情况可能更复杂，可能存在我们未考虑到的混杂变量。
+例如，可能贷款机构会要求信用较差的借款人验证其收入。
+也就是说，在我们的数据集中，验证收入可能意味着对借款人的某些担忧，而不是借款人将会还款的一种保证。
+因此，借款人可能被视为风险更高，从而导致利率更高。
+（还有哪些混杂变量可能解释模型所提示的这种反直觉关系？）
 
 ::: {.guidedpractice data-latex=""}
-How much larger of an interest rate would we expect for a borrower who has verified their income source and amount vs a borrower whose income source has only been verified?[^08-model-mlr-3]
+对于一个已验证收入来源和金额的借款人，与一个仅验证了收入来源的借款人相比，我们预期其利率会高出多少？[^08-model-mlr-3]
 :::
 
-[^08-model-mlr-3]: Relative to the `Not Verified` category, the `Verified` category has an interest rate of 3.25% higher, while the `Source Verified` category is only 1.42% higher.
-    Thus, `Verified` borrowers will tend to get an interest rate about $3.25\% - 1.42\% = 1.83\%$ higher than `Source Verified` borrowers.
+[^08-model-mlr-3]: 相对于 `Not Verified` 类别，`Verified` 类别的利率要高出 3.25%，而 `Source Verified` 类别仅高出 1.42%。
+    因此，`Verified` 借款人的利率往往比 `Source Verified` 借款人高出约 $3.25\% - 1.42\% = 1.83\%$。
 
-## Many predictors in a model
+## 模型中的多个预测变量
 
-The world is complex, and it can be helpful to consider many factors at once in statistical modeling.
-For example, we might like to use the full context of borrowers to predict the interest rate they receive rather than using a single variable.
-This is the strategy used in **multiple regression**\index{multiple regression}.
-While we remain cautious about making any causal interpretations using multiple regression on observational data, such models are a common first step in gaining insights or providing some evidence of a causal connection.
+世界是复杂的，在统计建模中同时考虑许多因素会很有帮助。例如，我们可能希望利用借款人的完整背景信息来预测他们获得的利率，而不是仅仅使用单一变量。这正是**多元回归**\index{multiple regression}所采用的策略。虽然在使用观测数据进行多元回归以作出任何因果解释时，我们仍需保持谨慎，但此类模型通常是获取洞察或提供因果关联的初步证据的第一步。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "multiple regression")
 ```
 
-We want to construct a model that accounts not only for any past bankruptcy or whether the borrower had their income source or amount verified, but simultaneously accounts for all the variables in the `loans` dataset: `verified_income`, `debt_to_income`, `credit_util`, `bankruptcy`, `term`, `issue_month`, and `credit_checks`.
+我们希望构建一个模型，它不仅考虑是否有过破产记录或借款人是否已验证其收入来源或金额，同时还要考虑 `loans` 数据集中的所有变量：`verified_income`、`debt_to_income`、`credit_util`、`bankruptcy`、`term`、`issue_month` 和 `credit_checks`。
 
 $$
 \begin{aligned}
@@ -312,29 +315,23 @@ $$
 \end{aligned}
 $$
 
-This equation represents a holistic approach for modeling all of the variables simultaneously.
-Notice that there are two coefficients for `verified_income` and two coefficients for `issue_month`, since both are 3-level categorical variables.
+这个方程代表了同时对所有变量进行建模的整体方法。注意，`verified_income` 有两个系数，`issue_month` 也有两个系数，因为两者都是 3 水平分类变量。
 
-We calculate $b_0$, $b_1$, $b_2$, $\cdots$, $b_9$ the same way as we did in the case of a model with a single predictor -- we select values that minimize the sum of the squared residuals:
+我们计算 $b_0$, $b_1$, $b_2$, $\cdots$, $b_9$ 的方式与单预测变量的模型相同——我们选择能够最小化残差平方和的值：
 
 $$
 SSE = e_1^2 + e_2^2 + \dots + e_{10000}^2 = \sum_{i=1}^{10000} e_i^2 = \sum_{i=1}^{10000} \left(y_i - \hat{y}_i\right)^2
 $$
 
-where $y_i$ and $\hat{y}_i$ represent the observed interest rates and their estimated values according to the model, respectively.
-10,000 residuals are calculated, one for each observation.
-Note that these values are sample statistics and in the case where the observed data is a random sample from a target population that we are interested in making inferences about, they are estimates of the population parameters $\beta_0$, $\beta_1$, $\beta_2$, $\cdots$, $\beta_9$.
-We will discuss inference based on linear models in [Chapter -@sec-inf-model-mlr], for now we will focus on calculating sample statistics $b_i$.
+其中 $y_i$ 和 $\hat{y}_i$ 分别表示观测利率及其根据模型的估计值。一共计算了 10,000 个残差，每个观测对应一个。注意，这些值是样本统计量，如果观测数据是我们想要进行推断的目标总体的一个随机样本，那么它们就是总体参数 $\beta_0$, $\beta_1$, $\beta_2$, $\cdots$, $\beta_9$ 的估计值。我们将在 [第 -@sec-inf-model-mlr 章] 讨论基于线性模型的推断，目前我们将专注于计算样本统计量 $b_i$。
 
-We typically use a computer to minimize the sum of squares and compute point estimates, as shown in the sample output in @tbl-loans-full.
-Using this output, we identify $b_i,$ just as we did in the one-predictor case.
+我们通常使用计算机来最小化平方和并计算点估计，如 @tbl-loans-full 中的输出样例所示。利用该输出，我们可以识别出 $b_i$，就像在单预测变量的情况下所做的那样。
 
 ```{r}
 #| label: tbl-loans-full
 #| tbl-cap: |
-#|   Output for the regression model, where interest rate is the
-#|   outcome and the variables listed are the predictors. Degrees
-#|   of freedom for this model is 9990.
+#|   回归模型的输出，其中利率是结果变量，
+#|   列出的变量是预测变量。该模型的自由度是 9990。
 #| tbl-pos: H
 m_full <- lm(interest_rate ~ ., data = loans)
 
@@ -350,27 +347,25 @@ m_full |>
   column_spec(2:5, width = "5em")
 ```
 
-::: {.important data-latex=""}
-**Multiple regression model.**
 
-A multiple regression model is a linear model with many predictors.
-In general, we write the model as
+::: {.important data-latex=""}
+**多元回归模型。**
+
+多元回归模型是一个包含多个预测变量的线性模型。一般来说，当有 $k$ 个预测变量时，我们将模型写作：
 
 $$
 \hat{y} = b_0 + b_1 x_1 + b_2 x_2 + \cdots + b_k x_k
 $$
 
-when there are $k$ predictors.
-We always calculate $b_i$ using statistical software.
+我们总是使用统计软件来计算 $b_i$。
 :::
 
 ::: {.workedexample data-latex=""}
-Write out the regression model using the regression output from @tbl-loans-full.
-How many predictors are there in this model?
+利用 @tbl-loans-full 中的回归输出写出回归模型。这个模型中有多少个预测变量？
 
 ------------------------------------------------------------------------
 
-The fitted model for the interest rate is given by:
+利率的拟合模型如下：
 
 $$
 \begin{aligned}
@@ -383,43 +378,40 @@ $$
 \end{aligned}
 $$
 
-If we count up the number of predictor coefficients, we get the *effective* number of predictors in the model; there are nine of those.
-Notice that the categorical predictor counts as two, once for each of the two levels shown in the model.
-In general, a categorical predictor with $p$ different levels will be represented by $p - 1$ terms in a multiple regression model.
-A total of seven variables were used as predictors to fit this model: `verified_income`, `debt_to_income`, `credit_util`, `bankruptcy`, `term`, `credit_checks`, `issue_month`.
+如果我们计算预测变量系数的数量，就得到模型中预测变量的*有效*数量；这里有九个。注意，一个分类预测变量计为两个，对应模型中显示的两个水平各一项。一般来说，一个有 $p$ 个不同水平的分类预测变量在多元回归模型中会由 $p - 1$ 项表示。总共有七个变量被用作预测变量来拟合这个模型：`verified_income`、`debt_to_income`、`credit_util`、`bankruptcy`、`term`、`credit_checks`、`issue_month`。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Interpret the coefficient of the variable `credit_checks`.[^08-model-mlr-4]
+解释变量 `credit_checks` 的系数。[^08-model-mlr-4]
 :::
 
-[^08-model-mlr-4]: All else held constant, for each additional inquiry into the applicant's credit during the last 12 months, we would expect the interest rate for the loan to be higher, on average, by 0.23 points.
+[^08-model-mlr-4]: 在其他条件不变的情况下，过去12个月内每增加一次对申请人信用的查询，我们预计贷款利率平均会提高0.23点。
 
 ::: {.guidedpractice data-latex=""}
-Compute the residual of the first observation in @tbl-loans-data-matrix using the full model.[^08-model-mlr-5]
+使用全模型计算 @tbl-loans-data-matrix 中第一个观测的残差。[^08-model-mlr-5]
 :::
 
-[^08-model-mlr-5]: To compute the residual, we first need the predicted value, which we compute by plugging values into the equation from earlier.
-    For example, $\texttt{verified\_income}_{\texttt{Source Verified}}$ takes a value of 0, $\texttt{verified\_income}_{\texttt{Verified}}$ takes a value of 1 (since the borrower's income source and amount were verified), $\texttt{debt\_to\_income}$ was 18.01, and so on.
-    This leads to a prediction of $\widehat{\texttt{interest\_rate}}_1 = 17.84$.
-    The observed interest rate was 14.07%, which leads to a residual of $e_1 = 14.07 - 17.84 = -3.77$.
+[^08-model-mlr-5]: 要计算残差，我们首先需要预测值，这可以通过将值代入之前的方程来得到。
+    例如，$\texttt{verified\_income}_{\texttt{Source Verified}}$的取值为0，$\texttt{verified\_income}_{\texttt{Verified}}$的取值为1（因为借款人的收入来源和金额已被核实），$\texttt{debt\_to\_income}$ 为18.01，等等。
+    这将得到预测值 $\widehat{\texttt{interest\_rate}}_1 = 17.84$。
+    观测到的利率为 14.07%，由此得到的残差为 $e_1 = 14.07 - 17.84 = -3.77$。
 
 ::: {.workedexample data-latex=""}
-We calculated a slope coefficient of 0.74 for `bankruptcy` in @sec-ind-and-cat-predictors while the coefficient is 0.39 here.
-Why is there a difference between the coefficient values between the models with single and multiple predictors?
+在 @sec-ind-and-cat-predictors 中，我们对 `bankruptcy` 计算出的斜率系数是0.74，而此处该系数是0.39。
+为什么单一预测变量模型与多个预测变量模型之间的系数值会存在差异？
 
 ------------------------------------------------------------------------
 
-If we examined the data carefully, we would see that some predictors are correlated.
-For instance, when we modeled the relationship of the outcome `interest_rate` and predictor `bankruptcy` using linear regression, we were unable to control for other variables like whether the borrower had their income verified, the borrower's debt-to-income ratio, and other variables.
-That original model was constructed in a vacuum and did not consider the full context of everything that is considered when an interest rate is decided.
-When we include all of the variables, underlying and unintentional bias that was missed by not including these other variables is reduced or eliminated.
-Of course, bias can still exist from other confounding variables.
+如果我们仔细检查数据，会发现某些预测变量是相关的。
+例如，当我们使用线性回归对结果变量 `interest_rate` 和预测变量 `bankruptcy` 之间的关系进行建模时，我们无法对其他变量进行控制，比如借款人的收入是否被核实、借款人的负债收入比以及其他变量。
+那个原始模型是在脱离其他因素的情况下构建的，没有考虑决定利率时所考虑的全部背景信息。
+当我们纳入所有变量时，因未纳入这些其他变量而遗漏的潜在的和无意的偏差就会减少或消除。
+当然，偏差仍可能来自其他混杂变量。
 :::
 
-The previous example describes a common issue in multiple regression: correlation among predictor variables.
-We say the two predictor variables are **collinear** (pronounced as *co-linear*\index{collinear}) when they are correlated, and this **multicollinearity**\index{multicollinearity} complicates model estimation.
-While it is impossible to prevent multicollinearity from arising in observational data, experiments are usually designed to prevent predictors from being multicollinear.
+前面的例子描述了多元回归中的一个常见问题：预测变量之间的相关性。
+当两个预测变量相关时，我们称它们是**共线的**（发音为 *co-linear*\index{collinear}），而这种**多重共线性**\index{multicollinearity}会使模型估计复杂化。
+虽然在观测数据中无法避免多重共线性的出现，但实验通常会被设计以防止预测变量之间存在多重共线性。
 
 ```{r}
 #| include: false
@@ -427,58 +419,57 @@ terms_chp_08 <- c(terms_chp_08, "multicollinearity", "collinear")
 ```
 
 ::: {.guidedpractice data-latex=""}
-The estimated value of the intercept is 1.89, and one might be tempted to make some interpretation of this coefficient, such as, it is the model's predicted interest rate when each of the variables take value zero: income source is not verified, the borrower has no debt (debt-to-income and credit utilization are zero), and so on.
-Is this reasonable?
-Is there any value gained by making this interpretation?[^08-model-mlr-6]
+截距的估计值为1.89，有人可能会试图对这个系数做出解释，例如，它是当每个变量都取值为零时模型的预测利率：收入来源未被核实，借款人没有债务（负债收入比和信用利用率为零），等等。
+这合理吗？做出这种解释是否有任何价值？[^08-model-mlr-6]
 :::
 
-[^08-model-mlr-6]: Many of the variables do take a value 0 for at least one data point, and for those variables, it is reasonable.
-    However, one variable never takes a value of zero: `term`, which describes the length of the loan, in months.
-    If `term` is set to zero, then the loan must be paid back immediately; the borrower must give the money back as soon as they receive it, which means it is not a real loan.
-    Ultimately, the interpretation of the intercept in this setting is not insightful.
+[^08-model-mlr-6]: 许多变量确实在至少一个观测上取值为0，对于这些变量来说，这种解释是合理的。
+    然而，有一个变量永远不会取值为零：`term`，它描述的是贷款期限，以月为单位。
+    如果将 `term` 设为零，那么贷款必须立即偿还；借款人一收到钱就必须还回去，这意味着这不是真正的贷款。
+    最终，在这种情况下解释截距并没有实际意义。
 
-## Adjusted R-squared
+## 调整决定系数
 
-We first used $R^2$ in @sec-r-squared to determine the amount of variability in the response that was explained by the model:
+我们最初在 @sec-r-squared 中使用 $R^2$ 来确定模型解释的结果变量的变异程度：
 
 $$
-R^2 = 1 - \frac{\text{variability in residuals}}{\text{variability in the outcome}}
+R^2 = 1 - \frac{\text{残差变异性}}{\text{结果变量变异性}}
     = 1 - \frac{Var(e_i)}{Var(y_i)}
-$$ 
+$$
 
-where $e_i$ represents the residuals of the model and $y_i$ the outcomes.
-This equation remains valid in the multiple regression framework, but a small enhancement can make it even more informative when comparing models.
+其中 $e_i$ 代表模型的残差，$y_i$ 代表结果变量。
+这个方程在多元回归框架中仍然有效，但稍作改进可以在比较模型时提供更多信息。
 
 ::: {.guidedpractice data-latex=""}
-The variance of the residuals for the model given in the earlier Guided Practice is 18.53, and the variance of the total price in all the auctions is 25.01.
-Calculate $R^2$ for this model.[^08-model-mlr-7]
+前面引导练习中给出的模型，其残差的方差为18.53，而所有拍卖中总价格的方差为25.01。
+请计算该模型的 $R^2$。[^08-model-mlr-7]
 :::
 
 [^08-model-mlr-7]: $R^2 = 1 - \frac{18.53}{25.01} = 0.2591$.
 
-This strategy for estimating $R^2$ works when there is a single predictor.
-However, it becomes less helpful when there are many variables.
-The regular $R^2$ is a biased estimate of the amount of variability explained by the model when applied to model with more than one predictor.
-To get a better estimate, we use the adjusted $R^2$.
+这种估计 $R^2$ 的策略在只有一个预测变量时是有效的。
+然而，当存在多个变量时，它就变得不那么有用了。
+当应用于多于一个预测变量的模型时，常规的 $R^2$ 是对模型解释的变异程度的有偏估计。
+为了得到更好的估计，我们使用调整 $R^2$。
 
 ::: {.important data-latex=""}
-**Adjusted R-squared as a tool for model assessment.**
+**调整决定系数作为模型评估工具。**
 
-The **adjusted R-squared**\index{adjusted R-squared} is computed as
+**调整决定系数**\index{adjusted R-squared}的计算公式为：
 
 \vspace{-5mm}
 
 $$
 \begin{aligned}
   R_{adj}^{2}
-    &= 1 - \frac{s_{\text{residuals}}^2 / (n-k-1)}
-        {s_{\text{outcome}}^2 / (n-1)} = 1 - \frac{s_{\text{residuals}}^2}{s_{\text{outcome}}^2}
+    &= 1 - \frac{s_{\text{残差}}^2 / (n-k-1)}
+        {s_{\text{结果变量}}^2 / (n-1)} = 1 - \frac{s_{\text{残差}}^2}{s_{\text{结果变量}}^2}
         \times \frac{n-1}{n-k-1}
 \end{aligned}
 $$
 
-where $n$ is the number of observations used to fit the model and $k$ is the number of predictor variables in the model.
-Remember that a categorical predictor with $p$ levels will contribute $p - 1$ to the number of variables in the model.
+其中 $n$ 是用于拟合模型的观测数，$k$ 是模型中的预测变量数。
+请记住，一个具有 $p$ 个水平的分类预测变量会对模型中的变量数贡献 $p - 1$。
 :::
 
 ```{r}
@@ -486,89 +477,100 @@ Remember that a categorical predictor with $p$ levels will contribute $p - 1$ to
 terms_chp_08 <- c(terms_chp_08, "adjusted R-squared")
 ```
 
-Because $k$ is never negative, the adjusted $R^2$ will be smaller -- often times just a little smaller -- than the unadjusted $R^2$.
-The reasoning behind the adjusted $R^2$ lies in the **degrees of freedom**\index{degrees of freedom} associated with each variance, which is equal to $n - k - 1$ in the multiple regression context.
-If we were to make predictions for *new data* using our current model, we would find that the unadjusted $R^2$ would tend to be slightly overly optimistic, while the adjusted $R^2$ formula helps correct this bias.
+
+
+因为 $k$ 从不为负，所以调整 $R^2$ 会比未调整的 $R^2$ 小——通常只是稍微小一点。
+调整 $R^2$ 背后的原理在于与每个方差相联系的**自由度**\index{degrees of freedom}，在多元回归背景下，自由度等于 $n - k - 1$。
+如果我们使用当前模型对*新数据*进行预测，会发现未调整的 $R^2$ 往往略显过于乐观，而调整 $R^2$ 的公式有助于纠正这种偏差。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "degrees of freedom")
 ```
 
-::: {.guidedpractice data-latex=""}
-There were n = 10,000 auctions in the dataset and $k=9$ predictor variables in the model.
-Use $n$, $k$, and the variances from the earlier Guided Practice to calculate adjusted $R^2$ for the interest rate model.[^08-model-mlr-8]
-:::
-
-[^08-model-mlr-8]: $R_{adj}^2 = 1 - \frac{18.53}{25.01}\times \frac{10000-1}{10000-9-1} = 0.2584$.
-    While the difference is very small, it will be important when we fine tune the model in the next section.
 
 ::: {.guidedpractice data-latex=""}
-Suppose you added another predictor to the model, but the variance of the errors $Var(e_i)$ didn't go down.
-What would happen to the $R^2$?
-What would happen to the adjusted $R^2$?[^08-model-mlr-9]
+数据集中有 n = 10,000 个拍卖，模型中包含 $k=9$ 个预测变量。
+使用 $n$、$k$ 以及之前练习中的方差来计算利率模型的调整 $R^2$。[^08-model-mlr-8]
 :::
 
-[^08-model-mlr-9]: The unadjusted $R^2$ would stay the same and the adjusted $R^2$ would go down.
+[^08-model-mlr-8]: $R_{adj}^2 = 1 - \frac{18.53}{25.01}\times \frac{10000-1}{10000-9-1} = 0.2584$。
+    虽然差异很小，但当我们下一节微调模型时，它将很重要。
 
-Adjusted $R^2$ could also have been used in [Chapter -@sec-model-slr] where we introduced regression models with a single predictor.
-However, when there is only $k = 1$ predictors, adjusted $R^2$ is very close to regular $R^2$, so this nuance isn't typically important when the model has only one predictor.
+::: {.guidedpractice data-latex=""}
+假设你向模型中添加了另一个预测变量，但误差的方差 $Var(e_i)$ 并未降低。
+那么 $R^2$ 会怎样？
+调整 $R^2$ 又会怎样？[^08-model-mlr-9]
+:::
 
-## Model selection {#sec-model-selection}
+[^08-model-mlr-9]: 未调整的 $R^2$ 将保持不变，而调整 $R^2$ 会下降。
 
-The best model is not always the most complicated.
-Sometimes including predictors that are not evidently important can actually reduce the accuracy of predictions.
-In this section, we discuss model selection strategies, which will help us eliminate predictors from the model that are found to be less important.
-It's common (and hip, at least in the statistical world) to refer to models that have undergone such predictor pruning as **parsimonious**\index{parsimonious}.
+调整 $R^2$ 也可以用于我们在 [第 -@sec-model-slr 章] 中介绍的单预测变量回归模型。
+然而，当只有 $k = 1$ 个预测变量时，调整 $R^2$ 与常规 $R^2$ 非常接近，因此当模型只有一个预测变量时，这种细微差别通常并不重要。
+
+## 模型选择 {#sec-model-selection}
+
+最佳模型并不总是最复杂的模型。
+有时纳入并非明显重要的预测变量实际上可能会降低预测的准确率。
+在本节中，我们将讨论模型选择策略，以帮助我们从模型中剔除那些重要性较低的预测变量。
+将经过此类预测变量剪枝的模型称为**简约的**\index{parsimonious}模型，这是一种常见的做法（至少在统计界很流行）。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "parsimonious")
 ```
 
-In practice, the model that includes all available predictors is often referred to as the **full model**\index{full model}.
-The full model may not be the best model, and if it isn't, we want to identify a smaller model that is preferable.
+
+
+实践中，包含所有可用预测变量的模型通常被称为**全模型**\index{full model}。
+全模型可能不是最佳模型，如果不是，我们希望找到一个更小的、更可取的模型。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "full model")
 ```
 
-### Stepwise selection
 
-Two common strategies for adding or removing predictors in a multiple regression model are called backward elimination and forward selection.
-These techniques are often referred to as **stepwise selection**\index{stepwise selection} strategies, because they add or delete one variable at a time as they "step" through the candidate predictors.
+
+### 逐步选择法
+
+在多元回归模型中添加或删除预测变量的两种常见策略称为后向消去法和前向选择法。
+这些技术通常被称为**逐步选择法**\index{stepwise selection}策略，因为它们在候选预测变量之间“逐步”移动时，每次添加或删除一个变量。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "stepwise selection")
 ```
 
+
+
 \clearpage
 
-**Backward elimination**\index{backward elimination} starts with the full model -- the model that includes all potential predictor variables. Predictors are eliminated one-at-a-time from the model until we cannot improve the model any further.
+**后向消去法**\index{backward elimination}从全模型开始——即包含所有潜在预测变量的模型。预测变量被逐一从模型中剔除，直到模型无法进一步改进为止。
 
-**Forward selection**\index{forward selection} is the reverse of the backward elimination technique.
-Instead, of eliminating predictors one-at-a-time, we add predictors one-at-a-time until we cannot find any predictors that improve the model any further.
+**前向选择法**\index{forward selection}与后向消去法相反。
+它不是逐一剔除预测变量，而是逐一添加预测变量，直到找不到任何能进一步改进模型的预测变量为止。
 
 ```{r}
 #| include: false
 terms_chp_08 <- c(terms_chp_08, "backward elimination", "forward selection")
 ```
 
-An important consideration in implementing either of these stepwise selection strategies is the criterion used to decide whether to eliminate or add a predictors.
-One commonly used decision criterion is adjusted $R^2$.
-When using adjusted $R^2$ as the decision criterion, we seek to eliminate or add predictors depending on whether they lead to the largest improvement in adjusted $R^2$ and we stop when adding or elimination of another predictor does not lead to further improvement in adjusted $R^2$.
 
-Adjusted $R^2$ describes the strength of a model fit, and it is a useful tool for evaluating which predictors are adding value to the model, where *adding value* means they are (likely) improving the accuracy in predicting future outcomes.
 
-Let's consider two models, which are shown in @tbl-loans-full-for-model-selection and @tbl-loans-full-except-issue-month.
-The first table summarizes the full model since it includes all predictors, while the second does not include the `issue_month` variable.
+实施这两种逐步选择策略时，一个重要考虑因素是决定是否剔除或添加预测变量所使用的准则。
+一个常用的决策准则是调整 $R^2$。
+当使用调整 $R^2$ 作为决策准则时，我们根据预测变量是否能带来调整 $R^2$ 的最大改进来决定剔除或添加它们，并在添加或剔除另一个预测变量无法再进一步提高调整 $R^2$ 时停止。
+
+调整后 $R^2$ 描述了模型拟合的强度，它是评估哪些预测变量正在为模型增值的有用工具，这里的*增值*意味着它们（很可能）提高了预测未来结果的准确率。
+
+考虑两个模型，它们分别如 @tbl-loans-full-for-model-selection 和 @tbl-loans-full-except-issue-month 所示。
+第一张表汇总了全模型，因为它包含了所有预测变量，而第二张表未包含 `issue_month` 变量。
 
 ```{r}
 #| label: tbl-loans-full-for-model-selection
 #| tbl-cap: |
-#|   The fit for the full regression model, including the adjusted $R^2$.
+#|   全回归模型的拟合结果，包含调整后 $R^2$。
 #| tbl-pos: H
 options(digits = 6) # to get more digits
 m_full_r_sq_adj <- glance(m_full)$adj.r.squared |> round(4)
@@ -603,11 +605,11 @@ m_full_w_rsq |>
   row_spec(11:12, italic = TRUE)
 ```
 
+
 ```{r}
 #| label: tbl-loans-full-except-issue-month
 #| tbl-cap: |
-#|   The fit for the regression model after dropping issue month,
-#|   including the adjusted $R^2$.
+#|   剔除借款发放月份后回归模型的拟合结果，包含调整后 $R^2$。
 #| tbl-pos: H
 m_full_minus_issue_month <- lm(interest_rate ~ . - issue_month, data = loans)
 
@@ -653,48 +655,49 @@ m_full_minus_issue_month_w_rsq |>
   row_spec(9:10, italic = TRUE)
 ```
 
+
 ::: {.workedexample data-latex=""}
-Which of the two models is better?
+这两个模型中哪一个更好？
 
 ------------------------------------------------------------------------
 
-We compare the adjusted $R^2$ of each model to determine which to choose.
-Since the second model has a higher adjusted $R^2$ compared to the first model, we prefer the second model to the first.
-We cannot know for sure, but based on the adjusted $R^2$, this is our best assessment.
+我们比较每个模型的调整后 $R^2$，以决定选择哪个模型。
+由于第二个模型的调整后 $R^2$ 高于第一个模型，我们更倾向于第二个模型。
+我们无法确切知道，但基于调整后 $R^2$，这是我们的最佳评估。
 :::
 
 ::: {.workedexample data-latex=""}
-Results corresponding to the full model for the `loans` data are shown in @tbl-loans-full-for-model-selection.
-How should we proceed under the backward elimination strategy?
+`loans` 数据集全模型的结果如 @tbl-loans-full-for-model-selection 所示。
+我们应如何按照后向消去法策略进行？
 
 ------------------------------------------------------------------------
 
-Our baseline adjusted $R^2$ from the full model is 0.2597, and we need to determine whether dropping a predictor will improve the adjusted $R^2$.
-To check, we fit models that each drop a different predictor, and we record the adjusted $R^2$:
+全模型的基准调整后 $R^2$ 为 0.2597，我们需要判断剔除一个预测变量是否会提升调整后 $R^2$。
+为此，我们拟合了分别剔除不同预测变量的模型，并记录调整后 $R^2$：
 
--   Excluding `verified_income`: 0.2238
--   Excluding `debt_to_income`: 0.2557
--   Excluding `credit_util`: 0.1916
--   Excluding `bankruptcy`: 0.2589
--   Excluding `term`: 0.1468
--   Excluding `credit_checks`: 0.2484
--   Excluding `issue_month`: 0.2598
+-   剔除 `verified_income`：0.2238
+-   剔除 `debt_to_income`：0.2557
+-   剔除 `credit_util`：0.1916
+-   剔除 `bankruptcy`：0.2589
+-   剔除 `term`：0.1468
+-   剔除 `credit_checks`：0.2484
+-   剔除 `issue_month`：0.2598
 
-The model without `issue_month` has the highest adjusted $R^2$ of 0.2598, higher than the adjusted $R^2$ for the full model; therefore, we drop `issue_month` from the model.
+不包含 `issue_month` 的模型具有最高的调整后 $R^2$ 0.2598，高于全模型的调整后 $R^2$；因此，我们将 `issue_month` 从模型中剔除。
 
-Since we eliminated a predictor from the model in the first step, we see whether we should eliminate any additional predictors.
-Our baseline adjusted $R^2$ is now $R^2_{adj} = 0.2598$.
-We now fit new models, which consider eliminating each of the remaining predictors in addition to `issue_month`:
+由于在第一步中我们从模型中剔除了一个预测变量，现在需要检查是否应剔除更多预测变量。
+我们现在的基准调整后 $R^2$ 为 $R^2_{adj} = 0.2598$。
+我们现在拟合新的模型，这些模型在已经剔除 `issue_month` 的基础上，进一步考虑剔除每个剩余的预测变量：
 
--   Excluding `issue_month` and `verified_income`: 0.22395
--   Excluding `issue_month` and `debt_to_income`: 0.25579
--   Excluding `issue_month` and `credit_util`: 0.19174
--   Excluding `issue_month` and `bankruptcy`: 0.25898
--   Excluding `issue_month` and `term`: 0.14692
--   Excluding `issue_month` and `credit_checks`: 0.24801
+-   剔除 `issue_month` 和 `verified_income`：0.22395
+-   剔除 `issue_month` 和 `debt_to_income`：0.25579
+-   剔除 `issue_month` 和 `credit_util`：0.19174
+-   剔除 `issue_month` 和 `bankruptcy`：0.25898
+-   剔除 `issue_month` 和 `term`：0.14692
+-   剔除 `issue_month` 和 `credit_checks`：0.24801
 
-None of these models lead to an improvement in adjusted $R^2$, so we do not eliminate any of the remaining predictors.
-That is, after backward elimination, we are left with the model that keeps all predictors except `issue_month`, which we can summarize using the coefficients from @tbl-loans-full-except-issue-month.
+这些模型中没有一个能带来调整后 $R^2$ 的提升，因此我们不再剔除任何剩余的预测变量。
+也就是说，经过后向消去法，我们最终得到的是一个剔除了 `issue_month` 但保留其他所有预测变量的模型，可以利用 @tbl-loans-full-except-issue-month 中的系数对其进行总结。
 
 \vspace{-5mm}
 
@@ -710,115 +713,117 @@ $$
 :::
 
 ::: {.workedexample data-latex=""}
-Construct a model for predicting `interest_rate` from the `loans` data using forward selection.
+使用前向选择法，利用 `loans` 数据构建一个预测 `interest_rate` 的模型。
 
 ------------------------------------------------------------------------
 
-We start with the model that includes no predictors.
-Then we fit each of the possible models with just one predictor.
-Then we examine the adjusted $R^2$ for each of these models:
+我们从不包含任何预测变量的模型开始。
+然后，我们拟合所有仅包含一个预测变量的可能模型。
+接着，我们检查这些模型各自的调整后 $R^2$：
 
--   Including `verified_income`: 0.05926
--   Including `debt_to_income`: 0.01946
--   Including `credit_util`: 0.06452
--   Including `bankruptcy`: 0.00222
--   Including `term`: 0.12855
--   Including `credit_checks`: -0.0001
--   Including `issue_month`: 0.01711
+-   包含 `verified_income`：0.05926
+-   包含 `debt_to_income`：0.01946
+-   包含 `credit_util`：0.06452
+-   包含 `bankruptcy`：0.00222
+-   包含 `term`：0.12855
+-   包含 `credit_checks`：-0.0001
+-   包含 `issue_month`：0.01711
 
-In this first step, we compare the adjusted $R^2$ against a baseline model that has no predictors, which always has $R_{adj}^2 = 0$.
-The model with one predictor that has the largest adjusted $R^2$ is the model with the `term` predictor, so we will add this variable to our model.
+在第一步中，我们将调整后 $R^2$ 与基线模型（不含任何预测变量，其 $R_{adj}^2$ 恒为 0）进行比较。
+在仅包含一个预测变量的模型中，调整后 $R^2$ 最大的是包含 `term` 预测变量的模型，因此我们将该变量加入模型。
 
-We repeat the process again, this time considering 2-predictor models where one of the predictors is `term` and with a new baseline of $R^2_{adj} = 0.12855:$
+我们重复这一过程，这次考虑含有两个预测变量的模型，其中一个预测变量是 `term`，并设定新的基线为 $R^2_{adj} = 0.12855:$
 
--   Including `term` and `verified_income`: 0.16851
--   Including `term` and `debt_to_income`: 0.14368
--   Including `term` and `credit_util`: 0.20046
--   Including `term` and `bankruptcy`: 0.13070
--   Including `term` and `credit_checks`: 0.12840
--   Including `term` and `issue_month`: 0.14294
+-   包含 `term` 和 `verified_income`：0.16851
+-   包含 `term` 和 `debt_to_income`：0.14368
+-   包含 `term` 和 `credit_util`：0.20046
+-   包含 `term` 和 `bankruptcy`：0.13070
+-   包含 `term` 和 `credit_checks`：0.12840
+-   包含 `term` 和 `issue_month`：0.14294
 
-The model including `credit_util` has the largest increase in adjusted $R^2$ (0.20046) from the baseline (0.12855),
-Thus, we will also add `credit_util` to the model as a predictor.
+包含 `credit_util` 的模型使调整后 $R^2$ 从基线（0.12855）提升的幅度最大（至 0.20046），
+因此，我们也将 `credit_util` 作为预测变量添加到模型中。
 
-Now we have a new baseline adjusted $R^2$ of 0.20046.
-We can continue on and see whether it would be beneficial to add a third predictor:
+现在我们有了新的基准调整后 $R^2$（0.20046）。
+我们可以继续，看看添加第三个预测变量是否有益：
 
--   Including `term`, `credit_util`, and `verified_income`: 0.24183
--   Including `term`, `credit_util`, and `debt_to_income`: 0.20810
--   Including `term`, `credit_util`, and `bankruptcy`: 0.20169
--   Including `term`, `credit_util`, and `credit_checks`: 0.20031
--   Including `term`, `credit_util`, and `issue_month`: 0.21629
+-   包含 `term`、`credit_util` 和 `verified_income`：0.24183
+-   包含 `term`、`credit_util` 和 `debt_to_income`：0.20810
+-   包含 `term`、`credit_util` 和 `bankruptcy`：0.20169
+-   包含 `term`、`credit_util` 和 `credit_checks`：0.20031
+-   包含 `term`、`credit_util` 和 `issue_month`：0.21629
 
-The model including `verified_income` has the largest increase in adjusted $R^2$ (0.24183) from the baseline (0.20046), so we add `verified_income` to the model as a predictor as well.
+包含 `verified_income` 的模型使调整后 $R^2$ 从基线（0.20046）提升的幅度最大（至 0.24183），因此我们也将 `verified_income` 作为预测变量添加到模型中。
 
-We continue in this way, next adding `debt_to_income`, then `credit_checks`, and `bankruptcy`.
-At this point, we come again to the `issue_month` variable: adding this as a predictor leads to $R_{adj}^2 = 0.25843$, while keeping all the other predictors but excluding `issue_month` has a higher $R_{adj}^2 = 0.25854$.
-This means we do not add `issue_month` to the model as a predictor.
-In this example, we have arrived at the same model that we identified with backward elimination.
+我们继续这一过程，接下来添加了 `debt_to_income`，然后是 `credit_checks`，再然后是 `bankruptcy`。
+此时，我们再次遇到 `issue_month` 变量：将其作为预测变量添加会导致 $R_{adj}^2 = 0.25843$，而保留所有其他预测变量但剔除 `issue_month` 时，会得到更高的 $R_{adj}^2 = 0.25854$。
+这意味着我们不将 `issue_month` 作为预测变量添加到模型中。
+在此例中，我们得出了与后向消去法相同的模型。
 :::
 
 ::: {.important data-latex=""}
-**Stepwise selection strategies.**
+**逐步选择策略。**
 
-Backward elimination begins with the model having the largest number of predictors and eliminates predictors one-by-one until we are satisfied that all remaining predictors are important to the model.
-Forward selection starts with no predictors included in the model, then it adds in predictors according to their importance until no other important predictors are found.
-Notice that, for both methods, we have always chosen to retain the model with the largest adjusted $R^2$ value, even if the difference is less than half a percent (e.g., 0.2597 versus 0.2598).
-One could argue that the difference between these two models is negligible, as they both explain nearly the same amount of variability in the `interest_rate`.
-These negligible differences are an important aspect to model selection.
-It is highly advised that *before* you begin the model selection process, you decide what a "meaningful" difference in adjusted $R^2$ is for the context of your data.
-Maybe this difference is 1% or maybe it is 5%.
-This "threshold" is what you will then use to decide if one model is "better" than another model.
-Using meaningful thresholds in model selection requires more critical thinking about what the adjusted $R^2$ values mean.
+后向消去法从包含最多预测变量的模型开始，逐一剔除预测变量，直到我们满意地认为所有剩余的预测变量对模型都很重要为止。
+前向选择法从不包含任何预测变量的模型开始，然后根据预测变量对模型的重要性依次将其加入，直到找不到其他重要的预测变量为止。
+请注意，对于这两种方法，我们总是选择保留调整后的 $R^2$ 值最大的模型，即使差异小于 0.5%（例如，0.2597 与 0.2598）。
+有人可能会认为这两个模型之间的差异微不足道，因为它们对 `interest_rate` 变异性的解释程度几乎相同。
+这些微不足道的差异是模型选择的一个重要方面。
+强烈建议在开始模型选择过程*之前*，你就根据数据背景决定调整后的 $R^2$ 值的差异达到多少才算“有意义的”。
+这个差异可能是 1%，也可能是 5%。
+这个“阈值”随后将被你用来判断一个模型是否“优于”另一个模型。
+在模型选择中使用有意义的阈值，要求你更审慎地思考调整后的 $R^2$ 值究竟意味着什么。
 
-Additionally, backward elimination and forward selection can arrive at different final models, because the decision for whether to include a given predictor or not depends on the other predictors that are already in the model.
-With forward selection, you start with a model that includes no predictors, and add predictors one at a time.
-In backward elimination, you start with a model that includes all of the potential predictors, and remove predictors one at a time.
-How much a given predictor changes the percentage of the variability in the outcome that is explained by the model depends on the other predictors in the model, particularly if the predictor variables are correlated with each other.
+此外，后向消去法和前向选择法可能会得到不同的最终模型，因为是否包含某个给定的预测变量取决于模型中已有的其他预测变量。
+使用前向选择法时，你从没有预测变量的模型开始，逐一加入预测变量。
+使用后向消去法时，你从包含所有潜在预测变量的模型开始，逐一剔除预测变量。
+某个给定预测变量能在多大程度上改变模型所解释的结果变量变异性的百分比，取决于模型中的其他预测变量，特别是当预测变量之间存在相关关系时。
 :::
 
-There is no "one size fits all" model selection strategy, which is why there are so many different model selection methods.
-We hope you walk away from this exploration understanding how stepwise selection is carried out and the considerations that should be made when using stepwise selection with regression models.
+不存在“一刀切”的模型选择策略，这也是为什么存在如此多不同的模型选择方法。
+我们希望你通过本节的探讨，能够理解逐步选择是如何进行的，以及在对回归模型使用逐步选择时应考虑哪些因素。
 
-### Other model selection strategies
+### 其他模型选择策略
 
-Stepwise selection using adjusted $R^2$ as the decision criteria is one of many commonly used model selection strategies.
-Stepwise selection can also be carried out with decision criteria other than adjusted $R^2$, such as p-values, which you'll learn about in @sec-inf-model-slr onward, or AIC (Akaike information criterion) or BIC (Bayesian information criterion), which you might learn about in more advanced courses.
+以调整后的 $R^2$ 值作为决策准则的逐步选择法，只是众多常用模型选择策略中的一种。
+逐步选择法也可以使用调整后的 $R^2$ 值以外的决策准则来执行，例如 p 值（你将从 [第 -@sec-inf-model-slr 章] 往后的章节中学到），或是 AIC（Akaike 信息准则）或 BIC（贝叶斯信息准则）（你可能会在更进阶的课程中学到这些准则）。
 
-Alternatively, one could choose to include or exclude predictors from a model based on expert opinion or due to research focus.
-In fact, many statisticians discourage the use of stepwise regression *alone* for model selection and advocate, instead, for a more thoughtful approach that carefully considers the research focus and features of the data.
+另外，也可以根据专家意见或研究重点来选择在模型中纳入或排除哪些预测变量。
+事实上，许多统计学家不鼓励*仅仅*使用逐步回归进行模型选择，而是主张采用一种更周全的方法，仔细考虑研究重点和数据的特征。
 
 \clearpage
 
-## Chapter review {#sec-chp8-review}
+## 章节回顾 {#sec-chp8-review}
 
-### Summary
+### 总结
 
-With real data, there is often a need to describe how multiple variables can be modeled together.
-In this chapter, we have presented one approach using multiple linear regression.
-Each coefficient represents how the model predicts the outcome might change with one unit increase of that predictor *given* the rest of the predictor variables in the model.
-Working with and interpreting multivariable models can be tricky, especially when the predictor variables show multicollinearity.
-There is often no perfect or "right" final model, however, using the adjusted $R^2$ value is one way to identify important predictor variables for a final regression model.
-In later chapters we will generalize multiple linear regression models to a larger population of interest from which the dataset was sampled.
+对于真实数据，通常需要描述如何将多个变量一起建模。
+在本章中，我们介绍了一种使用多元线性回归的方法。
+每个系数表示，在*给定*模型中其余预测变量的条件下，该预测变量每增加一个单位，模型对结果变量的预测值将发生的变化。
+处理和解释多变量模型可能比较棘手，尤其是当预测变量存在多重共线性时。
+通常不存在完美或“正确”的最终模型，然而，使用调整后的 $R^2$ 值是识别最终回归模型中重要预测变量的一种方法。
+在后续章节中，我们将把多元线性回归模型推广到抽取数据集的更大目标总体中。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-08.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列于 @tbl-terms-chp-08。
+如果你不确定某些术语的含义，建议你回顾正文中的定义。
+因为它们在正文中以**粗体**显示，你应该很容易辨认出它们。
 
 ```{r}
 #| label: tbl-terms-chp-08
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_08)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp8-exercises}
+## 练习 {#sec-chp8-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-08].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-08] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_08-ex-model-mlr.qmd >}}

@@ -1,93 +1,79 @@
-1.  **Identify the parameter, I.** For each of the following situations, state whether the parameter of interest is a mean or a proportion.
-    It may be helpful to examine whether individual responses are numerical or categorical.
+1.  **识别参数，I.** 对于以下每种情况，说明感兴趣的参数是均值还是比例。
+    检查个体响应是数值的还是分类的可能会有所帮助。
 
-    a.  In a survey, 100 college students are asked how many hours per week they spend on the Internet.
+    a.  在一项调查中，100 名大学生被问及他们每周上网花费多少小时。
 
-    b.  In a survey, 100 college students are asked: "What percentage of the time you spend on the Internet is part of your course work?"
+    b.  在一项调查中，100 名大学生被问及：“你上网的时间中有百分之多少用于课程学习？”
 
-    c.  In a survey, 100 college students are asked whether they cited information from Wikipedia in their papers.
+    c.  在一项调查中，100 名大学生被问及他们是否在论文中引用了维基百科的信息。
 
-    d.  In a survey, 100 college students are asked what percentage of their total weekly spending is on alcoholic beverages.
+    d.  在一项调查中，100 名大学生被问及他们每周总支出中有百分之多少用于酒精饮料。
 
-    e.  In a sample of 100 recent college graduates, it is found that 85 percent expect to get a job within one year of their graduation date.
-
-\vfill
-
-2.  **Identify the parameter, II.** For each of the following situations, state whether the parameter of interest is a mean or a proportion.
-
-    a.  A poll shows that 64% of Americans personally worry a great deal about federal spending and the budget deficit.
-
-    b.  A survey reports that local TV news has shown a 17% increase in revenue within a two year period while newspaper revenues decreased by 6.4% during this time period.
-
-    c.  In a survey, high school and college students are asked whether they use geolocation services on their smart phones.
-
-    d.  In a survey, smart phone users are asked whether they use a web-based taxi service.
-
-    e.  In a survey, smart phone users are asked how many times they used a web-based taxi service over the last year.
+    e.  在一个由 100 名应届大学毕业生组成的样本中，发现有 85% 的人期望在毕业后一年内找到工作。
 
 \vfill
 
-3.  **Hypotheses.** For each of the research statements below, note whether it represents a null hypothesis claim or an alternative hypothesis claim.
+2.  **识别参数，II.** 对于以下每种情况，说明感兴趣的参数是均值还是比例。
 
-    a.  The number of hours that grade-school children spend doing homework predicts their future success on standardized tests.
+    a.  一项民意调查显示，64% 的美国人对联邦支出和预算赤字感到非常担忧。
 
-    b.  King cheetahs on average run the same speed as standard spotted cheetahs.
+    b.  一项调查报告称，当地电视新闻收入在两年内增长了17%，而同期报纸收入下降了6.4%。
 
-    c.  For a particular student, the probability of correctly answering a 5-option multiple choice test is larger than 0.2 (i.e., better than guessing).
+    c.  在一项调查中，高中生和大学生被问及他们是否在智能手机上使用地理定位服务。
 
-    d.  The mean length of African elephant tusks has changed over the last 100 years.
+    d.  在一项调查中，智能手机用户被问及他们是否使用网约车服务。
 
-    e.  The risk of facial clefts is equal for babies born to mothers who take folic acid supplements compared with those from mothers who do not.
+    e.  在一项调查中，智能手机用户被问及他们在过去一年中使用网约车服务的次数。
 
-    f.  Caffeine intake during pregnancy affects mean birth weight.
+\vfill
 
-    g.  The probability of getting in a car accident is the same if using a cell phone than if not using a cell phone.
+3.  **假设。** 对于以下每个研究陈述，指出它是代表原假设的论断还是备择假设的论断。
+
+    a.  小学生花在做作业上的小时数能够预测他们未来在标准化考试中的成功。
+
+    b.  帝王猎豹的平均奔跑速度与标准斑纹猎豹相同。
+
+    c.  对于某个特定学生，正确回答一道五选项选择题的概率大于 0.2（即，优于随机猜测）。
+
+    d.  非洲象象牙长度的均值在过去 100 年间发生了变化。
+
+    e.  服用叶酸补充剂的母亲所生婴儿患面部裂的风险，与未服用叶酸补充剂的母亲所生婴儿的风险相等。
+
+    f.  孕期咖啡因摄入会影响出生体重的均值。
+
+    g.  使用手机时发生车祸的概率与不使用手机时相同。
 
 \vfill
 
 \clearpage
 
-4.  **True null hypothesis.** Unbeknownst to you, let's say that the null hypothesis is actually true in the population.
-    You plan to run a study anyway.
+4.  **为真的原假设。** 假设在总体中，原假设实际上为真（但你并不知情）。你仍然计划开展一项研究。
 
-    a.  If the level of discernibility you choose (i.e., the cutoff for your p-value) is 0.05, how likely is it that you will mistakenly reject the null hypothesis?
+    a.  如果你选择的辨识水平（即 p 值的截断值）是 0.05，你错误地拒绝原假设的可能性有多大？
 
-    b.  If the level of discernibility you choose (i.e., the cutoff for your p-value) is 0.01, how likely is it that you will mistakenly reject the null hypothesis?
+    b.  如果你选择的辨识水平（即 p 值的截断值）是 0.01，你错误地拒绝原假设的可能性有多大？
 
-    c.  If the level of discernibility you choose (i.e., the cutoff for your p-value) is 0.10, how likely is it that you will mistakenly reject the null hypothesis?
-
-\vfill
-
-5.  **Identify hypotheses, I.** Write the null and alternative hypotheses in words and then symbols for each of the following situations.
-
-    a.  New York is known as "the city that never sleeps".
-        A random sample of 25 New Yorkers were asked how much sleep they get per night.
-        Do these data provide convincing evidence that New Yorkers on average sleep less than 8 hours a night?
-
-    b.  Employers at a firm are worried about the effect of March Madness, a basketball championship held each spring in the US, on employee productivity.
-        They estimate that on a regular business day employees spend on average 15 minutes of company time checking personal email, making personal phone calls, etc.
-        They also collect data on how much company time employees spend on such non- business activities during March Madness.
-        They want to determine if these data provide convincing evidence that employee productivity decreases during March Madness.
+    c.  如果你选择的辨识水平（即 p 值的截断值）是 0.10，你错误地拒绝原假设的可能性有多大？
 
 \vfill
 
-6.  **Identify hypotheses, II.** Write the null and alternative hypotheses in words and using symbols for each of the following situations.
+5.  **识别假设，I.** 对于以下每种情况，先用文字再用符号写出原假设和备择假设。
 
-    a.  Since 2008, chain restaurants in California have been required to display calorie counts of each menu item.
-        Prior to menus displaying calorie counts, the average calorie intake of diners at a restaurant was 1100 calories.
-        After calorie counts started to be displayed on menus, a nutritionist collected data on the number of calories consumed at this restaurant from a random sample of diners.
-        Do these data provide convincing evidence of a difference in the average calorie intake of a diners at this restaurant?
+    a.  纽约被称为“不眠之城”。一个包含 25 名纽约人的随机样本被问及他们每晚睡眠多少小时。这些数据是否提供了有说服力的证据，表明纽约人平均每晚睡眠时间少于 8 小时？
 
-    b.  Based on the performance of those who took the GRE exam between July 1, 2004 and June 30, 2007, the average Verbal Reasoning score was calculated to be 462.
-        In 2021 the average verbal score was slightly higher.
-        Do these data provide convincing evidence that the average GRE Verbal Reasoning score has changed since 2021?
+    b.  一家公司的雇主担心每年春季在美国举办的篮球锦标赛“疯狂三月”对员工生产力的影响。他们估计在普通工作日，员工平均花费 15 分钟的公司时间查看个人邮件、打私人电话等。他们还收集了员工在“疯狂三月”期间花在此类非工作活动上的公司时间数据。他们想确定这些数据是否提供了有说服力的证据，表明员工的生产力在“疯狂三月”期间有所下降。
 
 \vfill
 
-7.  **Side effects of Avandia.** Rosiglitazone is the active ingredient in the controversial type 2 diabetes medicine Avandia and has been linked to an increased risk of serious cardiovascular problems such as stroke, heart failure, and death.
-    A common alternative treatment is Pioglitazone, the active ingredient in a diabetes medicine called Actos.
-    In a nationwide retrospective observational study of 227,571 Medicare beneficiaries aged 65 years or older, it was found that 2,593 of the 67,593 patients using Rosiglitazone and 5,386 of the 159,978 using Pioglitazone had serious cardiovascular problems.
-    These data are summarized in the contingency table below.[^_11-ex-foundations-randomization-1]
+6.  **识别假设，II.** 对于以下每种情况，用文字和符号写出原假设和备择假设。
+
+    a.  自 2008 年起，加利福尼亚州的连锁餐厅被要求显示每项菜单的卡路里数。在菜单显示卡路里数之前，该餐厅就餐者的平均卡路里摄入量为 1100 卡路里。在菜单开始显示卡路里数后，一位营养学家从随机样本的就餐者中收集了在该餐厅摄入的卡路里数数据。这些数据是否提供了有说服力的证据，表明该餐厅就餐者的平均卡路里摄入量存在差异？
+
+    b.  根据 2004 年 7 月 1 日至 2007 年 6 月 30 日期间参加 GRE 考试的考生的表现，计算出语文推理部分的平均分为 462 分。2021 年的平均语文分数略高一些。这些数据是否提供了有说服力的证据，表明自 2021 年以来 GRE 语文推理部分的平均分发生了变化？
+
+\vfill
+
+7.  **文迪雅的副作用。** 罗格列酮是备受争议的 2 型糖尿病药物文迪雅的有效成分，它与卒中、心力衰竭和死亡等严重心血管问题风险的增加有关。一种常见的替代处理是吡格列酮，它是名为艾可拓的糖尿病药物的有效成分。在一项针对 227,571 名 65 岁及以上医疗保险受益人的全国性回顾性观察性研究中，发现使用罗格列酮的 67,593 名患者中有 2,593 人出现了严重的心血管问题，而使用吡格列酮的 159,978 名患者中有 5,386 人出现了严重的心血管问题。这些数据汇总在下方的列联表中。[^_11-ex-foundations-randomization-1]
     [@Graham:2010]
 
     ```{r}
@@ -98,46 +84,39 @@
       rename(Treatment = treatment) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(linesep = "", booktabs = TRUE, format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1:4, width = "7em")
     ```
-    
+
     ::: {.content-visible when-format="pdf"}
-    *See the next page for the questions.*
+    *问题见下一页。*
     :::
 
     \clearpage
 
-    a.  Determine if each of the following statements is true or false.
-        If false, explain why.
-        *Be careful:* The reasoning may be wrong even if the statement's conclusion is correct.
-        In such cases, the statement should be considered false.
+    a.  判断以下每个陈述是真是假。如果为假，请解释原因。**注意**：即使陈述的结论正确，其推理也可能错误。在这种情况下，该陈述应视为假。
 
-        i.  Since more patients on Pioglitazone had cardiovascular problems (5,386 vs. 2,593), we can conclude that the rate of cardiovascular problems for those on a Pioglitazone treatment is higher.
+        i.  由于服用吡格列酮出现心血管问题的患者更多（5,386 vs. 2,593），我们可以得出结论：接受吡格列酮处理的患者中心血管问题的发生率更高。
 
-        ii. The data suggest that diabetic patients who are taking Rosiglitazone are more likely to have cardiovascular problems since the rate of incidence was (2,593 / 67,593 = 0.038) 3.8% for patients on this treatment, while it was only (5,386 / 159,978 = 0.034) 3.4% for patients on Pioglitazone.
+        ii. 数据表明，服用罗格列酮的糖尿病患者更可能出现心血管问题，因为接受该治疗的患者的发生率是（2,593 / 67,593 = 0.038）3.8%，而接受吡格列酮治疗的患者的发生率仅为（5,386 / 159,978 = 0.034）3.4%。
 
-        iii. The fact that the rate of incidence is higher for the Rosiglitazone group proves that Rosiglitazone causes serious cardiovascular problems.
+        iii. 罗格列酮组发生率更高这一事实证明了罗格列酮会导致严重的心血管问题。
 
-        iv. Based on the information provided so far, we cannot tell if the difference between the rates of incidences is due to a relationship between the two variables or due to chance.
+        iv. 基于目前提供的信息，我们无法判断发生率之间的差异是由于两个变量之间的关联，还是由于随机性造成的。
 
-    b.  What proportion of all patients had cardiovascular problems?
+    b.  所有患者中出现心血管问题的比例是多少？
 
-    c.  If the type of treatment and having cardiovascular problems were independent, how many patients in the Rosiglitazone group would we expect to have had cardiovascular problems?
+    c.  如果处理类型与是否出现心血管问题是独立的，那么我们预计罗格列酮组中会有多少患者出现心血管问题？
 
-    d.  We can investigate the relationship between outcome and treatment in this study using a randomization technique.
-        While in reality we would carry out the simulations required for randomization using statistical software, suppose we actually simulate using index cards.
-        In order to simulate from the independence model, which states that the outcomes were independent of the treatment, we write whether each patient had a cardiovascular problem on cards, shuffled all the cards together, then deal them into two groups of size 67,593 and 159,978.
-        We repeat this simulation 100 times and each time record the difference between the proportions of cards that say "Yes" in the Rosiglitazone and Pioglitazone groups.
-        Use the histogram of these differences in proportions to answer the following questions.
-        
-        i.  What are the claims being tested?
+    d.  我们可以使用随机化技术来调查本研究中结果变量与处理之间的关联。虽然在现实中我们会使用统计软件执行随机化所需的模拟，但假设我们实际上是用索引卡片来进行模拟。为了从独立性模型（该模型假设结果变量独立于处理）中进行模拟，我们将每位患者是否患有心血管问题写在卡片上，将所有卡片洗匀，然后将其分发为大小分别为 67,593 和 159,978 的两组。我们将此模拟重复 100 次，每次记录罗格列酮组和吡格列酮组中写有“是”的卡片比例之差。使用这些比例之差的直方图来回答以下问题。
 
-        ii. Compared to the number calculated in part (b), which would provide more support for the alternative hypothesis, *higher* or *lower* proportion of patients with cardiovascular problems in the Rosiglitazone group?
+        i.  正在检验的论断是什么？
 
-        iii. What do the simulation results suggest about the relationship between taking Rosiglitazone and having cardiovascular problems in diabetic patients?
+        ii. 与 分计算出的数值相比，罗格列酮组中患有心血管问题的患者比例*更高*还是*更低*，会更支持备择假设？
+
+        iii. 模拟结果对糖尿病患者服用罗格列酮与出现心血管问题之间的关联有何启示？
 
     ```{r}
     #| fig-asp: 0.5
@@ -151,24 +130,24 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.001/4,  fill = IMSCOL["green", "full"]) +
       labs(
-        y = "Count", 
-        x = "Difference in randomized cardiovascular problem rates\n(Rosiglitazone - Pioglitazone)",
-        title = "100 differences in randomized proportions"
+        y = "计数",
+        x = "随机化心血管问题发生率的差值\n（罗格列酮 - 吡格列酮）",
+        title = "100 个随机化比例差值"
       ) +
       scale_y_continuous(breaks = seq(0, 16, 2))
     ```
-    
+
 \clearpage
 
-8.  **Heart transplants.** The Stanford University Heart Transplant Study was conducted to determine whether an experimental heart transplant program increased lifespan.
-    Each patient entering the program was designated an official heart transplant candidate, meaning that they were gravely ill and would most likely benefit from a new heart.
-    Some patients got a transplant and some did not.
-    The variable `transplant` indicates which group the patients were in; patients in the treatment group got a transplant and those in the control group did not.
-    Of the 34 patients in the control group, 30 died.
-    Of the 69 people in the treatment group, 45 died.
-    Another variable called `survived` was used to indicate whether the patient was alive at the end of the study.[^_11-ex-foundations-randomization-2]
+8.  **心脏移植。** 斯坦福大学心脏移植研究旨在确定一项实验性心脏移植计划是否能延长寿命。
+    进入该计划的每位患者都被指定为正式的心脏移植候选人，这意味着他们病情危重，极有可能从新心脏中获益。
+    有些患者接受了移植，有些则没有。
+    `transplant` 变量表明了患者所在的组别；处理组的患者接受了移植，对照组的患者则没有。
+    对照组的 34 名患者中，30 人死亡。
+    处理组的 69 人中，45 人死亡。
+    另一个名为 `survived` 的变量用于指示患者在研究结束时是否存活。[^_11-ex-foundations-randomization-2]
     [@Turnbull+Brown+Hu:1974]
-    
+
     \vspace{-2mm}
 
     ```{r}
@@ -180,40 +159,40 @@
     p_bar <- ggplot(heart_transplant, aes(x = transplant, fill = survived_better_wording)) +
       geom_bar(position = "fill") +
       scale_fill_openintro("two") +
-      labs(x = NULL, y = NULL, fill = "Outcome")
+      labs(x = NULL, y = NULL, fill = "结局")
 
     p_box <- ggplot(heart_transplant, aes(x = transplant, y = survtime)) +
       geom_boxplot() +
-      labs(x = NULL, y = "Survival time (days)")
+      labs(x = NULL, y = "存活时间（天数）")
 
     p_bar + p_box
     ```
 
     \vspace{-2mm}
 
-    a.  Does the stacked bar plot indicate that survival is independent of whether the patient got a transplant?
-        Explain your reasoning.
+    a.  堆叠条形图是否表明存活情况与患者是否接受移植是独立的？
+        解释你的推理。
 
-    b.  What do the box plots suggest about the efficacy of heart transplants.
+    b.  箱线图对于心脏移植的有效性有何启示？
 
-    c.  What proportions of patients in the treatment and control groups died?
+    c.  处理组和对照组的患者死亡比例分别是多少？
 
-    d.  One approach for investigating whether the treatment is discernably effective is randomization testing.
+    d.  研究该处理是否明显有效的一种方法是随机化检验。
 
-        i.  What are the claims being tested?
+        i.  正在检验的论断是什么？
 
-        ii. The paragraph below describes the set up for a randomization test, if we were to do it without using statistical software.
-            Fill in the blanks with a number or phrase.
+        ii. 下面的段落描述了如果不使用统计软件进行随机化检验时的设定。
+            用数字或短语填空。
 
-        > We write *alive* on $\rule{1.25cm}{0.5pt}$ cards representing patients who were alive at the end of the study, and *deceased* on $\rule{1.25cm}{0.5pt}$ cards representing patients who were not.
-        > Then, we shuffle these cards and split them into two groups: one group of size $\rule{1.25cm}{0.5pt}$ representing treatment, and another group of size $\rule{1.25cm}{0.5pt}$ representing control.
-        > We calculate the difference between the proportion of \textit{deceased} cards in the treatment and control groups (treatment - control) and record this value.
-        > We repeat this 100 times to build a distribution centered at $\rule{1.25cm}{0.5pt}$.
-        > Lastly, we calculate the proportion of simulations where the simulated differences in proportions are $\rule{1.25cm}{0.5pt}$.
-        > If this proportion is low, we conclude that it is unlikely to have observed such an outcome by chance and that the null hypothesis should be rejected in favor of the alternative.
+        > 我们在 $\rule{1.25cm}{0.5pt}$ 张卡片上写 *alive*，代表研究结束时存活的患者；在 $\rule{1.25cm}{0.5pt}$ 张卡片上写 *deceased*，代表死亡的患者。
+        > 然后，我们洗匀这些卡片，并将其分成两组：一组大小为 $\rule{1.25cm}{0.5pt}$ 代表处理组，另一组大小为 $\rule{1.25cm}{0.5pt}$ 代表对照组。
+        > 我们计算处理组和对照组中 \textit{deceased} 卡片比例的差值（处理组 - 对照组）并记录该值。
+        > 我们将此过程重复 100 次，以构建一个以 $\rule{1.25cm}{0.5pt}$ 为中心的分布。
+        > 最后，我们计算在多少比例的模拟中，模拟的比例差值 $\rule{1.25cm}{0.5pt}$。
+        > 如果这个比例很低，我们便得出结论：仅凭偶然观察到如此结果的可能性很低，因此应拒绝原假设并支持备择假设。
 
-        iii. What do the simulation results shown below suggest about the effectiveness of heart transplants?
-        
+        iii. 下面显示的模拟结果对心脏移植的有效性有何启示？
+
     \vspace{-2mm}
 
     ```{r}
@@ -228,13 +207,13 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        y = "Count", 
-        x = "Difference in randomized proportions of deceased (treatment - control)",
-        title = "100 differences in randomized proportions"
+        y = "计数",
+        x = "随机化死亡比例的差值（处理组 - 对照组）",
+        title = "100 个随机化比例差值"
         ) +
       scale_y_continuous(breaks = seq(0, 24, 4), minor_breaks = seq(0, 24, 2))
     ```
 
-[^_11-ex-foundations-randomization-1]: The [`avandia`](http://openintrostat.github.io/openintro/reference/avandia.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_11-ex-foundations-randomization-1]: 本练习所用的 [`avandia`](http://openintrostat.github.io/openintro/reference/avandia.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_11-ex-foundations-randomization-2]: The [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_11-ex-foundations-randomization-2]: 本练习所用的 [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

@@ -1,107 +1,110 @@
-# Confidence intervals with bootstrapping {#sec-foundations-bootstrapping}
+# 使用自助法构建置信区间 {#sec-foundations-bootstrapping}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-In this chapter, we expand on the familiar idea of using a sample proportion to estimate a population proportion.
-That is, we create what is called a **confidence interval**\index{confidence interval}, which is a range of plausible values where we may find the true population value.
-The process for creating a confidence interval is based on understanding how a statistic (here the sample proportion) *varies* around the parameter (here the population proportion) when many different statistics are calculated from many different samples.
+在本章中，我们进一步探讨了用样本比例估计总体比例这一熟悉的概念。
+也就是说，我们构建了所谓的**置信区间**\index{confidence interval}，它是一个可能包含真实总体值的合理数值范围。
+构建置信区间的过程，基于理解当从许多不同样本计算出许多不同的统计量时，一个统计量（此处为样本比例）如何围绕其参数（此处为总体比例）*变化*。
 
-If we could, we would measure the variability of the statistics by repeatedly taking sample data from the population and compute the sample proportion.
-Then we could do it again.
-And again.
-And so on until we have a good sense of the variability of our original estimate.
+如果可能，我们会通过重复从总体中抽取样本数据并计算样本比例，来衡量统计量的变异性。
+然后我们可以再做一次。
+再再做一次。
+如此反复，直到对原始估计的变异性有充分的把握。
 
-When the variability across the samples is large, we would assume that the original statistic is possibly far from the true population parameter of interest (and the interval estimate will be wide).
-When the variability across the samples is small, we expect the sample statistic to be close to the true parameter of interest (and the interval estimate will be narrow).
+当不同样本间的变异性很大时，我们会认为原始统计量可能远离我们关心的真实总体参数（并且区间估计会很宽）。
+当不同样本间的变异性很小时，我们期望样本统计量接近我们关心的真实参数（并且区间估计会很窄）。
 
-The ideal world where sampling data is free or extremely cheap is almost never the case, and taking repeated samples from a population is usually impossible. So, instead of using a "resample from the population" approach, bootstrapping uses a "resample from the sample" approach.
-In this chapter we discuss in detail the bootstrapping process.
+抽样数据免费或极其廉价的理想世界几乎从未存在，从总体中进行重复抽样通常也是不可能的。因此，自助法没有采用“从总体中再抽样”的方法，而是采用了“从样本中再抽样”的方法。
+在本章中，我们将详细讨论自助法的过程。
 :::
 
-As seen in [Chapter -@sec-foundations-randomization], randomization is a statistical technique suitable for evaluating whether a difference in sample proportions is due to chance.
+如 [第 -@sec-foundations-randomization 章] 所示，随机化是一种适用于评估样本比例差异是否由偶然性导致的统计技术。
 
-Randomization tests are best suited for modeling experiments where the treatment (explanatory variable) has been randomly assigned to the observational units and there is an attempt to answer a simple yes/no research question.
+随机化检验最适合用于对这类实验进行建模：其中处理（解释变量）被随机分配给观测单位，且旨在回答一个简单的是/否研究问题。
 
 \clearpage
 
-For example, consider the following research questions that can be well assessed with a randomization test:
+例如，考虑以下可以用随机化检验很好地评估的研究问题：
 
--   Does this vaccine make it less likely that a person will get malaria?
--   Does drinking caffeine affect how quickly a person can tap their finger?
--   Can we predict whether candidate A will win the upcoming election?
+-   这种疫苗是否会使一个人感染疟疾的可能性降低？
+-   饮用咖啡因是否会影响一个人敲击手指的速度？
+-   我们能否预测候选人A将赢得即将到来的选举？
 
-In this chapter, however, we are instead interested in a different approach to understanding population parameters.
-Instead, of testing a claim, the goal now is to estimate the unknown value of a population parameter.
+然而，在本章中，我们感兴趣的是理解总体参数的另一种方法。
+现在的目标不再是检验某个断言，而是估计未知的总体参数值。
 
-For example,
+例如，
 
--   How much less likely am I to get malaria if I get the vaccine?
--   How much faster (or slower) can a person tap their finger, on average, if they drink caffeine first?
--   What proportion of the vote will go to candidate A?
+-   如果我接种了疫苗，感染疟疾的可能性会降低多少？
+-   平均而言，一个人如果先喝咖啡因，敲击手指的速度能变快（或变慢）多少？
+-   候选人A将获得多大比例的选票？
 
-Here, we explore the situation where the focus is on a single proportion, and we introduce a new simulation method: **bootstrapping**\index{bootstrapping}.
+在这里，我们探讨关注单个比例的情况，并介绍一种新的模拟方法：**自助法**\index{bootstrapping}。
 
 ```{r}
 #| include: false
 terms_chp_12 <- c("bootstrapping")
 ```
 
-Bootstrapping is best suited for modeling studies where the data have been generated through random sampling from a population. As with randomization tests, our goal with bootstrapping is to understand variability of a statistic. Unlike randomization tests (which modeled how the statistic would change if the treatment had been allocated differently), the bootstrap will model how a statistic varies from one sample to another taken from the population.
-This will provide information about how different the statistic is from the parameter of interest.
 
-Quantifying the variability of a statistic from sample to sample is a hard problem. Fortunately, sometimes the mathematical theory for how a statistic varies (across different samples) is well-known; this is the case for the sample proportion as seen in @sec-foundations-mathematical.
 
-However, some statistics do not have simple theory for how they vary, and bootstrapping provides a computational approach for providing interval estimates for almost any population parameter.
-In this chapter we will focus on bootstrapping to estimate a single proportion, and we will revisit bootstrapping in [Chapter -@sec-inference-one-mean] through [Chapter -@sec-inference-paired-means], so you'll get plenty of practice as well as exposure to bootstrapping in many different datasettings.
+自助法最适合用于对通过从总体中随机抽样生成数据的研究进行建模。与随机化检验一样，我们使用自助法的目标也是理解统计量的变异性。与随机化检验（它模拟的是如果处理分配方式不同时，统计量将如何变化）不同，自助法将模拟统计量在取自总体的不同样本之间如何变化。
+这将提供关于统计量与我们关心的参数之间差异程度的信息。
 
-Our goal with bootstrapping will be to produce an interval estimate (a range of plausible values) for the population parameter.
+量化统计量在不同样本之间的变异性是一个难题。幸运的是，有时关于统计量（在不同样本间）如何变化的数学理论是众所周知的；正如 [第 -@sec-foundations-mathematical 章] 所示，样本比例就属于这种情况。
 
-## Medical consultant case study {#sec-case-study-med-consult}
+然而，有些统计量没有关于其如何变化的简单理论，而自助法提供了一种计算方法，可以为几乎任何总体参数提供区间估计。
+在本章中，我们将专注于使用自助法来估计单个比例，并且我们将在 [第 -@sec-inference-one-mean 章] 到 [第 -@sec-inference-paired-means 章] 中再次探讨自助法，因此你将获得大量练习，并接触到自助法在许多不同数据集设定中的应用。
 
-People providing an organ for donation sometimes seek the help of a special medical consultant.
-These consultants assist the patient in all aspects of the surgery, with the goal of reducing the possibility of complications during the medical procedure and recovery.
-Patients might choose a consultant based in part on the historical complication rate of the consultant's clients.
+我们使用自助法的目标将是给出总体参数的区间估计（一个合理数值范围）。
 
-### Observed data
+## 医疗顾问案例研究 {#sec-case-study-med-consult}
 
-One consultant tried to attract patients by noting the average complication rate for liver donor surgeries in the US is about 10%, but her clients have had only 3 complications in the 62 liver donor surgeries she has facilitated.
-She claims this is strong evidence that her work meaningfully contributes to reducing complications (and therefore she should be hired!).
+器官捐赠者有时会寻求专门医疗顾问的帮助。
+这些顾问在手术的各个方面协助患者，旨在降低医疗过程和恢复期间发生并发症的可能性。
+患者选择顾问可能部分基于该顾问客户的历史并发症率。
+
+### 观测数据
+
+有一位顾问试图通过指出美国肝脏捐赠者手术的平均并发症率约为 10%，而她的客户在她协助的 62 例肝脏捐赠者手术中仅发生了 3 例并发症，来吸引患者。
+她声称，这有力地证明她的工作对降低并发症有显著贡献（因此应该聘用她！）。
 
 ::: {.workedexample data-latex=""}
-We will let $p$ represent the true complication rate for liver donors working with this consultant.
-(The "true" complication rate will be referred to as the **parameter**.) We estimate $p$ using the data, and label the estimate $\hat{p}.$
+我们将用 $p$ 代表与这位顾问合作的肝脏捐赠者的真实并发症率。
+（“真实”并发症率将被称为**参数**。）我们使用数据来估计 $p$，并将这个估计值记为 $\hat{p}.$
 
 ------------------------------------------------------------------------
 
-The sample proportion for the complication rate is 3 complications divided by the 62 surgeries the consultant has worked on: $\hat{p} = 3/62 = 0.048.$
+并发症率的样本比例是用 3 例并发症除以该顾问参与过的 62 例手术计算得出的：$\hat{p} = 3/62 = 0.048.$
 :::
 
 ::: {.workedexample data-latex=""}
-Is it possible to assess the consultant's claim (that the reduction in complications is due to her work) using the data?
+是否可能利用数据来评估这位顾问的主张（即并发症的减少归功于她的工作）？
 
 ------------------------------------------------------------------------
 
-No.
-The claim is that there is a causal connection, but the data are observational, so we must be on the lookout for confounding variables.
-For example, maybe patients who can afford a medical consultant can afford better medical care, which can also lead to a lower complication rate.
-While it is not possible to assess the causal claim, it is still possible to understand the consultant's true rate of complications.
+不能。
+该主张声称存在因果关联，但数据是观察性的，所以我们必须警惕混杂变量。
+例如，也许那些能负担得起医疗顾问费用的患者也能负担更好的医疗服务，这也可能导致较低的并发症率。
+虽然无法评估这一因果主张，但我们仍然有可能了解这位顾问的真实并发症率。
 :::
 
 ::: {.important data-latex=""}
-**Parameter.**\index{parameter}
+**参数。**\index{parameter}
 
-A **parameter** is the "true" value of interest.
+**参数**是我们所关心的“真实”值。
 
-We typically estimate the parameter using a point estimate\index{point estimate} from a sample of data.
-The point estimate is also known as the **statistic**\index{statistic}.
+我们通常使用来自样本数据的**点估计**\index{point estimate}来估计参数。
+点估计也称为**统计量**\index{statistic}。
 
-For example, we estimate the probability $p$ of a complication for a client of the medical consultant by examining the past complications rates of her clients:
+例如，我们通过考察这位医疗顾问以往客户的并发症率，来估计她的客户出现并发症的概率 $p$：
 
-$$\hat{p} = 3 / 62 = 0.048~\text{is used to estimate}~p$$
+$$\hat{p} = 3 / 62 = 0.048~\text{用于估计}~p$$
 :::
 
 ```{r}
@@ -109,149 +112,125 @@ $$\hat{p} = 3 / 62 = 0.048~\text{is used to estimate}~p$$
 terms_chp_12 <- c(terms_chp_12, "parameter", "point estimate", "statistic")
 ```
 
-### Variability of the statistic
 
-In the medical consultant case study, the parameter is $p,$ the true probability of a complication for a client of the medical consultant.
-There is no reason to believe that $p$ is exactly $\hat{p} = 3/62,$ but there is also no reason to believe that $p$ is particularly far from $\hat{p} = 3/62.$ By sampling with replacement from the dataset (a process called bootstrapping\index{bootstrapping}), the variability of the possible $\hat{p}$ values can be approximated.
 
-Most of the inferential procedures covered in this text are grounded in quantifying how one dataset would differ from another when they are both taken from the same population.
-It does not make sense to take repeated samples from the same population because if you have the means to take more samples, a larger sample size will benefit you more than separately evaluating two sample of the exact same size.
-Instead, we measure how the samples behave under an estimate of the population.
+### 统计量的变异性
 
-@fig-boot1 shows how the unknown original population can be estimated by using the sample to approximate the proportion of successes and failures (in our case, the proportion of complications and no complications for the medical consultant).
+在医疗顾问案例研究中，参数是 $p$，即这位医疗顾问客户的真实并发症概率。
+我们没有理由相信 $p$ 恰好等于 $\hat{p} = 3/62,$ 但同样没有理由相信 $p$ 离 $\hat{p} = 3/62$ 特别远。通过对数据集进行有放回抽样（这一过程称为**自助法**\index{bootstrapping}），可以近似得到可能的 $\hat{p}$ 值的变异性。
+
+本书涵盖的大多数推断方法都基于这样一个基础：量化当两个数据集均取自同一总体时，它们之间会有多大差异。
+从同一总体中重复抽取样本没有意义，因为如果你有条件抽取更多样本，那么增大样本量要比分别评估两个样本量完全相同的样本更有意义。
+相反，我们考察样本在一个估计的总体下的表现。
+
+@fig-boot1 展示了如何利用观测到的样本数据来近似成功与失败的比例（在本例中，即医疗顾问的并发症和无并发症比例），从而估计未知的原始总体。
 
 ```{r}
 #| label: fig-boot1
 #| fig-cap: |
-#|   The unknown population is estimated using the observed sample data. Note
-#|   that we can use the sample to create an estimated or bootstrapped population from
-#|   which to sample. The observed data include three red and four white marbles, so
-#|   the estimated population contains 3/7 red marbles and 4/7 white marbles.
+#|   利用观测到的样本数据来估计未知总体。请注意，
+#|   我们可以利用样本来创建一个估计的（即自助的）总体，并从中抽样。
+#|   观测数据包含 3 个红色和 4 个白色弹珠，因此
+#|   估计的总体中包含 3/7 的红色弹珠和 4/7 的白色弹珠。
 #| fig-alt: |
-#|   A small sample of 3 red marbles and 4 white marbles is taken from a large
-#|   population with predominately unknown individual values. The sample is then
-#|   replicated infinitely many times to create a proxy population where the
-#|   values are known to be 3/7 red and 4/7 white.
+#|   从一个大部分个体取值未知的大型总体中抽取了一个包含 3 个红色弹珠
+#|   和 4 个白色弹珠的小样本。然后，该样本被无限次复制，
+#|   以创建一个代理总体，其中已知红色弹珠占 3/7，白色弹珠占 4/7。
 #| out-width: 50%
 knitr::include_graphics("images/boot1prop1.png")
 ```
 
-By taking repeated samples from the estimated population, the variability from sample to sample can be observed.
-In @fig-boot2 the repeated bootstrap samples are obviously different both from each other and from the original population.
-Recall that the bootstrap samples were taken from the same (estimated) population, and so the differences are due entirely to natural variability in the sampling procedure.
+
+
+通过从估计的总体中重复抽样，可以观察到样本间的变异性。
+在 @fig-boot2 中，重复的自助样本彼此之间以及与原总体之间显然是不同的。
+请记住，这些自助样本都取自同一个（估计的）总体，因此差异完全是由抽样过程中的自然变异性造成的。
 
 ```{r}
 #| label: fig-boot2
 #| fig-cap: |
-#|   Bootstrap sampling provides a measure of the sample to sample variability. Note
-#|   that we are taking samples from the estimated population that was created from the
-#|   observed data.
+#|   自助抽样提供了对样本间变异性的度量。请注意，我们是从根据观测数据创建的估计总体中进行抽样的。
 #| fig-alt: |
-#|   The same unknown large population is given with a sample of 3 red and 4
-#|   white marbles. After the proxy population is created (infinite replicates of the
-#|   sample), new resamples of size 7 can be taken from the proxy population. Three
-#|   resamples of size 7 are shown: Resample 1 has 2/7 red; Resample 2 has 4/7 red; and
-#|   Resample k has 5/7 red.
+#|   展示了一个未知的大总体及其样本（3红4白弹珠）。创建代理总体（对样本的无限复制）后，可以从该代理总体中抽取新的、大小为 7 的重抽样样本。图中显示了三个大小为 7 的重抽样样本：重抽样样本1有2/7为红色；重抽样样本2有4/7为红色；重抽样样本k有5/7为红色。
 #| out-width: 60%
 knitr::include_graphics("images/boot1prop2.png")
 ```
 
-By summarizing each of the bootstrap samples (here, using the sample proportion), we see, directly, the variability of the sample proportion, $\hat{p},$ from sample to sample.
-The distribution of $\hat{p}_{boot}$ for the example scenario is shown in @fig-boot3, and the full bootstrap distribution for the medical consultant data is shown in @fig-MedConsBSSim.
+
+
+对每个自助样本进行汇总（此处使用的是样本比例），我们可以直接看到样本比例 $\hat{p}$ 在不同样本间的变异性。
+该示例场景下的 $\hat{p}_{boot}$ 分布如 @fig-boot3 所示，医疗顾问数据的完整自助分布则如 @fig-MedConsBSSim 所示。
 
 ```{r}
 #| label: fig-boot3
 #| fig-cap: |
-#|   The bootstrapped proportion is estimated for each bootstrap sample. The
-#|   resulting bootstrap distribution (dotplot) provides a measure for how the proportions
-#|   vary from sample to sample
+#|   对每个自助样本估计自助比例。由此得到的自助分布（点图）提供了比例在不同样本间如何变化的度量。
 #| fig-alt: |
-#|   The same unknown large population with a sample of 3 red and 4 white marbles;
-#|   the proxy population which is infinite with 3/7 red marbles; and the k Resamples
-#|   of size 7 are shown. From each of the resamples the bootstrapped proportion of
-#|   red is calculated (shown as 2/7, 4/7, and 5/7). Many many resamples are taken and
-#|   summarized in a dotplot of the bootstrapped proportions. The proportions range
-#|   from 0/7 to 7/7 in a bell shape with the majority of bootstrapped proportions falling
-#|   between 1/7 and 6/7.
+#|   展示了同一个未知大总体及其样本（3红4白弹珠）；比例为3/7红色弹珠的无限代理总体；以及k个大小为7的重抽样样本。计算每个重抽样样本的红色弹珠自助比例（显示为2/7, 4/7，和5/7）。采集大量重抽样样本后，将自助比例汇总在一个点图中。这些比例在0/7到7/7之间呈钟形分布，大多数自助比例落在1/7到6/7之间。
 #| out-width: 100%
 knitr::include_graphics("images/boot1prop3.png")
 ```
 
-It turns out that in practice, it is very difficult for computers to work with an infinite population (with the same proportional breakdown as in the sample).
-However, there is a physical and computational method which produces an equivalent bootstrap distribution of the sample proportion in a computationally efficient manner.
 
-Consider the observed data to be a bag of marbles 3 of which are success (red) and 4 of which are failures (white).
-By drawing the marbles out of the bag with replacement, we depict the exact same sampling **process** as was done with the infinitely large estimated population.
+
+实际上，计算机很难处理一个无限总体（且具有与样本相同的比例构成）。
+然而，存在一种物理和计算方法，能以计算高效的方式产生样本比例的等价自助分布。
+
+将观测数据视为一袋弹珠，其中 3 颗代表成功（红色），4 颗代表失败（白色）。
+通过有放回地从袋中抽取弹珠，我们描绘了与使用无限大的估计总体进行抽样时完全相同的抽样**过程**。
 
 ```{r}
 #| label: fig-boot4
 #| fig-cap: |
-#|   Taking repeated resamples from the sample data is the same process as creating
-#|   an infinitely large estimate of the population. It is computationally more feasible
-#|   to take resamples directly from the sample. Note that the resampling is now done
-#|   with replacement (that is, the original sample does not ever change) so that the
-#|   original sample and estimated hypothetical population are equivalent.
+#|   从样本数据中反复进行重抽样，与创建无限大的总体估计是同一过程。直接从样本进行重抽样在计算上更可行。请注意，此处的重抽样是有放回的（也就是说，原始样本本身永远不变），因此原始样本与估计的假设总体是等价的。
 #| fig-alt: |
-#|   Shown is the unknown large population with a sample of 3 red and 4 white
-#|   marbles. Without creating the infinitely large proxy population, resamples are taken
-#|   from the original sample (by sampling with replacement from the sample). Three resamples
-#|   of size 7 are shown: Resample 1 has 2/7 red; Resample 2 has 4/7 red; and Resample
-#|   k has 5/7 red.
+#|   展示了一个未知大总体及其样本（3红4白弹珠）。无需创建无限大的代理总体，重抽样直接取自原始样本（通过对样本进行有放回抽样）。图中显示了三个大小为7的重抽样样本：重抽样样本1有2/7红色；重抽样样本2有4/7红色；重抽样样本k有5/7红色。
 #| out-width: 70%
 knitr::include_graphics("images/boot1prop4.png")
 ```
 
+
 ```{r}
 #| label: fig-boot1prop
 #| fig-cap: |
-#|   A comparison of the process of sampling from the estimate infinite population
-#|   and resampling with replacement from the original sample. Note that the dotplot
-#|   of bootstrapped proportions is the same because the process by which the statistics
-#|   were estimated is equivalent.
+#|   对比从估计的无限总体中抽样与从原始样本有放回重抽样的过程。请注意，自助比例的点图是相同的，因为估计统计量的过程是等价的。
 #| fig-alt: |
-#|   Top image includes the steps of (1) a large unknown population, (2) observed
-#|   sample of size 7 (with 3 red and 4 white), (3) creation of an infinitely large proxy
-#|   population, and (4) three resamples. (5) Many resamples are considered with a dotplot
-#|   of bootstrapped proportions. The bottom image follows the same process without
-#|   the infinitely large proxy population. That is, in the bottom image a (1) single
-#|   sample is taken from the original population and (2) the three resamples are taken
-#|   directly from the observed data (using sampling with replacement). (3) Again, many
-#|   resamples are considered with a dotplot of bootstrapped proportions.
+#|   顶部图像包含以下步骤：(1) 一个大的未知总体，(2) 观测到的样本（大小为7，含3红4白），(3) 创建一个无限大的代理总体，以及 (4) 三个重抽样样本。(5) 考虑大量重抽样样本并绘制自助比例的点图。底部图像遵循相同的过程，但不包含无限大的代理总体。即，在底部图像中，(1) 从原始总体中抽取一个样本，(2) 三个重抽样样本直接取自观测数据（使用有放回抽样）。(3) 同样，考虑大量重抽样样本并绘制自助比例的点图。
 #| out-width: 100%
 knitr::include_graphics("images/boot1propboth.png")
 ```
 
-If we apply the bootstrap sampling process to the medical consultant example, we consider each client to be one of the marbles in the bag.
-There will be 59 white marbles (no complication) and 3 red marbles (complication).
-If we choose 62 marbles out of the bag (one at a time with replacement) and compute the proportion of simulated patients with complications, $\hat{p}_{boot},$ then this "bootstrap" proportion represents a single simulated proportion from the "resample from the sample" approach.
+
+
+如果我们将自助抽样过程应用于医疗顾问的例子，我们可以将每位客户视为袋中的一颗弹珠。
+袋中有 59 颗白色弹珠（无并发症）和 3 颗红色弹珠（有并发症）。
+如果我们从袋中抽取 62 颗弹珠（每次有放回地抽取一颗），并计算模拟患者中出现并发症的比例 $\hat{p}_{boot},$ 那么这个“自助”比例就代表了通过“从样本中重抽样”方法得到的一个模拟比例。
 
 ::: {.guidedpractice data-latex=""}
-In a simulation of 62 patients, about how many would we expect to have had a complication?[^12-foundations-bootstrapping-1]
+在对 62 名患者进行模拟时，我们预期大约有多少人会出现并发症？[^12-foundations-bootstrapping-1]
 :::
 
-[^12-foundations-bootstrapping-1]: About 4.8% of the patients (3 on average) in the simulation will have a complication, as this is what was seen in the sample.
-    We will, however, see a little variation from one simulation to the next.
+[^12-foundations-bootstrapping-1]: 在模拟中，大约 4.8% 的患者（平均 3 人）会出现并发症，因为这是在样本中观察到的情况。
+    不过，我们会看到每次模拟之间会略有变化。
 
-One simulation isn't enough to get a sense of the variability from one bootstrap proportion to another bootstrap proportion, so we repeat the simulation 10,000 times using a computer.
+仅靠一次模拟不足以了解不同自助比例之间的变异性，因此我们用计算机将模拟重复了 10,000 次。
 
-@fig-MedConsBSSim shows the distribution from the 10,000 bootstrap simulations.
-The bootstrapped proportions vary from about zero to 11.3%.
-The variability in the bootstrapped proportions leads us to believe that the true probability of complication (the parameter, $p$) is likely to fall somewhere between 0% and 11.3%, as these numbers capture 95% of the bootstrap resampled values.
+@fig-MedConsBSSim 显示了 10,000 次自助模拟的分布。
+自助比例的变化范围大约从 0 到 11.3%。
+自助比例的变异性使我们相信，真实的并发症概率（即参数 $p$）很可能落在 0% 到 11.3% 之间，因为这些数值覆盖了 95% 的自助重采样值。
 
-The range of values for the true proportion is called a **bootstrap percentile confidence interval**, and we will see it again throughout the next few sections and chapters.
+真实比例的取值范围被称为**自助法百分位置信区间**，在接下来的几节和几章中我们还会再次见到它。
 
 ```{r}
 #| label: fig-MedConsBSSim
 #| fig-cap: |
-#|   The original medical consultant data is bootstrapped 10,000 times. Each
-#|   simulation creates a sample from the original data where the probability
-#|   of a complication is $\hat{p} = 3/62.$ The bootstrap 2.5 percentile
-#|   proportion is 0 and the 97.5 percentile is 0.113. The result is: we are
-#|   confident that, in the population, the true probability of a complication
-#|   is between 0% and 11.3%.
+#|   对原始医疗顾问数据进行 10,000 次自助法抽样。每次模拟都从原始数据中创建一个样本，其中
+#|   并发症的概率为 $\hat{p} = 3/62.$ 自助法的第 2.5 百分位数比例为 0，
+#|   第 97.5 百分位数为 0.113。结论是：我们确信，在总体中，
+#|   真实的并发症概率在 0% 到 11.3% 之间。
 #| fig-alt: |
-#|   Histogram of 10,000 bootstrapped proportions. The bootstrap 2.5 percentile
-#|   proportion is zero and the 97.5 percentile is 0.113.
+#|   10,000 个自助比例的直方图。自助法的第 2.5 百分位数比例为 0，
+#|   第 97.5 百分位数为 0.113。
 #| fig-asp: 0.5
 bsprop_med <- tibble(
   bsprop = rbinom(10000, size = 62, prob = (3 / 62)) / 62
@@ -289,87 +268,87 @@ ggplot(bsprop_med, aes(x = bsprop)) +
     "text",
     x = bsprop_med_summary$bsprop_025,
     y = 1200,
-    label = "2.5th\npercentile"
+    label = "第 2.5\n百分位数"
   ) +
   annotate(
     "text",
     x = bsprop_med_summary$bsprop_975,
     y = 1200,
-    label = "97.5th\npercentile"
+    label = "第 97.5\n百分位数"
   ) +
   labs(
-    x = "Bootstrapped proportion of surgical complications",
-    y = "Count",
-    title = "10,000 bootstrapped proportions"
+    x = "手术并发症的自助比例",
+    y = "频数",
+    title = "10,000 个自助比例"
   )
 ```
 
+
 ::: {.workedexample data-latex=""}
-The original claim was that the consultant's true rate of complication was under the national rate of 10%.
-Does the interval estimate of 0% to 11.3% for the true probability of complication indicate that the surgical consultant has a lower rate of complications than the national average?
-Explain.
+最初的说法是，该顾问的真实并发症率低于 10% 的全国水平。
+0% 到 11.3% 的并发症真实概率区间估计是否表明该外科顾问的并发症率低于全国平均水平？
+请解释。
 
 ------------------------------------------------------------------------
 
-No.
-Because the interval overlaps 10%, it might be that the consultant's work is associated with a lower risk of complications, or it might be that the consultant's work is associated with a higher risk (i.e., greater than 10%) of complications!
-Additionally, as previously mentioned, because this is an observational study, even if an association can be measured, there is no evidence that the consultant's work is the cause of the complication rate (being higher or lower).
+不支持。
+因为该区间与 10% 重叠，顾问的工作可能与较低的并发症风险相关，也可能与较高（即大于 10%）的并发症风险相关！
+此外，如前所述，由于这是一项观察性研究，即使能够测量出关联，也没有证据表明顾问的工作是导致并发症率（更高或更低）的原因。
 :::
 
-## Tappers and listeners case study {#sec-tapperscasestudy}
+## 敲击者和听众案例研究 {#sec-tapperscasestudy}
 
-Here's a game you can try with your friends or family: pick a simple, well-known song, tap that tune on your desk, and see if the other person can guess the song.
-In this simple game, you are the tapper, and the other person is the listener.
+你可以和朋友或家人尝试这样一个游戏：选一首简单且耳熟能详的歌曲，在桌子上敲出它的旋律，看看对方能否猜出这首歌。
+在这个简单的游戏中，你是敲击者，对方是听众。
 
-### Observed data
+### 观测数据
 
-A Stanford University graduate student named Elizabeth Newton conducted an experiment using the tapper-listener game.[^12-foundations-bootstrapping-2]
-In her study, she recruited 120 tappers and 120 listeners into the study.
-About 50% of the tappers expected that the listener would be able to guess the song.
-Newton wondered, is 50% a reasonable expectation?
+斯坦福大学的研究生 Elizabeth Newton 利用敲击者-听众游戏进行了一项实验。[^12-foundations-bootstrapping-2]
+在她的研究中，她招募了 120 名敲击者和 120 名听众。
+大约 50% 的敲击者期望听众能够猜出歌曲。
+Newton 想知道，50% 是一个合理的期望吗？
 
-[^12-foundations-bootstrapping-2]: This case study is described in [Made to Stick](https://en.wikipedia.org/wiki/Made_to_Stick) by Chip and Dan Heath.
-    Little known fact: the teaching principles behind many OpenIntro resources are based on *Made to Stick*.
+[^12-foundations-bootstrapping-2]: 这个案例研究在 Chip 和 Dan Heath 的 [Made to Stick](https://en.wikipedia.org/wiki/Made_to_Stick) 一书中有所描述。
+    鲜为人知的是，许多 OpenIntro 资源背后的教学原则都基于 *Made to Stick*。
 
-In Newton's study, only 3 out of 120 listeners ($\hat{p} = 0.025$) were able to guess the tune!
-That seems like quite a low number which leads the researcher to ask: what is the true proportion of people who can guess the tune?
+在牛顿的研究中，120名听众中只有3人（$\hat{p} = 0.025$）猜对了曲子！
+这个数字看起来相当低，这促使研究者提出疑问：能猜对曲子的人的真实比例是多少？
 
 \clearpage
 
-### Variability of the statistic
+### 统计量的变异性
 
-To answer the question, we will again use a simulation.
-To simulate 120 games, this time we use a bag of 120 marbles 3 are red (for those who guessed correctly) and 117 are white (for those who could not guess the song).
-Sampling from the bag 120 times (remembering to replace the marble back into the bag each time to keep constant the population proportion of red) produces one bootstrap sample.
+为了回答这个问题，我们将再次使用模拟。
+为了模拟120场游戏，这次我们使用一个装有120颗弹珠的袋子：3颗是红色的（代表猜对的人），117颗是白色的（代表没有猜对曲子的人）。
+从袋子中抽样120次（记得每次都要将弹珠放回袋中，以保持红色弹珠的总体比例恒定）就产生了一个自助样本。
 
-For example, we can start by simulating 5 tapper-listener pairs by sampling 5 marbles from the bag of 3 red and 117 white marbles.
+例如，我们可以从装有3颗红色和117颗白色弹珠的袋子中抽取5颗弹珠，来模拟5对敲击者-听众配对。
 
 |   W   |   W   |   W   |    R    |   W   |
 |:-----:|:-----:|:-----:|:-------:|:-----:|
-| Wrong | Wrong | Wrong | Correct | Wrong |
+| 错误 | 错误 | 错误 |   正确   | 错误 |
 
-After selecting 120 marbles, we counted 2 red for $\hat{p}_{boot1} = 0.0167.$ As we did with the randomization technique, seeing what would happen with one simulation isn't enough.
-In order to understand how far the observed proportion of 0.025 might be from the true parameter, we should generate more simulations.
-Here we have repeated the entire simulation ten times:
+在抽取了120颗弹珠后，我们数出2颗红色弹珠对应 $\hat{p}_{boot1} = 0.0167.$ 正如我们使用随机化技术时那样，只看一次模拟会发生什么是不够的。
+为了理解观测到的比例0.025可能与真实参数相距多远，我们应该生成更多的模拟。
+这里我们将整个模拟重复了十次：
 
 $$0.0417 \quad 0.025 \quad 0.025 \quad 0.0083 \quad 0.05 \quad 0.0333 \quad 0.025 \quad 0 \quad 0.0083 \quad 0$$ <!-- % round(rbinom(10, 120, 0.5) / 120, 3) -->
 
-As before, we'll run a total of 10,000 simulations using a computer.
-As seen in @fig-tappers-bs-sim, the range of 95% of the resampled values of $\hat{p}_{boot}$ is 0.000 to 0.0583.
-That is, we expect that between 0% and 5.83% of people are truly able to guess the tapper's tune.
+和之前一样，我们将使用计算机总共运行 10,000 次模拟。
+如 @fig-tappers-bs-sim 所示，$\hat{p}_{boot}$ 的重采样值中有 95% 落在 0.000 到 0.0583 之间。
+也就是说，我们预计真正能猜出敲击者曲调的人的比例在 0% 到 5.83% 之间。
 
 ```{r}
 #| label: fig-tappers-bs-sim
 #| fig-cap: |
-#|   The original listener-tapper data is bootstrapped 10,000 times. Each
-#|   simulation creates a sample where the probability of being correct is
-#|   $\hat{p} = 3/120.$ The 2.5 percentile proportion is 0 and the 97.5
-#|   percentile is 0.0583. The result is that we are confident that, in the
-#|   population, the true percent of people who can guess correctly is between
-#|   0% and 5.83%.
+#|   原始的听众-敲击者数据进行了10,000次自助法重抽样。每次
+#|   模拟都会创建一个样本，其中猜对的概率为
+#|   $\hat{p} = 3/120.$ 第2.5百分位数的比例为0，第97.5
+#|   百分位数为0.0583。结果是，我们有信心认为，在
+#|   总体中，能正确猜对曲子的人的真实百分比在 0% 到 5.83% 之间。
 #| fig-alt: |
-#|   Histogram of 10,000 bootstrapped proportions. The bootstrap 2.5 percentile
-#|   proportion is zero and the 97.5 percentile is 0.0583.
+#|   10,000个自助比例的直方图。自助比例的第2.5百分位数
+#|   为零，第97.5百分位数为0.0583。
 #| fig-asp: 0.5
 bsprop_tap <- tibble(
   bsprop = rbinom(10000, size = 120, prob = (3 / 120)) / 120
@@ -397,130 +376,132 @@ ggplot(bsprop_tap, aes(x = bsprop)) +
   annotate("text", x = bsprop_tap_summary$bsprop_025, y = 1200, label = "2.5th\npercentile") +
   annotate("text", x = bsprop_tap_summary$bsprop_975, y = 1200, label = "97.5th\npercentile") +
   labs(
-    x = "Bootstrapped proportion of listeners who guessed correctly",
-    y = "Count",
-    title = "10,000 bootstrapped proportions"
+    x = "猜对听众的自助比例",
+    y = "计数",
+    title = "10,000个自助比例"
   )
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Do the data provide convincing evidence against the claim that 50% of listeners can guess the tapper's tune?[^12-foundations-bootstrapping-3]
+这些数据是否提供了有说服力的证据来反驳 50% 的听众能猜出敲击者曲调的说法？[^12-foundations-bootstrapping-3]
 :::
 
-[^12-foundations-bootstrapping-3]: Because 50% is not in the interval estimate for the true parameter, we can say that there is convincing evidence against the hypothesis that 50% of listeners can guess the tune.
-    Moreover, 50% is a substantial distance from the largest resample statistic, suggesting that there is **very** convincing evidence against this hypothesis.
+[^12-foundations-bootstrapping-3]: 因为 50% 不在真实参数的区间估计内，我们可以说有令人信服的证据反对 50% 的听众能猜出曲调这一假设。
+    此外，50% 与最大的重采样统计量相距甚远，这表明有**非常**令人信服的证据反对该假设。
 
 \clearpage
 
-## Confidence intervals {#sec-ConfidenceIntervals}
+## 置信区间 {#sec-ConfidenceIntervals}
 
 \index{confidence interval}
 
-A point estimate provides a single plausible value for a parameter.
-However, a point estimate is rarely perfect; usually there is some error in the estimate.
-In addition to supplying a point estimate of a parameter, a next logical step would be to provide a plausible *range of values* for the parameter.
+点估计为参数提供了一个单一的合理值。
+然而，点估计很少是完美的；估计中通常存在一些误差。
+除了提供参数的点估计之外，下一个合理的步骤就是为参数提供一个合理的*值范围*。
 
-### Plausible range of values for the population parameter
+### 总体参数的合理值范围
 
-A plausible range of values for the population parameter is called a **confidence interval**\index{confidence interval}.
-Using only a single point estimate is like fishing in a murky lake with a spear, and using a confidence interval is like fishing with a net.
-We can throw a spear where we saw a fish, but we will probably miss.
-On the other hand, if we toss a net in that area, we have a good chance of catching the fish.
+总体参数的一个合理值范围称为**置信区间**\index{confidence interval}。
+只使用一个点估计就像在浑浊的湖里用矛捕鱼，而使用置信区间则像用网捕鱼。
+我们可以朝看到鱼的地方投出长矛，但我们很可能会错过。
+另一方面，如果我们向那个区域撒网，我们就有很大机会抓到鱼。
 
-If we report a point estimate, we probably will not hit the exact population parameter.
-On the other hand, if we report a range of plausible values -- a confidence interval -- we have a good shot at capturing the parameter.
+如果我们报告一个点估计，我们很可能无法正好命中总体参数。
+另一方面，如果我们报告一个合理值的范围——一个置信区间——我们就有很大机会捕获到这个参数。
 
 ::: {.guidedpractice data-latex=""}
-If we want to be very certain we capture the population parameter, should we use a wider interval (e.g., 99%) or a smaller interval (e.g., 80%)?[^12-foundations-bootstrapping-4]
+如果我们想非常确定能捕获总体参数，我们应该使用更宽的区间（例如，99%）还是更窄的区间（例如，80%）？[^12-foundations-bootstrapping-4]
 :::
 
-[^12-foundations-bootstrapping-4]: If we want to be more certain we will capture the fish, we might use a wider net.
-    Likewise, we use a wider confidence interval if we want to be more certain that we capture the parameter.
+[^12-foundations-bootstrapping-4]: 如果我们想更确定能捕到鱼，我们可能会用更宽的网。
+    同样，如果我们想更确定能捕获参数，我们就使用更宽的置信区间。
 
 \vspace{-5mm}
 
-### Bootstrap confidence interval
+### 自助法置信区间
 
-As we saw above, a **bootstrap sample**\index{bootstrap sample} is a sample of the original sample.
-In the case of the medical complications data, we proceed as follows:
+如上所述，**自助样本**\index{bootstrap sample}就是原始样本的一个样本。
+以医疗并发症数据为例，我们按如下步骤进行：
 
--   Randomly sample one observation from the 62 patients (replace the marble back into the bag so as to keep the population constant).
--   Randomly sample a second observation from the 62 patients. Because we sample with replacement (i.e., we do not actually remove the marbles from the bag), there is a 1-in-62 chance that the second observation will be the same one sampled in the first step!
--   Keep going one sampled observation at a time ...
--   Randomly sample the 62nd observation from the 62 patients.
+-   从 62 名患者中随机抽取一个观测（将弹珠放回袋中以保持总体不变）。
+-   从 62 名患者中随机抽取第二个观测。因为我们采用有放回抽样（即实际上并不从袋中取出弹珠），所以第二次抽取到与第一步相同的观测的概率是 1/62！
+-   继续逐个抽取观测……
+-   从 62 名患者中随机抽取第 62 个观测。
 
 ```{r}
 #| include: false
 terms_chp_12 <- c(terms_chp_12, "bootstrap sample", "bootstrap percentile confidence interval", "sampling with replacement", "confidence interval")
 ```
 
-Bootstrap sampling is often called **sampling with replacement**\index{sampling with replacement}.
 
-A bootstrap sample behaves similarly to how an actual sample from a population would behave, and we compute the point estimate of interest (here, compute $\hat{p}_{boot}$).
 
-Based on theory that is beyond this text, we know that the bootstrap proportions $\hat{p}_{boot}$ vary around $\hat{p}$ similarly to how different sample proportions (i.e., values of $\hat{p}$) vary around the true parameter $p.$
-Therefore, an interval estimate for $p$ can be produced using the $\hat{p}_{boot}$ values themselves.
+自助法抽样通常被称为**有放回抽样**\index{sampling with replacement}。
+
+自助样本的行为类似于从总体中抽取的实际样本，我们计算出感兴趣的点估计（此处计算 $\hat{p}_{boot}$）。
+
+基于超出本文范围的理论，我们知道自助比例 $\hat{p}_{boot}$ 围绕 $\hat{p}$ 的变化方式，与不同样本比例（即 $\hat{p}$ 的值）围绕真实参数 $p$ 的变化方式类似。
+因此，可以利用 $\hat{p}_{boot}$ 值本身来生成 $p$ 的区间估计。
 
 ::: {.important data-latex=""}
-**95% bootstrap percentile confidence interval for a parameter** $p.$
+**参数 $p$ 的 95% 自助法百分位置信区间**。
 
 \index{boostrap percentile confidence interval}
-The 95% bootstrap confidence interval for the parameter $p$ can be obtained directly using the ordered $\hat{p}_{boot}$ values.
+参数 $p$ 的 95% 自助法百分位置信区间可以直接使用排序后的 $\hat{p}_{boot}$ 值来获得。
 
-Consider the sorted $\hat{p}_{boot}$ values.
-Call the 2.5% bootstrapped proportion value "lower", and call the 97.5% bootstrapped proportion value "upper".
+考虑排序后的 $\hat{p}_{boot}$ 值。
+将第 2.5% 的自助比例值称为“下界”，将第 97.5% 的自助比例值称为“上界”。
 
-The 95% confidence interval is given by: (lower, upper)
+95% 置信区间由下式给出：(下界, 上界)
 :::
 
-In @sec-one-prop-null-boot we will discuss different percentages for the confidence interval (e.g., 90% confidence interval or 99% confidence interval).
+在 @sec-one-prop-null-boot 中，我们将讨论不同置信水平的置信区间（例如 90% 置信区间或 99% 置信区间）。
 
-Section @sec-one-prop-null-boot also provides a longer discussion on what "95% confidence" actually means.
+@sec-one-prop-null-boot 节还详细讨论了“95% 置信”的实际含义。
 
 \clearpage
 
-## Chapter review {#sec-chp12-review}
+## 章节回顾 {#sec-chp12-review}
 
-### Summary
+### 总结
 
-@fig-bootboth provides a visual summary of creating bootstrap confidence intervals.
+@fig-bootboth 提供了创建自助法置信区间的视觉总结。
 
 ```{r}
 #| label: fig-bootboth
 #| fig-cap: |
-#|   We will use sampling with replacement to measure the variability of the statistic
-#|   of interest (here the proportion). Sampling with replacement is a computational
-#|   tool which is equivalent to using the sample as a way of estimating an infinitely
-#|   large population from which to sample.
+#|   我们将使用有放回抽样来衡量感兴趣的统计量（此处为比例）的变异性。
+#|   有放回抽样是一种计算工具，它等价于将样本用作估计一个无限大的总体的方式，然后从该总体中抽样。
 #| fig-alt: |
-#|   Full depiction of the bootstrapping process. Cartoon of the population and
-#|   potential bootstrap samples is shown, each with a different bootstrap proportion.
-#|   A dot plot of the bootstrapped proportions shows how they are naturally variable.
+#|   自助法过程的完整描述。图中显示了总体和潜在自助样本的卡通示意图，每个样本都有不同的自助比例。
+#|   自助比例的点图显示了它们固有的变异性。
 #| out-width: 100%
 knitr::include_graphics("images/boot1propboth.png")
 ```
 
-We can summarize the bootstrap process as follows:
 
--   **Frame the research question in terms of a parameter to estimate.** Confidence Intervals are appropriate for research questions that aim to estimate a number from the population (called a parameter).
--   **Collect data with an observational study or experiment.** If a research question can be formed as a query about the parameter, we can collect data to calculate a statistic which is the best guess we have for the value of the parameter. However, we know that the statistic won't be exactly equal to the parameter due to natural variability.
--   **Model the randomness by using the data values as a proxy for the population.** In order to assess how far the statistic might be from the parameter, we take repeated resamples from the dataset to measure the variability in bootstrapped statistics. The variability of the bootstrapped statistics around the observed statistic (a quantity which can be measured through computational technique) should be approximately the same as the variability of many observed sample statistics around the parameter (a quantity which is very difficult to measure because in real life we only get exactly one sample).
+
+我们可以将自助法过程总结如下：
+
+-   **根据要估计的参数来框定研究问题。** 置信区间适用于旨在估计总体中某个数字（称为参数）的研究问题。
+-   **通过观察性研究或实验收集数据。** 如果研究问题可以表达为关于参数的查询，我们就可以收集数据来计算一个统计量，这是我们对该参数值的最佳猜测。然而，我们知道由于自然变异性，统计量不会恰好等于参数。
+-   **使用数据值作为总体的代理来模拟随机性。** 为了评估统计量可能距离参数多远，我们从数据集中重复重抽样以测量自助统计量的变异性。自助统计量围绕观测统计量的变异性（这是一个可以通过计算技术测量的量）应该大致等于许多观测样本统计量围绕参数的变异性（这是一个很难测量的量，因为在现实生活中我们只能得到确切的一个样本）。
 
 \clearpage
 
--   **Create the interval.** After choosing a particular confidence level, use the variability of the bootstrapped statistics to create an interval estimate which will hope to capture the true parameter. While the interval estimate associated with the particular sample at hand may or may not capture the parameter, the researcher knows that over their lifetime, the confidence level will determine the percentage of their research confidence intervals that do capture the true parameter.
--   **Form a conclusion.** Using the confidence interval from the analysis, report on the interval estimate for the parameter of interest. Also, be sure to write the conclusion in plain language so casual readers can understand the results.
+-   **创建区间。** 选择特定的置信水平后，利用自助统计量的变异性创建一个区间估计，希望它能捕获真实参数。虽然与手头特定样本相关的区间估计可能捕获也可能不捕获参数，但研究者知道，在整个研究生涯中，置信水平将决定他们有多少比例的研究置信区间能够捕获真实参数。
+-   **形成结论。** 使用分析得到的置信区间，报告感兴趣参数的区间估计。同时，务必用通俗的语言写出结论，以便普通读者理解结果。
 
-@tbl-chp12-summary is another look at the bootstrap process summary.
+@tbl-chp12-summary 是自助法过程总结的另一种呈现方式。
 
 ```{r}
 #| label: tbl-chp12-summary
-#| tbl-cap: Summary of bootstrapping as an inferential statistical method.
+#| tbl-cap: 作为推断统计方法的自助法总结。
 #| tbl-pos: H
 inference_method_summary_table |>
   filter(question != "What are the technical conditions?") |>
   select(question, bootstrapping) |>
-  kbl(linesep = "\\addlinespace", booktabs = TRUE, col.names = c("Question", "Answer")) |>
+  kbl(linesep = "\\addlinespace", booktabs = TRUE, col.names = c("问题", "答案")) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped", "hold_position"), full_width = TRUE
@@ -528,24 +509,28 @@ inference_method_summary_table |>
   column_spec(1, width = "15em")
 ```
 
-### Terms
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-12.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+
+### 术语
+
+本章介绍的术语列在 @tbl-terms-chp-12 中。
+如果你不确定其中某些术语的含义，我们建议你回到正文中回顾它们的定义。
+你应该能很容易地找到它们，因为它们在正文中均以**粗体**显示。
 
 ```{r}
 #| label: tbl-terms-chp-12
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_12)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp12-exercises}
+## 练习 {#sec-chp12-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-12].
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-12] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_12-ex-foundations-bootstrapping.qmd >}}

@@ -1,109 +1,111 @@
-# Applications: Infer {#sec-inference-applications}
+# 应用：推断 {#sec-inference-applications}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
+
 \vspace{-10mm}
 
-## Recap: Computational methods {#sec-comp-methods-summary}
+## 回顾：计算方法 {#sec-comp-methods-summary}
 
-The computational methods we have presented are used in two settings.
-First, in many real life applications (as in those covered here), the mathematical model and computational model give identical conclusions.
-When there are no differences in conclusions, the advantage of the computational method is that it gives the analyst a good sense for the logic of the statistical inference process.
-Second, when there is a difference in the conclusions (seen primarily in methods beyond the scope of this text), it is often the case that the computational method relies on fewer technical conditions and is therefore more appropriate to use.
+我们介绍的计算方法用于两种场景。
+首先，在许多实际应用中（如本书所涵盖的那些），数学模型和计算模型会得出相同的结论。
+当结论没有差异时，计算方法的优势在于它能让分析者很好地理解统计推断过程的逻辑。
+其次，当结论存在差异时（主要见于本书范围之外的方法），通常是因为计算方法依赖的技术条件更少，因此更适合使用。
 
-### Randomization
+### 随机化
 
-An important feature of randomization tests is that the data are permuted in such a way that the null hypothesis is true.
-The randomization distribution provides a distribution of the statistic of interest under the null hypothesis, which is exactly the information needed to calculate a p-value --- where the p-value is the probability of obtaining the observed data or more extreme when the null hypothesis is true.
-Although there are ways to adjust the randomization for settings other than the null hypothesis being true, they are not covered in this book and they are not used widely.
-In approaching research questions with a randomization test, be sure to ask yourself what the null hypothesis represents and how it is that permuting the data is creating different possible null data representations.
+随机化检验的一个重要特征是，数据以使得原假设成立的方式被置换。
+随机化分布提供了在原假设下感兴趣的统计量的分布，这正是计算 p 值所需的信息——p 值是在原假设为真的情况下，获得观测数据或更极端结果的概率。
+尽管存在针对原假设不为真的情况调整随机化的方法，但本书未涵盖且这些方法未被广泛使用。
+在使用随机化检验处理研究问题时，务必问自己原假设代表什么，以及置换数据是如何创建原假设下不同的可能数据表示形式的。
 
-**Hypothesis tests.** When using a randomization test, we proceed as follows:
+**假设检验。** 当使用随机化检验时，我们按如下步骤进行：
 
--   Write appropriate hypotheses.
+-   写出适当的假设。
 
--   Compute the observed statistic of interest.
+-   计算感兴趣的观测统计量。
 
--   Permute the data repeatedly, each time, recalculating the statistic of interest.
+-   重复置换数据，每次重新计算感兴趣的统计量。
 
--   Compute the proportion of times the permuted statistics are as extreme as or more extreme than the observed statistic, this is the p-value.
+-   计算置换后的统计量与观测统计量同样极端或更极端的比例，这就是 p 值。
 
--   Make a conclusion based on the p-value, and write the conclusion in context and in plain language so anyone can understand the result.
+-   根据 p 值得出结论，并将结论结合问题背景，用通俗的语言写出，以便任何人都能理解结果。
 
-### Bootstrapping
+### 自助法
 
-Bootstrapping, in contrast to randomization tests, represents a proxy sampling of the original population.
-With bootstrapping, the analyst is not forcing the null hypothesis to be true (or false, for that matter), but instead, they are replicating the variability seen in taking repeated samples from a population.
-Because there is no underlying true (or false) null hypothesis, bootstrapping is typically used for creating confidence intervals for the parameter of interest.
-Bootstrapping can be used to test particular values of a parameter (e.g., by evaluating whether a particular value of interest is contained in the confidence interval), but generally, bootstrapping is used for interval estimation instead of testing.
+自助法与随机化检验不同，它代表对原始总体的一种代理抽样。
+使用自助法时，分析者并不是强制原假设为真（或为假），而是复制从总体中重复抽样所观察到的变异性。
+由于不存在潜在为真（或为假）的原假设，自助法通常用于为感兴趣的参数构建置信区间。
+自助法可用于检验参数的特定值（例如，通过评估感兴趣的特定值是否包含在置信区间内），但一般来说，自助法用于区间估计而非检验。
 
 \clearpage
 
-**Confidence intervals.** The following is how we generally computed a confidence interval using bootstrapping:
+**置信区间。** 以下是我们通常使用自助法计算置信区间的步骤：
 
--   Repeatedly resample the original data, with replacement, using the same sample size as the original data.
+-   以与原始数据相同的样本量，对原始数据进行有放回的重复重抽样。
 
--   For each resample, calculate the statistic of interest.
+-   对于每个重抽样样本，计算感兴趣的统计量。
 
--   Calculate the confidence interval using one of the following methods:
+-   使用以下方法之一计算置信区间：
 
-    -   Bootstrap percentile interval: Obtain the endpoints representing the middle (e.g., 95%) of the bootstrapped statistics.
-        The endpoints will be the confidence interval.
+    -   自助百分位区间：获取代表自助法统计量中间部分（例如 95%）的值。这些端点就是置信区间。
 
-    -   Bootstrap standard error (SE) interval: Find the SE of the bootstrapped statistics.
-        The confidence interval will be given by the original observed statistic plus or minus some multiple (e.g., 2) of SEs.
+    -   自助标准误（SE）区间：找出自助法统计量的 SE。
+        置信区间由原始观测统计量加减 SE 的某个倍数（例如，2）给出。
 
--   Put the conclusions in context and in plain language so even non-statisticians and data scientists can understand the results.
+-   将结论结合问题背景，并用通俗的语言表述，以便即使非统计学家和数据科学家也能理解结果。
 
-## Recap: Mathematical models {#sec-math-models-summary}
+## 回顾：数学模型 {#sec-math-models-summary}
 
-The mathematical models which have been used to produce inferential analyses follow a consistent framework for different parameters of interest.
-As a way to contrast and compare the mathematical approach, we offer the following summaries in @tbl-zcompare and @tbl-tcompare.
+用于进行统计推断分析的数学模型，针对不同的感兴趣的参数遵循一致的框架。
+为了对比和比较数学方法，我们在 @tbl-zcompare 和 @tbl-tcompare 中提供了以下总结。
 
-### z-procedures
+### z 方法
 
-Generally, when the response variable is categorical (or binary), the summary statistic is a proportion and the model used to describe the proportion is the standard normal curve (also referred to as a $z$-curve or a $z$-distribution).
-We provide @tbl-zcompare partly as a mechanism for understanding $z$-procedures and partly to highlight the extremely common usage of the $z$-distribution in practice.
+一般来说，当响应变量是分类（或二元）变量时，汇总统计量是一个比例，而用于描述该比例的模型是标准正态曲线（也称为 $z$ 曲线或 $z$ 分布）。
+我们提供 @tbl-zcompare，部分是为了帮助理解 $z$ 方法，部分是为了强调 $z$ 分布在实际中极为普遍的应用。
 
 ```{r}
 #| label: tbl-zcompare
 #| tbl-cap: |
-#|   Similarities of z-methods across one sample and two independent samples
-#|   analysis of a binary response variable. $p$ represents the population
-#|   proportion, $\hat{p}$ represents the sample proportion, $p_0$ represents
-#|   the null hypothesized proportion, $\hat{p}_{pool}$ represents the pooled
-#|   proportion, and $n$ represents the sample size. The subscripts of 1 and 2
-#|   indicate that the values are measured separately for samples 1 and 2.
+#|   单样本与两独立样本二元响应变量分析中 z 方法的相似之处。
+#|   $p$ 代表总体比例，$\hat{p}$ 代表样本比例，$p_0$ 代表原假设比例，
+#|   $\hat{p}_{pool}$ 代表合并比例，$n$ 代表样本量。下标 1 和 2
+#|   表示这些值是分别为样本 1 和样本 2 测量的。
 #| tbl-pos: H
 zsim_table <- tribble(
   ~variable               , ~col1                                               , ~col2                                                                                                             ,
-  "Response variable"     , "Binary"                                            , "Binary"                                                                                                          ,
-  "Parameter of interest" , "Proportion: $p$"                                   , "Difference in proportions: $p_1 - p_2$"                                                                          ,
-  "Statistic of interest" , "Proportion: $\\widehat{p}$"                        , "Difference in proportions: $\\widehat{p}_1 - \\widehat{p}_2$"                                                    ,
-  "Standard error: HT"    , "$\\sqrt{\\frac{p_0(1-p_0)}{n}}$"                   , "$\\sqrt{\\widehat{p}_{pool}\\bigg(1-\\widehat{p}_{pool}\\bigg)\\bigg(\\frac{1}{n_1} + \\frac{1}{n_2}}\\bigg)$"   ,
-  "Standard error: CI"    , "$\\sqrt{\\frac{\\widehat{p}(1-\\widehat{p})}{n}}$" , "$\\sqrt{\\frac{\\widehat{p}_{1}(1-\\widehat{p}_{1})}{n_1} + \\frac{\\widehat{p}_{2}(1-\\widehat{p}_{2})}{n_2}}$" ,
-  "Conditions"            , "1. Independence, 2. Success-failure"               , "1. Independence, 2. Success-failure"
+  "响应变量"     , "二元"                                            , "二元"                                                                                                          ,
+  "感兴趣的参数" , "比例：$p$"                                   , "比例差：$p_1 - p_2$"                                                                          ,
+  "感兴趣的统计量" , "比例：$\\widehat{p}$"                        , "比例差：$\\widehat{p}_1 - \\widehat{p}_2$"                                                    ,
+  "标准误：假设检验"    , "$\\sqrt{\\frac{p_0(1-p_0)}{n}}$"                   , "$\\sqrt{\\widehat{p}_{pool}\\bigg(1-\\widehat{p}_{pool}\\bigg)\\bigg(\\frac{1}{n_1} + \\frac{1}{n_2}}\\bigg)$"   ,
+  "标准误：置信区间"    , "$\\sqrt{\\frac{\\widehat{p}(1-\\widehat{p})}{n}}$" , "$\\sqrt{\\frac{\\widehat{p}_{1}(1-\\widehat{p}_{1})}{n_1} + \\frac{\\widehat{p}_{2}(1-\\widehat{p}_{2})}{n_2}}$" ,
+  "条件"            , "1. 独立性，2. 成功—失败条件"               , "1. 独立性，2. 成功—失败条件"
 )
 
-library(gt)
-
-zsim_table |>
-  gt() |>
-  fmt_markdown(
-    columns = starts_with("col"),
-    rows = 2:5
-  ) |>
-  cols_width(
-    variable ~ px(120)
-  ) |>
-  cols_label(
-    variable = "",
-    col1 = "One sample",
-    col2 = "Two independent samples"
-  )
+if (knitr::is_latex_output()) {
+  zsim_table |>
+    kbl(
+      booktabs = TRUE,
+      linesep = "\\addlinespace",
+      escape = FALSE,
+      col.names = c("", "单样本", "两独立样本"),
+      format = "latex"
+    ) |>
+    kable_styling(latex_options = "striped", full_width = TRUE) |>
+    column_spec(1, width = "10em")
+} else {
+  library(gt)
+  zsim_table |>
+    gt() |>
+    fmt_markdown(columns = starts_with("col"), rows = 2:5) |>
+    cols_width(variable ~ px(120)) |>
+    cols_label(variable = "", col1 = "单样本", col2 = "两独立样本")
+}
 
 #kbl(
 #  booktabs = TRUE,
@@ -120,71 +122,76 @@ zsim_table |>
 #column_spec(1, width = "10em")
 ```
 
-**Hypothesis tests.** When applying the $z$-distribution for a hypothesis test, we proceed as follows:
+**假设检验。** 当在假设检验中应用 $z$ 分布时，我们按以下步骤进行：
 
--   Write appropriate hypotheses.
+-   写出适当的假设。
 
--   Verify conditions for using the $z$-distribution.
+-   验证使用 $z$ 分布的条件。
+    -   单样本：观测（或差值）必须是独立的。成功—失败条件应满足，即至少有 10 次成功和至少 10 次失败。
+    -   对于比例差：每个样本必须分别满足成功—失败条件，并且组间的数据也必须是独立的。
 
-    -   One-sample: the observations (or differences) must be independent. The success-failure condition of at least 10 success and at least 10 failures should hold.
-    -   For a difference of proportions: each sample must separately satisfy the success-failure conditions, and the data in the groups must also be independent.
+-   计算感兴趣的点估计和标准误。
 
--   Compute the point estimate of interest and the standard error.
+-   计算 z 统计量和 p 值。
 
--   Compute the Z score and p-value.
+-   基于 p 值得出结论，并用通俗语言结合问题背景解释结论，使任何人都能理解结果。
 
--   Make a conclusion based on the p-value, and write a conclusion in context and in plain language so anyone can understand the result.
+**置信区间。** 类似地，以下是我们通常使用 $z$ 分布计算置信区间的方法：
 
-**Confidence intervals.** Similarly, the following is how we generally computed a confidence interval using a $z$-distribution:
+-   验证使用 $z$ 分布的条件。（参见上文。）
+-   计算感兴趣的点估计、标准误以及 $z^{\star}$。
+-   使用以下通用公式计算置信区间：\
+    点估计 $\pm\ z^{\star} SE$。
+-   将结论结合问题背景，并使用通俗语言解释，使得即使是非统计学家和非数据科学家也能理解结果。
 
--   Verify conditions for using the $z$-distribution. (See above.)
--   Compute the point estimate of interest, the standard error, and $z^{\star}.$
--   Calculate the confidence interval using the general formula:\
-    point estimate $\pm\ z^{\star} SE.$
--   Put the conclusions in context and in plain language so even non-statisticians and data scientists can understand the results.
+### t 方法
 
-### t-procedures
-
-With quantitative response variables, the $t$-distribution was applied as the appropriate mathematical model in three distinct settings.
-Although the three data structures are different, their similarities and differences are worth pointing out.
-We provide @tbl-tcompare partly as a mechanism for understanding $t$-procedures and partly to highlight the extremely common usage of the $t$-distribution in practice.
+对于定量响应变量，$t$ 分布被用作三种不同场景下的合适数学模型。
+尽管这三种数据结构不同，但它们的异同之处值得指出。
+我们提供 @tbl-tcompare，部分是为了帮助理解 $t$ 方法，部分是为了强调 $t$ 分布在实际应用中极为普遍的应用。
 
 ```{r}
 #| label: tbl-tcompare
 #| tbl-cap: |
-#|   Similarities of $t$-methods across one sample, paired sample, and
-#|   two independent samples analysis of a numeric response variable. $\mu$
-#|   represents the population mean, $\bar{x}$ represents the sample mean,
-#|   $s$ represents the standard deviation, and $n$ represents the sample size.
-#|   The subscript of $diff$ indicates that the values are measured on the
-#|   paired differences. The subscripts of $1$ and $2$ indicate that the
-#|   values are measured separately on sample $1$ and sample $2$.
+#|   针对数值型响应变量，t 方法在单样本、配对样本和双独立样本分析中的相似性比较。
+#|   $\mu$ 表示总体均值，$\bar{x}$ 表示样本均值，$s$ 表示标准差，$n$ 表示样本量。
+#|   下标 $diff$ 表示这些值是在配对差值上测量的。
+#|   下标 $1$ 和 $2$ 表示这些值是分别在样本 $1$ 和样本 $2$ 上测量的。
 #| tbl-pos: H
 tsim_table <- tribble(
   ~variable               , ~col1                                            , ~col2                                            , ~col3                                               ,
-  "Response variable"     , "Numeric"                                        , "Numeric"                                        , "Numeric"                                           ,
-  "Parameter of interest" , "Mean: $\\mu$"                                   , "Paired mean: $\\mu_{diff}$"                     , "Difference in means: $\\mu_1 - \\mu_2$"            ,
-  "Statistic of interest" , "Mean: $\\bar{x}$"                               , "Paired mean: $\\bar{x}_{diff}$"                 , "Difference in means: $\\bar{x}_1 - \\bar{x}_2$"    ,
-  "Standard error"        , "$\\frac{s}{\\sqrt{n}}$"                         , "$\\frac{s_{diff}}{\\sqrt{n_{diff}}}$"           , "$\\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}$" ,
-  "Degrees of freedom"    , "$n-1$"                                          , "$n_{diff} -1$"                                  , "$\\min(n_1 -1, n_2 - 1)$"                          ,
-  "Conditions"            , "1. Independence, 2. Normality or large samples" , "1. Independence, 2. Normality or large samples" , "1. Independence, 2. Normality or large samples"
+  "响应变量"     , "数值型"                                        , "数值型"                                        , "数值型"                                           ,
+  "感兴趣的参数" , "均值: $\\mu$"                                   , "配对均值: $\\mu_{diff}$"                     , "均值差: $\\mu_1 - \\mu_2$"            ,
+  "感兴趣的统计量" , "均值: $\\bar{x}$"                               , "配对均值: $\\bar{x}_{diff}$"                 , "均值差: $\\bar{x}_1 - \\bar{x}_2$"    ,
+  "标准误"        , "$\\frac{s}{\\sqrt{n}}$"                         , "$\\frac{s_{diff}}{\\sqrt{n_{diff}}}$"           , "$\\sqrt{\\frac{s_1^2}{n_1} + \\frac{s_2^2}{n_2}}$" ,
+  "自由度"    , "$n-1$"                                          , "$n_{diff} -1$"                                  , "$\\min(n_1 -1, n_2 - 1)$"                          ,
+  "条件"            , "1. 独立性，2. 正态性或大样本" , "1. 独立性，2. 正态性或大样本" , "1. 独立性，2. 正态性或大样本"
 )
 
-tsim_table |>
-  gt() |>
-  fmt_markdown(
-    columns = starts_with("col"),
-    rows = 2:5
-  ) |>
-  cols_width(
-    variable ~ px(120)
-  ) |>
-  cols_label(
-    variable = "",
-    col1 = "One sample",
-    col2 = "Paired samples",
-    col3 = "Two independent samples"
-  )
+if (knitr::is_latex_output()) {
+  tsim_table |>
+    kbl(
+      booktabs = TRUE,
+      linesep = "\\addlinespace",
+      escape = FALSE,
+      col.names = c("", "单样本", "配对样本", "双独立样本"),
+      format = "latex"
+    ) |>
+    kable_styling(latex_options = "striped", full_width = TRUE) |>
+    column_spec(1, width = "10em")
+} else {
+  library(gt)
+  tsim_table |>
+    gt() |>
+    fmt_markdown(columns = starts_with("col"), rows = 2:5) |>
+    cols_width(variable ~ px(120)) |>
+    cols_label(
+      variable = "",
+      col1 = "单样本",
+      col2 = "配对样本",
+      col3 = "双独立样本"
+    )
+}
 
 #kbl(
 #  linesep = "\\addlinespace",
@@ -205,53 +212,53 @@ tsim_table |>
 #column_spec(1, width = "10em")
 ```
 
+
+
 \clearpage
 
-**Hypothesis tests.** When applying the $t$-distribution for a hypothesis test, we proceed as follows:
+**假设检验。** 当应用 $t$ 分布进行假设检验时，我们按以下步骤进行：
 
--   Write appropriate hypotheses.
+-   写出适当的假设。
 
--   Verify conditions for using the $t$-distribution.
+-   验证使用 $t$ 分布的条件。
 
-    -   One-sample or differences from paired data: the observations (or differences) must be independent and nearly normal. For larger sample sizes, we can relax the nearly normal requirement, e.g., slight skew is okay for sample sizes of 15, moderate skew for sample sizes of 30, and strong skew for sample sizes of 60.
-    -   For a difference of means when the data are not paired: each sample mean must separately satisfy the one-sample conditions for the $t$-distribution, and the data in the groups must also be independent.
+    -   单样本或来自配对数据的差值：观测（或差值）必须是独立的且近似正态。对于更大的样本量，我们可以放宽近似正态性要求，例如，样本量为 15 时允许轻微偏斜，样本量为 30 时允许中度偏斜，样本量为 60 时允许严重偏斜。
+    -   对于非配对数据的均值差：每个样本均值必须分别满足 $t$ 分布的单样本条件，并且各组中的数据也必须是独立的。
 
--   Compute the point estimate of interest, the standard error, and the degrees of freedom. For $df,$ use $n-1$ for one sample, and for two samples use either statistical software or the smaller of $n_1 - 1$ and $n_2 - 1.$
+-   计算感兴趣的点估计、标准误和自由度。对于 $df$，单样本时使用 $n-1$，双样本时则使用统计软件，或者使用 $n_1 - 1$ 和 $n_2 - 1$ 中较小的那个。
 
--   Compute the T score and p-value.
+-   计算 t 统计量和 p 值。
 
--   Make a conclusion based on the p-value, and write a conclusion in context and in plain language so anyone can understand the result.
+-   根据 p 值得出结论，并结合背景用通俗的语言写出结论，让任何人都能理解结果。
 
-**Confidence intervals.** Similarly, the following is how we generally computed a confidence interval using a $t$-distribution:
+**置信区间。** 类似地，以下是我们通常使用 $t$ 分布计算置信区间的方法：
 
--   Verify conditions for using the $t$-distribution. (See above.)
--   Compute the point estimate of interest, the standard error, the degrees of freedom, and $t^{\star}_{df}.$
--   Calculate the confidence interval using the general formula:
-    $$\mbox{point estimate } \pm\ t_{df}^{\star} SE.$$
--   Put the conclusions in context and in plain language so even non-statisticians and data scientists can understand the results.
+-   验证使用 $t$ 分布的条件。（见上文。）
+-   计算感兴趣的点估计、标准误、自由度和 $t^{\star}_{df}.$
+-   使用以下一般公式计算置信区间：
+    $$\mbox{点估计} \pm\ t_{df}^{\star} SE.$$
+-   将结论结合背景并用通俗的语言表述，使得即使是非统计学家和数据科学家也能理解结果。
 
-## Case study: Redundant adjectives {#sec-case-study-redundant-adjectives}
+## 案例研究：冗余形容词 {#sec-case-study-redundant-adjectives}
 
-Take a look at the images in @fig-blue-triangle-shapes.
-How would you describe the circled item in @fig-blue-triangle-shapes-1?
-Would you call it "the triangle"?
-Or "the blue triangle"?
-How about in @fig-blue-triangle-shapes-2?
-Does your answer change?
+看一看 @fig-blue-triangle-shapes 中的图像。
+你会如何描述 @fig-blue-triangle-shapes-1 中被圈出的物品？
+你会称它为“三角形”吗？
+还是“蓝色的三角形”？
+那么在 @fig-blue-triangle-shapes-2 中呢？
+你的答案会改变吗？
 
 ```{r}
 #| label: fig-blue-triangle-shapes
 #| fig-cap: |
-#|   Two sets of four shapes.
+#|   两组形状，每组四个。
 #| fig-subcap:
-#|   - The circled triangle is the only triangle.
-#|   - The circled triangle is the only blue triangle.
+#|   - 被圈出的三角形是唯一的三角形。
+#|   - 被圈出的三角形是唯一的蓝色三角形。
 #| fig-alt: |
-#|   Four shapes are presented twice. In the first set the shapes and colors are
-#|   all different -- pink circle, yellow square, red diamond, blue triangle.
-#|   In the second set the colors are all different but the triangle shape is
-#|   repeated -- pink circle, yellow square, red triangle, blue triangle.
-#|   In each set, the blue triangle is circled.
+#|   四种形状被呈现了两次。第一组中形状和颜色都不同——粉色圆形、黄色方形、红色菱形、蓝色三角形。
+#|   第二组中颜色各不相同，但三角形形状重复出现——粉色圆形、黄色方形、红色三角形、蓝色三角形。
+#|   在每一组中，蓝色三角形都被圈出。
 #| fig-asp: 0.15
 shape_names <- c(
   "circle filled",
@@ -313,29 +320,31 @@ ggplot(shapes |> filter(figure == 2), aes(x, y)) +
   )
 ```
 
-In @fig-blue-triangle-shapes-1 the circled item is the only triangle, but in the bottom image the circled item is one of two triangles.
-While in @fig-blue-triangle-shapes-1 "the triangle" is a sufficient description for the circled item, many of us might choose to refer to it as the "blue triangle" anyway.
-In @fig-blue-triangle-shapes-1 there are two triangles, so "the triangle" is no longer sufficient, and to describe the circled item we must qualify it with the color as well, as "the blue triangle".
 
-Your answers to the above questions might be different if you're answering in a different language than English.
-For example, in Spanish, the adjective comes after the noun (e.g., "el triángulo azul") therefore the incremental value of the additional adjective might be different for @fig-blue-triangle-shapes-1.
 
-Researchers studying frequent use of redundant adjectives (e.g., referring to a single triangle as "the blue triangle") and incrementality of language processing designed an experiment where they showed the following two images to 22 native English speakers (undergraduates from University College London) and 22 native Spanish speakers (undergraduates from the Universidad de las Islas Baleares).
-They found that in both languages, the subjects used more redundant color adjectives in denser displays where it would be more efficient. [@rubio-fernandez2021]
-One of the displays from the study is shown in @fig-redundant-adjectives-blue-triangle.
+在 @fig-blue-triangle-shapes-1 中，被圈出的物品是唯一的三角形，但在下图中，被圈出的物品是两个三角形之一。
+虽然在 @fig-blue-triangle-shapes-1 中"三角形"已经是足够描述被圈出物品的词，但我们中的许多人可能仍然会选择称其为"蓝色三角形"。
+在 @fig-blue-triangle-shapes-2 里有两个三角形，所以"三角形"的描述就不再足够了；要描述被圈出的物品，我们必须同时用颜色来限定它，即"蓝色三角形"。
+
+如果你用英语以外的语言回答上述问题，你的答案可能会不同。
+例如，在西班牙语中，形容词位于名词之后（例如，“el triángulo azul”），因此对于 @fig-blue-triangle-shapes-1，额外添加形容词所带来的增量信息可能会有所不同。
+
+研究频繁使用冗余形容词（例如，将唯一的三角形称为“蓝色三角形”）以及语言处理增量性的研究人员设计了一项实验，他们向 22 名英语母语者（伦敦大学学院的本科生）和 22 名西班牙语母语者（巴利阿里群岛大学的本科生）展示了以下两幅图像。他们发现，在两种语言中，受试者在图形更密集的呈现中（此时使用冗余形容词效率更高）都使用了更多冗余的颜色形容词。[@rubio-fernandez2021]
+该研究中使用的一个呈现示例如 @fig-redundant-adjectives-blue-triangle 所示。
 
 ```{r}
 #| label: fig-redundant-adjectives-blue-triangle
-#| fig-cap: Images used in one of the experiments described in @rubio-fernandez2021.
+#| fig-cap: "@rubio-fernandez2021 中描述的一个实验所用的图像。"
 #| fig-alt: |
-#|   Two presentations of shapes. In each presentation all of the shapes and their
-#|   colors are unique. In the left presentation, the blue triangle is circled and is
-#|   one of four shapes. In the right presentation, the blue triangle is circled and
-#|   is one of sixteen shapes.
+#|   两幅形状图。在每幅图中，所有形状及其颜色都是唯一的。
+#|   在左侧图中，蓝色三角形被圈出，它是四个形状之一。
+#|   在右侧图中，蓝色三角形被圈出，它是十六个形状之一。
 knitr::include_graphics("images/redundant-adjectives-blue-triangle.png")
 ```
 
-In this case study we will examine data from redundant adjective study, which the authors have made available on Open Science Framework at [osf.io/9hw68](https://osf.io/9hw68/).
+
+
+在本案例研究中，我们将分析冗余形容词研究的数据，作者已将这些数据公开发布在 Open Science Framework 上，地址为 [osf.io/9hw68](https://osf.io/9hw68/)。
 
 ```{r}
 # analysis based on
@@ -361,19 +370,20 @@ redundant <- redundant_individual |>
   )
 ```
 
-@tbl-redundant-data shows the top six rows of the data.
-The full dataset has `r nrow(redundant)` rows.
-Remember that there are a total of 44 subjects in the study (22 English and 22 Spanish speakers).
-There are two rows in the dataset for each of the subjects: one representing data from when they were shown an image with 4 items on it and the other with 16 items on it.
-Each subject was asked 10 questions for each type of image (with a different layout of items on the image for each question).
-The variable of interest to us is `redundant_perc`, which gives the percentage of questions the subject used a redundant adjective to identify "the blue triangle".
-Note that the variable is "percentage", and we are interested in the average percentage.
-Therefore, we will use methods for means.
-If the variable had been "success or failure" (e.g., "used redundant or didn't"), we would have used methods for proportions.
+@tbl-redundant-data 显示了数据的前六行。
+完整的数据集有 `r nrow(redundant)` 行。
+请记住，研究中共有 44 名受试者（22 名说英语者和 22 名说西班牙语者）。
+数据集中每位受试者都有两行数据：一行代表他们看到包含 4 个物品的图像时的数据，另一行代表包含 16 个物品的图像时的数据。
+每位受试者对每种类型的图像都被询问了 10 个问题（每个问题中图像的物品布局不同）。
+我们感兴趣的变量是 `redundant_perc`，它给出了受试者使用冗余形容词来识别“蓝色三角形”的问题百分比。
+注意该变量是“百分比”，并且我们关心的是平均百分比。
+因此，我们将使用针对均值的方法。
+如果变量是“成功或失败”（例如，“使用了冗余形容词或没有使用”），我们就会使用针对比例的方法。
 
 ```{r}
 #| label: tbl-redundant-data
-#| tbl-cap: Top six rows of the data collected in the study.
+#| tbl-cap: |
+#|   研究中收集的数据的前六行。
 #| tbl-pos: H
 redundant |>
   slice_head(n = 6) |>
@@ -391,27 +401,27 @@ redundant |>
   column_spec(4:5, width = "8em")
 ```
 
-### Exploratory analysis
 
-In one of the images shown to the subjects, there are 4 items, and in the other, there are 16 items.
-In each of the images the circled item is the only triangle, therefore referring to it as "the blue triangle" or as "el triángulo azul" is considered redundant.
-If the subject's response was "the triangle", they were recorded to have not used a redundant adjective.
-If the response was "the blue triangle", they were recorded to have used a redundant adjective.
-@fig-reduntant-bar shows the results of the experiment.
-We can see that English speakers are more likely than Spanish speakers to use redundant adjectives, and that in both languages, subjects are more likely to use a redundant adjective when there are more items in the image (i.e., in a denser display).
+
+### 探索性分析
+
+呈现给受试者的其中一张图像中有 4 个物品，另一张图像中有 16 个物品。
+在每张图像中，用圆圈标出的物品是唯一的三角形，因此将其称为“蓝色三角形”或“el triángulo azul”（西班牙语）被认为是冗余的。
+如果受试者的回答是“三角形”，则被记录为未使用冗余形容词。
+如果回答是“蓝色三角形”，则被记录为使用了冗余形容词。
+@fig-reduntant-bar 展示了实验的结果。
+我们可以看到，说英语者比说西班牙语者更可能使用冗余形容词，并且在两种语言中，当图像中的物品更多（即，在更密集的显示中）时，受试者都更可能使用冗余形容词。
 
 ```{r}
 #| label: fig-reduntant-bar
 #| fig-cap: |
-#|   Results of redundant adjective usage experiment from @rubio-fernandez2021.
-#|   English speakers are more likely than Spanish speakers to use redundant adjectives,
-#|   regardless of number of items in image. For both images, respondents are more likely
-#|   to use a redundant adjective when there are more items in the image.
+#|   来自 @rubio-fernandez2021 的冗余形容词使用实验结果。
+#|   无论图像中物品数量的多寡，说英语者都比说西班牙语者更可能使用冗余形容词。
+#|   对于两种图像，当图像中物品较多时，受试者都更可能使用冗余形容词。
 #| fig-alt: |
-#|   Results of redundant adjective usage experiment from @rubio-fernandez2021.
-#|   English speakers are more likely than Spanish speakers to use redundant adjectives,
-#|   regardless of number of items in image. For both images, respondents are more likely
-#|   to use a redundant adjective when there are more items in the image.
+#|   来自 @rubio-fernandez2021 的冗余形容词使用实验结果。
+#|   无论图像中物品数量的多寡，说英语者都比说西班牙语者更可能使用冗余形容词。
+#|   对于两种图像，当图像中物品较多时，受试者都更可能使用冗余形容词。
 #| fig-asp: 0.45
 redundant_summary <- redundant |>
   group_by(language, items) |>
@@ -431,15 +441,17 @@ redundant_summary |>
   ) +
   scale_x_continuous(labels = label_percent(scale = 1)) +
   labs(
-    y = "Number of items in image",
-    x = "Percentage of redundant adjective usage",
-    fill = "Language"
+    y = "图像中的物品数量",
+    x = "冗余形容词使用百分比",
+    fill = "语言"
   ) +
   scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
   theme(legend.position = c(0.9, 0.2))
 ```
 
-### Confidence interval for a single mean
+
+
+### 单个均值的置信区间
 
 ```{r}
 xbar_eng_4 <- redundant_summary |>
@@ -448,8 +460,10 @@ xbar_eng_4 <- redundant_summary |>
   round(2)
 ```
 
-In this experiment, the average percentage of redundant adjective usage among subjects who responded in English when presented with an image with 4 items in it is `r xbar_eng_4`.
-Along with the sample average as a point estimate, however, we can construct a confidence interval for the true mean redundant adjective usage of English speakers who use redundant color adjectives when describing items in an image that is not very dense.
+
+
+在这项实验中，当呈现包含 4 个物品的图像时，用英语回答的受试者使用冗余形容词的平均百分比是 `r xbar_eng_4`。
+然而，除了将样本平均数作为点估计之外，我们还可以为真实均值构建一个置信区间，该真实均值是指在描述不太密集的图像中的物品时，会使用冗余颜色形容词的说英语者的冗余形容词使用百分比均值。
 
 ```{r}
 #| label: boot-eng-4-construct
@@ -467,23 +481,21 @@ ci_eng_4_lower <- as.numeric(ci_eng_4)[1]
 ci_eng_4_upper <- as.numeric(ci_eng_4)[2]
 ```
 
-Using a computational method, we can construct the interval via bootstrapping.
-@fig-boot-eng-4-viz shows the distribution of 1,000 bootstrapped means from this sample.
-The 95% confidence interval (that is calculated by taking the 2.5th and 97.5th percentile of the bootstrap distribution is `r round(ci_eng_4_lower,1)`% to `r round(ci_eng_4_upper,1)`%.
-Note that this interval for the true population parameter is only valid if we can assume that the sample of English speakers are representative of the population of all English speakers.
+
+
+使用计算方法，我们可以通过自助法来构造区间。
+@fig-boot-eng-4-viz 展示了从该样本中得到的 1000 个自助均值的分布。
+该95%置信区间（通过取自助分布的第2.5和第97.5百分位数计算得到）为 `r round(ci_eng_4_lower,1)`% 到 `r round(ci_eng_4_upper,1)`%。
+请注意，这个针对真实总体参数的区间，只有在我们可以假设说英语者的样本对所有说英语者总体是有代表性的时才有效。
 
 ```{r}
 #| label: fig-boot-eng-4-viz
 #| fig-cap: |
-#|   Distribution of 1,000 bootstrapped means of redundant adjective usage
-#|   percentage among English speakers who were shown four items in images.
-#|   Overlaid on the distribution is the 95% bootstrap percentile interval
-#|   that ranges from 19.1% to 56.4%.
+#|   在展示了包含四个物品的图像的说英语者中，1000 个自助的冗余形容词使用百分比均值的分布。
+#|   分布上叠加的是 95% 自助法百分位置信区间，其范围为 19.1% 到 56.4%。
 #| fig-alt: |
-#|   Distribution of 1,000 bootstrapped means of redundant adjective usage
-#|   percentage among English speakers who were shown four items in images.
-#|   Overlaid on the distribution is the 95% bootstrap percentile interval
-#|   that ranges from 19.1% to 56.4%.
+#|   在展示了包含四个物品的图像的说英语者中，1000 个自助的冗余形容词使用百分比均值的分布。
+#|   分布上叠加的是 95% 自助法百分位置信区间，其范围为 19.1% 到 56.4%。
 boot_eng_4 |>
   ggplot(aes(x = stat)) +
   geom_histogram(binwidth = 5, fill = IMSCOL["green", "full"]) +
@@ -511,18 +523,20 @@ boot_eng_4 |>
     fill = IMSCOL["green", "full"]
   ) +
   labs(
-    x = "Mean redundant adjective usage percentage",
-    y = "Count",
-    title = "1,000 bootstrap means"
+    x = "平均冗余形容词使用百分比",
+    y = "计数",
+    title = "1000 个自助均值"
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))
 ```
 
-Using a similar technique, we can also construct confidence intervals for the true mean redundant adjective usage percentage for English speakers who are shown dense (16 item) displays and for Spanish speakers with both types (4 and 16 items) displays.
-However, these confidence intervals are not very meaningful to compare to one another as the interpretation of the "true mean redundant adjective usage percentage" is quite an abstract concept.
-Instead, we might be more interested in comparative questions such as "Does redundant adjective usage differ between dense and sparse displays among English speakers and among Spanish speakers?" or "Does redundant adjective usage differ between English speakers and Spanish speakers?" To answer either of these questions we need to conduct a hypothesis test.
 
-### Paired mean test
+
+使用类似的技术，我们也可以为看到密集（16 个物品）显示的说英语者，以及看到两种类型（4 个和 16 个物品）显示的说西班牙语者的真实均值冗余形容词使用百分比构建置信区间。
+然而，将这些置信区间相互比较的意义不大，因为对“真实均值冗余形容词使用百分比”的解释是一个相当抽象的概念。
+相反，我们可能对比较性问题更感兴趣，例如“在说英语者和说西班牙语者中，冗余形容词的使用在密集和稀疏显示之间是否存在差异？”或“冗余形容词的使用在说英语者和说西班牙语者之间是否存在差异？”要回答这些问题中的任何一个，我们都需要进行假设检验。
+
+### 配对均值检验
 
 ```{r}
 redundant_paired <- redundant |>
@@ -542,16 +556,18 @@ redundant_paired_mean <- redundant_paired |>
   round(2)
 ```
 
-Let's start with the following question: "Do the data provide convincing evidence of a difference in mean redundant adjective usage percentages between sparse (4 item) and dense (16 item) displays for English speakers?" Note that the English speaking participants were each evaluated on both the 4 item and the 16 item displays.
-Therefore, the variable of interest is the difference in redundant percentage.
-The statistic of interest will be the average of the differences, here $\bar{x}_{diff} =$ `r redundant_paired_mean`.
 
-Data from the first six English speaking participants are seen in @tbl-redundant-data-paired.
-Although the redundancy percentages seem higher in the 16 item task, a hypothesis test will tell us whether the differences observed in the data could be due to natural variability.
+
+让我们从以下问题开始：“数据是否提供了令人信服的证据，表明说英语者在稀疏（4 个物品）和密集（16 个物品）显示之间的均值冗余形容词使用百分比存在差异？”请注意，每位说英语的参与者都接受了 4 个物品和 16 个物品显示的评估。
+因此，感兴趣的变量是冗余百分比的差异。
+感兴趣的统计量将是差异的平均数，这里 $\bar{x}_{diff} =$ `r redundant_paired_mean`。
+
+前六位说英语的参与者的数据如表 @tbl-redundant-data-paired 所示。
+尽管在 16 个物品的任务中冗余百分比似乎更高，但假设检验将告诉我们数据中观察到的差异是否可能是由于自然变异性造成的。
 
 ```{r}
 #| label: tbl-redundant-data-paired
-#| tbl-cap: Six participants who speak English with redundancy difference.
+#| tbl-cap: 六位说英语的参与者及其冗余百分比差异。
 #| tbl-pos: H
 redundant_paired |>
   slice_head(n = 6) |>
@@ -569,31 +585,27 @@ redundant_paired |>
   column_spec(2:4, width = "12em")
 ```
 
-We can answer the research question using a hypothesis test with the following hypotheses:
+
+
+我们可以使用假设检验来回答这个研究问题，假设如下：
 
 $$H_0: \mu_{diff} = 0$$ $$H_A: \mu_{diff} \ne 0$$
 
-where $\mu_{diff}$ is the true difference in redundancy percentages when comparing a 16 item display with a 4 item display.
-Recall that the computational method used to assess a hypothesis pertaining to the true average of a paired difference shuffles the observed percentage across the two groups (4 item vs 16 item) but **within** a single participant.
-The shuffling process allows for repeated calculations of potential sample differences under the condition that the null hypothesis is true.
+其中 $\mu_{diff}$ 是 16 个物品显示与 4 个物品显示比较时冗余百分比的真实差异。
+回想一下，用于评估与配对差异的真实平均数有关的假设的计算方法，是在两个组（4 个物品与 16 个物品）之间、但限制在单个参与者内部，对观测到的百分比进行随机打乱。
+这个随机打乱过程允许在原假设为真的条件下，重复计算可能的样本差异。
 
-@fig-eng-viz shows the distribution of 1,000 mean differences from redundancy percentages permuted across the two conditions.
-Note that the distribution is centered at 0, since the structure of randomly assigning redundancy percentages to each item display will balance the data out such that the average of any differences will be zero.
+@fig-eng-viz 展示了将冗余形容词使用百分比在两种条件之间进行置换所得的 1,000 个均值差的分布。
+注意，该分布以 0 为中心，因为将冗余百分比随机分配给每种物品展示的结构会使数据达到平衡，从而使任何差异的平均数都为零。
 
 ```{r}
 #| label: fig-eng-viz
 #| fig-cap: |
-#|   Distribution of 1,000 mean differences of redundant adjective usage percentage
-#|   among English speakers who were shown images with 4 and 16 items. Overlaid on the
-#|   distribution is the observed average difference in the sample (solid line) as well
-#|   as the difference in the other direction (dashed line), which is far out in the
-#|   tail, yielding a p-value that is approximately 0.
+#|   在观看显示 4 个和 16 个物品图片的英语使用者中，冗余形容词使用百分比的 1,000 个均值差分布。
+#|   图上叠加了样本中观察到的平均数差异（实线）及其相反方向的差值（虚线），虚线远在分布的尾部，得到的 p 值约等于 0。
 #| fig-alt: |
-#|   Distribution of 1,000 mean differences of redundant adjective usage percentage
-#|   among English speakers who were shown images with 4 and 16 items. Overlaid on the
-#|   distribution is the observed average difference in the sample (solid line) as well
-#|   as the difference in the other direction (dashed line), which is far out in the
-#|   tail, yielding a p-value that is approximately 0.
+#|   在观看显示 4 个和 16 个物品图片的英语使用者中，冗余形容词使用百分比的 1,000 个均值差分布。
+#|   图上叠加了样本中观察到的平均数差异（实线）及其相反方向的差值（虚线），虚线远在分布的尾部，得到的 p 值约等于 0。
 set.seed(74)
 null_eng <- redundant_paired |>
   specify(response = diff_redundant_perc) |>
@@ -625,28 +637,28 @@ null_eng |>
     linetype = "dashed"
   ) +
   labs(
-    x = "Mean difference in redundant adjective usage percentages\n(16 items - 4 items)",
-    y = "Count",
-    title = "1,000 randomized mean difference"
+    x = "冗余形容词使用百分比的均值差\n(16 个物品 - 4 个物品)",
+    y = "频数",
+    title = "1,000 次随机化均值差"
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))
 ```
 
-With such a small p-value, we reject the null hypothesis and conclude that the data provide convincing evidence of a difference in mean redundant adjective usage percentages across different displays for English speakers.
+由于 p 值如此之小，我们拒绝原假设，并得出结论：数据提供了有说服力的证据，表明英语使用者在不同的展示类型下，均值冗余形容词使用百分比存在差异。
 
-### Two independent means test
+### 两个独立均值的检验
 
-Finally, let's consider the question "How does redundant adjective usage differ between English speakers and Spanish speakers?" The English speakers are independent from the Spanish speakers, but since the same subjects were shown the two types of displays, we can't combine data from the two display types (4 objects and 16 objects) together while maintaining independence of observations.
-Therefore, to answer questions about language differences, we will need to conduct two hypothesis tests, one for sparse displays and the other for dense displays.
-In each of the tests, the hypotheses are as follows:
+最后，我们来考虑这个问题：“英语使用者和西班牙语使用者在冗余形容词的使用上有何差异？” 英语使用者和西班牙语使用者是相互独立的，但由于相同的受试者观看了两种类型的展示，我们无法在保持观测独立性的前提下，将两种展示类型（4 个物品和 16 个物品）的数据合并在一起。
+因此，要回答关于语言差异的问题，我们需要进行两次假设检验，一次针对稀疏展示，另一次针对密集展示。
+在每一次检验中，假设如下：
 
 $$H_0: \mu_{English} = \mu_{Spanish}$$ $$H_A: \mu_{English} \ne \mu_{Spanish}$$
 
-Here, the randomization process is slightly different than the paired setting (because the English and Spanish speakers do not have a natural pairing across the two groups).
-To answer the research question using a computational method, we can use a randomization test where we permute the data across all participants under the assumption that the null hypothesis is true (no difference in mean redundant adjective usage percentages across English vs Spanish speakers).
+此处的随机化过程与配对设置略有不同（因为英语和西班牙语使用者在两组之间不存在自然的配对关系）。
+为了使用计算方法回答这个研究问题，我们可以使用随机化检验，即在原假设（英语与西班牙语使用者的冗余形容词使用百分比均值没有差异）为真的前提下，在所有参与者之间对数据进行置换。
 
 ```{r}
-# 4 item
+# 4 个物品
 set.seed(74)
 null_4 <- redundant |>
   filter(items == 4) |>
@@ -665,7 +677,7 @@ pval_4 <- null_4 |>
   get_p_value(obs_stat = obs_stat_4, direction = "both") |>
   as.numeric()
 
-# 16 item
+# 16 个物品
 set.seed(74)
 null_16 <- redundant |>
   filter(items == 16) |>
@@ -685,29 +697,22 @@ pval_16 <- null_16 |>
   as.numeric()
 ```
 
-@fig-compare-lang-viz shows the null distributions for each of the two hypothesis tests.
-The p-value for the 4 item display comparison is very small (`r pval_4`) while the p-value for the 16 item display is much larger (`r pval_16`).
+@fig-compare-lang-viz 展示了这两个假设检验各自的原假设分布。4 个物品展示比较的 p 值非常小（`r pval_4`），而 16 个物品展示的 p 值则大得多（`r pval_16`）。
 
 ```{r}
 #| label: fig-compare-lang-viz
 #| fig-cap: |
-#|   Distributions of 1,000 differences in randomized means of redundant adjective
-#|   usage percentage between English and Spanish speakers. In each
-#|   plot, the observed differences in the sample (solid line) and the
-#|   differences in the other direction (dashed line) are overlaid.
+#|   英语和西班牙语使用者之间冗余形容词使用百分比 1,000 次随机化均值差异的分布。
+#|   每幅图上都叠加了样本中观察到的差异（实线）和相反方向的差异（虚线）。
 #| fig-subcap:
-#|   - The differences in 4 item displays.
-#|   - The differences in 16 item displays.
+#|   - 4 个物品展示中的差异。
+#|   - 16 个物品展示中的差异。
 #| fig-alt: |
-#|   Distributions of 1,000 differences in randomized means of redundant adjective
-#|   usage percentage between English and Spanish speakers. Plot A shows the
-#|   differences in 4 item displays and Plot B shows the differences in 16 item
-#|   displays. In each plot, the observed differences in the sample (solid line)
-#|   and the differences in the other direction (dashed line) are overlaid. In
-#|   the 4 item display the observed value is not seen as a potential observation
-#|   from the randomized mean distribution. In the 16 item display, the observed
-#|   value is a possible value on the randomized mean distribution, but it still
-#|   falls in the tail of the distribution.
+#|   英语和西班牙语使用者之间冗余形容词使用百分比 1,000 次随机化均值差异的分布。
+#|   图 A 显示 4 个物品展示中的差异，图 B 显示 16 个物品展示中的差异。
+#|   每幅图上都叠加了样本中观察到的差异（实线）和相反方向的差异（虚线）。
+#|   在 4 个物品展示中，观测值不被视为随机化均值分布的潜在观测。
+#|   在 16 个物品展示中，观测值是随机化均值分布上的一个可能取值，但它仍然落在分布的尾部。
 #| fig-asp: 0.5
 null_4 |>
   ggplot(aes(x = stat)) +
@@ -728,10 +733,10 @@ null_4 |>
     linetype = "dashed"
   ) +
   labs(
-    x = "Diffence in mean redundant adjective usage percentages\n(English - Spanish)",
-    y = "Count",
-    title = "4 item display",
-    subtitle = "1,000 differences in randomized means"
+    x = "冗余形容词使用百分比均值差异\n(英语 - 西班牙语)",
+    y = "频数",
+    title = "4 个物品展示",
+    subtitle = "1,000 次随机化均值差异"
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))
 
@@ -754,26 +759,26 @@ null_16 |>
     linetype = "dashed"
   ) +
   labs(
-    x = "Diffence in mean redundant adjective usage percentages\n(English - Spanish)",
-    y = "Count",
-    title = "16 item display",
-    subtitle = "1,000 differences in randomized means"
+    x = "冗余形容词使用百分比均值差异\n(英语 - 西班牙语)",
+    y = "频数",
+    title = "16 个物品展示",
+    subtitle = "1,000 次随机化均值差异"
   ) +
   scale_x_continuous(labels = label_percent(scale = 1))
 ```
 
-Based on the p-values (a measure of deviation from the null claim), we can conclude that the data provide convincing evidence of a difference in mean redundant adjective usage percentages between languages in 4 item displays (small p-value) but not in 16 item displays (not small p-value).
-The results suggests that language patterns around redundant adjective usage might be more similar for denser displays than sparser displays across English and Spanish speakers.
+基于 p 值（衡量偏离原假设声称程度的指标），我们可以得出结论：数据提供了有说服力的证据，表明在 4 个物品展示中，不同语言的冗余形容词使用百分比均值存在差异（p 值小），但在 16 个物品展示中则没有提供此类证据（p 值不小）。
+这一结果表明，对于英语和西班牙语使用者，在较密集的展示下，冗余形容词使用的语言模式可能比在较稀疏的展示下更为相似。
 
 \clearpage
 
-## Interactive R tutorials {#sec-inference-tutorials}
+## 交互式 R 教程 {#sec-inference-tutorials}
 
-Navigate the concepts you've learned in this part in R using the following self-paced tutorials.
-All you need is your browser to get started!
+使用以下自定进度的教程，在 R 中巩固你在这部分学到的概念。
+只需一个浏览器即可开始！
 
 ::: {.alltutorials data-latex=""}
-[Tutorial 5: Statistical inference](https://openintrostat.github.io/ims-tutorials/05-infer/)
+[教程 5：统计推断](https://openintrostat.github.io/ims-tutorials/05-infer/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintrostat.github.io/ims-tutorials/05-infer
@@ -782,7 +787,7 @@ https://openintrostat.github.io/ims-tutorials/05-infer
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 1: Inference for a single proportion](https://openintro.shinyapps.io/ims-05-infer-01/)
+[教程 5 - 第 1 课：单比例推断](https://openintro.shinyapps.io/ims-05-infer-01/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-01
@@ -791,7 +796,7 @@ https://openintro.shinyapps.io/ims-05-infer-01
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 2: Hypothesis tests to compare proportions](https://openintro.shinyapps.io/ims-05-infer-02/)
+[教程 5 - 第 2 课：比较比例的假设检验](https://openintro.shinyapps.io/ims-05-infer-02/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-02
@@ -800,7 +805,7 @@ https://openintro.shinyapps.io/ims-05-infer-02
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 3: Chi-squared test of independence](https://openintro.shinyapps.io/ims-05-infer-03/)
+[教程 5 - 第 3 课：独立性卡方检验](https://openintro.shinyapps.io/ims-05-infer-03/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-03
@@ -809,7 +814,7 @@ https://openintro.shinyapps.io/ims-05-infer-03
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 4: Chi-squared goodness of fit Test](https://openintro.shinyapps.io/ims-05-infer-04/)
+[教程 5 - 第 4 课：卡方拟合优度检验](https://openintro.shinyapps.io/ims-05-infer-04/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-04
@@ -818,7 +823,7 @@ https://openintro.shinyapps.io/ims-05-infer-04
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 5: Bootstrapping for estimating a parameter](https://openintro.shinyapps.io/ims-05-infer-05/)
+[教程 5 - 第 5 课：用自助法估计参数](https://openintro.shinyapps.io/ims-05-infer-05/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-05
@@ -827,7 +832,7 @@ https://openintro.shinyapps.io/ims-05-infer-05
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 6: Introducing the t-distribution](https://openintro.shinyapps.io/ims-05-infer-06/)
+[教程 5 - 第 6 课：t 分布简介](https://openintro.shinyapps.io/ims-05-infer-06/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-06
@@ -836,7 +841,7 @@ https://openintro.shinyapps.io/ims-05-infer-06
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 7: Inference for difference in two means](https://openintro.shinyapps.io/ims-05-infer-07/)
+[教程 5 - 第 7 课：两个均值之差的推断](https://openintro.shinyapps.io/ims-05-infer-07/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-07
@@ -845,7 +850,7 @@ https://openintro.shinyapps.io/ims-05-infer-07
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 5 - Lesson 8: Comparing many means](https://openintro.shinyapps.io/ims-05-infer-08/)
+[教程 5 - 第 8 课：比较多组均值](https://openintro.shinyapps.io/ims-05-infer-08/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-05-infer-08
@@ -854,20 +859,20 @@ https://openintro.shinyapps.io/ims-05-infer-08
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of tutorials supporting this book at\
-<https://openintrostat.github.io/ims-tutorials>.
+你还可以通过以下网址访问支持本书的完整教程列表：\
+<https://openintrostat.github.io/ims-tutorials>。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of tutorials supporting this book [here](https://openintrostat.github.io/ims-tutorials).
+你还可以在[此处](https://openintrostat.github.io/ims-tutorials)访问支持本书的完整教程列表。
 :::
 
-## R labs {#sec-inference-labs}
+## R 实验 {#sec-inference-labs}
 
-Further apply the concepts you've learned in this part in R with computational labs that walk you through a data analysis case study.
+在 R 语言的上机实验中，通过引导你完成数据分析案例研究，进一步应用你在本部分学到的概念。
 
 ::: {.singlelab data-latex=""}
-[Inference for categorical responses - Texting while driving](https://www.openintro.org/go?id=ims-r-lab-infer-1)
+[分类响应变量的推断 - 驾驶时发短信](https://www.openintro.org/go?id=ims-r-lab-infer-1)
 
 ::: {.content-hidden unless-format="pdf"}
 https://www.openintro.org/go?id=ims-r-lab-infer-1
@@ -876,7 +881,7 @@ https://www.openintro.org/go?id=ims-r-lab-infer-1
 :::
 
 ::: {.singlelab data-latex=""}
-[Inference for numerical responses - Youth Risk Behavior Surveillance System](https://www.openintro.org/go?id=ims-r-lab-infer-2)
+[数值响应变量的推断 - 青少年风险行为监测系统](https://www.openintro.org/go?id=ims-r-lab-infer-2)
 
 ::: {.content-hidden unless-format="pdf"}
 https://www.openintro.org/go?id=ims-r-lab-infer-2
@@ -885,10 +890,10 @@ https://www.openintro.org/go?id=ims-r-lab-infer-2
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of labs supporting this book at\
-<https://www.openintro.org/go?id=ims-r-labs>.
+你还可以通过以下网址访问支持本书的完整实验列表：\
+<https://www.openintro.org/go?id=ims-r-labs>。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of labs supporting this book [here](https://www.openintro.org/go?id=ims-r-labs).
+你还可以在[此处](https://www.openintro.org/go?id=ims-r-labs)访问支持本书的完整实验列表。
 :::

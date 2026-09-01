@@ -1,23 +1,23 @@
-1.  **Statistics vs. parameters: one mean.** Each of the following scenarios were set up to assess an average value.
-    For each one, identify, in words: the statistic and the parameter.
+1.  **统计量与参数：单个均值。** 以下每个场景都是为了评估一个平均数。
+    对于每个场景，用文字指出：统计量和参数。
 
-    a.  A sample of 25 New Yorkers were asked how much sleep they get per night.
+    a.  抽取了 25 名纽约人的样本，询问他们每晚睡多久。
 
-    b.  Researchers at two different universities in California collected information on undergraduates' heights.
-
-\vfill
-
-2.  **Statistics vs. parameters: one mean.** Each of the following scenarios were set up to assess an average value.
-    For each one, identify, in words: the statistic and the parameter.
-
-    a.  Georgianna samples 20 children from a particular city and measures how many years they have each been playing piano.
-
-    b.  Traffic police officers (who are regularly exposed to lead from automobile exhaust) had their lead levels measured in their blood.
+    b.  加州两所不同大学的研究人员收集了本科生身高的信息。
 
 \vfill
 
-3.  **Heights of adults.** Researchers studying anthropometry collected body measurements, as well as age, weight, height and gender, for 507 physically active adults.
-    Summary statistics for the distribution of heights (measured in centimeters, cm), along with a histogram, are provided below.[^_19-ex-inference-one-mean-1]
+2.  **统计量与参数：单个均值。** 以下每个场景都是为了评估一个平均数。
+    对于每个场景，用文字指出：统计量和参数。
+
+    a.  Georgianna 从某个城市抽取了 20 名儿童的样本，并测量了他们每个人弹钢琴的年数。
+
+    b.  交通警察（经常暴露于汽车尾气中的铅）测量了他们血液中的铅水平。
+
+\vfill
+
+3.  **成人的身高。** 研究人体测量学的研究人员收集了 507 名体力活动积极的成年人的身体测量数据，以及年龄、体重、身高和性别。
+    下面提供了身高分布（以厘米，cm 为单位）的汇总统计量以及直方图。[^_19-ex-inference-one-mean-1]
     [@Heinz:2003]
 
     ```{r}
@@ -43,66 +43,57 @@
       ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lr", col.names = NULL) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       )
 
     ggplot(bdims, aes(x = hgt)) +
       geom_histogram(binwidth = 2) +
-      labs(x = "Height (cm)", y = "Count")
+      labs(x = "身高", y = "计数")
     ```
-    
-    a.  What are the point estimates for the average and median heights of active adults?
 
-    b.  What are the point estimates for the standard deviation and IQR of heights of active adults?
+    a.  体力活动积极的成年人身高的平均数和中位数的点估计分别是多少？
 
-    c.  Is a person who is 1m 80cm (180 cm) tall considered unusually tall?
-        And is a person who is 1m 55cm (155cm) considered unusually short?
-        Explain your reasoning.
+    b.  体力活动积极的成年人身高标准差和四分位距（IQR）的点估计分别是多少？
 
-    d.  The researchers take another random sample of physically active adults.
-        Would you expect the mean and the standard deviation of this new sample to be the ones given above?
-        Explain your reasoning.
+    c.  身高 1m 80cm（180 cm）的人算异常高吗？身高 1m 55cm（155 cm）的人算异常矮吗？解释你的推理。
 
-    e.  The sample means obtained are point estimates for the mean height of all active individuals, if the sample of individuals is equivalent to a simple random sample.
-        What measure do we use to quantify the variability of such an estimate?
-        Compute this quantity using the data from the original sample under the condition that the data are a simple random sample.
+    d.  研究人员再抽取一个体力活动积极成年人的随机样本。你预期这个新样本的均值和标准差会是上面给出的那些值吗？解释你的推理。
+
+    e.  如果个体样本等同于简单随机样本，那么得到的样本均值就是所有体力活动积极个体平均身高的点估计。我们用什么度量来量化这种估计的变异性？在数据是简单随机样本的条件下，使用原始样本的数据计算这个量。
 
 \vfill
 
 \clearpage
 
-4.  **Heights of adults, standard error.** Heights of 507 physically active adults have a mean of 171 cm and a standard deviation of 9.4 cm.
-    Provide an estimate for the standard error of the mean for samples of following sizes.[^_19-ex-inference-one-mean-2]
+4.  **成人的身高，标准误。** 507 名体力活动积极的成人的身高均值为 171 cm，标准差为 9.4 cm。
+    试估计以下样本量下均值的标准误。[^_19-ex-inference-one-mean-2]
     [@Heinz:2003]
-    
+
     a.  n = 10
 
     b.  n = 50
-    
+
     c.  n = 100
 
     d.  n = 1000
 
-    e.  The standard error of the mean is a number which describes what?
+    e.  均值的标准误是一个用来描述什么的数字？
 
 \vfill
 
-5.  **Heights of adults vs. kindergartners.** Heights of 507 physically active adults have a mean of 171 cm and a standard deviation of 9.4 cm.[^_19-ex-inference-one-mean-3]
+5.  **成人的身高与幼儿园儿童的身高。** 507 名体力活动积极的成人的身高均值为 171 cm，标准差为 9.4 cm。[^_19-ex-inference-one-mean-3]
     [@Heinz:2003]
 
-    a.  Would you expect the standard deviation of the heights of a few hundred kindergartners to be higher or lower than 9.4 cm?
-        Explain your reasoning.
+    a.  你预期几百名幼儿园儿童身高的标准差会比 9.4 cm 更高还是更低？解释你的推理。
 
-    b.  Suppose many samples of size 100 adults is taken and, separately, many samples of size 100 kindergarteners are taken.
-        For each of the many samples, the average height is computed.
-        Which set of sample averages would have a larger standard error of the mean, the adult sample averages or the kindergartner sample averages?
+    b.  假设抽取许多样本量为 100 的成人样本，并分别抽取许多样本量为 100 的幼儿园儿童样本。对每一个样本计算身高的平均数。哪一组样本平均数会有更大的均值标准误，是成人样本平均数，还是幼儿园儿童样本平均数？
 
 \vfill
 
-6.  **Heights of adults, bootstrap interval.** Researchers studying anthropometry collected body measurements, as well as age, weight, height and gender, for 507 physically active adults.
-    The histogram below shows the sample distribution of bootstrapped means from 1,000 different bootstrap samples.[^_19-ex-inference-one-mean-4]
+6.  **成人的身高，自助法区间。** 研究人体测量学的研究人员收集了 507 名体力活动积极的成年人的身体测量数据，以及年龄、体重、身高和性别。
+    下面的直方图显示了来自 1,000 个不同自助样本的自助均值的样本分布。[^_19-ex-inference-one-mean-4]
     [@Heinz:2003]
 
     ```{r}
@@ -115,9 +106,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.2, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped mean of height (cm)",
-        y = "Count",
-        title = "1,000 bootstrap means"
+        x = "身高的自助均值",
+        y = "计数",
+        title = "1,000 个自助均值"
       ) +
       scale_x_continuous(
         breaks = seq(170, 172.4, 0.4),
@@ -125,35 +116,35 @@
       )
     ```
 
-    a.  Given the bootstrap sampling distribution for the sample mean, find an approximate value for the standard error of the mean.
+    a.  基于样本均值的自助抽样分布，求均值的标准误的近似值。
 
-    b.  By looking at the bootstrap sampling distribution (1,000 bootstrap samples were taken), find an approximate 90% bootstrap percentile confidence interval for the true average adult height in the population from which the data were randomly sampled.
-        Provide the interval as well as a one-sentence interpretation of the interval.
+    b.  通过观察自助抽样分布（抽取了 1,000 个自助样本），为数据随机抽样来源的总体中的成年人真实平均身高，寻找一个近似的 90% 自助百分位置信区间。
+        提供该区间，并用一句话解释该区间。
 
-    c.  By looking at the bootstrap sampling distribution (1,000 bootstrap samples were taken), find an approximate 90% bootstrap SE confidence interval for the true average adult height in the population from which the data were randomly sampled.
-        Provide the interval as well as a one-sentence interpretation of the interval.
+    c.  通过观察自助抽样分布（抽取了 1,000 个自助样本），为数据随机抽样来源的总体中的成年人真实平均身高，寻找一个近似的 90% 自助标准误置信区间。
+        提供该区间，并用一句话解释该区间。
 
 \vfill
 
 \clearpage
 
-7.  **Identify the critical** $t$.
-    A random sample is selected from an approximately normal population with unknown standard deviation.
-    Find the degrees of freedom and the critical $t$-value (t$^\star$) for the given sample size and confidence level.
+7.  **确定临界** $t$ **值**。
+    从一个标准差未知的近似正态总体中抽取一个随机样本。
+    对于给定的样本量和置信水平，求自由度和临界 $t$ 值 (t$^\star$)。
 
     a.  $n = 6$, CL = 90%
 
     b.  $n = 21$, CL = 98%
-    
+
     c.  $n = 29$, CL = 95%
 
     d.  $n = 12$, CL = 99%
 
 \vfill
 
-8.  **$t$-distribution.**
-    The figure below shows three unimodal and symmetric curves: the standard normal (z) distribution, the $t$-distribution with 5 degrees of freedom, and the $t$-distribution with 1 degree of freedom.
-    Determine which is which, and explain your reasoning.
+8.  **$t$ 分布。**
+    下图显示了三条单峰且对称的曲线：标准正态（z）分布、自由度为 5 的 $t$ 分布和自由度为 1 的 $t$ 分布。
+    确定每条曲线分别是哪种分布，并解释你的理由。
 
     ```{r}
     #| fig-asp: 0.4
@@ -166,7 +157,7 @@
     df <- tibble(
         xx = c(x, x, x),
         yy = c(z, t1, t5),
-        curve = factor(c(rep("solid", length(x)), rep("dashed", length(x)), rep("dotted", length(x))), 
+        curve = factor(c(rep("solid", length(x)), rep("dashed", length(x)), rep("dotted", length(x))),
                        levels = c("solid", "dashed", "dotted")),
     )
 
@@ -186,9 +177,9 @@
 
 \vfill
 
-9.  **Find the p-value, I.** A random sample is selected from an approximately normal population with an unknown standard deviation.
-    Find the p-value for the given sample size and test statistic.
-    Also determine if the null hypothesis would be rejected at $\alpha = 0.05$.
+9.  **求 p 值，I.** 从一个标准差未知的近似正态总体中抽取一个随机样本。
+    对于给定的样本量和检验统计量，求 p 值。
+    并判断在 $\alpha = 0.05$ 的水平下是否拒绝原假设。
 
     :::: {layout="[-0.05, 0.425, 0.425]"}
     :::{#ab}
@@ -205,9 +196,9 @@
 
 \vfill
 
-10. **Find the p-value, II.** A random sample is selected from an approximately normal population with an unknown standard deviation.
-    Find the p-value for the given sample size and test statistic.
-    Also determine if the null hypothesis would be rejected at $\alpha = 0.01$.
+10. **求 p 值，II.** 从一个标准差未知的近似正态总体中抽取一个随机样本。
+    对于给定的样本量和检验统计量，求 p 值。
+    并判断在 $\alpha = 0.01$ 的水平下是否拒绝原假设。
 
     a.  $n = 26$, $T = 2.485$
 
@@ -217,11 +208,11 @@
 
 \clearpage
 
-11. **Length of gestation, confidence interval.** Every year, the United States Department of Health and Human Services releases to the public a large dataset containing information on births recorded in the country.
-    This dataset has been of interest to medical researchers who are studying the relation between habits and practices of expectant mothers and the birth of their children.
-    In this exercise we work with a random sample of 1,000 cases from the dataset released in 2014.
-    The length of pregnancy, measured in weeks, is commonly referred to as gestation.
-    The histograms below show the distribution of lengths of gestation from the random sample of 1,000 births (on the left) and the distribution of bootstrapped means of gestation from 1,500 different bootstrap samples (on the right).[^_19-ex-inference-one-mean-5]
+11. **妊娠期长度，置信区间。** 每年，美国卫生与公众服务部都会向公众发布一个大型数据集，其中包含该国记录的出生信息。
+    医学研究人员一直对这个数据集很感兴趣，他们致力于研究孕妇的习惯和做法与新生儿出生情况之间的关联。
+    在本练习中，我们使用 2014 年发布的数据集中随机抽取的 1,000 个观测单位的样本。
+    以周为单位测量的怀孕持续时间通常被称为妊娠期。
+    下面的直方图显示了来自 1,000 例出生的随机样本的妊娠期长度分布（左图），以及来自 1,500 个不同自助样本的妊娠期长度自助均值的分布（右图）。[^_19-ex-inference-one-mean-5]
 
     ```{r}
     #| out-width: 100%
@@ -229,12 +220,12 @@
     p_sample <- ggplot(births14, aes(x = weeks)) +
       geom_histogram(binwidth = 1) +
       labs(
-        x = "Gestation (weeks)",
-        y = "Count",
-        title = "Random sample of 1,000 births"
+        x = "妊娠期（周）",
+        y = "计数",
+        title = "1,000 例出生的随机样本"
       )
 
-    set.seed(47)
+set.seed(47)
     births14_boot <- births14 |>
       specify(response = weeks) |>
       generate(reps = 1500, type = "bootstrap") |>
@@ -244,24 +235,22 @@
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       scale_x_continuous(breaks = c(38.4, 38.5, 38.6, 38.7, 38.8, 38.9)) +
       labs(
-        x = "Bootstrapped mean of gestation (weeks)",
-        y = "Count",
-        title = "1,500 bootstrap means"
+        x = "自助样本的妊娠长度均值（周）",
+        y = "计数",
+        title = "1500 个自助样本均值"
       )
 
     p_sample + p_boot
     ```
 
-    a.  Given the bootstrap sampling distribution for the sample mean, find an approximate value for the standard error of the mean.
+    a.  根据样本均值的自助抽样分布，求均值标准误的近似值。
 
-    b.  By looking at the bootstrap sampling distribution (1,500 bootstrap samples were taken), find an approximate 99% bootstrap percentile confidence interval for the true average gestation length in the population from which the data were randomly sampled.
-        Provide the interval as well as a one-sentence interpretation of the interval.
+    b.  通过观察自助抽样分布（抽取了 1500 个自助样本），找出一个数据随机抽样来源的总体中的真实平均妊娠期的近似 99% 自助百分位置信区间。请提供该区间及其一句解释。
 
-    c.  By looking at the bootstrap sampling distribution (1,500 bootstrap samples were taken), find an approximate 99% bootstrap SE confidence interval for the true average gestation length in the population from which the data were randomly sampled.
-        Provide the interval as well as a one-sentence interpretation of the interval.
+    c.  通过观察自助抽样分布（抽取了 1500 个自助样本），找出一个数据随机抽样来源的总体中的真实平均妊娠期的近似 99% 自助标准误置信区间。请提供该区间及其一句解释。
 
-12. **Length of gestation, hypothesis test.** In this exercise we work with a random sample of 1,000 cases from the dataset released by the United States Department of Health and Human Services in 2014.
-    Provided below are sample statistics for gestation (length of pregnancy, measured in weeks) of births in this sample.[^_19-ex-inference-one-mean-6]
+12.  **妊娠长度，假设检验。** 在本练习中，我们使用来自 2014 年美国卫生与公众服务部发布数据集的 1000 个观测单位的随机样本。
+     下面提供的是该样本中新生儿妊娠期（怀孕时长，以周计）的样本统计量。[^_19-ex-inference-one-mean-6]
 
     ```{r}
     births14 |>
@@ -276,75 +265,72 @@
         IQR    = round(IQR(weeks), 1)
       ) |>
       kbl(linesep = "", booktabs = TRUE, align = "cccccccc") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE)
     ```
 
-    a.  What is the point estimate for the average length of pregnancy for all women?
-        What about the median?
+    a.  对于所有女性的平均妊娠长度，点估计是多少？中位数呢？
 
-    b.  You might have heard that human gestation is typically 40 weeks.
-        Using the data, perform a complete hypothesis test, using mathematical models, to assess the 40 week claim.
-        State the null and alternative hypotheses, find the T score, find the p-value, and provide a conclusion in context of the data.
+    b.  你可能听说过人类妊娠通常为 40 周。
+        利用这些数据，使用数学模型进行一次完整的假设检验，以评估这个关于 40 周的主张。
+        陈述原假设和备择假设，求出 t 统计量，求出 p 值，并结合数据背景给出结论。
 
-    c.  A quick internet search validates the claim of "40 weeks gestation" for humans.
-        A friend of yours claims that there are different ways to measure gestation (starting at first day of last period, ovulation, or conception) which will result in estimates that are a week or two different.
-        Another friend mentions that recent increases in cesarean births is likely to have decreased length of gestation.
-        Do the data provide a mechanism to distinguish between your two friends' claims?
+    c.  快速网上搜索验证了人类“妊娠 40 周”的说法。
+        你的一个朋友声称存在不同的测量妊娠开始时间的方式（从上一次月经的第一天、排卵日或受孕日开始），这会导致估计结果有一到两周的差异。
+        另一个朋友提到，最近剖腹产数量的增加很可能减少了妊娠时长。
+        这些数据是否提供了一种机制来区分你这两位朋友的说法？
 
 \clearpage
 
-13. **Interpreting confidence intervals for population mean.** For each of the following statements, indicate if they are a true or false interpretation of the confidence interval.
-    If false, provide a reason or correction to the misinterpretation.
-    You collect a large sample and calculate a 95% confidence interval for the average number of cans of sodas consumed annually per adult in the US to be (440 cans, 520 cans), i.e., on average, adults in the US consume just under two cans of soda per day.
+13.  **解释总体均值的置信区间。** 对于以下每一条陈述，判断它们是对置信区间的正确还是错误的解释。
+     如果是错误的，请给出理由或纠正误解。
+     你收集了一个大样本，并计算了一个 95% 置信区间用于估计美国成年人每年平均消费的汽水罐数，结果为（440 罐，520 罐），即平均而言，美国成年人每天消费的汽水不到两罐。
 
-    a.  95% of adults in the US consume between 440 and 520 cans of soda per year.
+    a.  95% 的美国成年人每年消耗 440 到 520 罐苏打水。
 
-    b.  There is a 95% probability that the true population average per adult yearly soda consumption is between 440 and 520 cans.
+    b.  真实总体中成年人每年平均汽水消费量在 440 到 520 罐之间的概率为 95%。
 
-    c.  The true population average per adult yearly soda consumption is between 440 and 520 cans, with 95% confidence.
+    c.  我们有 95% 的把握认为，总体中成年人年人均苏打水消费量介于 440 到 520 罐之间。
 
-    d.  The average soda consumption of the people who were sampled is between 440 and 520 cans of soda per year, with 95% confidence.
-
-\vspace{-1mm}
-
-14. **Interpreting p-values for population mean.** For each of the following statements, indicate if they are a true or false interpretation of the p-value.
-    If false, provide a reason or correction to the misinterpretation.
-    You are wondering if the average amount of cereal in a 10oz cereal box is greater than 10oz.
-    You collect 50 boxes of cereal, weigh them carefully, find a T score, and a p-value of 0.23.
-
-    a.  The probability that the average weight of all cereal boxes is 10 oz is 0.23.
-
-    b.  The probability that the average weight of all cereal boxes is greater than 10 oz is 0.23.
-
-    c.  Because the p-value is 0.23, the average weight of all cereal boxes is 10 oz.
-
-    d.  Because the p-value is small, the population average must be just barely above 10 oz.
-
-    e.  If $H_0$ is true, the probability of observing another sample with an average as or more extreme as the data is 0.23.
+    d.  我们有 95% 的把握认为，被抽样者的年平均苏打水消费量介于 440 到 520 罐之间。
 
 \vspace{-1mm}
 
-15. **Working backwards, I.** A 95% confidence interval for a population mean, $\mu$, is given as (18.985, 21.015).
-    The population distribution is approximately normal and the population standard deviation is unknown.
-    This confidence interval is based on a simple random sample of 36 observations.
-    Assuming that all conditions necessary for inference are satisfied, and using the $t$-distribution, calculate the sample mean, the margin of error, and the sample standard deviation.
+14.  **解释总体均值的 p 值。** 对于以下每一条陈述，判断它们是对 p 值的正确还是错误的解释。
+     如果是错误的，请给出理由或纠正误解。
+     你想知道一个 10 盎司麦片盒中的平均麦片量是否大于 10 盎司。
+     你收集了 50 盒麦片，仔细称重，求出了一个 t 统计量，以及一个 0.23 的 p 值。
+
+    a.  所有麦片盒的平均重量是 10 盎司的概率是 0.23。
+
+    b.  所有麦片盒的平均重量大于 10 盎司的概率是 0.23。
+
+    c.  因为 p 值是 0.23，所以所有麦片盒的平均重量就是 10 盎司。
+
+    d.  由于 p 值很小，总体平均数一定只比 10 盎司高一点点。
+
+    e.  如果 $H_0$ 为真，观察到另一个样本的平均数与当前数据同样极端或更极端的概率是 0.23。
 
 \vspace{-1mm}
 
-16. **Working backwards, II.** A 90% confidence interval for a population mean is (65, 77).
-    The population distribution is approximately normal and the population standard deviation is unknown.
-    This confidence interval is based on a simple random sample of 25 observations.
-    Assuming that all conditions necessary for inference are satisfied, and using the $t$-distribution, calculate the sample mean, the margin of error, and the sample standard deviation.
+15. **逆向工作，I.** 总体均值 $\mu$ 的一个 95% 置信区间为 (18.985, 21.015)。总体分布近似正态，且总体标准差未知。
+    此置信区间基于一个包含 36 个观测的简单随机样本。
+    假设推断所需的所有条件均已满足，并使用 $t$ 分布，请计算样本均值、误差界和样本标准差。
 
 \vspace{-1mm}
 
-17. **Sleep habits of New Yorkers.** New York is known as "the city that never sleeps".
-    A random sample of 25 New Yorkers were asked how much sleep they get per night.
-    Statistical summaries of these data are shown below.
-    The point estimate suggests New Yorkers sleep less than 8 hours a night on average.
-    Evaluate the claim that New York is the city that never sleeps keeping in mind that, despite this claim, the true average number of hours New Yorkers sleep could be less than 8 hours or more than 8 hours.
+16. **逆向工作，II.** 总体均值的一个 90% 置信区间为 (65, 77)。总体分布近似正态，且总体标准差未知。
+    此置信区间基于一个包含 25 个观测的简单随机样本。
+    假设推断所需的所有条件均已满足，并使用 $t$ 分布，请计算样本均值、误差界和样本标准差。
+
+\vspace{-1mm}
+
+17. **纽约人的睡眠习惯。** 纽约被称为“不夜城”。
+    一个包含 25 名纽约人的随机样本被问及他们每晚的睡眠时间。
+    这些数据的统计摘要如下所示。
+    该点估计表明纽约人平均每晚睡眠时间少于 8 小时。
+    请评估“纽约是不夜城”这一论断，并请记住，尽管有此说法，纽约人真实的平均睡眠小时数既可能少于也可能多于 8 小时。
 
     ```{r}
     tribble(
@@ -352,42 +338,41 @@
       25,  7.73, 0.77, 6.17, 9.78
     ) |>
       kbl(linesep = "", booktabs = TRUE, align = c("ccccc")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1:5, width = "5em")
     ```
 
-    a.  Write the hypotheses in symbols and in words.
+    a.  用符号和文字写出假设。
 
-    b.  Check conditions, then calculate the test statistic, $T$, and the associated degrees of freedom.
+    b.  检查条件，然后计算检验统计量 $T$ 及其相应的自由度。
 
-    c.  Find and interpret the p-value in this context.
-        Drawing a picture may be helpful.
+    c.  在此背景下求出并解释 p 值。配图可能有帮助。
 
-    d.  What is the conclusion of the hypothesis test?
+    d.  假设检验的结论是什么？
 
-    e.  If you were to construct a 90% confidence interval that corresponded to this hypothesis test, would you expect 8 hours to be in the interval?
+    e.  如果你要构建一个对应于该假设检验的 90% 置信区间，你会预期 8 小时在这个区间内吗？
 
 \clearpage
 
-18. **Find the mean.** You are given the hypotheses shown below.
-    We know that the sample standard deviation is 8 and the sample size is 20.
-    For what sample mean would the p-value be equal to 0.05?
-    Assume that all conditions necessary for inference are satisfied.
+18. **求均值。** 给定如下所示的假设。
+    已知样本标准差为 8，样本容量为 20。
+    样本均值取何值时，p 值会等于 0.05？
+    假设推断所需的所有条件均已满足。
 
     $$H_0: \mu = 60 \quad \quad H_A: \mu \neq 60$$
 
 \vfill
 
-19. **$t^\star$ for the correct confidence level.** As you've seen, the tails of a $t-$distribution are longer than the standard normal which results in $t^{\star}_{df}$ being larger than $z^{\star}$ for any given confidence level.
-    When finding a CI for a population mean, explain how mistakenly using $z^{\star}$ (instead of the correct $t^{*}_{df}$) would affect the confidence level.
+19. **正确置信水平对应的 $t^\star$。** 正如你所见，$t$ 分布的尾部比标准正态分布更长，这导致对于任意给定的置信水平，$t^{\star}_{df}$ 都大于 $z^{\star}$。
+    在为总体均值寻找置信区间时，请解释误用 $z^{\star}$ （而不是正确的 $t^{*}_{df}$）会如何影响置信水平。
 
 \vfill
 
-20. **Possible bootstrap samples.** Consider a simple random sample of the following observations: 47, 4, 92, 47, 12, 8.
-    Which of the following could be a possible bootstrap samples from the observed data above?
-    If the set of values could not be a bootstrap sample, indicate why not.
+20. **可能的自助样本。** 考虑包含以下观测值的一个简单随机样本：47, 4, 92, 47, 12, 8。
+    以下哪些集合可能是来自上述观测数据的自助样本？
+    如果某组值不可能是一个自助样本，请说明原因。
 
     a.  47, 47, 47, 47, 47, 47
 
@@ -401,39 +386,37 @@
 
 \vfill
 
-21. **Play the piano.** Georgianna claims that in a small city renowned for its music school, the average child takes less than 5 years of piano lessons.
-    We have a random sample of 20 children from the city, with a mean of 4.6 years of piano lessons and a standard deviation of 2.2 years.
+21. **弹钢琴。** Georgianna 声称，在一座以音乐学校闻名的小城市，平均每个儿童学习钢琴的年数少于 5 年。
+    我们拥有来自该城市的一个包含 20 名儿童的随机样本，其学习钢琴年数的均值为 4.6 年，标准差为 2.2 年。
 
-    a.  Evaluate Georgianna's claim (or that the opposite might be true) using a hypothesis test.
+    a.  使用假设检验评估 Georgianna 的主张（或其对立面可能为真）。
 
-    b.  Construct a 95% confidence interval for the number of years students in this city take piano lessons, and interpret it in context of the data.
+    b.  构建一个该城市学生上钢琴课年数的 95% 置信区间，并在数据背景下对其进行解释。
 
-    c.  Do your results from the hypothesis test and the confidence interval agree?
-        Explain your reasoning.
-
-\vfill
-
-22. **Auto exhaust and lead exposure.** Researchers interested in lead exposure due to car exhaust sampled the blood of 52 police officers subjected to constant inhalation of automobile exhaust fumes while working traffic enforcement in a primarily urban environment.
-    The blood samples of these officers had an average lead concentration of 124.32 $\mu$g/l and a SD of 37.74 $\mu$g/l; a previous study of individuals from a nearby suburb, with no history of exposure, found an average blood level concentration of 35 $\mu$g/l.
-    [@Mortada:2000]
-
-    a.  Write down the hypotheses that would be appropriate for testing if the police officers appear to have been exposed to a different concentration of lead.
-
-    b.  Explicitly state and check all conditions necessary for inference on these data.
-
-    c.  Test the hypothesis that the downtown police officers have a higher lead exposure than the group in the previous study.
-        Interpret your results in context.
+    c.  你的假设检验结果与置信区间结果是否一致？解释你的推理。
 
 \vfill
 
-[^_19-ex-inference-one-mean-1]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+22. **汽车尾气与铅暴露。** 研究者对汽车尾气导致的铅暴露感兴趣，他们抽取了 52 名在主要城市环境中从事交通执法工作、长期吸入汽车尾气的警官的血液。
+    这些警官血样的平均铅浓度为 124.32 $\mu$g/l，标准差为 37.74 $\mu$g/l；一项针对附近郊区无暴露史人群的早期研究发现，其平均血铅浓度为 35 $\mu$g/l。 [@Mortada:2000]
 
-[^_19-ex-inference-one-mean-2]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+    a.  写下检验这些警官是否似乎暴露于不同浓度铅的恰当假设。
 
-[^_19-ex-inference-one-mean-3]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+    b.  明确陈述并检查对这些数据进行推断所需的所有条件。
 
-[^_19-ex-inference-one-mean-4]: The [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+c.  检验假设：市中心警察的铅暴露水平高于之前研究中的那组人群。
+    结合实际背景解释你的结果。
 
-[^_19-ex-inference-one-mean-5]: The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+\vfill
 
-[^_19-ex-inference-one-mean-6]: The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_19-ex-inference-one-mean-1]: 本练习使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_19-ex-inference-one-mean-2]: 本练习使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_19-ex-inference-one-mean-3]: 本练习使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_19-ex-inference-one-mean-4]: 本练习使用的 [`bdims`](http://openintrostat.github.io/openintro/reference/bdims.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_19-ex-inference-one-mean-5]: 本练习使用的 [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
+
+[^_19-ex-inference-one-mean-6]: 本练习使用的 [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

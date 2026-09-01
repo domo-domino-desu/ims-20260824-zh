@@ -1,9 +1,9 @@
-1.  **Disaggregating Asian American tobacco use, hypothesis testing.** Understanding cultural differences in tobacco use across different demographic groups can lead to improved health care education and treatment.
-    A recent study disaggregated tobacco use across Asian American ethnic groups including Asian-Indian (n = 4,373), Chinese (n = 4,736), and Filipino (n = 4,912), in comparison to non-Hispanic Whites (n = 275,025).
-    The number of current smokers in each group was reported as Asian-Indian (n = 223), Chinese (n = 279), Filipino (n = 609), and non-Hispanic Whites (n = 50,880).
+1.  **按族裔细分亚裔美国人烟草使用情况的假设检验。** 了解不同人口群体间烟草使用的文化差异，可以改善医疗教育和治疗。
+    一项近期研究将亚裔美国人的烟草使用情况按族裔进行了细分，包括印度裔 (n = 4,373)、华裔 (n = 4,736) 和菲律宾裔 (n = 4,912)，并与非西班牙裔白人 (n = 275,025) 进行了比较。
+    各组的当前吸烟者人数报告如下：印度裔 (n = 223)、华裔 (n = 279)、菲律宾裔 (n = 609) 以及非西班牙裔白人 (n = 50,880)。
     [@Rao:2021]
 
-    To determine whether the proportion of Asian-Indian Americans who are current smokers is different from the proportion of Chinese Americans who are smokers, a randomization simulation was performed.
+    为了判断印度裔和华裔美国人的当前吸烟者比例是否有差异，进行了一次随机化模拟。
 
     ```{r}
     asian_smoke <- tibble(
@@ -24,26 +24,26 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.0015, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 randomized differences",
-        x = "Difference in randomized proportions\n(Indian - Chinese)",
-        y = "Count"
+        title = "1,000 次随机化差值",
+        x = "随机化比例之差\n(印度裔 - 华裔)",
+        y = "频数"
       )
     ```
 
-    a.  In both words and symbols provide the parameter and statistic of interest for this study.
-        Do you know the numerical value of either the parameter or statistic of interest?
-        If so, provide the numerical value.
+    a.  请用文字和符号给出本研究中感兴趣的参数和统计量。
+        你是否知道感兴趣的参数或统计量的数值？
+        如果知道，请提供该数值。
 
-    b.  The histogram above provides the sampling distribution (under randomization) for $\hat{p}_{Asian-Indian} - \hat{p}_{Chinese}$ under repeated null randomizations ($\hat{p}$ is the proportion in the sample who are current smokers).
-        Estimate the standard error of $\hat{p}_{Asian-Indian} - \hat{p}_{Chinese}$ based on the randomization histogram.
+    b.  上方的直方图提供了 $\hat{p}_{Asian-Indian} - \hat{p}_{Chinese}$ 在重复零假设随机化下的（随机化）抽样分布（$\hat{p}$ 是样本中当前吸烟者的比例）。
+        请基于随机化直方图估计 $\hat{p}_{Asian-Indian} - \hat{p}_{Chinese}$ 的标准误。
 
-    c.  Consider the hypothesis test to determine if there is a difference in proportion of Asian-Indian Americans as compared to Chinese Americans who are current smokers.
-        Write out the null and alternative hypotheses, estimate a p-value using the randomization histogram, and conclude the test in the context of the problem.
+    c.  考虑一个旨在确定印度裔与华裔美国人的当前吸烟者比例是否存在差异的假设检验。
+        请写出原假设和备择假设，利用随机化直方图估计 p 值，并在问题的背景下对检验作出结论。
 
 \clearpage
 
-2.  **Malaria vaccine effectiveness, hypothesis test.** With no currently licensed vaccines to inhibit malaria, good news was welcomed with a recent study reporting long-awaited vaccine success for children in Burkina Faso.
-    With 450 children randomized to either one of two different doses of the malaria vaccine or a control vaccine, 89 of 292 malaria vaccine and 106 out of 147 control vaccine children contracted malaria within 12 months after the treatment.
+2.  **疟疾疫苗有效性的假设检验。** 目前尚无获批的疟疾疫苗，因此，一项报告布基纳法索儿童疟疾疫苗取得期待已久的成效的研究带来了好消息。
+    450 名儿童被随机分配到两种不同剂量的疟疾疫苗中的一种或一种对照疫苗，在接受处理后 12 个月内，292 名接种疟疾疫苗的儿童中有 89 人感染疟疾，147 名接种对照疫苗的儿童中有 106 人感染疟疾。
     [@Datoo:2021]
 
     ```{r}
@@ -64,26 +64,25 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 0.02) +
       labs(
-        title = "1,000 randomized differences",
-        x = "Difference in randomized proportions\n(malaria - control)",
-        y = "Count"
+        title = "1,000 次随机化差值",
+        x = "随机化比例之差\n(疟疾疫苗 - 对照疫苗)",
+        y = "频数"
       )
     ```
 
-    a.  In both words and symbols provide the parameter and statistic of interest for this study.
-        Do you know the numerical value of either the parameter or statisic of interest?
-        If so, provide the numerical value.
+    a.  请用文字和符号给出本研究中感兴趣的参数和统计量。
+        你是否知道感兴趣的参数或统计量的数值？
+        如果知道，请提供该数值。
 
-    b.  The histogram above provides the sampling distribution (under randomization) for $\hat{p}_{malaria} - \hat{p}_{control}$ under repeated null randomizations ($\hat{p}$ is the proportion of children in the sample who contracted malaria).
-        Estimate the standard error of $\hat{p}_{malaria} - \hat{p}_{control}$ based on the randomization histogram.
+    b.  上方的直方图提供了 $\hat{p}_{malaria} - \hat{p}_{control}$ 在重复零假设随机化下的（随机化）抽样分布（$\hat{p}$ 是样本中感染疟疾的儿童比例）。
+        请基于随机化直方图估计 $\hat{p}_{malaria} - \hat{p}_{control}$ 的标准误。
 
-    c.  Consider the hypothesis test constructed to show a lower proportion of children contracting malaria on the malaria vaccine as compared to the control vaccine.
-        Write out the null and alternative hypotheses, estimate a p-value using the randomization histogram, and conclude the test in the context of the problem.
+    c.  考虑一个旨在检验接种疟疾疫苗的儿童感染疟疾的比例是否低于接种对照疫苗的儿童的假设检验。
+        请写出原假设和备择假设，利用随机化直方图估计 p 值，并在问题的背景下对检验作出结论。
 
 \clearpage
 
-3.  **Disaggregating Asian American tobacco use, confidence interval.** Based on a study on the degree to which smoking practices differ across ethnic groups.
-    a confidence interval for the difference in current smoking status for Filipino versus Chinese Americans is desired.
+3.  **按族裔细分亚裔美国人烟草使用情况，置信区间。** 基于一项关于不同族裔群体吸烟行为差异程度的研究，我们需要为菲律宾裔美国人与华裔美国人当前吸烟状况的差异计算一个置信区间。
     [@Rao:2021]
 
     ```{r}
@@ -104,23 +103,20 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.0015, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 bootstrapped differences",
-        x = "Difference in bootstrapped proportions (Filipino - Chinese)",
-        y = "Count"
+        title = "1,000 次自助法差值",
+        x = "自助法比例之差（菲律宾裔 - 华裔）",
+        y = "频数"
       )
     ```
 
-    a.  Consider the bootstrap distribution of difference in sample proportions of current smokers (Filipino Americans minus Chinese Americans) in 1,000 bootstrap repetitions as above.
-        Estimate the standard error of the difference in sample proportions, as seen in the histogram.
+    a.  考虑如上 1,000 次自助重复中当前吸烟者样本比例之差（菲律宾裔美国人减华裔美国人）的自助法分布。根据直方图，估计该样本比例之差的标准误。
 
-    b.  Using the standard error from the bootstrap distribution, find a 95% bootstrap SE confidence interval for the true difference in proportion of current smokers (Filipino Americans minus Chinese Americans) in the population.
-        Interpret the interval in the context of the problem.
+    b.  使用自助法分布得到的标准误，计算总体中目前吸烟者比例真实差异（菲律宾裔美国人减去华裔美国人）的 95% 自助法标准误置信区间，并在问题背景下解释该区间。
 
-    c.  Using the entire bootstrap distribution, find a 95% bootstrap percentile confidence interval for the true difference in proportion of current smokers (Filipino Americans minus Chinese Americans) in the population.
-        Interpret the interval in the context of the problem.
+    c.  使用整个自助法分布，计算总体中目前吸烟者比例真实差异（菲律宾裔美国人减去华裔美国人）的 95% 自助法百分位置信区间，并在问题背景下解释该区间。
 
-4.  **Malaria vaccine effectiveness, confidence interval.** With no currently licensed vaccines to inhibit malaria, good news was welcomed with a recent study reporting long-awaited vaccine success for children in Burkina Faso.
-    With 450 children randomized to either one of two different doses of the malaria vaccine or a control vaccine, 89 of 292 malaria vaccine and 106 out of 147 control vaccine children contracted malaria within 12 months after the treatment.
+4.  **疟疾疫苗有效性，置信区间。** 目前尚无获批的疟疾疫苗，因此，一项报告布基纳法索儿童疟疾疫苗取得期待已久的成效的研究带来了好消息。
+    该研究将 450 名儿童随机分配到两种不同剂量的疟疾疫苗中的一种或一种对照疫苗，在接受处理后 12 个月内，292 名疟疾疫苗儿童中有 89 名感染疟疾，147 名对照疫苗儿童中有 106 名感染疟疾。
     [@Datoo:2021]
 
     ```{r}
@@ -141,30 +137,27 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 0.02) +
       labs(
-        title = "1,000 bootstrapped differences",
-        x = "Difference in bootstrapped proportions (malaria - control)",
-        y = "Count"
+        title = "1,000 次自助法差值",
+        x = "自助法比例之差（疟疾疫苗 - 对照疫苗）",
+        y = "频数"
       )
     ```
 
-    a.  Consider the bootstrap distribution of difference in sample proportions of children who contracted malaria (malaria vaccine minus control vaccine) in 1000 bootstrap repetitions as above.
-        Estimate the standard error of the difference in sample proportions, as seen in the histogram.
+    a.  考虑如上 1,000 次自助重复中感染疟疾的儿童样本比例之差（疟疾疫苗组减对照组）的自助法分布。根据直方图，估计该样本比例之差的标准误。
 
-    b.  Using the standard error from the bootstrap distribution, find a 95% bootstrap SE confidence interval for the true difference in proportion of children who contract malaria (malaria vaccine minus control vaccine) in the population.
-        Interpret the interval in the context of the problem.
+    b.  使用自助法分布得到的标准误，计算总体中儿童感染疟疾比例真实差异（疟疾疫苗组减去对照组疫苗）的 95% 自助法标准误置信区间，并在问题背景下解释该区间。
 
-    c.  Using the entire bootstrap distribution, find a 95% bootstrap percentile confidence interval for the true difference in proportion of children who contract malaria (malaria vaccine minus control vaccine) in the population.
-        Interpret the interval in the context of the problem.
+    c.  使用整个自助法分布，计算总体中儿童感染疟疾比例真实差异（疟疾疫苗组减去对照组疫苗）的 95% 自助法百分位置信区间，并在问题背景下解释该区间。
 
 \clearpage
 
-5.  **COVID-19 and degree completion.** A 2021 Gallup poll surveyed 3,941 students pursuing a bachelor's degree and 2,064 students pursuing an associate degree (students were not randomly selected but were weighted so as to represent a random selection of currently enrolled US college students).
-    The poll found that 51% of the bachelor's degree students and 44% of associate degree students said that the COVID-19 pandemic will negatively impact their ability to complete the degree.
+5.  **COVID-19 与学位完成。** 2021 年盖洛普调查了 3,941 名攻读学士学位的学生和 2,064 名攻读副学士学位的学生（学生并非随机选择，但经过加权以代表随机选择的当前在册美国大学生）。
+    调查发现，51% 的攻读学士学位的学生和 44% 的攻读副学士学位的学生表示，COVID-19 大流行会对他们完成学位的能力产生负面影响。
     [@data:gallupcollegeimpact]
 
-    Below are two histograms generated with different computational approaches (both use 1,000 repetitions) to research questions which could be asked of these data.
-    One of the histograms can be used to do a randomization test on whether the proportions of bachelor's and associate students who think the COVID-19 pandemic will negatively impact their ability to complete the degree.
-    The other histogram is a bootstrap distribution used to quantify the difference in the proportions of bachelor's and associate's students who feel this way.
+    下面是通过两种不同的计算方法（均使用 1,000 次重复）针对可对这些数据提出的研究问题生成的两个直方图。
+    其中一个直方图可用于进行随机化检验，以探究认为 COVID-19 大流行将对其完成学位的能力产生负面影响的学士学位和副学士学位学生比例是否存在差异。
+    另一个直方图是用于量化有这种感受的学士学位和副学士学位学生比例之差异的自助法分布。
 
     ```{r}
     #| fig-asp: 0.28
@@ -177,7 +170,7 @@
       )
     )
 
-    set.seed(47)
+set.seed(47)
     p_A <- covid_college |>
       specify(outcome ~ degree, success = "impact") |>
       generate(reps = 1000, type = "bootstrap") |>
@@ -185,9 +178,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], bins = 20) +
       labs(
-        title = "Computational method A",
-        x = "Difference in simulated proportions\n(BA - AA)",
-        y = "Count"
+        title = "计算方法 A",
+        x = "模拟比例差\n(BA - AA)",
+        y = "频数"
       )
 
     set.seed(47)
@@ -199,28 +192,27 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], bins = 20) +
       labs(
-        title = "Computational method B",
-        x = "Difference in simulated proportions\n(BA - AA)",
-        y = "Count"
+        title = "计算方法 B",
+        x = "模拟比例差\n(BA - AA)",
+        y = "频数"
       )
 
     p_A + p_B
     ```
 
-    a.  Are the center and standard error of the two graphs approximately the same?
-        Explain.
+    a.  两个图形的中心和标准误是否近似相同？请解释。
 
-    b.  Write a research question that can be addressed using the histogram generated with computational method A.
+    b.  写出一个可以用计算方法 A 生成的直方图来探究的研究问题。
 
-    c.  Write a research question that can addressed using the histogram generated with computational method B.
+    c.  写出一个可以用计算方法 B 生成的直方图来探究的研究问题。
 
-6.  **Renewable energy.** A 2021 Gallup poll surveyed 5,447 randomly sampled US adults who are Republican (or Republican leaning) and 7,962 who are Democrats (or Democrat leaning).
-    31% of Republicans and 81% of Democrats said "government regulations are necessary to encourage businesses and consumers to rely more on renewable energy sources".
+6.  **可再生能源。** 2021 年盖洛普民意调查随机抽样调查了 5447 名美国共和党（或倾向共和党）成年人和 7962 名民主党（或倾向民主党）成年人。
+    31% 的共和党人和 81% 的民主党人表示，“政府监管对于鼓励企业和消费者更多地依赖可再生能源是必要的”。
     [@data:gallupcollegeimpact]
 
-    Below are two histograms generated with different computational approaches (both use 1,000 repetitions) to research questions which could be asked of these data.
-    One of the histograms can be used to do a randomization test on whether the proportions of Republicans and Democrats who think government regulations are necessary to encourage businesses and consumers to rely more on renewable energy sources are different.
-    The other histogram is a bootstrap distribution used to quantify the difference in the proportions of Republicans and Democrats who agree with this statement.
+    下面是通过两种不同计算方法（均使用了 1000 次重复）生成的两张直方图，可用于探究基于这些数据可能提出的研究问题。
+    其中一张直方图可用于进行随机化检验，以判断认为政府有必要出台法规来鼓励企业和消费者更多地依赖可再生能源的共和党人与民主党人的比例是否不同。
+    另一张直方图是一个用于量化认同此陈述的共和党人与民主党人比例差异的自助法分布。
 
     ```{r}
     #| fig-asp: 0.28
@@ -241,9 +233,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], bins = 20) +
       labs(
-        title = "Computational Method B",
-        x = "Difference in simulated proportions\n(Republican - Democrat)",
-        y = "Count"
+        title = "计算方法 B",
+        x = "模拟比例差\n(共和党人 - 民主党人)",
+        y = "频数"
       )
 
     set.seed(47)
@@ -255,108 +247,106 @@
       ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], bins = 20) +
       labs(
-        title = "Computational Method A",
-        x = "Difference in simulated proportions\n(Republican - Democrat)",
-        y = "Count"
+        title = "计算方法 A",
+        x = "模拟比例差\n(共和党人 - 民主党人)",
+        y = "频数"
       )
 
     p_A + p_B
     ```
 
-    a.  Are the center and standard error of the two graphs approximately the same?
-        Explain.
+    a.  两个图形的中心和标准误是否近似相同？请解释。
 
-    b.  Write a research question that can addressed using the histogram generated with computational method A.
+    b.  写出一个可以用计算方法 A 生成的直方图来探究的研究问题。
 
-    c.  Write a research question that can addressed using the histogram generated with computational method B.
+    c.  写出一个可以用计算方法 B 生成的直方图来探究的研究问题。
 
 \clearpage
 
-7.  **HIV in sub-Saharan Africa.** In July 2008 the US National Institutes of Health announced that it was stopping a clinical study early because of unexpected results.
-    The study population consisted of HIV-infected women in sub-Saharan Africa who had been given single dose Nevaripine (a treatment for HIV) while giving birth, to prevent transmission of HIV to the infant.
-    The study was a randomized comparison of continued treatment of a woman (after successful childbirth) with Nevaripine vs Lopinavir, a second drug used to treat HIV.
-    240 women participated in the study; 120 were randomized to each of the two treatments.
-    Twenty-four weeks after starting the study treatment, each woman was tested to determine if the HIV infection was becoming worse (an outcome called *virologic failure*).
-    Twenty-six of the 120 women treated with Nevaripine experienced virologic failure, while 10 of the 120 women treated with the other drug experienced virologic failure.
+7.  **撒哈拉以南非洲的 HIV 研究。** 2008 年 7 月，美国国立卫生研究院宣布提前终止一项临床试验，原因是出现了意想不到的结果。
+    研究总体由撒哈拉以南非洲感染 HIV 的妇女组成，她们在分娩时服用单剂奈韦拉平（一种 HIV 治疗方法），以预防 HIV 传给婴儿。
+    该研究是一个随机化比较，对比了（成功分娩后）继续使用奈韦拉平治疗与使用另一种 HIV 治疗药物洛匹那韦的效果。
+    共有 240 名妇女参与了研究；两种处理各随机分配了 120 人。
+    在研究治疗开始 24 周后，对每位妇女进行检测，以确定 HIV 感染是否恶化（该结果称为 *virologic failure*（病毒学失败））。
+    在接受奈韦拉平治疗的 120 名妇女中，有 26 人经历了病毒学失败，而在接受另一种药物治疗的 120 名妇女中，有 10 人经历了病毒学失败。
     [@Lockman:2007]
 
-    a.  Create a two-way table presenting the results of this study.
+    a.  创建一个展示本研究结果的列联表。
 
-    b.  State appropriate hypotheses to test for difference in virologic failure rates between treatment groups.
+    b.  陈述用于检验处理组间病毒学失败率差异的适当假设。
 
-    c.  Complete the hypothesis test and state an appropriate conclusion.
-        (Reminder: Verify any necessary conditions for the test.)
-
-\vfill
-
-8.  **Supercommuters.** The fraction of workers who are considered "supercommuters", because they commute more than 90 minutes to get to work, varies by state.
-    Suppose the 1% of Nebraska residents and 6% of New York residents are supercommuters.
-    Now suppose that we plan a study to survey 1000 people from each state, and we will compute the sample proportions $\hat{p}_{NE}$ for Nebraska and $\hat{p}_{NY}$ for New York.
-
-    a.  What is the associated mean and standard deviation of $\hat{p}_{NE}$ in repeated samples of size 1000?
-
-    b.  What is the associated mean and standard deviation of $\hat{p}_{NY}$ in repeated samples of size 1000?
-
-    c.  Calculate and interpret the mean and standard deviation associated with the difference in sample proportions for the two groups, $\hat{p}_{NY} - \hat{p}_{NE}$ in repeated samples of 1000 in each group.
-
-    d.  How are the standard deviations from parts (a), (b), and (c) related?
+    c.  完成假设检验并陈述适当的结论。
+        （提醒：验证检验所需的任何必要条件。）
 
 \vfill
 
-9.  **National Health Plan.** A Kaiser Family Foundation poll for US adults in 2019 found that 79% of Democrats, 55% of Independents, and 24% of Republicans supported a generic “National Health Plan”.
-    There were 347 Democrats, 298 Republicans, and 617 Independents surveyed.
-    79% of 347 Democrats and 55% of 617 Independents support a National Health Plan.
+8.  **超长通勤者。** 因通勤时间超过 90 分钟而被称为“超长通勤者”的工人比例因州而异。
+    假设 1% 的内布拉斯加州居民和 6% 的纽约州居民是超长通勤者。
+    现在假设我们计划开展一项研究，从每个州调查 1000 人，并计算内布拉斯加州的样本比例 $\hat{p}_{NE}$ 和纽约州的样本比例 $\hat{p}_{NY}$。
+
+    a.  在容量为 1000 的重复样本中，$\hat{p}_{NE}$ 对应的均值和标准差是多少？
+
+    b.  在容量为 1000 的重复样本中，$\hat{p}_{NY}$ 对应的均值和标准差是多少？
+
+    c.  计算并解释两组样本比例之差，即 $\hat{p}_{NY} - \hat{p}_{NE}$（在每组 1000 人的重复抽样下）对应的均值和标准差。
+
+    d.  (a)、 和  部分中的标准差之间有何关系？
+
+\vfill
+
+9.  **全民健康计划。** 凯撒家庭基金会 2019 年对美国成年人的一项民意调查发现，79% 的民主党人、55% 的独立人士和 24% 的共和党人支持通用的“全民健康计划”。
+    调查对象包括 347 名民主党人、298 名共和党人和 617 名独立人士，其中 347 名民主党人中的 79% 和 617 名独立人士中的 55% 支持该计划。
     [@data:KFF2019nathealthplan]
 
-    a.  Calculate a 95% confidence interval for the difference between the proportion of Democrats and Independents who support a National Health Plan $(p_{D} - p_{I})$, and interpret it in this context.
-        We have already checked conditions for you.
+    a.  为民主党人与独立人士对“全民健康计划”支持率之间的差异计算一个 95% 置信区间 $(p_{D} - p_{I})$，并在该背景下解释该区间。
+        我们已为你检查过条件。
 
-    b.  True or false: If we had picked a random Democrat and a random Independent at the time of this poll, it is more likely that the Democrat would support the National Health Plan than the Independent.
+    b.  判断对错：如果我们在这次民调时随机选一名民主党人和一名独立人士，那么民主党人比独立人士更可能支持全民健康计划。
 
 \vfill
 
 \clearpage
 
-10. **Sleep deprivation, CA vs. OR, confidence interval.** According to a report on sleep deprivation by the Centers for Disease Control and Prevention, the proportion of California residents who reported insufficient rest or sleep during each of the preceding 30 days is 8.0%, while this proportion is 8.8% for Oregon residents.
-    These data are based on simple random samples of 11,545 California and 4,691 Oregon residents.
-    Calculate a 95% confidence interval for the difference between the proportions of Californians and Oregonians who are sleep deprived and interpret it in context of the data.
+10. **睡眠剥夺，加州 vs. 俄勒冈州，置信区间。** 根据美国疾病控制与预防中心一份关于睡眠剥夺的报告，在之前 30 天内每天报告休息或睡眠不足的加州居民比例为 8.0%，而俄勒冈州居民的这一比例为 8.8%。
+    这些数据基于 11,545 名加州居民和 4,691 名俄勒冈州居民的简单随机样本。
+    为加州和俄勒冈州睡眠剥夺居民比例之差计算一个 95% 置信区间，并在数据背景下解释其含义。
     [@data:sleepCAandOR]
 
 \vfill
 
-11. **Gender pay gap in medicine.** A study examined the average pay for men and women entering the workforce as doctors for 21 different positions.
+11. **医学领域的性别薪酬差距。** 一项研究考察了男性和女性作为医生进入劳动力市场时，在 21 个不同职位上的平均薪酬。
     [@LoSassoMedicineGenderPayGap]
 
-    a.  If each gender was equally paid, then we would expect about half of those positions to have men paid more than women and women would be paid more than men in the other half of positions.
-        Write appropriate hypotheses to test this scenario.
+    a.  如果两种性别的薪酬相等，那么我们预期大约一半的职位中男性薪酬高于女性，而另一半职位中女性薪酬高于男性。
+        为检验这一情景写出适当的假设。
 
-    b.  Men were, on average, paid more in 19 of those 21 positions.
-        Complete a hypothesis test using your hypotheses from part (a).
-
-\vfill
-
-12. **Sleep deprivation, CA vs. OR, hypothesis test.** A CDC report on sleep deprivation rates shows that the proportion of California residents who reported insufficient rest or sleep during each of the preceding 30 days is 8.0%, while this proportion is 8.8% for Oregon residents.
-    These data are based on simple random samples of 11,545 California and 4,691 Oregon residents.
-
-    a.  Conduct a hypothesis test to determine if these data provide strong evidence that the rate of sleep deprivation is different for the two states.
-        (Reminder: Check conditions)
-
-    b.  It is possible the conclusion of the test in part (a) is incorrect.
-        If this is the case, what type of error was made?
+    b.  在 21 个职位中的 19 个，男性的平均薪酬更高。
+        使用你在 部分提出的假设完成一项假设检验。
 
 \vfill
 
-13. **Is yawning contagious?** An experiment conducted by the MythBusters, a science entertainment TV program on the Discovery Channel, tested if a person can be subconsciously influenced into yawning if another person near them yawns.
-    50 people were randomly assigned to two groups: 34 to a group where a person near them yawned (treatment) and 16 to a group where there wasn't a person yawning near them (control).
-    The visualization below displays how many participants yawned in each group.[^_17-ex-inference-two-props-1]
+12. **睡眠剥夺，加州 vs. 俄勒冈州，假设检验。** 美国疾控中心一份关于睡眠剥夺率的报告显示，在之前 30 天内每天报告休息或睡眠不足的加州居民比例为 8.0%，而俄勒冈州居民的这一比例为 8.8%。
+    这些数据基于 11,545 名加州居民和 4,691 名俄勒冈州居民的简单随机样本。
+
+    a.  进行一次假设检验，以确定这些数据是否提供了两个州睡眠剥夺率不同的有力证据。
+        （提醒：检查条件）
+
+    b.  部分的检验结论有可能是错误的。
+        如果确实如此，那么犯了哪一类错误？
+
+\vfill
+
+13. **打哈欠会传染吗？** 探索频道的科普娱乐节目《流言终结者》进行了一项实验，测试如果附近有人打哈欠，一个人是否会受到潜意识的影响而打哈欠。
+    50人被随机分配到两组：34人分配到附近有人打哈欠的组（处理组），16人分配到附近没有人打哈欠的组（对照组）。
+    下面的可视化展示了每组中有多少参与者打了哈欠。[^_17-ex-inference-two-props-1]
 
     ```{r}
     #| fig-asp: 0.4
     yawn |>
-      mutate(group = if_else(group == "ctrl", "Control", "Treatment")) |>
+      mutate(group = if_else(group == "ctrl", "对照组", "处理组")) |>
       ggplot(aes(y = group, fill = result)) +
       geom_bar() +
-      labs(x = "Count", y = "Group", fill = "Outcome") +
+      labs(x = "计数", y = "组别", fill = "结果") +
       scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
       scale_x_continuous(breaks = seq(0, 35, 5)) +
       theme(
@@ -365,19 +355,19 @@
       )
     ```
 
-    Suppose we are interested in estimating the difference in yawning rates between the control and treatment groups using a confidence interval.
-    Explain why we cannot construct such an interval using the normal approximation.
-    What might go wrong if we constructed the confidence interval despite this problem?
+    假设我们想使用置信区间来估计对照组和处理组之间打哈欠率的差异。
+    解释为什么我们不能使用正态近似来构建这样的区间。
+    如果忽略这个问题而构建置信区间，可能会出现什么问题？
 
 \vfill
 
 \clearpage
 
-14. **Heart transplant success.** The Stanford University Heart Transplant Study was conducted to determine whether an experimental heart transplant program increased lifespan.
-    Each patient entering the program was officially designated a heart transplant candidate, meaning that he was gravely ill and might benefit from a new heart.
-    Patients were randomly assigned into treatment and control groups.
-    Patients in the treatment group received a transplant, and those in the control group did not.
-    The visualization below displays how many patients survived and died in each group.[^_17-ex-inference-two-props-2]
+14. **心脏移植成功。** 斯坦福大学心脏移植研究旨在确定一项实验性心脏移植项目是否能延长寿命。
+    进入项目的每位患者都被正式指定为心脏移植候选人，这意味着他病情严重，可能从新心脏中受益。
+    患者被随机分配到处理组和对照组。
+    处理组患者接受移植，对照组患者不接受。
+    下面的可视化展示了每组中存活和死亡的患者数量。[^_17-ex-inference-two-props-2]
     [@Turnbull+Brown+Hu:1974]
 
     ```{r}
@@ -389,7 +379,7 @@
       ) |>
       ggplot(aes(y = transplant, fill = survived)) +
       geom_bar() +
-      labs(x = "Count", y = "Group", fill = "Outcome") +
+      labs(x = "计数", y = "组别", fill = "结果") +
       scale_fill_manual(values = c(IMSCOL["blue", "full"], IMSCOL["red", "full"])) +
       theme(
         legend.position = c(0.85, 0.3),
@@ -397,123 +387,109 @@
       )
     ```
 
-    Suppose we are interested in estimating the difference in survival rate between the control and treatment groups using a confidence interval.
-    Explain why we cannot construct such an interval using the normal approximation.
-    What might go wrong if we constructed the confidence interval despite this problem?
+    假设我们想使用置信区间来估计对照组和处理组之间存活率的差异。
+    解释为什么我们不能使用正态近似来构建这样的区间。
+    如果忽略这个问题而构建置信区间，可能会出现什么问题？
 
 \vfill
 
-15. **Government shutdown.** The United States federal government shutdown of 2018--2019 occurred from December 22, 2018 until January 25, 2019, a span of 35 days.
-    A Survey USA poll of 614 randomly sampled Americans during this time period reported that 48% of those who make less than \$40,000 per year and 55% of those who make \$40,000 or more per year said the government shutdown has not at all affected them personally.
-    A 95% confidence interval for $(p_\text{$<$40K} - p_\text{$\ge$40K})$, where $p$ is the proportion of those who said the government shutdown has not at all affected them personally, is (-0.16, 0.02).
-    Based on this information, determine if the following statements are true or false, and explain your reasoning if you identify the statement as false.
+15. **政府停摆。** 2018-2019年美国联邦政府停摆从2018年12月22日持续到2019年1月25日，共35天。
+    在此期间，Survey USA对614名随机抽样的美国人进行的一项民意调查报告称，年收入低于 \$40,000 的人中有 48%、年收入 \$40,000 及以上的人中有 55% 表示政府停摆完全没有对他们个人造成影响。
+    $(p_\text{$<$40K} - p_\text{$\ge$40K})$ 的一个 95% 置信区间为 (-0.16, 0.02)，其中 $p$ 表示政府停摆完全没有对个人造成影响的人的比例。
+    根据这些信息，判断以下陈述是真是假，并解释你判断为假的理由。
     [@data:govtshuthown]
 
-    a.  At the 5% discernibility level, the data provide convincing evidence of a real difference in the proportion who are not affected personally between Americans who make less than \$40,000 annually and Americans who make \$40,000 annually.
+    a.  在 5% 的显著性水平下，数据提供了令人信服的证据，表明年收入低于 \$40,000 的美国人与年收入 \$40,000 的美国人中未受个人影响的比例存在真实差异。
 
-    b.  We are 95% confident that 16% more to 2% fewer Americans who make less than \$40,000 per year are not at all personally affected by the government shutdown compared to those who make \$40,000 or more per year.
+    b.  我们有 95% 的把握认为，年收入低于 \$40,000 的美国人中完全未受到政府关门个人影响的比例，比年收入 \$40,000 或以上的美国人高出 16% 到低 2%。
 
-    c.  A 90% confidence interval for $(p_\text{$<$40K} - p_\text{$\ge$40K})$ would be wider than the $(-0.16, 0.02)$ interval.
+    c.  $(p_\text{$<$40K} - p_\text{$\ge$40K})$ 的一个 90% 置信区间会比 $(-0.16, 0.02)$ 区间更宽。
 
-    d.  A 95% confidence interval for $(p_\text{$\ge$40K} - p_\text{$<$40K})$ is (-0.02, 0.16).
+    d.  $(p_\text{$\ge$40K} - p_\text{$<$40K})$ 的 95% 置信区间为 (-0.02, 0.16)。
 
 \vfill
 
 \clearpage
 
-16. **Online harassment.** A Pew Research poll asked US adults aged 18-29 and 30-49 whether they have personally experienced harassment online.
-    A 95% confidence interval for the difference between the proportions of 18-29 year-olds and 30-49 year-olds who have personally experienced harassment online $(p_{18-29} - p_{30-49})$ was calculated to be (0.115, 0.185).
-    Based on this information, determine if the following statements are true or false, and explain your reasoning for each statement you identify as false.
+16. **网络骚扰。** 皮尤研究中心的一项民意调查询问了18-29岁和30-49岁的美国成年人是否曾亲身经历过网络骚扰。
+    一个用于估计 18-29 岁与 30-49 岁亲身经历过网络骚扰的成年人比例差异 $(p_{18-29} - p_{30-49})$ 的 95% 置信区间被计算为 (0.115, 0.185)。
+    根据这些信息，判断以下陈述是真是假，并解释你判断为假的理由。
     [@onlineharassment2021]
 
-    a.  We are 95% confident that the true proportion of 18-29 year-olds who have personally experienced harassment online is 11.5% to 18.5% lower than the true proportion of 30-49 year-olds who have personally experienced harassment online.
+    a.  我们有 95% 的把握认为，18-29 岁成年人中亲身经历过网络骚扰的真实比例比 30-49 岁成年人的真实比例低 11.5% 到 18.5%。
 
-    b.  We are 95% confident that the true proportion of 18-29 year-olds who have personally experienced harassment online is 11.5% to 18.5% higher than the true proportion of 30-49 year-olds who have personally experienced harassment online.
+    b.  我们有 95% 的把握认为，18-29 岁成年人中亲身经历过网络骚扰的真实比例比 30-49 岁成年人的真实比例高 11.5% 到 18.5%。
 
-    c.  95% of random samples will produce 95% confidence intervals that include the true difference between the population proportions of 18-29 year-olds and 30-49 year-olds who have personally experienced harassment online.
+    c.  95% 的随机样本产生的 95% 置信区间将包含 18-29 岁与 30-49 岁亲身经历过网络骚扰的成年人总体比例的真实差异。
 
-    d.  We can conclude that there is a discernible difference between the proportions of 18-29 year-olds and 30-49 year-olds who have personally experienced harassment online is too large to plausibly be due to chance, if in fact there is no difference between the two proportions.
+    d.  我们可以得出结论：18-29岁和30-49岁人群中亲身经历过网络骚扰的比例之间存在可辨识的差异，这一差异太大，如果事实上两个比例之间没有差异，则不太可能合理地归因于偶然。
 
-    e.  The 90% confidence interval for $(p_{18-29} - p_{30-49})$ cannot be calculated with only the information given in this exercise.
-
-\vfill
-
-17. **Decision errors and comparing proportions I.** In the following research studies, conclusions were made based on the data provided.
-    It is always possible that the analysis conclusion could be wrong, although we will almost never actually know if an error has been made or not.
-    For each study conclusion, specify which of a Type I or Type II error could have been made, and state the error in the context of the problem.
-
-    a.  The malaria vaccine was seen to be effective at lowering the rate of contracting malaria (when compared to the control vaccine).
-
-    b.  In the US population, Asian-Indian Americans and Chinese Americans are not observed to have different proportions of current smokers.
-
-    c.  There is no evidence to claim a difference in the proportion of Americans who are not affected personally by a government shutdown when comparing Americans who make less than \$40,000 annually and Americans who make \$40,000 annually.
+    e.  仅根据本题给出的信息，无法计算 $(p_{18-29} - p_{30-49})$ 的 90% 置信区间。
 
 \vfill
 
-18. **Decision errors and comparing proportions II.** In the following research studies, conclusions were made based on the data provided.
-    It is always possible that the analysis conclusion could be wrong, although we will almost never actually know if an error has been made or not.
-    For each study conclusion, specify which of a Type I or Type II error could have been made, and state the error in the context of the problem.
+17. **决策错误与比例比较 I。** 在以下研究中，基于所提供的数据得出了结论。
+    分析结论总是有可能出错，尽管我们几乎永远不会真正知道是否发生了错误。
+    对于每个研究结论，指出可能犯了第一类错误还是第二类错误，并在问题背景下说明该错误。
 
-    a.  Of registered voters in California, the proportion who report not knowing enough to voice an opinion on whether they support off shore drilling is different across those who have a college degree and those who do not.
+    a.  观察到疟疾疫苗能有效降低感染疟疾的比率（与对照疫苗相比）。
 
-    b.  In comparing Californians and Oregonians, there is no evidence to support a difference in the proportion of each who are sleep deprived.
+    b.  在美国总体中，未观察到印度裔美国人和华裔美国人当前吸烟者的比例存在差异。
+
+    c.  在比较年收入不足4万美元和年收入4万美元及以上的美国人时，没有证据表明自认未受政府停摆直接影响的美国人比例存在差异。
+
+\vfill
+
+18. **决策错误与比例比较 II。** 在以下研究中，基于所提供的数据得出了结论。分析结论总是有可能出错的，尽管我们几乎永远不会真正知道是否发生了错误。对于每个研究结论，指出可能犯了第一类错误还是第二类错误，并在问题背景下说明该错误。
+
+    a.  在加利福尼亚州的登记选民中，拥有大学学位和没有大学学位的人之间，报告称自己了解不够、无法就是否支持海上钻井发表意见的比例存在差异。
+
+    b.  在比较加利福尼亚州和俄勒冈州居民时，没有证据支持两地睡眠不足人群的比例存在差异。
 
 \vfill
 
 \clearpage
 
-19. **Active learning.** A teacher wanting to increase the active learning component of her course is concerned about student reactions to changes she is planning to make.
-    She conducts a survey in her class, asking students whether they believe more active learning in the classroom (hands on exercises) instead of traditional lecture will helps improve their learning.
-    She does this at the beginning and end of the semester and wants to evaluate whether students' opinions have changed over the semester.
-    Can she used the methods we learned in this chapter for this analysis?
-    Explain your reasoning.
+19. **主动学习。** 一位教师希望增加其课程中的主动学习部分，因此担心学生对她计划做出的改变会有何反应。她在课堂上进行了一项调查，询问学生是否认为用更多的主动学习（动手练习）代替传统讲授将有助于提高他们的学习效果。她在学期初和学期末都进行了这项调查，并想评估学生的看法是否在整个学期中发生了变化。她能否使用我们在本章学到的方法来进行这项分析？请解释你的推理。
 
 \vfill
 
-20. **An apple a day keeps the doctor away.** A physical education teacher at a high school wanting to increase awareness on issues of nutrition and health asked her students at the beginning of the semester whether they believed the expression "an apple a day keeps the doctor away". 
-    40% of the students responded yes.
-    Throughout the semester she started each class with a discussion of a study highlighting positive effects of eating more fruits and vegetables.
-    She conducted the same apple-a-day survey at the end of the semester, and this time 60% of the students responded yes.
-    Can she used a two-proportion method from this section for this analysis?
-    Explain your reasoning.
+20. **一天一苹果，医生远离我。** 一位高中体育教师希望提高学生对营养和健康问题的认识，在学期初询问学生是否相信“一天一苹果，医生远离我”这句谚语。40% 的学生回答“是”。
+    整个学期中，她每节课都以讨论一项强调多吃水果和蔬菜益处的研究开始。她在学期末进行了相同的“一天一苹果”调查，这次有 60% 的学生回答“是”。
+    她能否使用本节的两比例方法来分析这项调查？请解释你的推理。
 
 \vfill
 
-21. **Malaria vaccine effectiveness, effect size.** A randomized controlled trial on malaria vaccine effectiveness randomly assigned 450 children intro either one of two different doses of the malaria vaccine or a control vaccine.
-    89 of 292 malaria vaccine and 106 out of 147 control vaccine children contracted malaria within 12 months after the treatment.
-    [@Datoo:2021]
+21. **疟疾疫苗有效性，效应大小。** 一项关于疟疾疫苗有效性的随机对照试验，将450名儿童随机分配到两种不同剂量的疟疾疫苗中的一种，或一种对照疫苗中。292名接种疟疾疫苗的儿童中有89名，147名接种对照疫苗的儿童中有106名在处理后12个月内感染了疟疾。[@Datoo:2021]
 
-    Recall that in order to reject the null hypothesis that the two vaccines (malaria and control) are equivalent, we'd need the sample proportion to be about 2 standard errors below the hypothesized value of zero.
+    回想一下，为了拒绝两种疫苗（疟疾疫苗和对照疫苗）效果相同的原假设，我们需要样本比例差大约低于假设值（零）2个标准误。
 
-    Say that the true difference (in the population) is given as $\delta,$ the sample sizes are the same in both groups $(n_{malaria} = n_{control}),$ and the true proportion who contract malaria on the control vaccine is $p_{control} = 0.7.$ If you ran your own study (in the future), how likely is it that you would get a difference in sample proportions that was sufficiently far from zero that you could reject under each of the conditions below.
-    (*Hint:* Use the mathematical model.)
+    假设（总体中的）真实差异为 $\delta$，两组样本量相同 $(n_{malaria} = n_{control}),$，且使用对照疫苗感染疟疾的真实比例为 $p_{control} = 0.7$。如果你（在未来）自己开展这项研究，在下列每种条件下，你得到足够远离零的样本比例差从而能够拒绝原假设的可能性有多大？（*提示：* 使用数学模型。）
 
-    a.  $\delta = -0.1$ and $n_{malaria} = n_{control} = 20$
+    a.  $\delta = -0.1$ 且 $n_{malaria} = n_{control} = 20$
 
-    b.  $\delta = -0.4$ and $n_{malaria} = n_{control} = 20$
+    b.  $\delta = -0.4$ 且 $n_{malaria} = n_{control} = 20$
 
-    c.  $\delta = -0.1$ and $n_{malaria} = n_{control} = 100$
+    c.  $\delta = -0.1$ 且 $n_{malaria} = n_{control} = 100$
 
-    d.  $\delta = -0.4$ and $n_{malaria} = n_{control} = 100$
+    d.  $\delta = -0.4$ 且 $n_{malaria} = n_{control} = 100$
 
-    e.  What can you conclude about values of $\delta$ and the sample size?
+    e.  关于 $\delta$ 值和样本量，你能得出什么结论？
 
 \vfill
 
-22. **Diabetes and unemployment.** A Gallup poll surveyed Americans about their employment status and whether they have diabetes.
-    The survey results indicate that 1.5% of the 47,774 employed (full or part time) and 2.5% of the 5,855 unemployed 18-29 year-olds have diabetes.
+22. **糖尿病与失业。** 一项盖洛普民意调查询问了美国人的就业状况以及他们是否患有糖尿病。调查结果表明，47,774 名就业（全职或兼职）人员中有 1.5%，以及 5,855 名 18-29 岁失业人员中有 2.5% 患有糖尿病。
     [@data:employmentDiabetes]
 
-    a.  Create a two-way table presenting the results of this study.
+    a.  创建一个列联表来展示本研究的结果。
 
-    b.  State appropriate hypotheses to test for difference in proportions of diabetes between employed and unemployed Americans.
+    b.  陈述适当的假设，以检验美国就业人群与失业人群的糖尿病比例差异。
 
-    c.  The sample difference is about 1%.
-        If we completed the hypothesis test, we would find that the p-value is very small (about 0), meaning the difference is statistically discernible.
-        Use this result to explain the difference between statistically discernible and practically important findings.
+    c.  样本比例差约为1%.
+        如果我们完成假设检验，会发现 p 值非常小（约为0），这意味着差异在统计上是可辨识的。请利用这一结果来解释统计上可辨识的发现与实际重要的发现之间的区别。
 
 \vfill
 
-[^_17-ex-inference-two-props-1]: The [`yawn`](http://openintrostat.github.io/openintro/reference/yawn.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_17-ex-inference-two-props-1]: 本练习中使用的 [`yawn`](http://openintrostat.github.io/openintro/reference/yawn.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_17-ex-inference-two-props-2]: The [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_17-ex-inference-two-props-2]: 本练习中使用的 [`heart_transplant`](http://openintrostat.github.io/openintro/reference/heart_transplant.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

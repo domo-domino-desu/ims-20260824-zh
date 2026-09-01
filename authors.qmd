@@ -1,4 +1,4 @@
-# Authors {.unnumbered .unlisted}
+# 作者 {.unnumbered .unlisted}
 
 \vspace{-5mm}
 
@@ -13,12 +13,7 @@ Duke University, Posit, PBC.\
 [mine\@openintro.org](mailto:mine@openintro.org){.email}
 :::
 
-Mine Çetinkaya-Rundel is Professor of the Practice at the Department of Statistical Science at Duke University and Developer Educator at Posit.
-Mine's work focuses on innovation in statistics and data science pedagogy, with an emphasis on computing, reproducible research, student-centered learning, and open-source education as well as pedagogical approaches for enhancing retention of women and under-represented minorities in STEM.
-Mine works on integrating computation into the undergraduate statistics curriculum, using reproducible research methodologies and analysis of real and complex datasets.
-She also organizes [ASA DataFest](https://ww2.amstat.org/education/datafest/), an annual two-day competition in which teams of undergraduate students work to reveal insights into a rich and complex dataset.
-Mine has been working on the [OpenIntro](https://www.openintro.org/) project since its founding and as part of this project she co-authored four open-source introductory statistics textbooks (including this one!).
-She is also the creator and maintainer of [datasciencebox.org](https://datasciencebox.org/) and she teaches the popular Statistics with R MOOC on Coursera.
+Mine Çetinkaya-Rundel 是杜克大学统计科学系实践教授，也是 Posit 的开发者教育专家。Mine 的工作侧重于统计学和数据科学教学法的创新，尤其强调计算、可复现研究、以学生为中心的学习、开源教育，以及用于提高女性和 STEM 领域代表性不足的少数群体留存率的教学方法。她致力于将计算整合到本科统计学课程中，使用可复现研究方法和分析真实且复杂的数据集。她还组织了 [ASA DataFest](https://ww2.amstat.org/education/datafest/)，这是一项为期两天的年度竞赛，本科生团队在竞赛中努力从一个丰富而复杂的数据集中发掘洞见。自 [OpenIntro](https://www.openintro.org/) 项目创立以来，Mine 便参与其中，作为该项目的一部分，她合著了四本开源统计学入门教材（包括这本！）。她还是 [datasciencebox.org](https://datasciencebox.org/) 的创建者和维护者，并在 Coursera 上教授广受欢迎的 Statistics with R MOOC。
 \newline
 
 <br>
@@ -34,9 +29,4 @@ Pomona College\
 [jo.hardin\@pomona.edu](mailto:jo.hardin@pomona.edu){.email}
 :::
 
-Jo Hardin is Professor of Mathematics and Statistics at Pomona College.
-She collaborates with molecular biologists to create novel statistical methods for analyzing high throughput data.
-She has also worked extensively in statistics and data science education, facilitating modern curricula for higher education instructors.
-She was a co-author on the [2014 ASA Curriculum Guidelines for Undergraduate Programs in Statistical Science](https://www.amstat.org/asa/education/Curriculum-Guidelines-for-Undergraduate-Programs-in-Statistical-Science.aspx), and she writes on the blog [teachdatascience.com](https://teachdatascience.com/).
-The best part of her job is collaborating with undergraduate students.
-In her spare time, she loves running, hiking, and jigsaw puzzles.
+Jo Hardin 是波莫纳学院数学与统计学教授。她与分子生物学家合作，为分析高通量数据创建新颖的统计方法。她也在统计学和数据科学教育领域投入了大量工作，协助高等教育教师推行现代化课程。她是 [2014 ASA 统计学本科项目课程指南](https://www.amstat.org/asa/education/Curriculum-Guidelines-for-Undergraduate-Programs-in-Statistical-Science.aspx) 的合著者之一，并在博客 [teachdatascience.com](https://teachdatascience.com/) 上撰文。她工作中最棒的部分就是与本科生合作。业余时间，她热爱跑步、徒步和拼图。

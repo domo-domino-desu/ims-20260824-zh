@@ -1,14 +1,14 @@
-1. \(a) $H_0$: Anti-depressants do not affect the symptoms of Fibromyalgia. $H_A$: Anti-depressants do affect the symptoms of Fibromyalgia (either helping or harming). (b) Concluding that anti-depressants either help or worsen Fibromyalgia symptoms when they actually do neither. (c) Concluding that anti-depressants do not affect Fibromyalgia symptoms when they actually do.
+1.  \(a) $H_0$: 抗抑郁药不影响纤维肌痛的症状。 $H_A$: 抗抑郁药确实影响纤维肌痛的症状（要么改善，要么加重）。 (b) 当抗抑郁药实际上对症状既无改善也无加重时，却得出结论认为它们要么改善要么加重了纤维肌痛症状。 (c) 当抗抑郁药实际上确实影响症状时，却得出结论认为它们不影响纤维肌痛症状。
 \addtocounter{enumi}{1}
 
-1. \(a) Scenario (i) is higher. Recall that a sample mean based on less data tends to be less accurate and have larger standard errors. (b) Scenario (i) is higher. The higher the confidence level, the higher the corresponding margin of error. (c) They are equal. The sample size does not affect the calculation of the p-value for a given Z score. (d) Scenario (i) is higher. If the null hypothesis is harder to reject (lower $\alpha$), then we are more likely to make a Type II error when the alternative hypothesis is true.
+1.  \(a) 场景 (i) 更高。回想一下，基于较少数据计算的样本均值往往准确性较低，并且具有更大的标准误。 (b) 场景 (i) 更高。置信水平越高，对应的误差界就越大。 它们相等。对于给定的 z 统计量，样本量不影响 p 值的计算。 (d) 场景 (i) 更高。如果原假设更难被拒绝（更低的 $\alpha$），那么当备择假设为真时，我们犯第二类错误的可能性就更大。
 \addtocounter{enumi}{1}
 
-1. The hypotheses should be about the population proportion ($p$), not the sample proportion. The null hypothesis should have an equal sign. The alternative hypothesis should have a not-equals sign, and it should reference the null value, $p_0 = 0.6$, not the observed sample proportion. The correct way to set up these hypotheses is: $H_0: p = 0.6$ and $H_A: p \neq 0.6$.
+1.  假设应该是关于总体比例 ($p$) 的，而不是样本比例。原假设应包含等号。备择假设应包含不等号，并且它应该引用原假设值 $p_0 = 0.6$，而不是观测到的样本比例。这些假设的正确设置方式是：$H_0: p = 0.6$ 和 $H_A: p \neq 0.6$。
 \addtocounter{enumi}{1}
 
-1. Regardless of whether the students were making 95% intervals or 90% intervals, seven students with intervals that miss $\pi$ seems totally reasonable.  The students should not be docked for the intervals missing $\pi$.
+1.  无论学生们是在构造 95% 还是 90% 的置信区间，有 7 名学生的区间没有包含 $\pi$ 看起来是完全合理的。不应因为这些区间没有包含 $\pi$ 而扣学生们的分。
 \addtocounter{enumi}{1}
 
-1. True. If the sample size gets ever larger, then the standard error will become ever smaller. Eventually, when the sample size is large enough and the standard error is tiny, we can find statistically discernible yet very small differences between the null value and point estimate (assuming they are not exactly equal).
+1.  正确。如果样本量变得越来越大，那么标准误就会变得越来越小。最终，当样本量足够大且标准误极小时，即使原假设值与点估计值之间的差异非常小（假设它们不完全相等），我们也能发现统计上可辨识的差异。
 \addtocounter{enumi}{1}

@@ -1,6 +1,8 @@
-1.  **Outside YouTube videos.** Let's say that you want to estimate the proportion of YouTube videos which take place outside (define "outside" to be if any part of the video takes place outdoors).
-    You take a random sample of 128 YouTube videos[^_12-ex-foundations-bootstrapping-1] and determine that 37 of them take place outside.
-    You'd like to estimate the proportion of all YouTube videos which take place outside, so you decide to create a bootstrap interval from the original sample of 128 videos.
+\vfill
+
+1.  **YouTube 户外视频。** 假设你想估计 YouTube 视频中户外视频的比例（将“户外”定义为视频的任何部分在室外拍摄）。
+    你抽取了 128 个 YouTube 视频的一个随机样本[^_12-ex-foundations-bootstrapping-1]，并确定其中有 37 个是户外视频。
+    你想要估计所有 YouTube 视频中户外视频的比例，因此你决定基于这 128 个视频的原始样本创建一个自助区间。
 
     ```{r}
     #| fig-asp: 0.4
@@ -11,34 +13,33 @@
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.025, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion of outdoors videos", 
-        y = "Count",
-        title = "1,000 bootstrapped proportions"
+        x = "户外视频的自助法比例",
+        y = "频数",
+        title = "1000 个自助法比例"
       )
     ```
 
-    a.  Describe in words the relevant statistic and parameter for this problem.
-        If you know the numerical value for either one, provide it.
-        If you don't know the numerical value, explain why the value is unknown.
+    a.  用文字描述此问题中相关的统计量和参数。
+        如果你知道其中一个的数值，请提供。
+        如果你不知道数值，请解释为什么该值未知。
 
-    b.  What notation is used to describe, respectively, the statistic and the parameter?
+    b.  分别用什么符号来描述统计量和参数？
 
-    c.  If using software to bootstrap the original dataset, what is the statistic calculated on each bootstrap sample?
+    c.  如果使用软件对原始数据集应用自助法，在每个自助样本上计算的是什么统计量？
 
-    d.  When creating a bootstrap sampling distribution (histogram) of the bootstrapped sample proportions, where should the center of the histogram lie?
+    d.  当创建自助样本比例的自助抽样分布（直方图）时，直方图的中心应该位于何处？
 
-    e.  The histogram provides a bootstrap sampling distribution for the sample proportion (with 1000 bootstrap repetitions).
-        Using the histogram, estimate a 90% confidence interval for the proportion of YouTube videos which take place outdoors.
+    e.  该直方图提供了样本比例的自助抽样分布（基于 1000 次自助重复）。使用该直方图，估计一个关于 YouTube 视频在户外拍摄比例的 90% 置信区间。
 
-    f.  Interpret the confidence interval in context of the data.
-    
+    f.  在数据背景下解释该置信区间。
+
 \vfill
 
-2.  **Chronic illness.** In 2012 the Pew Research Foundation reported that "45% of US adults report that they live with one or more chronic conditions." However, this value was based on a sample, so it may not be a perfect estimate for the population parameter of interest on its own.
-    The study was based on a sample of 3014 adults.
-    Below is a distribution of 1000 bootstrapped sample proportions from the Pew dataset.
+2.  **慢性病。** 2012 年，皮尤研究基金会报告称“45% 的美国成年人表示他们患有一种或多种慢性病。”然而，这一数值是基于样本得出的，因此它本身可能不是对所关注总体参数的完美估计。
+    这项研究基于 3014 名成年人的样本。
+    以下是基于皮尤数据集的 1000 个自助样本比例的分布。
     [@data:pewdiagnosis:2013]
-    Using the distribution of 1,000 bootstrapped proportions, approximate a 92% confidence interval for the true proportion of US adults who live with one or more chronic conditions and interpret it.
+    利用这 1000 个自助法比例的分布，近似求出美国成年人患有一种或多种慢性病的真实比例的 92% 置信区间，并解释其含义。
 
     ```{r}
     #| fig-asp: 0.4
@@ -51,9 +52,9 @@
       ggplot(aes(x = stat)) +
       geom_histogram(bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion of those with a chronic illness", 
-        y = "Count",
-        title = "1,000 bootstrapped proportions"
+        x = "患有慢性疾病者的自助法比例",
+        y = "频数",
+        title = "1000 个自助法比例"
       )
     ```
 
@@ -61,13 +62,13 @@
 
 \clearpage
 
-3.  **Social media users and news, bootstrapping.** A poll conducted in 2022 found that 50% of U.S. adults get news from social media sometimes or often.
-    However, the value was based on a sample, so it may not be a perfect estimate for the population parameter of interest on its own.
-    The study was based on a sample of 12,147 adults.
-    Below is a distribution of 1,000 bootstrapped sample proportions from the Pew dataset.
+3.  **社交媒体用户与新闻，自助法。** 2022 年的一项民意调查发现，50% 的美国成年人有时或经常从社交媒体获取新闻。
+    然而，由于该值是基于样本的，因此它本身可能无法完美地估计感兴趣的总体参数。
+    该研究基于 12,147 名成年人的样本。
+    以下是基于皮尤数据集的 1,000 个自助样本比例的分布。
     [@data:socialmedianews:2022]
-    Using the distribution of 1,000 bootstrapped proportions, approximate a 98% confidence interval for the true proportion of US adult social media users (in 2022) who get at least some of their news from Twitter.
-    Interpret the interval in the context of the problem.
+    利用 1,000 个自助法比例的分布，近似求出一个 2022 年美国成年社交媒体用户中至少从 Twitter 获取部分新闻的真实比例的 98% 置信区间。
+    在此问题的背景下解释该区间。
 
     ```{r}
     #| fig-asp: 0.5
@@ -81,17 +82,17 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion of those who get their news from social media",
-        y = "Count",
-        title = "1,000 bootstrapped proportions"
+        x = "从社交媒体获取新闻者的自助法比例",
+        y = "频数",
+        title = "1000 个自助法比例"
       )
     ```
 
 \vfill
 
-4.  **Bootstrap distributions of** $\hat{p}$**, I.** Each of the following four distributions was created using a different dataset.
-    Each dataset was based on $n=23$ observations.
-    The original datasets had the following proportions of successes: $$\hat{p} = 0.13 \ \ \hat{p} = 0.22 \ \ \hat{p} = 0.30 \ \ \hat{p} = 0.43.$$ Match each histogram with the original data proportion of success.
+4.  **$\hat{p}$ 的自助法分布，I。** 以下四个分布各自基于不同的数据集创建。
+    每个数据集基于 $n=23$ 个观测。
+    原始数据集具有以下成功比例：$$\hat{p} = 0.13 \ \ \hat{p} = 0.22 \ \ \hat{p} = 0.30 \ \ \hat{p} = 0.43.$$ 将每个直方图与原始数据的成功比例进行匹配。
 
     ```{r}
     #| fig-asp: 0.8
@@ -109,8 +110,8 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
+        x = "自助法比例",
+        y = "频数"
       )
 
     set.seed(47)
@@ -121,8 +122,8 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
+        x = "自助法比例",
+        y = "频数"
       )
 
     set.seed(47)
@@ -133,9 +134,9 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
-      )    
+        x = "自助法比例",
+        y = "频数"
+      )
     set.seed(47)
     p4 <- data4 |>
       specify(response = outcome, success = "yes")|>
@@ -144,18 +145,18 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
-      )    
-    p1 + p2 + p3 + p4 + 
+        x = "自助法比例",
+        y = "频数"
+      )
+    p1 + p2 + p3 + p4 +
       plot_layout(ncol = 2) +
       plot_annotation(tag_levels = "A")
     ```
 
 \clearpage
 
-5.  **Bootstrap distributions of** $\hat{p}$**, II.** Each of the following four distributions was created using a different dataset.
-    Each dataset was based on $n=23$ observations.
+5.  **$\hat{p}$ 的自助法分布，II。** 以下四个分布各自基于不同的数据集创建。
+    每个数据集都基于 $n=23$ 个观测。
 
     ```{r}
     #| fig-asp: 0.3
@@ -174,8 +175,8 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
+        x = "自助法比例",
+        y = "频数"
         )
 
     set.seed(47)
@@ -186,8 +187,8 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
+        x = "自助法比例",
+        y = "频数"
         )
 
     set.seed(47)
@@ -198,9 +199,9 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill =  IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
-        )    
+        x = "自助法比例",
+        y = "频数"
+        )
 
     set.seed(47)
     p4 <- data4 |>
@@ -210,19 +211,19 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
-        y = "Count"
+        x = "自助法比例",
+        y = "频数"
         )
 
-    p1 + p2 + p3 + p4 + 
+    p1 + p2 + p3 + p4 +
       plot_layout(ncol = 4) +
       plot_annotation(tag_levels = "A")
     ```
 
-    Consider each of the following values for the true popluation $p$ (proportion of success).
-    Datasets A, B, C, D were bootstrapped 1000 times, with bootstrap proportions as given in the histograms provided.
-    For each parameter value, list the datasets which could plausibly have come from that population.
-    (Hint: there may be more than one dataset for each parameter value.)
+    请考虑以下真实总体 $p$（成功比例）的各个值。
+    数据集 A, B, C, D 各自进行了 1000 次自助法重抽样，得到的自助法比例如所给直方图所示。
+    对于每个参数值，列出可能来自于该总体的数据集。
+    （提示：每个参数值可能对应多个数据集。）
 
     a.  $p = 0.05$
 
@@ -236,9 +237,9 @@
 
 \vfill
 
-6.  **Bootstrap distributions of** $\hat{p}$**, III.** Each of the following four distributions was created using a different dataset.
-    Each dataset had the same proportion of successes $(\hat{p} = 0.4)$ but a different sample size.
-    The four datasets were given by $n = 10, 100, 500$, and $1000$.
+6.  **$\hat{p}$ 的自助法分布，III。** 以下四个分布各自基于不同的数据集创建。
+    这些数据集具有相同的成功比例 $(\hat{p} = 0.4)$，但样本量不同。
+    四个数据集的样本量分别为 $n = 10, 100, 500$ 和 $1000$。
 
     ```{r}
     #| fig-asp: 0.3
@@ -249,7 +250,7 @@
     data3 <- tibble(outcome = rep(c("no","yes"), times = c(300,200)))
     data4 <- tibble(outcome = rep(c("no","yes"), times = c(600,400)))
 
-    set.seed(47)
+set.seed(47)
     p1 <- data1 |>
       specify(response = outcome, success = "yes")|>
       generate(reps = 1000, type = "bootstrap") |>
@@ -257,7 +258,7 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
+        x = "自助法比例",
         title = "n = 10"
         )
 
@@ -269,9 +270,9 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
+        x = "自助法比例",
         title = "n = 100"
-        )    
+        )
 
     set.seed(47)
     p3 <- data3 |>
@@ -281,9 +282,9 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
+        x = "自助法比例",
         title = "n = 500"
-        )    
+        )
 
     set.seed(47)
     p4 <- data4 |>
@@ -293,19 +294,19 @@
       ggplot() +
       geom_histogram(aes(x = stat), bins = 40, fill = IMSCOL["green", "full"]) +
       labs(
-        x = "Bootstrapped proportion",
+        x = "自助法比例",
         title = "n = 1000"
-      )    
+      )
 
-    p1 + p2 + p3 + p4 + 
+    p1 + p2 + p3 + p4 +
       plot_layout(ncol = 4) +
       plot_annotation(tag_levels = "A")
     ```
 
-    Consider each of the following values for the true popluation $p$ (proportion of success).
-    Datasets A, B, C, D were bootstrapped 1000 times, with bootstrap proportions as given in the histograms provided.
-    For each parameter value, list the datasets which could plausibly have come from that population.
-    (Hint: there may be more than one dataset for each parameter value.)
+    考虑以下每个关于真实总体$p$（成功的比例）的值。
+    对数据集A、B、C、D分别进行了1000次自助法抽样，得到的自助法比例见所提供的直方图。
+    针对每个参数值，列出可能来自该总体的数据集。
+    （提示：每个参数值可能对应多个数据集。）
 
     a.  $p = 0.05$
 
@@ -321,33 +322,33 @@
 
 \clearpage
 
-7.  **Cyberbullying rates.** Teens were surveyed about cyberbullying, and 54% to 64% reported experiencing cyberbullying (95% confidence interval).
-    Answer the following questions based on this interval.
+7.  **网络欺凌发生率。** 一项针对青少年的网络欺凌调查发现，报告曾遭受网络欺凌者的比例为 54% 到 64%（95% 置信区间）。
+    请基于此置信区间回答下列问题。
     [@pewcyberbully2018]
 
-    a.  A newspaper claims that a majority of teens have experienced cyberbullying.
-        Is this claim supported by the confidence interval?
-        Explain your reasoning.
+    a.  一家报纸声称，大多数青少年都经历过网络欺凌。
+        这一说法是否得到置信区间的支持？
+        请解释你的推理。
 
-    b.  A researcher conjectured that 70% of teens have experienced cyberbullying.
-        Is this claim supported by the confidence interval?
-        Explain your reasoning.
+    b.  一位研究者推测，有 70% 的青少年曾遭受网络欺凌。
+        这一说法是否得到置信区间的支持？
+        请解释你的推理。
 
-    c.  Without actually calculating the interval, determine if the claim of the researcher from part (b) would be supported based on a 90% confidence interval?
+    c.  无需实际计算，请判断 90% 置信区间会比给出的区间更宽还是更窄。
 
 \vspace{10mm}
 
-8.  **Waiting at an ER.** A 95% confidence interval for the mean waiting time at an emergency room (ER) of (128 minutes, 147 minutes).
-    Answer the following questions based on this interval.
+8.  **急诊室等待时间。** 某急诊室 (ER) 平均等待时间的一个 95% 置信区间为 (128 分钟, 147 分钟)。
+    请基于此置信区间回答下列问题。
 
-    a.  A local newspaper claims that the average waiting time at this ER exceeds 3 hours.
-        Is this claim supported by the confidence interval?
-        Explain your reasoning.
+    a.  当地一家报纸声称，该急诊室的平均等待时间超过了 3 小时。
+        这一说法是否得到置信区间的支持？
+        请解释你的推理。
 
-    b.  The Dean of Medicine at this hospital claims the average wait time is 2.2 hours.
-        Is this claim supported by the confidence interval?
-        Explain your reasoning.
+    b.  该医院的医学院院长声称平均等待时间是 2.2 小时。
+        这一说法是否得到置信区间的支持？
+        请解释你的推理。
 
-    c.  Without actually calculating the interval, determine if the claim of the Dean from part (b) would be supported based on a 99% confidence interval?
+    c.  无需实际计算，请判断 99% 置信区间会比给出的区间更宽还是更窄。
 
-[^_12-ex-foundations-bootstrapping-1]: There are many choices for implementing a random selection of YouTube videos, but it isn't clear how "random" they are.
+[^_12-ex-foundations-bootstrapping-1]: 实现 YouTube 视频随机选择的方法有很多，但这些方法的“随机性”如何并不明确。

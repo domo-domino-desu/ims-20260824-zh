@@ -1,56 +1,61 @@
+name: Build and release PDF
+
 on:
-  push:
-    branches: main
-  pull_request:
-    branches: main
-  # to be able to trigger a manual build
   workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
 
-name: Render and deploy Book to Netlify
+permissions:
+  contents: write
 
-env:
-  isExtPR: ${{ github.event.pull_request.head.repo.fork == true }}
+concurrency:
+  group: pdf-build-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build-deploy:
+  build:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout
+        uses: actions/checkout@v6
 
-      - name: Install Quarto
+      - name: Set up Quarto and TinyTeX
         uses: quarto-dev/quarto-actions/setup@v2
         with:
-          # To install LaTeX to build PDF book
           tinytex: true
-          # uncomment below and fill to pin a version
           version: 1.4.553
 
-      - uses: r-lib/actions/setup-r@v2
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - uses: r-lib/actions/setup-r-dependencies@v2
+      - name: Install R dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
 
-      - name: Render book to all format
-        # Add any command line argument needed
+      - name: Render PDF
+        run: quarto render --to pdf
+
+      - name: Package PDF
         run: |
-          quarto render
+          mkdir -p dist
+          find _book -maxdepth 1 -type f -name '*.pdf' -exec cp '{}' dist/ims-zh.pdf \;
+          test -s dist/ims-zh.pdf
 
-      - name: Deploy to Netlify
-        if: contains(env.isExtPR, 'false')
-        id: netlify-deploy
-        uses: nwtgck/actions-netlify@v1.1
+      - name: Upload artifact
+        uses: actions/upload-artifact@v6
         with:
-          publish-dir: './_book'
-          production-branch: main
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          deploy-message:
-            'Deploy from GHA: ${{ github.event.pull_request.title || github.event.head_commit.message }} (${{ github.sha }})'
-          enable-pull-request-comment: false
-          enable-commit-comment: false
-        env:
-          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
-          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_2E }}
-        timeout-minutes: 1
+          name: ims-zh
+          path: dist/ims-zh.pdf
+
+      - name: Release
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}
+          name: Build ${{ github.run_number }}
+          files: dist/ims-zh.pdf
+          generate_release_notes: true

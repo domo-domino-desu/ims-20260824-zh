@@ -1,30 +1,32 @@
-# Applications: Model and infer {#sec-inf-model-applications}
+# 应用：建模与推断 {#sec-inf-model-applications}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
-## Case study: Mario Kart {#sec-case-study-mario-cart}
 
-In this case study, we consider Ebay auctions of a video game called *Mario Kart* for the Nintendo Wii.
-The outcome variable of interest is the total price of an auction, which is the highest bid plus the shipping cost.
-We will try to determine how total price is related to each characteristic in an auction while simultaneously controlling for other variables.
-For instance, all other characteristics held constant, are longer auctions associated with higher or lower prices?
-And, on average, how much more do buyers tend to pay for additional Wii wheels (plastic steering wheels that attach to the Wii controller) in auctions?
-Multiple regression will help us answer these and other questions.
+
+## 案例研究：马里奥赛车 {#sec-case-study-mario-cart}
+
+在本案例研究中，我们考察的是任天堂 Wii 游戏*马里奥赛车*在 eBay 上的拍卖数据。
+我们关心的结果变量是拍卖的总价，即最高出价加上运费。
+我们试图在控制其他变量的同时，确定总价与拍卖的每个特征是如何关联的。
+例如，在其他特征保持不变的情况下，更长的拍卖时间是否与更高或更低的价格有关联？
+并且，平均而言，买家愿意为拍卖中包含的额外 Wii 方向盘（一种可连接 Wii 遥控器的塑料方向盘配件）多付多少钱？
+多元回归将帮助我们回答这些问题以及其他问题。
 
 ::: {.data data-latex=""}
-The [`mariokart`](http://openintrostat.github.io/openintro/reference/mariokart.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`mariokart`](http://openintrostat.github.io/openintro/reference/mariokart.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-The `mariokart` dataset includes results from 141 auctions.
-Four observations from this dataset are shown in @tbl-mariokart-data-frame, and descriptions for each variable are shown in @tbl-mariokart-var-def.
-Notice that the condition and stock photo variables are **indicator variables**\index{indicator variable}\index{variable!indicator}, similar to `bankruptcy` in the `loans` dataset from @sec-inf-model-mlr.
+`mariokart` 数据集包含了 141 次拍卖的结果。
+该数据集的前四个观测显示在 @tbl-mariokart-data-frame 中，每个变量的描述显示在 @tbl-mariokart-var-def 中。
+请注意，`condition`（状况）和 `stock_photo`（库存照片）变量是**指示变量**\index{indicator variable}\index{variable!indicator}，类似于 [第 -@sec-inf-model-mlr 章] 中 `loans` 数据集里的 `bankruptcy`（破产）变量。
 
 ```{r}
 #| label: tbl-mariokart-data-frame
-#| tbl-cap: Top four rows of the `mariokart` dataset.
+#| tbl-cap: "`mariokart` 数据集的前四行。"
 #| tbl-pos: H
 mariokart <- mariokart |>
   mutate(price = total_pr, cond_new = forcats::fct_rev(cond)) |>
@@ -42,24 +44,25 @@ mariokart |>
   column_spec(1:5, width = "7em")
 ```
 
+
 ```{r}
 #| label: tbl-mariokart-var-def
-#| tbl-cap: Variables and their descriptions for the `mariokart` dataset.
+#| tbl-cap: "`mariokart` 数据集的变量及其描述。"
 #| tbl-pos: H
 mariokart_var_def <- tribble(
   ~variable     , ~description                                                                                                                             ,
-  "price"       , "Final auction price plus shipping costs, in US dollars."                                                                                ,
-  "cond_new"    , "Indicator variable for if the game is new (1) or used (0)."                                                                             ,
-  "stock_photo" , "Indicator variable for if the auction's main photo is a stock photo."                                                                   ,
-  "duration"    , "The length of the auction, in days, taking values from 1 to 10."                                                                        ,
-  "wheels"      , "The number of Wii wheels included with the auction. A Wii wheel is an optional steering wheel accessory that holds the Wii controller."
+  "price"       , "最终拍卖价格加上运费，单位为美元。"                                                                                ,
+  "cond_new"    , "指示变量，表示游戏是新的 (1) 还是二手的 (0)。"                                                                             ,
+  "stock_photo" , "指示变量，表示拍卖的主图是否为库存图片。"                                                                   ,
+  "duration"    , "拍卖时长，单位为天，取值从 1 到 10。"                                                                        ,
+  "wheels"      , "拍卖中包含的 Wii 方向盘数量。Wii 方向盘是一个可选的连接 Wii 遥控器的方向盘配件。"
 )
 
 mariokart_var_def |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Variable", "Description")
+    col.names = c("变量", "描述")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -70,19 +73,21 @@ mariokart_var_def |>
   column_spec(2, width = "30em")
 ```
 
+
+
 \clearpage
 
-### Mathematical approach to linear models
+### 线性模型的数学方法
 
-In @tbl-mariokart-model-output we fit a mathematical linear regression model with the game's condition as a predictor of auction price.
+在 @tbl-mariokart-model-output 中，我们拟合了一个以游戏状况为预测变量、拍卖价格为结果变量的线性回归模型。
 
 $$E[\texttt{price}] = \beta_0 + \beta_1\times \texttt{cond\_new}$$
 
-Results of the model are summarized below:
+模型结果总结如下：
 
 ```{r}
 #| label: tbl-mariokart-model-output
-#| tbl-cap: Summary of a linear model for predicting `price` based on `cond_new`.
+#| tbl-cap: "基于 `cond_new` 预测 `price` 的线性模型摘要。"
 #| tbl-pos: H
 mariokart <- mariokart |>
   mutate(
@@ -102,33 +107,33 @@ lm(price ~ cond_new, data = mariokart) |>
   column_spec(2:5, width = "5em")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Write down the equation for the model, note whether the slope is statistically different from zero, and interpret the coefficient.[^27-inf-model-applications-1]
+写出该模型的方程，指明斜率是否统计显著异于零，并解释该系数。[^27-inf-model-applications-1]
 :::
 
-[^27-inf-model-applications-1]: The equation for the line may be written as $\widehat{\texttt{price}} = 47.15 + 10.90\times \texttt{cond\_new}$.
-    Examining the regression output in @tbl-mariokart-model-output we can see that the p-value for `cond_new` is very close to zero, indicating there is strong evidence that the coefficient is different from zero when using this one-variable model.
-    The variable `cond_new` is a two-level categorical variable that takes value 1 when the game is new and value 0 when the game is used.
-    This means the 10.90 model coefficient predicts a price of an extra \$10.90 for those games that are new versus those that are used.
+[^27-inf-model-applications-1]: 回归线方程可写为 $\widehat{\texttt{price}} = 47.15 + 10.90\times \texttt{cond\_new}$。
+    查看 @tbl-mariokart-model-output 中的回归输出，我们可以看到 `cond_new` 的 p 值非常接近零，这表明在使用这个单变量模型时，有强证据表明该系数异于零。
+    变量 `cond_new` 是一个二水平分类变量，当游戏为新品时取值为 1，当游戏为二手时取值为 0。
+    这意味着，10.90 的模型系数预测新品游戏的价格将比二手游戏高出 \$10.90。
 
-Sometimes there are underlying structures or relationships between predictor variables.
-For instance, new games sold on Ebay tend to come with more Wii wheels, which may have led to higher prices for those auctions.
-We would like to fit a model that includes all potentially important variables simultaneously, which would help us evaluate the relationship between a predictor variable and the outcome while controlling for the potential influence of other variables.
+有时预测变量之间存在潜在的结构或关联。
+例如，eBay 上出售的新游戏往往会附带更多的 Wii 方向盘，这可能导致这些拍卖的价格更高。
+我们希望拟合一个同时包含所有潜在重要变量的模型，这有助于我们在控制其他变量的潜在影响的同时，评估预测变量与结果变量之间的关联。
 
-We want to construct a model that accounts for not only the game condition but simultaneously accounts for three other variables:
+我们希望构建一个不仅能解释游戏状况，还能同时解释以下三个其他变量的模型：
 
 $$
 E[\texttt{price}] = \beta_0 + \beta_1 \times \texttt{cond\_new} + \beta_2\times \texttt{stock\_photo} + \beta_3 \times \texttt{duration} + \beta_4 \times  \texttt{wheels}
 $$
 
-@tbl-mariokart-full-model-output summarizes the full model.
-Using the output, we identify the point estimates of each coefficient and the corresponding impact (measured with information on the standard error used to compute the p-value).
+@tbl-mariokart-full-model-output 总结了全模型。
+根据该输出，我们确定了每个系数的点估计及其相应的影响（利用用于计算 p 值的标准误信息来衡量）。
 
 ```{r}
 #| label: tbl-mariokart-full-model-output
 #| tbl-cap: |
-#|   Summary of a linear model for predicting `price` based on `cond_new`,
-#|   `stock_photo`, `duration`, and `wheels`.
+#|   基于 `cond_new`、`stock_photo`、`duration` 和 `wheels` 预测 `price` 的线性模型摘要。
 #| tbl-pos: H
 lm(price ~ cond_new + stock_photo + duration + wheels, data = mariokart) |>
   tidy() |>
@@ -142,56 +147,51 @@ lm(price ~ cond_new + stock_photo + duration + wheels, data = mariokart) |>
   column_spec(2:5, width = "5em")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-Write out the model's equation using the point estimates from @tbl-mariokart-full-model-output.
-How many predictors are there in the model?
-How many coefficients are estimated?[^27-inf-model-applications-2]
+使用 @tbl-mariokart-full-model-output 中的点估计，写出该模型的方程。
+模型中有多少个预测变量？
+估计了多少个系数？[^27-inf-model-applications-2]
 :::
 
-[^27-inf-model-applications-2]: $\widehat{\texttt{price}} = 36.21 + 5.13 \times \texttt{cond\_new} + 1.08 \times \texttt{stock\_photo} - 0.03 \times \texttt{duration} + 7.29 \times \texttt{wheels},$ with 4 predictors but 5 coefficients (including the intercept).
+[^27-inf-model-applications-2]: $\widehat{\texttt{price}} = 36.21 + 5.13 \times \texttt{cond\_new} + 1.08 \times \texttt{stock\_photo} - 0.03 \times \texttt{duration} + 7.29 \times \texttt{wheels},$，其中有 4 个预测变量，但估计了 5 个系数（包括截距项）。
 
 ::: {.guidedpractice data-latex=""}
-What does $\beta_4,$ the coefficient of variable $x_4$ (Wii wheels), represent?
-What is the point estimate of $\beta_4?$[^27-inf-model-applications-3]
+$\beta_4$，即变量 $x_4$ (Wii 方向盘) 的系数，代表什么？
+$\beta_4$ 的点估计是多少？[^27-inf-model-applications-3]
 :::
 
-[^27-inf-model-applications-3]: In the population of all auctions, it is the average difference in auction price for each additional Wii wheel included when holding the other variables constant.
-    The point estimate is $b_4 = 7.29$
+[^27-inf-model-applications-3]: 在所有拍卖构成的总体中，它是在保持其他变量不变的条件下，每增加一个 Wii 方向盘时拍卖价格的平均差异。
+    点估计为 $b_4 = 7.29$
 
 ::: {.guidedpractice data-latex=""}
-Compute the residual of the first observation in @tbl-mariokart-data-frame using the equation identified in @tbl-mariokart-full-model-output.[^27-inf-model-applications-4]
+使用 @tbl-mariokart-full-model-output 中确定的方程，计算 @tbl-mariokart-data-frame 中第一个观测的残差。[^27-inf-model-applications-4]
 :::
 
 [^27-inf-model-applications-4]: $e_i = y_i - \hat{y_i} = 51.55 - 49.62 = 1.93$.
 
 ::: {.workedexample data-latex=""}
-In @tbl-mariokart-model-output, we estimated a coefficient for `cond_new` in of $b_1 = 10.90$ with a standard error of $SE_{b_1} = 1.26$ when using simple linear regression.
-Why might there be a difference between that estimate and the one in the multiple regression setting?
+在 @tbl-mariokart-model-output 中，使用简单线性回归时，我们估计出 `cond_new` 的系数为 $b_1 = 10.90$，标准误为 $SE_{b_1} = 1.26$。
+为什么这个估计值与多元回归环境下的估计值可能不同？
 
 ------------------------------------------------------------------------
 
-If we examined the data carefully, we would see that there is **multicollinearity**\index{multicollinearity} among some predictors.
-For instance, when we estimated the connection of the outcome `price` and predictor `cond_new` using simple linear regression, we were unable to control for other variables like the number of Wii wheels included in the auction.
-That model was biased by the confounding variable `wheels`.
-When we use both variables, this particular underlying and unintentional bias is reduced or eliminated (though bias from other confounding variables may still remain).
+如果我们仔细检查数据，会发现某些预测变量之间存在**多重共线性**\index{multicollinearity}。
+例如，当我们使用简单线性回归估计结果变量 `price` 与预测变量 `cond_new` 的关联时，我们无法控制拍卖中包含的 Wii 方向盘数量等其他变量。
+该模型受到了混杂变量 `wheels` 的**偏差**影响。
+当我们同时使用这两个变量时，这种特定的、潜在且非有意的偏差便被减少或消除了（尽管来自其他混杂变量的偏差可能仍然存在）。
 :::
 
-### Computational approach to linear models
+### 线性模型的计算方法
 
-Previously, using a mathematical model, we investigated the coefficients associated with `cond_new` when predicting `price` in a linear model.
+此前，我们使用数学模型，研究了在线性模型中预测 `price` 时与 `cond_new` 有关联的系数。
 
 ```{r}
 #| label: fig-mariokart-rand-dist
 #| fig-cap: |
-#|   Estimated slopes from linear models (`price` regressed on `cond_new`)
-#|   built on 1,000 randomized datasets. Each dataset was permuted under the
-#|   null hypothesis.
+#|   基于 1000 个随机置换数据集构建的线性模型（`price` 对 `cond_new` 回归）的估计斜率。每个数据集都在原假设下进行了置换。
 #| fig-alt: |
-#|   Estimated slopes from linear models (of price regressed on cond_new)
-#|   built on 1,000 randomized datasets. Each dataset was permuted under the
-#|   null hypothesis. The randomized slopes range from about -5 to +5, and the
-#|   observed slope value is 10.9 which is not near the distribution of
-#|   randomized slopes.
+#|   基于 1000 个随机置换数据集构建的线性模型（价格对 cond_new 回归）的估计斜率。每个数据集都在原假设下进行了置换。随机化得到的斜率范围大约在 -5 到 +5 之间，而观察到的斜率值为 10.9，它并不在随机化斜率的分布附近。
 #| fig-asp: 0.5
 set.seed(47)
 mariokart |>
@@ -202,58 +202,50 @@ mariokart |>
   ggplot(aes(x = stat)) +
   geom_histogram(binwidth = 0.5, fill = IMSCOL["green", "full"]) +
   labs(
-    title = "Slopes from models fit to 1,000 permutations of the data",
-    x = "Slope of model fit to permuted data",
-    y = "Count"
+    title = "基于 1000 次数据置换拟合模型得到的斜率",
+    x = "基于置换数据拟合模型的斜率",
+    y = "频数"
   ) +
   geom_vline(xintercept = 10.9, color = IMSCOL["red", "full"], size = 1) +
   theme(plot.title.position = "plot")
 ```
 
 
+
 ::: {.workedexample data-latex=""}
-In @fig-mariokart-rand-dist, the red line (the observed slope) is far from the bulk of the histogram.
-Explain why the randomly permuted datasets produce slopes that are quite different from the observed slope.
+在图 @fig-mariokart-rand-dist 中，红线（观察到的斜率）远离直方图的主体。
+解释为什么随机置换数据集产生的斜率与观察到的斜率截然不同。
 
 ------------------------------------------------------------------------
 
-The null hypothesis is that, in the population, there is no linear relationship between the `price` and the `cond_new` of the *Mario Kart* games.
-When the data are randomly permuted, prices are randomly assigned to a condition (new or used), so that the null hypothesis is forced to be true, i.e., permutation is done under the assumption that no relationship between the two variables exists.
-In the actual study, the new *Mario Kart* games do actually cost more (on average) than the used games!
-So the slope describing the actual observed relationship is not one that is likely to have happened in a randomly dataset permuted under the assumption that the null hypothesis is true.
+原假设是，在总体中，*马里奥卡丁车*游戏的`price`与`cond_new`之间不存在线性关系。
+当数据被随机置换时，价格被随机分配到某种状况（新或旧），从而强制原假设成立，即，置换是在假设两个变量之间不存在任何关联的前提下进行的。
+在实际的研究中，新的*马里奥卡丁车*游戏确实（平均而言）比二手游戏更贵！
+因此，描述实际观察到的关联的斜率，在原假设为真的前提下随机置换的数据集中是不太可能出现的。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Using the histogram in @fig-mariokart-rand-dist, find the p-value and conclude the hypothesis test in the context of the problem.[^27-inf-model-applications-5]
+利用图 @fig-mariokart-rand-dist 中的直方图，求出 p 值，并根据该问题背景得出假设检验的结论。[^27-inf-model-applications-5]
 :::
 
-[^27-inf-model-applications-5]: The observed slope is 10.9 which is nowhere near the range of values for the permuted slopes (roughly -5 to +5).
-    Because the observed slope is not a plausible value under the null distribution, the p-value is essentially zero.
-    We reject the null hypothesis and claim that there is a relationship between whether the game is new (or not) and the average predicted price of the game.
+[^27-inf-model-applications-5]: 观察到的斜率为 10.9，它完全不在置换斜率的取值范围（大约 -5 到 +5）内。因为观察到的斜率在原假设分布下不是一个合理取值，所以 p 值实际上为零。我们拒绝原假设，并宣称游戏的新旧状况与其预测的平均价格之间存在关联。
 
 ::: {.guidedpractice data-latex=""}
-Is the conclusion based on the histogram of randomized slopes consistent with the conclusion obtained using the mathematical model?
-Explain.[^27-inf-model-applications-6]
+基于随机化斜率直方图得出的结论，与使用数学模型得出的结论一致吗？
+请解释。[^27-inf-model-applications-6]
 :::
 
-[^27-inf-model-applications-6]: The p-value in @tbl-mariokart-model-output is also essentially zero, so the null hypothesis is also rejected when the mathematical model approach is taken.
-    Often, the mathematical and computational approaches to inference will give quite similar answers.
+[^27-inf-model-applications-6]: 表 @tbl-mariokart-model-output 中的 p 值实际上也为零，因此当采用数学模型方法时，同样会拒绝原假设。通常，进行推断的数学方法和计算方法会给出相当一致的答案。
 
-Although knowing there is a relationship between the condition of the game and its price, we might be more interested in the difference in price, here given by the slope of the linear regression line.
-That is, $\beta_1$ represents the population value for the difference in price between new *Mario Kart* games and used games.
+尽管我们已经知道游戏的状况与其价格之间存在关联，但我们可能更感兴趣的是价格的差异，此处在回归中由斜率表示。
+也就是说，$\beta_1$ 代表了新*马里奥卡丁车*游戏与二手游戏之间价格差异的总体参数值。
 
 ```{r}
 #| label: fig-mariokart-boot-dist
 #| fig-cap: |
-#|   Estimated slopes from linear models (`price` regressed on `cond_new`)
-#|   built on 1,000 bootstrapped datasets. Each bootstrap sample was
-#|   taken from the original Mario Kart auction data.
+#|   基于 1000 个自助数据集构建的线性模型（`price` 对 `cond_new` 回归）的估计斜率。每个自助样本都是从原始的马里奥卡丁车拍卖数据中抽取的。
 #| fig-alt: |
-#|   Estimated slopes from linear models (of price regressed on cond new)
-#|   built on 1,000 bootstrapped datasets. Each bootstrap sample was
-#|   taken from the original Mario Kart auction data. The histogram of the
-#|   boostrapped slopes is bell-shaped, symmetric, and centered around the
-#|   observed value of 10.9.
+#|   基于 1000 个自助数据集构建的线性模型（价格对 cond_new 回归）的估计斜率。每个自助样本都是从原始的马里奥卡丁车拍卖数据中抽取的。自助法得到的斜率直方图呈钟形、对称，且以观察值 10.9 为中心。
 #| fig-asp: 0.5
 set.seed(47)
 mariokart |>
@@ -263,70 +255,63 @@ mariokart |>
   ggplot(aes(x = stat)) +
   geom_histogram(binwidth = 0.5, fill = IMSCOL["green", "full"]) +
   labs(
-    title = "Slopes from models fit to 1,000 bootstrap samples of the data",
-    x = "Slope of model fit to bootstrapped data",
-    y = "Count"
+    title = "基于 1000 个数据自助样本拟合模型得到的斜率",
+    x = "基于自助数据拟合模型的斜率",
+    y = "频数"
   ) +
   theme(plot.title.position = "plot")
 ```
 
-
 ::: {.workedexample data-latex=""}
-@fig-mariokart-boot-dist displays the slope estimates taken from bootstrap samples of the original data.
-Using the histogram, estimate the standard error of the slope.
-Is your estimate similar to the value of the standard error of the slope provided in the output of the mathematical linear model?
+@fig-mariokart-boot-dist 展示了从原始数据的自助样本中得到的斜率估计值。
+利用该直方图，估计斜率的标准误。
+你的估计值与数学模型输出中提供的斜率标准误的值相似吗？
 
 ------------------------------------------------------------------------
 
-The slopes seem to vary from approximately 8 to 14.
-Using the empirical rule, we know that if a variable has a bell-shaped distribution, most of the observations will be with 2 standard errors of the center.
-Therefore, a rough approximation of the standard error is 1.5.
-The standard error given in @tbl-mariokart-model-output is 1.26 which is not too different from the value computed using the bootstrap approach.
+斜率似乎在约 8 到 14 之间变化。
+根据经验法则，我们知道，如果一个变量服从钟形分布，那么大多数观测将落在距离中心 2 个标准误的范围内。
+因此，标准误的一个粗略近似值是 1.5。
+@tbl-mariokart-model-output 中给出的标准误是 1.26，这与使用自助法计算的值相差不大。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Use @fig-mariokart-boot-dist to create a 90% standard error bootstrap confidence interval for the true slope.
-Interpret the interval in context.[^27-inf-model-applications-7]
+使用 @fig-mariokart-boot-dist 创建真实斜率的 90% 自助法标准误置信区间。
+结合背景解释该区间。[^27-inf-model-applications-7]
 :::
 
-[^27-inf-model-applications-7]: Using the bootstrap SE method, we know the normal percentile is $z^\star = 1.645$, which gives a CI of $b_1 \pm 1.645 \cdot SE \rightarrow 10.9 \pm 1.645 \cdot 1.5 \rightarrow (8.43, 13.37).$ For games that are new, the average price is higher by between \$8.43 and \$13.37 than games that are used, with 90% confidence.
+[^27-inf-model-applications-7]: 使用自助标准误法，我们知道正态百分位数是 $z^\star = 1.645$，由此得到的置信区间为 $b_1 \pm 1.645 \cdot SE \rightarrow 10.9 \pm 1.645 \cdot 1.5 \rightarrow (8.43, 13.37)$。对于全新的游戏，其平均价格比二手游戏高出 8.43 美元到 13.37 美元，置信水平为 90%。
 
 ::: {.guidedpractice data-latex=""}
-Use @fig-mariokart-boot-dist to create a 90% bootstrap percentile confidence interval for the true slope.
-Interpret the interval in context.[^27-inf-model-applications-8]
+使用 @fig-mariokart-boot-dist 创建真实斜率的 90% 自助法百分位置信区间。
+结合背景解释该区间。[^27-inf-model-applications-8]
 :::
 
-[^27-inf-model-applications-8]: Because there were 1,000 bootstrap resamples, we look for the cutoffs which provide 50 bootstrap slopes on the left, 900 in the middle, and 50 on the right.
-    Looking at the bootstrap histogram, the rough 90% confidence interval is \$9 to \$13.10.
-    For games that are new, the average price is higher by between \$9.00 and \$13.10 than games that are used, with 90% confidence.
+[^27-inf-model-applications-8]: 因为有 1,000 个自助重样本，我们寻找能使得左侧有 50 个自助斜率、中间有 900 个、右侧有 50 个的截断值。
+    观察自助直方图，粗略的 90% 置信区间为 9.00 美元到 13.10 美元。
+    对于全新的游戏，我们有 90% 的置信水平认为其平均价格比二手游戏高出 9.00 美元到 13.10 美元。
 
-### Cross-validation
+### 交叉验证
 
-In @sec-model-mlr, models were compared using $R^2_{adj}.$ In @sec-inf-model-mlr, however, a computational approach was introduced to compare models by removing chunks of data one at a time and assessing how well the variables predicted the observations that had been held out.
+在 [第 -@sec-model-mlr 章] 中，模型是通过 $R^2_{adj}$ 进行比较的。然而，在 [第 -@sec-inf-model-mlr 章] 中，我们引入了一种计算方法来比较模型，即每次移除一部分数据，并评估变量对被留出观测的预测效果。
 
-@fig-mariokart-cv-residuals was created by cross-validating models with the same variables as in @tbl-mariokart-model-output and @tbl-mariokart-full-model-output.
-We applied 3-fold cross-validation, so 1/3 of the data was removed while 2/3 of the observations were used to build each model (first on `cond_new` only and then on `cond_new`, `stock_photo`, `duration`, and `wheels`).
-Note that each time 1/3 of the data is removed, the resulting model will produce slightly different model coefficients.
+@fig-mariokart-cv-residuals 是通过对与 @tbl-mariokart-model-output 和 @tbl-mariokart-full-model-output 中变量相同的模型进行交叉验证而创建的。
+我们应用了 3 折交叉验证，因此每次移除 1/3 的数据，同时使用 2/3 的观测来构建每个模型（首先仅基于 `cond_new`，然后基于 `cond_new`、`stock_photo`、`duration` 和 `wheels`）。
+请注意，每次移除 1/3 的数据后，得到的模型会产生略为不同的模型系数。
 
-The points in @fig-mariokart-cv-residuals represent the prediction (x-axis) and residual (y-axis) for each observation run through the cross-validated model.
-In other words, the model is built (using the other 2/3) without the observation (which is in the 1/3) being used.
-The residuals give us a sense for how well the model will do at predicting observations which were not a part of the original dataset, e.g., future studies.
+@fig-mariokart-cv-residuals 中的点代表了每个观测代入交叉验证模型后的预测值（x轴）和残差（y轴）。
+换句话说，模型是在不使用该观测（位于那 1/3 中）的情况下（使用另外 2/3 的数据）构建的。
+这些残差让我们了解模型在预测那些不属于原始数据集的观测（例如，未来研究）时表现如何。
 
 ```{r}
 #| label: fig-mariokart-cv-residuals
 #| fig-cap: |
-#|   Cross-validation predictions and errors from linear models built on
-#|   two different sets of variables.
+#|   基于两组不同变量构建的线性模型得到的交叉验证预测值与误差。
 #| fig-subcap:
-#|   - "`price` vs. `cond_new`"
-#|   - "`price` vs. `cond_new`, `stock_photo`, `duration`, and `wheels`"
+#|   - "`price` 对 `cond_new`"
+#|   - "`price` 对 `cond_new`、`stock_photo`、`duration` 和 `wheels`"
 #| fig-alt: |
-#|   Cross-validation predictions and errors from linear models built on
-#|   two different sets of variables. Left regressed price on cond new;
-#|   right regressed price on cond new, stock photo, duration, and wheels. For
-#|   each of the two models, the x-axis plots the predicted value and the
-#|   y-axis plots the prediction error. More variables lead to smaller
-#|   prediction errors.
+#|   基于两组不同变量构建的线性模型得到的交叉验证预测值与误差。左图将 price 对 cond_new 进行回归；右图将 price 对 cond_new、stock_photo、duration 和 wheels 进行回归。对于这两个模型，x 轴表示预测值，y 轴表示预测误差。使用更多变量会使得预测误差更小。
 #| out-width: 100%
 #| layout-ncol: 2
 #| fig-width: 5
@@ -381,13 +366,13 @@ mario_CV1$pred |>
   ylim(c(-15, 25)) +
   xlim(c(20, 65)) +
   labs(
-    color = "CV Fold",
-    shape = "CV Fold",
-    x = "Predicted",
-    y = "Prediction error (residual)"
+    color = "交叉验证折",
+    shape = "交叉验证折",
+    x = "预测值",
+    y = "预测误差（残差）"
   ) +
   annotate(geom = "text", x = 55, y = 25, label = paste("CV SSE =", SSE_CV1)) +
-  labs(title = "Model with one predictor") +
+  labs(title = "单预测变量模型") +
   theme(
     legend.position = c(0.2, 0.7),
     legend.background = element_rect(color = "gray", fill = "white")
@@ -403,52 +388,52 @@ mario_CV2$pred |>
   ylim(c(-15, 25)) +
   xlim(c(20, 65)) +
   labs(
-    color = "CV Fold",
-    shape = "CV Fold",
-    x = "Predicted",
-    y = "Prediction error (residual)"
+    color = "交叉验证折",
+    shape = "交叉验证折",
+    x = "预测值",
+    y = "预测误差（残差）"
   ) +
   annotate(geom = "text", x = 55, y = 25, label = paste("CV SSE =", SSE_CV2)) +
-  labs(title = "Model with four predictors") +
+  labs(title = "四预测变量模型") +
   scale_color_openintro("three")
 ```
 
-::: {.guidedpractice data-latex=""}
-In @fig-mariokart-cv-residuals-2, note the point at roughly predicted = 50 and prediction error = 10.
-Estimate the observed and predicted value for that observation.[^27-inf-model-applications-9]
-:::
-
-[^27-inf-model-applications-9]: The predicted value is roughly $\widehat{\texttt{price}} = \$50.$ The observed value is roughly $\texttt{price}_i = \$60$ riders (using $e_i = y_i - \hat{y}_i).$
 
 ::: {.guidedpractice data-latex=""}
-In @fig-mariokart-cv-residuals-2, for the same point at roughly predicted = 50 and prediction error = 10, describe which cross-validation fold(s) were used to build its prediction model.[^27-inf-model-applications-10]
+在 @fig-mariokart-cv-residuals-2 中，注意大约在预测值 = 50 且预测误差 = 10 处的点。
+估计该观测的观测值和预测值。[^27-inf-model-applications-9]
 :::
 
-[^27-inf-model-applications-10]: The point appears to be in fold 2, so folds 1 and 3 were used to build the prediction model.
+[^27-inf-model-applications-9]: 预测值大约为 $\widehat{\texttt{price}} = \$50.$，观测值大约为 $\texttt{price}_i = \$60$ 玩家（使用 $e_i = y_i - \hat{y}_i).$
 
 ::: {.guidedpractice data-latex=""}
-By noting the spread of the cross-validated prediction errors (on the y-axis) in @fig-mariokart-cv-residuals, which model should be chosen for a final report on these data?[^27-inf-model-applications-11]
+在 @fig-mariokart-cv-residuals-2 中，对于大约在预测值 = 50 且预测误差 = 10 的同一个点，描述是哪个（或哪些）交叉验证折被用于构建其预测模型。[^27-inf-model-applications-10]
 :::
 
-[^27-inf-model-applications-11]: The cross-validated residuals on `cond_new` vary roughly from -15 to 15, while the cross-validated residuals on the four predictor model vary less, roughly from -10 to 10.
-    Given the smaller residuals from the four predictor model, it seems as though the larger model is better.
+[^27-inf-model-applications-10]: 该点似乎位于第 2 折中，因此第 1 折和第 3 折被用于构建预测模型。
 
 ::: {.guidedpractice data-latex=""}
-Using the summary statistic cross-validation sum of squared errors (CV SSE), which model should be chosen for a final report on these data?[^27-inf-model-applications-12]
+通过观察 @fig-mariokart-cv-residuals 中交叉验证预测误差（在 y 轴上）的散布情况，对于这些数据，最终报告应选择哪个模型？[^27-inf-model-applications-11]
 :::
 
-[^27-inf-model-applications-12]: The CV SSE is smaller (by a factor of almost two!) for the model with four predictors.
-    Using a single valued criterion (CV SSE) allows us to make a decision to choose the model with four predictors.
+[^27-inf-model-applications-11]: 在 `cond_new` 模型上的交叉验证残差大致在 -15 到 15 之间波动，而基于四个预测变量模型的交叉验证残差波动较小，大致在 -10 到 10 之间。
+    鉴于四预测变量模型的残差更小，似乎更大的模型更优。
+
+::: {.guidedpractice data-latex=""}
+使用汇总统计量——交叉验证误差平方和（CV SSE），对于这些数据，最终报告应选择哪个模型？[^27-inf-model-applications-12]
+:::
+
+[^27-inf-model-applications-12]: 对于具有四个预测变量的模型，其 CV SSE 更小（几乎是另一个模型的一半！）。使用单一数值标准（CV SSE）使我们能够做出决策，选择具有四个预测变量的模型。
 
 \clearpage
 
-## Interactive R tutorials {#inferential-modeling-tutorials}
+## 交互式 R 教程 {#inferential-modeling-tutorials}
 
-Navigate the concepts you've learned in this part in R using the following self-paced tutorials.
-All you need is your browser to get started!
+使用以下自主进度的教程，在 R 中探索你在此部分学到的概念。
+你只需要一个浏览器就可以开始了！
 
 ::: {.alltutorials data-latex=""}
-[Tutorial 6: Inferential modeling](https://openintrostat.github.io/ims-tutorials/06-model-infer/)
+[教程 6：推断建模](https://openintrostat.github.io/ims-tutorials/06-model-infer/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintrostat.github.io/ims-tutorials/06-model-infer
@@ -456,7 +441,7 @@ https://openintrostat.github.io/ims-tutorials/06-model-infer
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 6 - Lesson 1: Inference in regression](https://openintro.shinyapps.io/ims-06-model-infer-01/)
+[教程 6 - 第 1 课：回归推断](https://openintro.shinyapps.io/ims-06-model-infer-01/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-06-model-infer-01
@@ -464,7 +449,7 @@ https://openintro.shinyapps.io/ims-06-model-infer-01
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 6 - Lesson 2: Randomization test for slope](https://openintro.shinyapps.io/ims-06-model-infer-02/)
+[教程 6 - 第 2 课：斜率的随机化检验](https://openintro.shinyapps.io/ims-06-model-infer-02/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-06-model-infer-02
@@ -472,7 +457,7 @@ https://openintro.shinyapps.io/ims-06-model-infer-02
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 6 - Lesson 3: t-test for slope](https://openintro.shinyapps.io/ims-06-model-infer-03/)
+[教程 6 - 第 3 课：斜率的 t 检验](https://openintro.shinyapps.io/ims-06-model-infer-03/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-06-model-infer-03
@@ -480,7 +465,7 @@ https://openintro.shinyapps.io/ims-06-model-infer-03
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 6 - Lesson 4: Checking technical conditions for slope inference](https://openintro.shinyapps.io/ims-06-model-infer-04/)
+[教程 6 - 第 4 课：检查斜率推断的技术条件](https://openintro.shinyapps.io/ims-06-model-infer-04/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-06-model-infer-04
@@ -488,7 +473,7 @@ https://openintro.shinyapps.io/ims-06-model-infer-04
 :::
 
 ::: {.singletutorial data-latex=""}
-[Tutorial 6 - Lesson 5: Inference beyond the simple linear regression model](https://openintro.shinyapps.io/ims-06-model-infer-05/)
+[教程 6 - 第 5 课：超越简单线性回归模型的推断](https://openintro.shinyapps.io/ims-06-model-infer-05/)
 
 ::: {.content-hidden unless-format="pdf"}
 https://openintro.shinyapps.io/ims-06-model-infer-05
@@ -496,20 +481,20 @@ https://openintro.shinyapps.io/ims-06-model-infer-05
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of tutorials supporting this book at\
-<https://openintrostat.github.io/ims-tutorials>.
+你还可以通过以下网址访问支持本书的全部教程列表：\
+<https://openintrostat.github.io/ims-tutorials>。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of tutorials supporting this book [here](https://openintrostat.github.io/ims-tutorials).
+你还可以[在此](https://openintrostat.github.io/ims-tutorials)访问支持本书的全部教程列表。
 :::
 
-## R labs
+## R 实验
 
-Further apply the concepts you've learned in this part in R with computational labs that walk you through a data analysis case study.
+通过一系列引导你完成数据分析案例研究的计算实验，在 R 中进一步应用你在此部分学到的概念。
 
 ::: {.singlelab data-latex=""}
-[Multiple linear regression - Grading the professor](https://www.openintro.org/go?id=ims-r-lab-model-infer)
+[多元线性回归 - 给教授评分](https://www.openintro.org/go?id=ims-r-lab-model-infer)
 
 ::: {.content-hidden unless-format="pdf"}
 https://www.openintro.org/go?id=ims-r-lab-model-infer
@@ -518,10 +503,10 @@ https://www.openintro.org/go?id=ims-r-lab-model-infer
 :::
 
 ::: {.content-hidden unless-format="pdf"}
-You can also access the full list of labs supporting this book at\
-<https://www.openintro.org/go?id=ims-r-labs>.
+你还可以通过以下网址访问支持本书的完整实验列表：\
+<https://www.openintro.org/go?id=ims-r-labs>。
 :::
 
 ::: {.content-visible when-format="html"}
-You can also access the full list of labs supporting this book [here](https://www.openintro.org/go?id=ims-r-labs).
+你还可以[在此](https://www.openintro.org/go?id=ims-r-labs)访问支持本书的完整实验列表。
 :::

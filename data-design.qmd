@@ -1,71 +1,48 @@
-# Study design {#sec-data-design}
+# 研究设计 {#sec-data-design}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-Before digging into the details of working with data, we stop to think about how data come to be.
-That is, if the data are to be used to make broad and complete conclusions, then it is important to understand who or what the data represent.
-One important aspect of data provenance is sampling.
-Knowing how the observational units were selected from a larger entity will allow for generalizations back to the population from which the data were randomly selected.
-Additionally, by understanding the structure of the study, causal relationships can be separated from those relationships which are only associated.
-A good question to ask oneself before working with the data at all is, "How were these observations collected?".
-You will learn a lot about the data by understanding its source.
+在深入研究数据细节之前，我们停下来思考数据是如何产生的。也就是说，如果要用数据得出广泛且完整的结论，那么理解数据代表谁或什么就非常重要。数据来源的一个重要方面是抽样。了解观测单位是如何从更大的实体中挑选出来的，就能使我们把结论推广回数据被随机抽取的总体。此外，通过了解研究的结构，可以将因果关系与仅为有关联的关系区分开来。在处理数据之前，一个需要问自己的好问题是：“这些观测是如何收集的？”。通过了解数据的来源，你会对数据有更深的认识。
 :::
 
-## Sampling principles and strategies {#sec-sampling-principles-strategies}
+## 抽样原则与策略 {#sec-sampling-principles-strategies}
 
-The first step in conducting research is to identify topics or questions that are to be investigated.
-A clearly laid out research question is helpful in identifying what subjects or cases should be studied and what variables are important.
-It is also important to consider *how* data are collected so that the data are reliable and help achieve the research goals.
+进行研究的第一步是确定要调查的主题或问题。一个清晰表述的研究问题有助于确定应该研究哪些主体或观测单位，以及哪些变量是重要的。同样重要的是考虑*如何*收集数据，以确保数据可靠并帮助实现研究目标。
 
-### Populations and samples
+### 总体与样本
 
-Consider the following three research questions:
+考虑以下三个研究问题：
 
-1.  What is the average mercury content in swordfish in the Atlantic Ocean?
-2.  Over the last five years, what is the average time to complete a degree for Duke undergrads?
-3.  Does a new drug reduce the number of deaths in patients with severe heart disease?
+1.  大西洋剑鱼中的平均汞含量是多少？
+2.  在过去五年中，杜克大学本科生完成学位的平均时间是多少？
+3.  一种新药是否能减少严重心脏病患者的死亡人数？
 
-Each research question refers to a target **population**\index{population}.
-In the first question, the target population is all swordfish in the Atlantic Ocean, and each fish represents a case.
-Oftentimes, it is not feasible to collect data for every case in a population.
-Collecting data for an entire population is called a **census**\index{census}.
-A census is difficult because it is too expensive to collect data for the entire population, but it might also be because it is difficult or impossible to identify the entire population of interest!
-Instead, a sample is taken.
-A **sample**\index{sample} is the data you have.
-Ideally, a sample is a small fraction of the population.
-For instance, 60 swordfish (or some other number) in the population might be selected, and this sample data may be used to provide an estimate of the population average and to answer the research question.
+每个研究问题都指向一个目标**总体**\index{population}。在第一个问题中，目标总体是大西洋中的所有剑鱼，每条鱼代表一个观测单位。通常，为总体中的每个观测单位收集数据是不可行的。为整个总体收集数据称为**普查**\index{census}。普查之所以困难，是因为为整个总体收集数据成本太高，但也可能是因为难以或无法确定整个目标总体！因此，我们会抽取样本。**样本**\index{sample}就是你所拥有的数据。理想的样本是总体的一小部分。例如，可以从总体中选择60条剑鱼（或其他某个数量），该样本数据可用于估计总体平均数并回答研究问题。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c("population", "census", "sample")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-For the second and third questions above, identify the target population and what represents an individual case.[^02-data-design-1]
+对于上面的第二个和第三个问题，请识别目标总体以及什么代表一个观测单位。[^02-data-design-1]
 :::
 
-[^02-data-design-1]: The question *"Over the last five years, what is the average time to complete a degree for Duke undergrads?"* is only relevant to students who complete their degree; the average cannot be computed using a student who never finished their degree.
-    Thus, only Duke undergrads who graduated in the last five years represent cases in the population under consideration.
-    Each such student is an individual case.
-    For the question *"Does a new drug reduce the number of deaths in patients with severe heart disease?"*, a person with severe heart disease represents a case.
-    The population includes all people with severe heart disease.
-    
-### Parameters and statistics
+[^02-data-design-1]: 问题*“在过去五年中，杜克大学本科生完成学位的平均时间是多少？”*仅与完成学位的学生有关；无法用未完成学位的学生来计算平均数。因此，只有过去五年毕业的杜克大学本科生才代表所考虑总体中的观测单位。每个这样的学生是一个观测单位。对于问题*“一种新药是否能减少严重心脏病患者的死亡人数？”*，患有严重心脏病的人代表一个观测单位。总体包括所有患有严重心脏病的人。
 
-In most statistical analysis procedures, the research question at hand boils down to understanding a numerical summary.
-The number (or set of numbers) may be a quantity you are already familiar with (like the average) or it may be something you learn through this text (like the slope and intercept from a least squares model, provided in @sec-least-squares-regression).
+### 参数与统计量
 
-A numerical summary can be calculated on either the sample of observations or the entire population.
-However, measuring every unit in the population is usually prohibitive.
-So, a "typical" numerical summary is calculated from a sample.
-Yet, we can still conceptualize calculating the average income of all adults in Argentina.
+在大多数统计分析过程中，手头的研究问题归根结底是要理解一个数值概括。这个（或这组）数字可能是你已经熟悉的量（如平均数），也可能是你通过本书学到的量（如最小二乘模型的斜率和截距，在 @sec-least-squares-regression 中给出）。
 
-We use specific terms in order to differentiate when a number is being calculated on a sample of data (**sample statistic**\index{sample statistic}) and when it is being calculated or considered for calculation on the entire population (**population parameter**\index{population parameter}).
-The terms statistic and parameter are useful for communicating claims and models and will be used extensively in later chapters which delve into making inference on populations.
+数值概括既可以在观测样本上计算，也可以在整个总体上计算。然而，测量总体中的每个单位通常是不可行的。所以，一个“典型的”数值概括是从样本中计算出来的。但我们仍然可以构想计算阿根廷所有成年人的平均收入。
+
+我们使用特定的术语来区分一个数字是在数据样本上计算（**样本统计量**\index{sample statistic}），还是在整个总体上计算或考虑进行计算（**总体参数**\index{population parameter}）。统计量和参数这两个术语对于传达结论和模型非常有用，并将在后续深入探讨对总体进行推断的章节中被广泛使用。
 
 ```{r}
 #| include: false
@@ -73,62 +50,59 @@ terms_chp_2 <- c(terms_chp_2, "population parameter", "sample statistic")
 ```
 
 
-### Anecdotal evidence
 
+### 轶事证据
 
+考虑以下对三个研究问题的可能回答：
 
-Consider the following possible responses to the three research questions:
+1.  新闻里有个男人因为吃剑鱼而汞中毒，所以剑鱼体内的平均汞浓度肯定高得危险。
+2.  我遇到过两个花了7年多才从杜克大学毕业的学生，所以在杜克大学读书肯定比在其他许多大学花的时间更长。
+3.  我朋友的爸爸在服用了一种新的心脏病药物后心脏病发作去世了，所以这种药肯定没用。
 
-1.  A man on the news got mercury poisoning from eating swordfish, so the average mercury concentration in swordfish must be dangerously high.
-2.  I met two students who took more than 7 years to graduate from Duke, so it must take longer to graduate at Duke than at many other colleges.
-3.  My friend's dad had a heart attack and died after they gave him a new heart disease drug, so the drug must not work.
-
-Each conclusion is based on data.
-However, there are two problems.
-First, the data only represent one or two cases.
-Second, and more importantly, it is unclear whether these cases are actually representative of the population.
-Data collected in this haphazard fashion are called **anecdotal evidence**\index{anecdotal evidence}.
+每个结论都基于数据。
+然而，这里存在两个问题。
+首先，数据只代表了一两个观测单位。
+其次，更重要的是，尚不清楚这些观测单位是否真正有代表性。
+以这种随意的方式收集的数据被称为**轶事证据**\index{anecdotal evidence}。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "anecdotal evidence")
 ```
 
-::: {.important data-latex=""}
-**Anecdotal evidence.**
 
-Be careful of data collected in a haphazard fashion.
-Such evidence may be true and verifiable, but it may only represent extraordinary cases and therefore not be a good representation of the population.
+::: {.important data-latex=""}
+**轶事证据。**
+
+请小心那些以随意方式收集的数据。
+这类证据可能是真实且可验证的，但它可能只代表极端的观测单位，因此不能很好地代表总体。
 :::
 
-Anecdotal evidence typically is composed of unusual cases that we recall based on their striking characteristics.
-For instance, we are more likely to remember the two people we met who took 7 years to graduate than the six others who graduated in four years.
-Instead, of looking at the most unusual cases, we should examine a sample of many cases that better represent the population.
+轶事证据通常由我们因其引人注目的特征而回想起来的不寻常的观测单位组成。
+例如，相比于另外六个四年就毕业的人，我们更可能记得遇到的那两个花了7年才毕业的人。
+因此，我们不应只关注最不寻常的观测单位，而应检查一个由许多能更好代表总体的观测单位组成的样本。
 
 \clearpage
 
-### Sampling from a population
+### 从总体中抽样
 
 \index{sampling!random} \index{bias}
 
-We might try to estimate the time to graduation for Duke undergraduates in the last five years by collecting a sample of graduates.
-All graduates in the last five years represent the *population*\index{population}, and graduates who are selected for review are collectively called the *sample*\index{sample}.
-In general, we always seek to *randomly* select a sample from a population.
-The most basic type of random selection is equivalent to how raffles are conducted.
-For example, in selecting graduates, we could write each graduate's name on a raffle ticket and draw 10 tickets.
-The selected names would represent a random sample of 10 graduates.
+我们或许可以尝试通过收集一个毕业生样本来估计杜克大学过去五年本科生的毕业时间。
+过去五年的所有毕业生构成了*总体*\index{population}，而被选中审查的毕业生统称为*样本*\index{sample}。
+一般来说，我们总是力求从总体中*随机*抽取样本。
+最基本的随机选择方式等同于抽奖。
+例如，在选择毕业生时，我们可以把每个毕业生的名字写在一张奖券上，然后抽取10张奖券。
+被选中的名字将代表一个包含10名毕业生的随机样本。
 
 ```{r}
 #| label: fig-pop-to-sample
 #| fig-cap: |
-#|   10 graduates are randomly selected from the population to
-#|   be included in the sample.
+#|   从总体中随机选择10名毕业生纳入样本。
 #| fig-asp: 0.43
 #| fig-width: 8.0
 #| fig-alt: |
-#|   A large circle contains many dots which indicate all the graduates.
-#|   A smaller circle contains a few of the dots (i.e., graduates) which have
-#|   been randomly selected from the larger circle.
+#|   一个大圆圈包含许多圆点，表示所有毕业生。一个小圆圈包含几个从大圆圈中随机选出的圆点（即毕业生）。
 #| out-width: 70%
 set.seed(1234)
 par_og <- par(no.readonly = TRUE) # save original par
@@ -164,7 +138,7 @@ points(
   pch = 20,
   cex = 1.5
 )
-text(1.5, 0.75, "sample", pos = 3, cex = 1.3)
+text(1.5, 0.75, "样本", pos = 3, cex = 1.3)
 
 for (i in these) {
   arrows(
@@ -180,15 +154,16 @@ for (i in these) {
 par(par_og) # restore original par
 ```
 
+
 ::: {.workedexample data-latex=""}
-Suppose we ask a student who happens to be majoring in nutrition to select several graduates for the study.
-Which students do you think they might pick?
-Do you think their sample would be representative of all graduates?
+假设我们让一个恰好主修营养学的学生为这项研究挑选几名毕业生。
+你认为他们可能会选哪些学生？
+你认为他们选出的样本能代表所有毕业生吗？
 
 ------------------------------------------------------------------------
 
-They might pick a disproportionate number of graduates from health-related fields, as shown in @fig-pop-to-sub-sample-graduates.
-When selecting samples by hand, we run the risk of picking a **biased** sample\index{sample bias}, even if our bias is unintended.
+他们可能会选择不成比例的健康相关领域毕业生，如 @fig-pop-to-sub-sample-graduates 所示。
+当手动选择样本时，我们面临选出**有偏**样本\index{sample bias}的风险，即使这种偏差是无意的。
 :::
 
 ```{r}
@@ -199,15 +174,14 @@ terms_chp_2 <- c(terms_chp_2, "sample bias")
 ```{r}
 #| label: fig-pop-to-sub-sample-graduates
 #| fig-cap: |
-#|   Asked to pick a sample of graduates, a nutrition major might inadvertently
-#|   pick a disproportionate number of graduates from health-related majors.
+#|   当被要求挑选一个毕业生样本时，一名营养学专业的学生可能会无意中
+#|   挑选过多来自健康相关专业的毕业生。
 #| fig-asp: 0.43
 #| fig-width: 8.0
 #| fig-alt: |
-#|   A large circle contains many dots which indicate all the graduates, but some
-#|   of the dots have been greyed out where others are dark dots from which the sample
-#|   is taken. A smaller circle contains a few of the dots (i.e., graduates) which have
-#|   been selected from the biased group of dark dots in the large circle.
+#|   一个大圆圈中包含许多圆点，代表所有毕业生，但其中一部分圆点被置灰，
+#|   其余深色圆点则是抽取样本的来源。一个小圆圈中包含几个圆点（即毕业生），
+#|   它们是从大圆圈中那个有偏的深色圆点群体里选出的。
 #| out-width: 70%
 par_og <- par(no.readonly = TRUE) # save original par
 par(mar = rep(0, 4))
@@ -268,31 +242,35 @@ rect(0.236, 0.301, 0.858, 0.403, border = "#00000000", col = "#FFFFFF88")
 text(
   0.55,
   0.5 + 0.18 - sqrt(0.07),
-  "graduates from\nhealth-related fields",
+  "健康相关领域\n毕业生",
   pos = 1,
   cex = 1.3
 )
-par(par_og) # restore original par
+par(par_og) # 恢复原来的图形参数
 ```
 
-If someone was permitted to pick and choose exactly which graduates were included in the sample, it is entirely possible that the sample would overrepresent that person's interests, which may be entirely unintentional.
-This introduces **bias** into a sample\index{bias}\index{sampling!bias}.
-Sampling randomly helps address this problem.
-The most basic random sample is called a **simple random sample**\index{simple random sample}\index{sampling!simple random} and is equivalent to drawing names out of a hat to select cases.
-This means that each case in the population has an equal chance of being included and the cases in the sample are not related to each other.
+
+
+如果允许某人自行挑选哪些毕业生进入样本，样本就很有可能过度代表该人的兴趣领域，即使这可能完全是无意的。
+这会将**偏差**引入样本\index{bias}\index{sampling!bias}。
+随机抽样有助于解决这个问题。
+最基本的随机样本被称为**简单随机样本**\index{simple random sample}\index{sampling!simple random}，它等同于通过从帽子里抽签来选择观测单位。
+这意味着总体中的每个观测单位被选中的机会均等，且样本中的观测单位之间互不关联。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "bias", "simple random sample")
 ```
 
+
+
 \clearpage
 
-The act of taking a simple random sample helps minimize bias.
-However, bias can crop up in other ways.
-Even when people are picked at random, e.g., for surveys, caution must be exercised if the **non-response rate**\index{non-response rate} is high.
-For instance, if only 30% of the people randomly sampled for a survey actually respond, then it is unclear whether the results are **representative**\index{representative sample}\index{sampling!representative} of the entire population.
-This **non-response bias**\index{bias!non-response} can skew results.
+进行简单随机抽样有助于将偏差降至最低。
+然而，偏差也可能在其他环节中出现。
+即使人们是随机挑选的（例如用于调查），如果**无回答率**\index{non-response rate}很高，也必须保持谨慎。
+例如，如果随机抽样进行调查的人中只有 30% 实际作出了回答，那么结果是否对总体具有**代表性**\index{representative sample}\index{sampling!representative}就不清楚了。
+这种**无回答偏差**\index{bias!non-response}会导致结果产生偏误。
 
 ```{r}
 #| include: false
@@ -304,21 +282,17 @@ terms_chp_2 <- c(
 )
 ```
 
+
 ```{r}
 #| label: fig-survey-sample
 #| fig-cap: |
-#|   Due to the possibility of non-response, survey studies may only reach a certain
-#|   group within the population. It is difficult, and oftentimes impossible,
-#|   to completely fix this problem.
+#|   由于可能存在无回答，调查研究可能只能接触到总体中的某个特定群体。
+#|   要完全解决这个问题很困难，且往往是不可能的。
 #| fig-asp: 0.43
 #| fig-width: 8.0
 #| fig-alt: |
-#|   A large circle contains many dots which indicate the population of interest,
-#|   but some of the dots have been greyed out where others are dark dots from which
-#|   the sample is taken (where the grey dots are potentially due to non-response bias). A
-#|   smaller circle contains a few of the dots which have been selected from the group
-#|   of dark dots in the large circle who were individuals willing to respond to the
-#|   survey.
+#|   一个大圆包含许多圆点，表示感兴趣的总体，但其中一些圆点被置灰，其余深色圆点则是抽取样本的来源（灰点可能是由于无回答偏差造成的）。
+#|   一个小圆包含从大圆中深色圆点群体里选出的几个圆点，这些深色圆点代表愿意回应调查的个体。
 #| out-width: 70%
 par_og <- par(no.readonly = TRUE) # save original par
 par(mar = rep(0, 4))
@@ -386,55 +360,50 @@ text(
 par(par_og) # restore original par
 ```
 
-Another common downfall is a **convenience sample**\index{convenience sample}\index{sampling!convenience}, where individuals who are easily accessible are more likely to be included in the sample.
-For instance, if a political survey is done by stopping people walking in the Bronx, this will not represent all of New York City.
-It is often difficult to discern what sub-population a convenience sample represents.
+
+
+另一个常见的缺陷是采用**便利样本**\index{convenience sample}\index{sampling!convenience}，即更容易接触到的个体更可能被纳入样本。
+例如，如果一项政治调查是通过在布朗克斯区拦截路人进行的，那么它将无法代表整个纽约市。
+通常很难辨别一个便利样本究竟能代表哪个子总体。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "convenience sample")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-We can easily access ratings for products, sellers, and companies through websites.
-These ratings are based only on those people who go out of their way to provide a rating.
-If 50% of online reviews for a product are negative, do you think this means that 50% of buyers are dissatisfied with the product?
-Why?[^02-data-design-2]
+我们可以通过网站轻松获取产品、卖家和公司的评分。
+这些评分仅仅基于那些特意去提供评分的人。
+如果某产品50%的在线评价是负面的，你是否认为这意味着50%的买家对产品不满意？
+为什么？[^02-data-design-2]
 :::
 
-[^02-data-design-2]: Answers will vary.
-    From our own anecdotal experiences, we believe people tend to rant more about products that fell below expectations than rave about those that perform as expected.
-    For this reason, we suspect there is a negative bias in product ratings on sites like Amazon.
-    However, since our experiences may not be representative, we also keep an open mind.
+[^02-data-design-2]: 答案因人而异。
+    根据我们的经验，人们往往更倾向于抱怨那些低于期望的产品，而不是赞扬那些符合期望的产品。
+    因此，我们怀疑像亚马逊等网站上的产品评分存在负面偏差。
+    然而，由于我们的经验可能不具有代表性，我们也保持开放的态度。
 
+### 四种抽样方法 {#sec-samp-methods}
 
-### Four sampling methods {#sec-samp-methods}
+几乎所有的统计方法都建立在隐含随机性的概念之上。
+如果数据不是以随机方式从总体中收集的，那么这些统计方法——包括估计量及其相关的误差——就不可靠。
+这里我们探讨四种随机抽样技术：简单随机抽样、分层抽样、整群抽样和多阶段抽样。
+@fig-simple-stratified 和 @fig-cluster-multistage 提供了这些技术的图解。
 
-Almost all statistical methods are based on the notion of implied randomness.
-If data are not collected in a random framework from a population, these statistical methods -- the estimates and errors associated with the estimates -- are not reliable.
-Here we consider four random sampling techniques: simple, stratified, cluster, and multistage sampling.
-@fig-simple-stratified and @fig-cluster-multistage provide graphical representations of these techniques.
-
-**Simple random sampling**\index{simple random sample}\index{sampling!simple random} is probably the most intuitive form of random sampling.
-Consider the salaries of Major League Baseball (MLB) players, where each player is a member of one of the league's 30 teams.
-To take a simple random sample of 120 baseball players and their salaries, we could write the names of that season's several hundreds of players onto slips of paper, drop the slips into a bucket, shake the bucket around until we are sure the names are all mixed up, then draw out slips until we have the sample of 120 players.
-In general, a sample is referred to as "simple random" if each case in the population has an equal chance of being included in the final sample *and* knowing that a case is included in a sample does not provide useful information about which other cases are included.
+**简单随机抽样**\index{simple random sample}\index{sampling!simple random}可能是最直观的随机抽样形式。
+以美国职业棒球大联盟（MLB）球员的薪水为例，每名球员都是联盟30支球队中某一支的成员。
+要抽取一个包含120名棒球球员及其薪水的简单随机样本，我们可以将该赛季数百名球员的名字写在纸条上，将纸条放入桶中，摇晃桶直到确信名字已完全混匀，然后抽出纸条，直到抽出120名球员构成样本。
+一般而言，如果一个样本被称为“简单随机”样本，需满足：总体中的每个观测单位被纳入最终样本的机会均等，*并且*已知某个观测单位被纳入样本，并不能提供关于其他哪些观测单位也被纳入的有效信息。
 
 ```{r}
 #| label: fig-simple-stratified
 #| fig-cap: |
-#|   Examples of simple random and stratified sampling. In the top panel, simple
-#|   random sampling was used to randomly select the 18 cases (denoted in red). In the
-#|   bottom panel, stratified sampling was used: cases were first grouped into strata,
-#|   then simple random sampling was employed to randomly select 3 cases within each
-#|   stratum.'
+#|   简单随机抽样和分层抽样的例子。在顶部面板中，使用了简单随机抽样来随机选择18个观测单位（用红色表示）。在底部面板中，使用了分层抽样：观测单位首先被分组到各层，然后在每层内使用简单随机抽样随机选择3个观测单位。'
 #| fig-width: 10.0
 #| out-width: 80%
 #| fig-alt: |
-#|   The top box shows a population of dots (i.e., individuals) where a handful
-#|   of the dots have been sampled randomly. The bottom box shows the same population
-#|   of dots but grouped in such a way that there are six strata. From each stratum
-#|   three dots (i.e., individuals) are randomly selected.
+#|   顶部的方框显示了一个由点（即个体）组成的总体，其中一部分点已被随机抽样。底部的方框显示了相同的点总体，但按六个层的方式进行了分组。从每个层中随机选择三个点（即个体）。
 
 source("helpers/helper-sampling.R") # source helper
 par_og <- par(no.readonly = TRUE) # save original par
@@ -444,11 +413,13 @@ build_stratified(N = 108) # build figure
 par(par_og) # restore original par
 ```
 
-**Stratified sampling**\index{stratified sample}\index{sampling!stratified} is a divide-and-conquer sampling strategy.
-The population is divided into groups called **strata**\index{sampling!strata}.
-The strata are chosen so that similar cases are grouped together, then a second sampling method, usually simple random sampling, is employed within each stratum.
-In the baseball salary example, each of the 30 teams could represent a stratum, since some teams have a lot more money (up to 4 times as much!).
-Then we might randomly sample 4 players from each team for our sample of 120 players.
+
+
+**分层抽样**\index{stratified sample}\index{sampling!stratified}是一种分而治之的抽样策略。
+总体被划分为称为**层**\index{sampling!strata}的组。
+各层的划分应使得相似的观测单位被分在一组，然后在每层内采用第二种抽样方法，通常是简单随机抽样。
+在棒球薪金的例子中，30支球队每支都可以代表一个层，因为有些球队的资金多得多（多达4倍！）。
+然后我们可以从每支球队中随机抽取4名球员，从而得到120名球员的样本。
 
 ```{r}
 #| include: false
@@ -460,27 +431,30 @@ terms_chp_2 <- c(
 )
 ```
 
-**Stratified sampling** is especially useful when the cases in each stratum are very similar with respect to the outcome of interest.
-The downside is that analyzing data from a stratified sample is a more complex task than analyzing data from a simple random sample.
-The analysis methods introduced in this book would need to be extended to analyze data collected using stratified sampling.
+
+
+**分层抽样**在每层内的观测单位在感兴趣的结果变量上非常相似时特别有用。
+其缺点是，与分析来自简单随机样本的数据相比，分析来自分层样本的数据是一项更复杂的任务。
+本书介绍的分析方法需要扩展才能用于分析用分层抽样收集的数据。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "stratified sampling")
 ```
 
+
 ::: {.workedexample data-latex=""}
-Why would it be good for cases within each stratum to be very similar?
+为什么每层内的观测单位非常相似是有益的？
 
 ------------------------------------------------------------------------
 
-We might get a more stable estimate for the subpopulation in a stratum if the cases are very similar, leading to more precise estimates within each group.
-When we combine these estimates into a single estimate for the full population, that population estimate will tend to be more precise since each individual group estimate is itself more precise.
+如果观测单位非常相似，我们可能会得到层内子总体更稳定的估计值，从而使组内估计更精确。
+当我们将这些估计值合并成一个针对整个总体的单一估计值时，该总体估计值往往会更精确，因为每个单独的组估计值本身就更精确。
 :::
 
-In a **cluster sample**\index{cluster sample}\index{sampling!cluster}, we break up the population into many groups, called **clusters**.
-Then we sample a fixed number of clusters and include all observations from each of those clusters in the sample.
-A **multistage sample**\index{multistage sample}\index{sampling!multistage} is like a cluster sample, but rather than keeping all observations in each cluster, we would collect a random sample within each selected cluster.
+在**整群样本**\index{cluster sample}\index{sampling!cluster}中，我们将总体分割成许多组，称为**群**。
+然后我们抽取固定数量的群，并将这些群中的所有观测都纳入样本。
+**多阶段样本**\index{multistage sample}\index{sampling!multistage}类似于整群样本，但我们不是在每个群中保留所有观测，而是在每个选中的群内收集一个随机样本。
 
 ```{r}
 #| include: false
@@ -492,23 +466,15 @@ terms_chp_2 <- c(
 )
 ```
 
+
 ```{r}
 #| label: fig-cluster-multistage
 #| fig-cap: |
-#|   Examples of cluster and multistage sampling. In the top panel, cluster sampling
-#|   was used: data were binned into nine clusters, three of these clusters were sampled,
-#|   and all observations within these three clusters were included in the sample. In
-#|   the bottom panel, multistage sampling was used, which differs from cluster sampling
-#|   only in that we randomly select a subset of each cluster to be included in the sample
-#|   rather than measuring every case in each sampled cluster.'
+#|   整群抽样和多阶段抽样的例子。在顶部面板中，使用了整群抽样：数据被分为九个群，其中三个群被抽样，这三个群内的所有观测都被纳入样本。在底部面板中，使用了多阶段抽样，它与整群抽样的唯一区别在于我们从每个群中随机选择一个子集纳入样本，而不是测量每个被抽样群中的每个观测单位。'
 #| fig-width: 10.0
 #| out-width: 80%
 #| fig-alt: |
-#|   In the top figure, dots are grouped into clusters, three clusters are selected,
-#|   and every dot (i.e., all individuals) from each of the three clusters are sampled.
-#|   In the bottom figure, dots are again grouped into clusters and three clusters
-#|   are selected. However, random sampling is applied so that a random sample
-#|   from each of the three selected clusters is taken.
+#|   在顶部的图中，点被分成群，选择了三个群，这三个群中的每一个点（即所有个体）都被抽样。在底部的图中，点再次被分成群并选择了三个群。然而，这里应用了随机抽样，从三个选中的群中各抽取一个随机样本。
 source("helpers/helper-sampling.R") # source helper
 par_og <- par(no.readonly = TRUE) # save original par
 par(mar = rep(0.5, 4), mfrow = c(2, 1)) # no margin, 2 figures
@@ -517,85 +483,77 @@ build_multistage() # build figure
 par(par_og) # restore original par
 ```
 
-Sometimes cluster or multistage sampling can be more economical than the alternative sampling techniques.
-Also, unlike stratified sampling, these approaches are most helpful when there is a lot of case-to-case variability within a cluster but the clusters themselves do not look very different from one another.
-For example, if neighborhoods represented clusters, then cluster or multistage sampling work best when the populations inside each neighborhood are very diverse.
-A downside of these methods is that more advanced techniques are typically required to analyze the data, though the methods in this book can be extended to handle such data.
+
+
+有时，整群抽样或多阶段抽样比其他抽样技术更经济。此外，与分层抽样不同，当群内观测单位间的变异性很大，但各个群本身看起来差异不大时，这些方法最为有效。例如，如果以邻里作为群，那么当每个邻里内部的人群都非常多样化时，整群抽样或多阶段抽样的效果最好。这些方法的一个缺点是，通常需要更高级的技术来分析数据，不过本书介绍的方法可以扩展以处理此类数据。
 
 ::: {.workedexample data-latex=""}
-Suppose we are interested in estimating the malaria rate in a densely tropical portion of rural Indonesia.
-We learn that there are 30 villages in that part of the Indonesian jungle, each more or less like the next, but the distances between the villages are substantial.
-We want to test 150 individuals for malaria.
-What sampling method should we use?
+假设我们对估算印度尼西亚热带乡村人口密集地区的疟疾率感兴趣。我们了解到在那片印度尼西亚丛林中有 30 个村庄，每个村庄的情况都大致相似，但村庄之间的距离相当远。我们想要检测 150 个人的疟疾情况。我们应该使用什么抽样方法？
 
 ------------------------------------------------------------------------
 
-A simple random sample would likely draw individuals from all 30 villages, which could make data collection expensive.
-Stratified sampling would be a challenge since it is unclear how we would build strata of similar individuals.
-However, cluster sampling or multistage sampling seem like very good ideas.
-With multistage sampling, we could randomly select half of the villages, then randomly select 10 people from each.
-This could reduce data collection costs substantially in comparison to a simple random sample, and the cluster sample would still yield reliable information, even if we would need to analyze the data with more advanced methods than those introduced in this book.
+简单随机样本可能会从所有 30 个村庄中抽取个体，这可能导致数据收集成本高昂。分层抽样将是一个挑战，因为我们不清楚如何构建由相似个体组成的层。然而，整群抽样或多阶段抽样看起来是很好的选择。使用多阶段抽样，我们可以先随机选择一半的村庄，然后从每个选中的村庄中随机选择 10 个人。与简单随机抽样相比，这可以大大降低数据收集成本，并且整群样本仍然能提供可靠的信息，即使我们需要用比本书介绍的方法更高级的方法来分析这些数据。
 :::
 
 \clearpage
 
-## Experiments {#sec-experiments}
+## 实验 {#sec-experiments}
 
-Studies where the researchers assign treatments to cases are called **experiments**\index{experiment}\index{study!experiment}.
-When this assignment includes randomization, e.g., using a coin flip to decide which treatment a patient receives, it is called a **randomized experiment**\index{randomized experiment}\index{study!randomized experiment}.
-Randomized experiments are fundamentally important when trying to show a causal connection between two variables.
+研究人员将处理分配给观测单位的研究称为**实验**\index{experiment}\index{study!experiment}。当这种分配涉及随机化时，例如，使用抛硬币来决定患者接受哪种处理，就称为**随机化实验**\index{randomized experiment}\index{study!randomized experiment}。在试图证明两个变量之间的因果关系时，随机化实验具有根本重要性。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "experiment", "randomized experiment")
 ```
 
-### Principles of experimental design {#sec-principles-experimental-design}
 
-1.  **Controlling.** Researchers assign treatments to cases, and they do their best to **control**\index{control} any other differences in the groups[^02-data-design-3]. For example, when patients take a drug in pill form, some patients take the pill with only a sip of water while others may have it with an entire glass of water. To control for the effect of water consumption, a doctor may instruct every patient to drink a 12-ounce glass of water with the pill.
 
-[^02-data-design-3]: This is a different concept than a *control group*, which we discuss in the second principle and in @sec-reducing-bias-human-experiments.
+### 实验设计原则 {#sec-principles-experimental-design}
+
+1.  **控制。** 研究人员将处理分配给观测单位，并尽力**控制**任何可能存在的组间差异[^02-data-design-3]。例如，当患者以药片形式服药时，有些患者只是抿一小口水就吞下药片，而另一些患者可能会用一整杯水送服。为了控制饮水量的影响，医生可能会指示每位患者都用 12 盎司的一杯水送服药片。
+
+[^02-data-design-3]: 这与*对照组*是不同的概念，我们将在第二个原则和 @sec-reducing-bias-human-experiments 中讨论对照组。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "control")
 ```
 
-2.  **Randomization.** Researchers randomize patients into treatment groups to account for variables that cannot be controlled.
-    For example, some patients may be more susceptible to a disease than others due to their dietary habits.
-    In this example dietary habit is a **confounding variable**[^02-data-design-4], which is defined as a variable that is associated with both the explanatory and response variables.
-    Randomizing patients into the treatment or control group helps even out such differences.
+
+
+2.  **随机化。** 研究人员将患者随机分配到处理组，以平衡那些无法控制的变量的影响。
+    例如，有些患者可能因为饮食习惯而比其他人更容易感染某种疾病。
+    在这个例子中，饮食习惯就是一个**混杂变量**[^02-data-design-4]，它被定义为同时与解释变量和响应变量有关联的变量。
+    将患者随机分配到处理组或对照组有助于均衡此类差异。
 
 ::: {.important data-latex=""}
-**Confounding variable.**
+**混杂变量。**
 
-A **confounding variable**\index{confounding variable} is one that is associated with both the explanatory and response variables.
-Because it is associated with both variables, it prevents the study from concluding that the explanatory variable caused the response variable.
-Consider a silly example with total ice-cream sales as the explanatory variable and number of boating accidents as the response variable (which may seem highly correlated).
-Outside temperature is associated with both variables, and therefore we cannot conclude that high ice-cream sales is a cause of more boating accidents.
+**混杂变量**\index{confounding variable} 是指同时与解释变量和响应变量有关联的变量。
+因为它同时与这两个变量有关联，这使得研究无法得出解释变量导致响应变量的结论。
+考虑一个看似荒唐的例子：以冰淇淋总销量为解释变量，划船事故数量为响应变量（两者可能高度相关）。室外温度与这两个变量都有关联，因此我们不能得出高冰淇淋销量是导致更多划船事故的原因的结论。
 
-Confounding variables may or may not be measured as part of the study.
-Regardless, drawing cause-and-effect conclusions is difficult in an observational study because of the ever-present possibility of confounding variables.
+混杂变量在研究中可能被测量，也可能未被测量。
+但无论如何，在观察性研究中得出因果结论是困难的，因为混杂变量存在的可能性始终存在。
 :::
-
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "confounding variable")
 ```
 
-3.  **Replication.**\index{replication} The more cases researchers observe, the more accurately they can estimate the effect of the explanatory variable on the response.
-    In a single study, we **replicate** by collecting a sufficiently large sample.
-    What is considered sufficiently large varies from experiment to experiment, but at a minimum we want to have multiple subjects (experimental units) per treatment group.
-    Another way of achieving replication is replicating an entire study to verify an earlier finding.
-    The term **replication crisis**\index{replication crisis} refers to the ongoing methodological crisis in which past findings from scientific studies in several disciplines have failed to be replicated.
-    **Pseudoreplication**\index{pseudoreplication} occurs when individual observations under different treatments are heavily dependent on each other.
-    For example, suppose you have 50 subjects in an experiment where you're taking blood pressure measurements at 10 time points throughout the course of the study.
-    By the end, you will have 50 $\times$ 10 = 500 measurements.
-    Reporting that you have 500 observations would be considered pseudoreplication, as the blood pressure measurements of a given individual are not independent of each other.
-    Pseudoreplication often happens when the wrong entity is replicated, and the reported sample sizes are exaggerated.
+3.  **重复。**\index{replication} 研究者观察的观测单位越多，就能越准确地估计解释变量对响应变量的影响。
+    在一次研究中，我们通过收集足够大的样本进行**重复**。
+    “足够大”的标准因实验而异，但至少要确保每个处理组有多个受试者（实验单元）。
+    实现重复的另一种方式是完全重复一项研究，以验证早期的发现。
+    术语**可重复性危机**\index{replication crisis}指的是当前的方法学危机，即若干学科过去的研究发现无法被重复。
+    **伪重复**\index{pseudoreplication}是指不同处理下的个体观测彼此高度相依。
+    例如，假设你的一项实验有 50 名受试者，在研究过程中的 10 个时间点测量血压。
+    最终，你将获得 50 $\times$ 10 = 500 个测量值。
+    报告有 500 个观测将被视为伪重复，因为同一个体的血压测量值并非相互独立。
+    当对错误的实体进行重复时，往往会发生伪重复，导致报告的样本量被夸大。
 
-[^02-data-design-4]: Also called a **lurking variable**, **confounding factor**, or a **confounder**.
+[^02-data-design-4]: 也称为**潜在变量（lurking variable）**、**混杂因素**或**混杂变量（confounder）**。
 
 ```{r}
 #| include: false
@@ -607,31 +565,30 @@ terms_chp_2 <- c(
 )
 ```
 
+
+
 \index{replication} \index{lurking variable}
 
-4.  **Blocking.**\index{blocking} Researchers sometimes know or suspect that variables, other than the treatment, influence the response. Under these circumstances, they may first group individuals based on this variable into **blocks** and then randomize cases within each block to the treatment groups. This strategy is often referred to as **blocking**. For instance, if we are looking at the effect of a drug on heart attacks, we might first split patients in the study into low-risk and high-risk blocks, then randomly assign half the patients from each block to the control group and the other half to the treatment group, as shown in @fig-blocking. This strategy ensures that each treatment group has the same number of low-risk patients and the same number of high-risk patients.
-
+4.  **区组化。**\index{blocking} 研究者有时知道或怀疑，除处理外，还有其他变量会影响响应变量。在这种情况下，他们可以先根据此变量将个体分组形成**区组（blocks）**，然后在每个区组内将观测随机分配到各处理组。这种策略常常被称为**区组化**。例如，如果我们正在研究某种药物对心脏病发作的影响，我们可能先将研究中的患者分为低风险和高风险区组，然后从每个区组中随机分配一半患者到对照组，另一半到处理组，如 @fig-blocking 所示。这种策略确保每个处理组都有相同数量的低风险患者和相同数量的高风险患者。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "blocking")
 ```
 
+
 ```{r}
 #| label: fig-blocking
 #| fig-cap: |
-#|   Blocking for patient risk. Patients are first divided into low-risk and
-#|   high-risk blocks, then patients in each block are evenly randomized into
-#|   the treatment groups. This strategy ensures equal representation of
-#|   patients in each treatment group from both risk categories.
+#|   对患者风险进行区组化。患者首先被分为低风险和高风险区组，
+#|   然后每个区组中的患者被等量随机分配到各处理组。此策略确保
+#|   每个处理组中来自两种风险类别的患者都有相等的代表性。
 #| warning: false
 #| fig-width: 6.0
 #| fig-asp: 0.97
 #| fig-alt: |
-#|   Before randomly allocating, the red low risk patients and blue high risk
-#|   patients are split into two separate groups. Subsequently, half of the red low risk
-#|   patients are randomly chosen to receive the treatment, and half of the blue high
-#|   risk patients are randomly chosen to receive the treatment.
+#|   在随机分配前，红色的低风险患者和蓝色的高风险患者被分为两个独立的组。
+#|   随后，一半的红色低风险患者被随机选择接受处理，一半的蓝色高风险患者被随机选择接受处理。
 #| out-width: 90%
 set.seed(12345)
 source("helpers/helper-blocking.R") # source helper
@@ -641,46 +598,50 @@ build_blocking() # build figure
 par(par_og) # restore original par
 ```
 
-It is important to incorporate the first three experimental design principles into any study, and this book describes applicable methods for analyzing data from such experiments.
-Blocking is a slightly more advanced technique, and statistical methods in this book may be extended to analyze data collected using blocking.
 
-### Reducing bias in human experiments {#sec-reducing-bias-human-experiments}
 
-Randomized experiments have long been considered to be the gold standard for data collection, but they do not ensure an unbiased perspective into the cause-and-effect relationship in all cases.
-Human studies are perfect examples where bias can unintentionally arise.
-Here we reconsider a study where a new drug was used to treat heart attack patients.
-In particular, researchers wanted to know if the drug reduced deaths in patients.
+将前三条实验设计原则纳入任何研究都很重要，本书描述了适用于分析此类实验数据的方法。
+区组化是一项稍微高级的技术，本书的统计方法也可以扩展用于分析通过区组化收集的数据。
 
-These researchers designed a randomized experiment because they wanted to draw causal conclusions about the drug's effect.
-Study volunteers[^02-data-design-5] were randomly placed into two study groups.
-One group, the **treatment group**\index{treatment group}, received the drug.
-The other group, called the **control group**\index{control group}, did not receive any drug treatment.
+### 减少人类实验中的偏差 {#sec-reducing-bias-human-experiments}
 
-[^02-data-design-5]: Human subjects are often called **patients**, **volunteers**, or **study participants**.
+随机化实验长期以来被认为是数据收集的黄金标准，但它们并不能保证在所有情况下都能对因果关系提供无偏的审视。
+人类研究是偏差可能无意中产生的典型例子。
+这里我们重新审视一项使用新药治疗心脏病患者的研究。
+具体来说，研究者想知道这种药物是否能降低患者的死亡率。
+
+这些研究者设计了一项随机化实验，因为他们希望得出关于药物效果的因果结论。
+研究的志愿者[^02-data-design-5]被随机分配到两个研究组。
+一组为**处理组**\index{treatment group}，接受药物。
+另一组称为**对照组**\index{control group}，不接受任何药物治疗。
+
+[^02-data-design-5]: 人类受试者常被称为**患者**、**志愿者**或**研究参与者**。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "treatment group", "control group")
 ```
 
+
+
 \clearpage
 
-Put yourself in the place of a person in the study.
-If you are in the treatment group, you are given a fancy new drug that you anticipate will help you.
-On the other hand, a person in the other group does not receive the drug and sits idly, hoping her participation does not increase her risk of death.
-These perspectives suggest there are actually two effects in this study: the one of interest is the effectiveness of the drug, and the second is an emotional effect of (not) taking the drug, which is difficult to quantify.
+试想一下，如果你是研究中的一名受试者。
+如果你在处理组，你会得到一种令人期待的新药，你预期它会对你有帮助。
+另一方面，另一组中的受试者则不会得到这种药，只能干等着，希望自己的参与不会增加死亡风险。
+这些视角表明，这项研究中实际上存在两种效应：我们感兴趣的是药物的有效性，第二种是（未）服药带来的情绪效应，这很难量化。
 
-Researchers aren't usually interested in the emotional effect, which might bias the study.
-To circumvent this problem, researchers do not want patients to know which group they are in.
-When researchers keep the patients uninformed about their treatment, the study is said to be **blind**\index{blind}.
-But there is one problem: if a patient does not receive a treatment, they will know they're in the control group.
-A solution to this problem is to give a fake treatment to patients in the control group.
-This is called a **placebo**\index{placebo}\index{experiment!placebo}, and an effective placebo is the key to making a study truly blind.
-A classic example of a placebo is a sugar pill that is made to look like the actual treatment pill.
-However, offering such a fake treatment may not be ethical in certain experiments.
-For example, in medical experiments, typically the control group must get the current standard of care.
-Oftentimes, a placebo results in a slight but real improvement in patients.
-This effect has been dubbed the **placebo effect**\index{placebo effect}.
+研究人员通常不关心这种情绪效应，它可能使研究产生偏差。
+为了规避这个问题，研究人员不希望患者知道自己属于哪一组。
+当研究人员不让患者知晓他们接受的是何种处理时，这项研究就被称为采用了**盲法**\index{blind}。
+但这存在一个问题：如果患者没有接受处理，他们就会知道自己身处对照组。
+解决这个问题的一个方法是给对照组的患者一种假处理。
+这称为**安慰剂**\index{placebo}\index{experiment!placebo}，而有效的安慰剂是使研究真正实现盲法的关键。
+一个经典的安慰剂例子是制作成看起来像真实治疗药丸的糖丸。
+但是，在一些实验中提供这种假处理可能是不符合伦理的。
+例如，在医学实验中，对照组通常必须接受当前的标准治疗。
+安慰剂往往会导致患者出现轻微但真实的改善。
+这种效应被称为**安慰剂效应**\index{placebo effect}。
 
 \index{blinding}
 
@@ -689,84 +650,84 @@ This effect has been dubbed the **placebo effect**\index{placebo effect}.
 terms_chp_2 <- c(terms_chp_2, "blind", "placebo", "placebo effect")
 ```
 
-The patients are not the only ones who should be blinded: doctors and researchers can unintentionally bias a study.
-When a doctor knows a patient has been given the real treatment, they might inadvertently give that patient more attention or care than a patient that they know is on the placebo.
-To guard against this bias, which again has been found to have a measurable effect in some instances, most modern studies employ a **double-blind**\index{double-blind} setup where doctors or researchers who interact with patients are, just like the patients, unaware of who is or is not receiving the treatment.[^02-data-design-6]
 
-[^02-data-design-6]: There are always some researchers involved in the study who do know which patients are receiving which treatment.
-    However, they do not interact with the study's patients and do not tell the blinded health care professionals who is receiving which treatment.
+
+不仅患者应该被设盲：医生和研究人员也可能在无意中使研究产生偏差。
+当医生知道患者接受了真实治疗时，他们可能会无意中给予该患者比服用安慰剂的患者更多的关注或照料。
+为了防范这种偏差（确实在某些情况下已发现其有可测量的影响），大多数现代研究采用**双盲**\index{double-blind}设置，即与患者互动的医生或研究人员也和患者一样，不知道谁接受了、谁没接受治疗。[^02-data-design-6]
+
+[^02-data-design-6]: 参与研究的总有一些研究员知道哪些患者接受了何种治疗。
+    然而，他们不与研究的患者互动，也不会告知处于盲态的医护人员谁在接受哪种治疗。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "double-blind")
 ```
 
-::: {.guidedpractice data-latex=""}
-Look back to the study in @sec-case-study-stents-strokes where researchers were testing whether stents were effective at reducing strokes in at-risk patients.
-Is this an experiment?
-Was the study blinded?
-Was it double-blinded?[^02-data-design-7]
-:::
-
-[^02-data-design-7]: The researchers assigned the patients into their treatment groups, so this study was an experiment.
-    However, the patients could distinguish what treatment they received because a stent is a surgical procedure.
-    There is no equivalent surgical placebo, so this study was not blind.
-    The study could not be double-blind since it was not blind.
 
 ::: {.guidedpractice data-latex=""}
-For the study in @sec-case-study-stents-strokes, could the researchers have employed a placebo?
-If so, what would that placebo have looked like?[^02-data-design-8]
+回顾一下 @sec-case-study-stents-strokes 节中研究人员测试支架是否能有效降低高风险患者中风风险的研究。
+这是一项实验吗？
+这项研究采用盲法了吗？
+是双盲吗？[^02-data-design-7]
 :::
 
-[^02-data-design-8]: Ultimately, can we make patients think they got treated from a surgery?
-    In fact, we can, and some experiments use a **sham surgery**.
-    In a sham surgery, the patient does undergo surgery, but the patient does not receive the full treatment, though they will still get a placebo effect.
+[^02-data-design-7]: 研究人员将患者分配到他们的处理组，所以这项研究是一项实验。
+    但是，患者能够区分他们接受了何种处理，因为支架是一种外科手术。
+    没有等效的外科手术安慰剂，所以这项研究没有采用盲法。
+    由于没有采用盲法，这项研究也不可能实现双盲。
 
-You may have many questions about the ethics of sham surgeries to create a placebo.
-These questions may have even arisen in your mind when in the general experiment context, where a possibly helpful treatment was withheld from individuals in the control group; the main difference is that a sham surgery tends to create additional risk, while withholding a treatment only maintains a person's risk.
+::: {.guidedpractice data-latex=""}
+对于 @sec-case-study-stents-strokes 节中的研究，研究人员当时能使用安慰剂吗？
+如果能，那个安慰剂会是什么样的？[^02-data-design-8]
+:::
 
-There are always multiple viewpoints of experiments and placebos, and rarely is it obvious which is ethically "correct".
-For instance, is it ethical to use a sham surgery when it creates a risk to the patient?
-However, if we do not use sham surgeries, we may promote the use of a costly treatment that has no real effect; if this happens, money and other resources will be diverted away from other treatments that are known to be helpful.
-Ultimately, this is a difficult situation where we cannot perfectly protect both the patients who have volunteered for the study and the patients who may benefit (or not) from the treatment in the future.
+[^02-data-design-8]: 归根结底，我们能让患者以为他们通过手术得到了治疗吗？
+    事实上，我们可以，有些实验会使用**假手术**。
+    在假手术中，患者确实接受了手术，但他们没有获得完整的治疗（尽管他们仍会产生安慰剂效应）。
+
+关于使用假手术来创造安慰剂的伦理问题，你可能有很多疑问。即便在一般实验情境下（对照组个体未给予可能有益的治疗），你可能已经产生过这些疑问；主要区别在于，假手术往往会制造额外的风险，而仅仅未给予治疗只是维持了个人的原有风险。
+
+关于实验和安慰剂的看法总是多种多样的，很少有哪一种明显在伦理上是“正确的”。
+例如，当假手术会给患者带来风险时，使用它是否符合伦理？
+然而，如果我们不使用假手术，我们可能会推广一种昂贵却并无真实效果的处理；如果发生这种情况，资金和其他资源将从其他已知有效的处理中被转移走。
+最终，这是一种两难的境地，我们无法同时完美地保护那些自愿参与研究的患者，以及未来可能从该处理中受益（或不受益）的患者。
 
 \clearpage
 
-## Observational studies {#sec-observational-studies}
+## 观察性研究 {#sec-observational-studies}
 
-Studies where no treatment has been explicitly applied (or explicitly withheld) are called **observational studies**\index{study!observational}\index{observational study}.
-For instance, studies on the loan data and county data described in @sec-data-basics are would both be considered observational, as they rely on **observational data**.
+那些未明确施加（或明确未施加）处理的研究被称为**观察性研究**\index{study!observational}\index{observational study}。
+例如，@sec-data-basics 中描述的贷款数据和县数据的相关研究都会被认为是观察性的，因为它们依赖于**观测数据**。
 
 ```{r}
 #| include: false
 terms_chp_2 <- c(terms_chp_2, "observational study")
 ```
 
-Making causal conclusions based on experiments is often reasonable, since we can randomly assign the explanatory variable(s), i.e., the treatments.
-However, making the same causal conclusions based on observational data can be treacherous and is not recommended.
-Thus, observational studies are generally only sufficient to show associations or form hypotheses that can be later checked with experiments.
 
-Suppose an observational study tracked sunscreen use and skin cancer, and it was found that the more sunscreen someone used, the more likely the person was to have skin cancer.
-Does this mean sunscreen *causes* skin cancer?
 
-No!
-Some previous research tells us that using sunscreen actually reduces skin cancer risk, so maybe there is another variable that can explain this hypothetical association between sunscreen usage and skin cancer, as shown in @fig-sun-causes-cancer.
-One important piece of information that is absent is sun exposure.
-If someone is out in the sun all day, they are more likely to use sunscreen *and* more likely to get skin cancer.
-Exposure to the sun is unaccounted for in the simple observational investigation.
+基于实验得出因果结论常常是合理的，因为我们可以随机分配解释变量，即处理。
+然而，基于观测数据得出相同的因果结论是危险的，并且不被推荐。
+因此，观察性研究通常仅足以显示关联，或形成后续可通过实验检验的假设。
+
+假设一项观察性研究追踪了防晒霜使用与皮肤癌的情况，并发现一个人使用防晒霜越多，患皮肤癌的可能性就越大。
+这是否意味着防晒霜*导致*了皮肤癌？
+
+不！
+一些先前的研究告诉我们，使用防晒霜实际上会降低皮肤癌风险，所以或许存在另一个变量可以解释防晒霜使用与皮肤癌之间的这种假想关联，如 @fig-sun-causes-cancer 所示。
+一个缺失的重要信息是日晒。
+如果某人整天暴露在阳光下，他们就更有可能使用防晒霜*并且*更有可能患上皮肤癌。
+在简单的观测性调查中，日晒这一因素未被考虑进来。
 
 ```{r}
 #| label: fig-sun-causes-cancer
 #| fig-align: center
 #| fig-asp: 0.4
 #| fig-cap: |
-#|   Sun exposure may be the root cause of both sunscreen use and skin cancer.
+#|   日晒可能是防晒霜使用和皮肤癌的共同根本原因。
 #| fig-alt: |
-#|   Three boxes are shown in a triangle arrangement representing: sun exposure,
-#|   using sunscreen, and skin cancer. A solid arrow connects sun exposure as a causal
-#|   mechanism to using sunscreen; a solid arrow also connects sun exposure as a causal
-#|   mechanism to skin cancer. A questioning arrow indicates that the causal effect
-#|   of using sunscreen on skin cancer is unknown.
+#|   三个方框呈三角形排列，分别代表：日晒、使用防晒霜和皮肤癌。一个实心箭头将日晒作为一个因果机制连接到使用防晒霜；另一个实心箭头也将日晒作为一个因果机制连接到皮肤癌。一个带问号的箭头表示使用防晒霜对皮肤癌的因果效应是未知的。
 #| out-width: 60%
 par_og <- par(no.readonly = TRUE) # save original par
 par(mar = rep(0, 4))
@@ -785,29 +746,31 @@ text(0.595, 0.565, "?", cex = 1.5, col = IMSCOL["gray", "full"])
 par(par_og) # restore original par
 ```
 
-In this example, sun exposure is a confounding variable.
-The presence of confounding variables is what inhibits the ability for observational studies to make causal claims.
-While one method to justify making causal conclusions from observational studies is to exhaust the search for confounding variables, there is no guarantee that all confounding variables can be examined or measured.
+
+
+在这个例子中，日晒是一个混杂变量。
+混杂变量的存在阻碍了观察性研究作出因果论断的能力。
+尽管论证从观察性研究中得出因果结论的一种方法是穷尽寻找混杂变量，但无法保证所有混杂变量都能被考察或测量。
 
 ::: {.guidedpractice data-latex=""}
-@fig-county-multi-unit-homeownership shows a negative association between the homeownership rate and the percentage of housing units that are in multi-unit structures in a county.
-However, it is unreasonable to conclude that there is a causal relationship between the two variables.
-Suggest a variable that might explain the negative relationship.[^02-data-design-10]
+@fig-county-multi-unit-homeownership 显示了在一个县内，住房拥有率与多单元结构住房单元百分比之间的负关联。
+然而，得出这两个变量之间存在因果关系的结论是不合理的。
+请给出一个可能解释这种负关联的变量。[^02-data-design-10]
 :::
 
-[^02-data-design-10]: Answers will vary.
-    Population density may be important.
-    If a county is very dense, then this may require a larger percentage of residents to live in housing units that are in multi-unit structures.
-    Additionally, the high density may contribute to increases in property value, making homeownership unfeasible for many residents.
+[^02-data-design-10]: 答案可能各不相同。
+    人口密度可能是一个重要因素。
+    如果一个县的人口非常稠密，那么可能需要更大比例的居民居住在多单元结构的住房单元中。
+    此外，高密度可能导致房产价值上升，使得许多居民无法承担住房所有权。
 
-Observational studies come in two forms: prospective and retrospective studies.
-A **prospective study**\index{study!prospective}\index{prospective study} identifies individuals and collects information as events unfold.
-For instance, medical researchers may identify and follow a group of patients over many years to assess the possible influences of behavior on cancer risk.
-One example of such a study is The Nurses' Health Study.
-Started in 1976 and expanded in 1989, the Nurses' Health Study has collected data on over 275,000 nurses and is still enrolling participants.
-This prospective study recruits registered nurses and then collects data from them using questionnaires.
-**Retrospective studies**\index{study!retrospective}\index{retrospective study} collect data after events have taken place, e.g., researchers may review past events in medical records.
-Some datasets may contain both prospectively- and retrospectively collected variables, such as medical studies which gather information on participants' lives before they enter the study and subsequently collect data on participants throughout the study.
+观察性研究有两种形式：前瞻性研究和回顾性研究。
+一项**前瞻性研究**\index{study!prospective}\index{prospective study}会识别个体，并在事件发展过程中收集信息。
+例如，医学研究人员可能识别并长期跟踪一组患者多年，以评估行为对癌症风险的可能影响。
+此类研究的一个例子是“护士健康研究”。
+该研究始于1976年并于1989年扩大规模，至今已收集了超过275,000名护士的数据，并且仍在招募参与者。
+这项前瞻性研究招募注册护士，然后通过问卷方式收集她们的数据。
+**回顾性研究**\index{study!retrospective}\index{retrospective study}则在事件发生后收集数据，例如，研究人员可能会回顾病历中的过去事件。
+有些数据集可能同时包含前瞻性收集和回顾性收集的变量，例如一些医学研究，他们会收集参与者进入研究前的生活信息，随后在整个研究过程中持续收集参与者的数据。
 
 ```{r}
 #| include: false
@@ -815,58 +778,61 @@ terms_chp_2 <- c(terms_chp_2, "prospective study", "retrospective study")
 ```
 
 
+
+
 \clearpage
 
-## Chapter review {#sec-chp2-review}
+## 章节回顾 {#sec-chp2-review}
 
-### Summary
+### 小结
 
-A proficient analyst will have a good sense of the types of data they are working with and how to visualize the data in order to gain a complete understanding of the variables.
-Equally important, however, is the data source.
-In this chapter, we have discussed randomized experiments and taking good, random, representative samples from a population.
-When we discuss inferential methods (starting in @sec-foundations-randomization), the conclusions that can be drawn will be dependent on how the data were collected.
-@fig-randsampValloc summarizes how sampling and assignment methods relate to the scope of inference.[^02-data-design-11]
-Regularly revisiting @fig-randsampValloc will be important when making conclusions from a given data analysis.
+一名熟练的分析师应当充分了解自己正在处理的数据类型，以及如何将数据可视化，从而全面理解各个变量。
+然而，数据的来源也同样重要。
+在本章中，我们讨论了随机化实验以及如何从总体中抽取良好、随机、有代表性的样本。
+当我们讨论推断方法时（从[第 -@sec-foundations-randomization 章]开始），能够得出的结论将取决于数据是如何收集的。
+@fig-randsampValloc 总结了抽样方法和分配方法如何与推断的范围相关联。[^02-data-design-11]
+当从给定的数据分析中得出结论时，经常回顾 @fig-randsampValloc 这张图是很重要的。
 
-[^02-data-design-11]: Derived from similar figures in @ISCAM and @sleuth.
+[^02-data-design-11]: 改编自 @ISCAM 和 @sleuth 中的类似图表。
 
 ```{r}
 #| label: fig-randsampValloc
 #| out-width: 96%
 #| fig-cap: |
-#|   Analysis conclusions should be made carefully according to how the data
-#|   were collected. Very few datasets come from the top left box because
-#|   usually ethics require that random assignment of treatments can only be
-#|   given to volunteers. Both representative (ideally random) sampling and
-#|   experiments (random assignment of treatments) are important for how
-#|   statistical conclusions can be made on populations.
+#|   分析结论应根据数据的收集方式谨慎作出。很少有数据集来自左上角的方框，
+#|   因为伦理上通常要求处理的随机分配只能对志愿者进行。无论是代表性
+#|   （理想情况下是随机）的抽样，还是实验（处理的随机分配），都对如何在
+#|   总体层面作出统计结论至关重要。
 #| fig-alt: |
-#|   A two by two table describing the scenarios of random sample or not and
-#|   random allocation or not. Selecting randomly from a population allows for
-#|   generalization back to the population. Randomly allocating in an experiment
-#|   allows for establishing causation.
+#|   一个2x2的表格，描述了是否随机抽样以及是否随机分配的不同情形。从总体
+#|   中随机抽取样本，允许将结论推广回总体。在实验中进行随机分配，允许建立
+#|   因果关系。
 #| fig-pos: H
 knitr::include_graphics("images/randsampValloc.png")
 ```
 
-### Terms
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-2.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+
+### 术语
+
+本章介绍的术语列在@tbl-terms-chp-2中。
+如果你不确定某些术语的含义，我们建议你返回正文复习其定义。
+你应该能轻易地识别出它们，因为它们在文中以**粗体**标示。
 
 ```{r}
 #| label: tbl-terms-chp-2
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_2)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp2-exercises}
+## 练习 {#sec-chp2-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-02].
+奇数编号练习的答案可在[附录 -@sec-exercise-solutions-02]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_02-ex-data-design.qmd >}}

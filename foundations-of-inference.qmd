@@ -1,11 +1,11 @@
-# Foundations of inference {#sec-foundations .unnumbered}
+# 推断的基础 {#sec-foundations .unnumbered}
 
-Among the key concepts in statistics is making conclusions about a population using information in a sample; the process is called statistical inference. By using computational methods as well as well-developed mathematical theory, we can understand how one dataset differs from a different dataset — even when the two datasets have been collected under identical settings. In this part, we will walk through the key concepts and terms which will be applied more explicitly in later chapters.
+统计学的核心概念之一是利用样本中的信息对总体得出结论；这个过程称为统计推断。通过运用计算方法以及成熟的数学理论，我们可以理解一个数据集与另一个数据集之间为何存在差异——即使这两个数据集是在完全相同的条件下收集的。在这一部分，我们将梳理一些关键概念和术语，这些内容将在后续章节中得到更明确的应用。
 
-- [Chapter -@sec-foundations-randomization] describes randomization which involves repeatedly permuting observations to represent scenarios in which there is no association between two variables of interest.
-- [Chapter -@sec-foundations-bootstrapping] describes bootstrapping which involves repeatedly sampling (with replacement) from the observed data in order to produce many samples which are similar to, but different from, the original data.
-- [Chapter -@sec-foundations-mathematical] introduces the Central Limit Theorem which is a theoretical mathematical approximation to the variability in data seen through randomization and bootstrapping.
-- In [Chapter -@sec-foundations-decision-errors] you will be presented with a structure for describing when and how errors can happen within statistical inference.
-- [Chapter -@sec-foundations-applications] includes an application on the Malaria vaccine case study where the topics from this part of the book are fully developed.
+- [第 -@sec-foundations-randomization 章]介绍了**随机化**，这种方法涉及重复地对观测进行置换，以表示两个感兴趣的变量之间没有关联的情形。
+- [第 -@sec-foundations-bootstrapping 章]介绍了**自助法**，这种方法涉及从观测数据中重复（有放回地）抽样，以生成许多与原始数据相似但又有所不同的样本。
+- [第 -@sec-foundations-mathematical 章]介绍了**中心极限定理**，这是一种理论上的数学近似，用于刻画通过随机化和自助法所呈现的数据变异性。
+- 在[第 -@sec-foundations-decision-errors 章]中，你将了解一个用于描述统计推断中错误何时以及如何发生的框架。
+- [第 -@sec-foundations-applications 章]包含了一个关于疟疾疫苗案例研究的应用，书中本部分的所有主题将在其中得到充分的展开。
 
-Although often computational and mathematical methods are both appropriate (and give similar results), your study of both approaches should convince you that (1) there is almost never a single "correct" approach, and (2) there are different ways to quantify the variability seen from dataset to dataset.
+虽然计算方法和数学方法通常都适用（并且给出相似的结果），但对这两种方法的学习应该会让你确信：（1）几乎从来不存在单一的“正确”方法，并且（2）量化跨数据集观察到的变异性存在着不同的方式。

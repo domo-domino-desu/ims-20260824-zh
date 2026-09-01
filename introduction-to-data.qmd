@@ -1,15 +1,15 @@
-# Introduction to data {.unnumbered}
+# 数据导论 {.unnumbered}
 
-The first part of the book will introduce you to data, their properties, how they are collected, and the structure of the design used for the study.
-Different data and settings lead to different **types** of conclusions, so you'll always want to keep in mind the data provenance, especially as you move on to modeling and inference.
+本书的第一部分将向你介绍数据及其性质、数据的收集方式，以及研究所用设计的结构。
+不同的数据和研究情境会导致不同**类型**的结论，因此你需要始终牢记数据的来源，尤其是在后续进行建模和推断时。
 
--   In [Chapter -@sec-data-hello] you'll be introduced to tidy data, an important structure for describing, visualizing, and analyzing data.
+-   在 [第 -@sec-data-hello 章] 中，你将学习整洁数据，这是一种用于描述、可视化和分析数据的重要结构。
 
--   In [Chapter -@sec-data-design] the focus is on study design.
-    In particular, the critical distinction between random sampling and randomization is made.
+-   [第 -@sec-data-design 章] 的重点是研究设计。
+    其中特别阐明了随机抽样与随机分配之间的关键区别。
 
--   [Chapter -@sec-data-applications] includes an application on the Paralympics case study where the topics from the Introduction to data part of the book are fully developed.
+-   [第 -@sec-data-applications 章] 包含了一项关于残奥会案例研究的应用，书中“数据导论”部分所涉及的主题在此得到了充分展开。
 
-We recommend you come back to review this foundational part after you cover each new part in the textbook.
-In particular, it is worthwhile to consider @fig-randsampValloc in all of the inferential settings you cover.
-Each dataset you analyze will have a slightly different context which will require thoughtful consideration of the appropriate conclusions.
+我们建议你在学完教材中的每一个新部分之后，都回过头来复习这一基础部分。
+特别建议你在学到的每一种推断情境下，都去思考一下 @fig-randsampValloc。
+你分析的每一个数据集都会处于略微不同的语境中，这就需要仔细斟酌以得出恰当的结论。

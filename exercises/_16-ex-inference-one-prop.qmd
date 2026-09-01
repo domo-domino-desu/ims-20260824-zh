@@ -1,34 +1,34 @@
-1.  **Do aliens exist?** In May 2021, YouGov asked 4,839 adult Great Britain residents whether they think aliens exist, and if so, if they have or have not visited Earth.
-    You want to evaluate if more than a quarter (25%) of Great Britain adults think aliens don't exist.
-    In the survey 22% responded "I think they exist, and have visited Earth", 28% responded "I think they exist, but have not visited Earth", 29% responded "I don't think they exist", and 22% responded "Don't know".
-    A friend of yours offers to help you with setting up the hypothesis test and comes up with the following hypotheses.
-    Indicate any errors you see.
+1.  **外星人存在吗？** 2021年5月，YouGov 调查了4,839名英国成年居民，询问他们是否认为外星人存在，如果存在，是否访问过地球。
+    你想评估是否有超过四分之一（25%）的英国成年居民认为外星人不存在。
+    在调查中，22% 的受访者回答“我认为它们存在，并且访问过地球”，28% 回答“我认为它们存在，但没有访问过地球”，29% 回答“我不认为它们存在”，22% 回答“不知道”。
+    你的一位朋友提出帮你设置假设检验，并给出了以下假设。
+    请指出你看到的任何错误。
 
     $H_0: \hat{p} = 0.29 \quad \quad H_A: \hat{p} > 0.29$
 
 \vfill
 
-2.  **Married at 25.** A study suggests that the 25% of 25 year-olds have gotten married.
-    You believe that this is incorrect and decide to collect your own sample for a hypothesis test.
-    From a random sample of 776 25 year-olds, you find that 24% of them are married.
-    A friend of yours offers to help you with setting up the hypothesis test and comes up with the following hypotheses.
-    Indicate any errors you see.
+2.  **25岁结婚。** 一项研究表明，25% 的 25 岁年轻人会结婚。
+    你认为这是不正确的，并决定自己收集样本进行假设检验。
+    从一个由776名 25 岁人士组成的随机样本中，你发现其中 24% 已婚。
+    你的一位朋友提出帮你设置假设检验，并给出了以下假设。
+    请指出你看到的任何错误。
 
     $H_0: \hat{p} = 0.24 \quad \quad H_A: \hat{p} \neq 0.24$
 
 \vfill
 
-3.  **Defund the police.** A Survey USA poll conducted in Seattle, WA in May 2021 reports that of the 650 respondents (adults living in this area), 159 support proposals to defund police departments.
+3.  **撤资警察。** 2021年5月在华盛顿州西雅图市进行的一项 Survey USA 民意调查显示，在650名受访者（居住在该地区的成年人）中，有159人支持撤资警察部门的提案。
     [@data:defundpolice]
 
-    a.  A journalist writing a news story on the poll results wants to use the headline "More than 1 in 5 adults living in Seattle support proposals to defund police departments." You caution the journalist that they should first conduct a hypothesis test to see if the poll data provide convincing evidence for this claim Write the hypotheses for this test.
+    a.  一位正在撰写关于该民调结果的新闻记者想使用“西雅图超过五分之一的成年人支持撤资警察部门的提案”作为标题。你提醒该记者，他们应该先进行假设检验，看看民调数据是否为这一说法提供了有说服力的证据。请写出该检验的假设。
 
-    b.  Calculate the proportion of Seattle adults in the sample who support proposals to defund police departments.
+    b.  计算样本中西雅图成年人支持撤资警察部门提案的比例。
 
-    c.  Describe a setup for a simulation that would be appropriate in this situation and how the p-value can be calculated using the simulation results.
+    c.  描述适用于此情境的模拟设置，并说明如何利用模拟结果计算 p 值。
 
-    d.  The histogram below shows the distribution of 1,000 $\hat{p}_{sim}$s under the null hypothesis.
-        Estimate the p-value using the plot and use it to evaluate the hypotheses.
+    d.  下面的直方图显示了在原假设下 1,000 次模拟得到的 $\hat{p}_{sim}$ 的分布。
+        使用该图估算 p 值，并用它来评估假设。
 
     ```{r}
     #| fig-asp: 0.55
@@ -45,10 +45,10 @@
       ggplot(aes(x = stat)) +
       geom_histogram(bins = 20, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "基于原假设模拟抽取的 1,000 个比例",
         subtitle = "p = 0.20",
-        x = "Proportion of those who support\nproposals to defund police departments",
-        y = "Count"
+        x = "支持撤资警察部门提案的\n比例",
+        y = "频数"
       ) +
       scale_x_continuous(breaks = seq(0.15, 0.25, 0.02))
     ```
@@ -57,18 +57,18 @@
 
 \clearpage
 
-4.  **Assisted reproduction.** Assisted Reproductive Technology (ART) is a collection of techniques that help facilitate pregnancy (e.g., in vitro fertilization).
-    The 2018 ART Fertility Clinic Success Rates Report published by the Centers for Disease Control and Prevention reports that ART has been successful in leading to a live birth in 48.8% of cases where the patient is under 35 years old.
-    [@web:art2018] A new fertility clinic claims that their success rate is higher than average for this age group.
-    A random sample of 30 of their patients yielded a success rate of 60%.
-    A consumer watchdog group would like to determine if the data provides strong evidence to support the company's claim.
+4.  **辅助生殖。** 辅助生殖技术（ART）是一系列帮助促进妊娠（例如体外受精）的技术集合。
+    美国疾病控制与预防中心发布的《2018年ART生育诊所成功率报告》指出，对于患者年龄在35岁以下的案例，ART成功实现活产的成功率为48.8%。
+    [@web:art2018] 一家新的生育诊所声称，他们对于该年龄组的成功率高于平均水平。
+    从其患者中随机抽取30例样本，成功率为60%。
+    一个消费者监督小组想要确定这些数据是否提供了强有力的证据来支持该诊所的声称。
 
-    a.  Write the hypotheses to test if the success rate for ART at this clinic is discernibly higher than the success rate reported by the CDC.
+    a.  写出检验该诊所的ART成功率是否明显高于CDC报告的成功率的假设。
 
-    b.  Describe a setup for a simulation that would be appropriate in this situation and how the p-value can be calculated using the simulation results.
+    b.  描述适用于此情境的模拟设置，并说明如何利用模拟结果计算 p 值。
 
-    c.  The histogram below shows the distribution of 1,000 $\hat{p}_{sim}$s under the null hypothesis.
-        Estimate the p-value using the plot and use it to evaluate the hypotheses.
+    c.  下面的直方图显示了在原假设下 1,000 次模拟得到的 $\hat{p}_{sim}$ 的分布。
+        使用该图估算 p 值，并用它来评估假设。
 
     ```{r}
     #| fig-asp: 0.4
@@ -79,34 +79,34 @@
       specify(response = fertility, success = "success") |>
       hypothesize(null = "point", p = 0.488) |>
       generate(reps = 1000, type = "simulate") |>
-      calculate(stat = "prop") 
+      calculate(stat = "prop")
 
     null_dist |>
       ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "基于原假设模拟抽取的 1,000 个比例",
         subtitle = "p = 0.488",
-        x = "Proportion of successful ART cases",
-        y = "Count"
+        x = "ART 成功案例的比例",
+        y = "频数"
       ) +
       geom_vline(xintercept = 0.6, color = IMSCOL["red", 1], size = 1)
     ```
 
-    d.  After performing this analysis, the consumer group releases the following news headline: "Infertility clinic falsely advertises better success rates". Comment on the appropriateness of this statement.
+    d.  完成此分析后，该消费者监督小组发布了如下新闻标题：“不孕症诊所虚假宣传更高的成功率”。请评论此陈述的恰当性。
 
 \vfill
 
-5.  **If I fits, I sits, simulated null hypothesis.** A citizen science project on which type of enclosed spaces cats are most likely to sit in compared (among other options) two different spaces taped to the ground.
-    The first was a square, and the second was a shape known as [Kanizsa square illusion](https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures).
-    When comparing the two options given to 7 cats, 5 chose the square, and 2 chose the Kanizsa square illusion.
-    We are interested to know whether these data provide convincing evidence that cats prefer one of the shapes over the other.
+5.  **猫的“挤挤就坐”行为（If I fits, I sits），模拟原假设。** 一个关于猫最可能坐在哪种封闭空间里的公民科学项目比较了（以及其他选项）两种用胶带贴在地面上的不同空间。
+    第一种是一个正方形，第二种是一种被称为[卡尼萨正方形错觉](https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures)的形状。
+    在提供给 7 只猫的这两种选择中，5 只选择了正方形，2 只选择了卡尼萨正方形错觉。
+    我们想知道这些数据是否能提供有说服力的证据，表明猫偏爱其中一种形状。
     [@Smith:2021]
 
-    a.  What are the null and alternative hypotheses for evaluating whether these data provide convincing evidence that cats have preference for one of the shapes
+    a.  为评估这些数据是否提供了有说服力的证据表明猫对其中一种形状有偏爱，原假设和备择假设分别是什么？
 
-    b.  A null hypothesis simulation (with 1,000 draws) was run, and the resulting null distribution is displayed in the histogram below.
-        Find the p-value using this distribution and conclude the hypothesis test in the context of the problem.
+    b.  进行了一次原假设模拟（包含 1,000 次抽取），模拟得到的原假设分布显示在下方直方图中。
+        请根据该分布计算 p 值，并在问题背景下得出假设检验的结论。
 
     ```{r}
     #| fig-asp: 0.4
@@ -119,12 +119,12 @@
       generate(reps = 1000, type = "simulate") |>
       calculate(stat = "prop") |>
       ggplot(aes(x = stat)) +
-      geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) + 
+      geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "基于原假设模拟抽取的 1,000 个比例",
         subtitle = "p = 0.5",
-        x = "Proportion of cats who prefer squares",
-        y = "Count"
+        x = "偏爱正方形的猫的比例",
+        y = "频数"
       )
     ```
 
@@ -132,13 +132,13 @@
 
 \clearpage
 
-6.  **Legalization of marijuana, simulated null hypothesis.** The 2022 General Social Survey asked a random sample of 1,207 US adults: "Do you think the use of marijuana should be made legal, or not?" 65.3% of the respondents said it should be made legal.
-    [@data:gssgrass] Consider a scenario where, in order to become legal, 55% (or more) of voters must approve.
+6.  **大麻合法化，模拟原假设。** 2022 年综合社会调查（GSS）随机抽样询问了 1,207 名美国成年人：“你认为大麻的使用应该合法化，还是不应该？” 65.3% 的受访者回答了“是”。
+    [@data:gssgrass] 设想一个场景：为了使其合法化，需要 55% 或以上的选民支持。
 
-    a.  What are the null and alternative hypotheses for evaluating whether these data provide convincing evidence that, if voted on, marijuana would be legalized in the US.
+    a.  为评估这些数据是否提供了有说服力的证据，表明如果进行投票，大麻将在美国合法化，原假设和备择假设分别是什么？
 
-    b.  A null hypothesis simulation (with 1,000 draws) was run, and the resulting null distribution is displayed in the histogram below.
-        Find the p-value using this distribution and conclude the hypothesis test in the context of the problem.
+    b.  进行了一次原假设模拟（包含 1,000 次抽取），模拟得到的原假设分布显示在下方直方图中。
+        请根据该分布计算 p 值，并在问题背景下得出假设检验的结论。
 
     ```{r}
     #| fig-asp: 0.4
@@ -151,66 +151,66 @@
       generate(reps = 1000, type = "draw") |>
       calculate(stat = "prop") |>
       ggplot(aes(x = stat)) +
-      geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) + 
+      geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "基于原假设模拟抽取的 1,000 个比例",
         subtitle = "p = 0.55",
-        x = "Proportion of US adults who support legalizing marijuana",
-        y = "Count"
+        x = "支持大麻合法化的美国成年人比例",
+        y = "频数"
       )
     ```
 
 \vfill
 
-7.  **If I fits, I sits, standard errors.** The results of a study on the type of enclosed spaces cats are most likely to sit in show that 5 out of 7 cats chose a square taped to the ground over a shape known as [Kanizsa square illusion](https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures), which was preferred by the remaining 2 cats.
-    To evaluate whether these data provide convincing evidence that cats prefer one of the shapes over the other, we set $H_0: p = 0.5$, where $p$ is the population proportion of cats who prefer square over the Kanizsa square illusion and $H_A: p \neq 0.5$, which suggests some preference, without specifying which shape is more preferred.
+7.  **猫的“挤挤就坐”行为（If I fits, I sits），标准误。** 一项关于猫最可能坐在哪种封闭空间里的研究结果显示，7只猫中有5只选择了贴在地面上的正方形，而不是一种被称为[卡尼萨正方形错觉](https://en.wikipedia.org/wiki/Illusory_contours#Kanizsa_figures)的形状，这种形状被剩下的2只猫偏爱。
+    为了评估这些数据是否能提供猫偏爱其中一种形状的有说服力的证据，我们设定 $H_0: p = 0.5$，其中 $p$ 是偏爱正方形胜于卡尼萨正方形错觉的猫的总体比例；以及 $H_A: p \neq 0.5$，这表明存在某种偏好，但没有具体说明哪种形状更受偏爱。
     [@Smith:2021]
-    
-    a.  Using the mathematical model, calculate the standard error of the sample proportion in repeated samples of size 7.
 
-    b.  A null hypothesis simulation (with 1,000 draws) was run, and the resulting null distribution is displayed in the histogram below.
-        This distribution shows the variability of the sample proportion in samples of size 7 when 50% of cats prefer the square shape over the Kanizsa square illusion.
-        What is the approximate standard error of the sample proportion based on this distribution?
+    a.  使用数学模型，计算样本量 7 的重复抽样中样本比例的标准误。
+
+    b.  进行了一次原假设模拟（包含 1,000 次抽取），模拟得到的原假设分布显示在下方直方图中。
+        该分布展示了当 50% 的猫偏爱正方形而非 Kanizsa 方块错觉时，样本量为 7 的样本中样本比例的变异性。
+        基于此分布，样本比例的近似标准误是多少？
 
     ```{r}
     #| fig-asp: 0.4
     cats <- tibble(choice = c(rep("square", 5), rep("Kanizsa", 2)))
 
-    set.seed(47)
+set.seed(47)
     cats |>
       specify(response = choice, success = "square") |>
       hypothesize(null = "point", p = 0.5) |>
       generate(reps = 1000, type = "simulate") |>
       calculate(stat = "prop") |>
       ggplot(aes(x = stat)) +
-      geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) + 
+      geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "从原假设中抽取的 1,000 个比例",
         subtitle = "p = 0.5",
-        x = "Simulated proportion of\ncats who prefer squares",
-        y = "Count"
+        x = "模拟的偏好正方形的\n猫的比例",
+        y = "频数"
       )
     ```
 
-    c.  Do the mathematical model and simulated draws yield similar standard errors?
+    c.  数学模型与模拟抽取给出的标准误是否相近？
 
-    d.  In order to approach the problem using the mathematical model, is the success-failure condition met for this study?
-        Explain.
+    d.  为了用数学模型处理这个问题，本研究是否满足成功—失败条件？
+        请说明。
 
-    e.  What features of the null distribution shown above tells us that the mathematical model should probably not be used?
+    e.  上图中所示的原假设分布的哪些特征告诉我们，可能不应该使用数学模型？
 
 \vfill
 
 \clearpage
 
-8.  **Legalization of marijuana, standard errors.** According to the 2022 General Social Survey, in a random sample of 1,207 US adults, 65.3% think marijuana should be made legal.
-    [@data:gssgrass] Consider a scenario where, in order to become legal, 55% (or more) of voters must approve.
+8.  **大麻合法化，标准误。** 根据 2022 年综合社会调查，在一个包含 1,207 名美国成人的随机样本中，有 65.3% 的人支持将大麻合法化。
+    [@data:gssgrass] 现在考虑一个场景：若要使之合法，需要 55% 或以上的人支持。
 
-    a.  Calculate the standard error of the sample proportion using the mathematical model.
+    a.  使用数学模型计算样本比例的标准误。
 
-    b.  1,000 sample proportions from samples of size 1,207 were drawn from a null distribution where 55% of voters approve legalizing marijuana.
-        The distribution of these proportions is shown in the histogram below.
-        Approximate the standard error of the sample proportion based on this distribution.
+    b.  在“55% 的选民赞成大麻合法化”的原假设下，抽取了 1,000 个样本量为 1,207 的样本比例。
+        这些比例的分布如以下直方图所示。
+        基于此分布，近似计算样本比例的标准误。
 
     ```{r}
     #| fig-asp: 0.4
@@ -223,27 +223,27 @@
       generate(reps = 1000, type = "draw") |>
       calculate(stat = "prop") |>
       ggplot(aes(x = stat)) +
-      geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) + 
+      geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "从原假设中抽取的 1,000 个比例",
         subtitle = "p = 0.55",
-        x = "Proportion of US adults who support legalizing marijuana",
-        y = "Count"
+        x = "支持大麻合法化的美国成人比例",
+        y = "频数"
       )
     ```
 
-    c.  Do the mathematical model and simulated draws yield similar standard errors?
+    c.  数学模型与模拟抽取给出的标准误是否相近？
 
-    d.  In this setting (to test whether the true underlying population proportion is greater than 0.55), would there be a strong reason to choose the mathematical model over the simulated null hypothesis (or vice versa)?
+    d.  在此背景下（检验真实的总体比例是否大于 0.55），是否有强有力的理由选择数学模型而非模拟原假设（或反之）？
 
 \vfill
 
-9.  **Statistics and employment, describe the bootstrap.** A large university knows that about 70% of the full-time students are employed at least 5 hours per week.
-    The members of the Statistics Department wonder if the same proportion of their students work at least 5 hours per week.
-    They randomly sample 25 majors and find that 15 of the students work 5 or more hours each week.
+9.  **统计专业与就业，描述自助法。** 一所大型大学知道该校约有 70% 的全日制学生每周至少工作 5 小时。
+    统计系的老师们想知道他们的学生中每周至少工作 5 小时的比例是否相同。
+    他们随机抽取了 25 名专业学生，发现有 15 名学生每周工作 5 小时或以上。
 
-    Two sampling distributions are created to describe the variability in the proportion of statistics majors who work at least 5 hours per week.
-    The null hypothesis simulation imposes a true population proportion of $p = 0.7$ while the data bootstrap resamples from the actual data (which has 60% of the observations who work at least 5 hours per week).
+    创建了两个抽样分布来描述统计专业学生中每周至少工作 5 小时比例的变异性。
+    原假设模拟设定了真实的总体比例 $p = 0.7$，而数据自助法则是从实际数据（其中有 60% 的观测值对应的学生每周至少工作 5 小时）中进行重抽样。
 
     ```{r}
     #| out-width: 100%
@@ -257,13 +257,13 @@
       hypothesize(null = "point", p = 0.7) |>
       generate(reps = 1000, type = "simulate") |>
       calculate(stat = "prop") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "Draws from null hypothesis",
+        title = "从原假设中抽取",
         subtitle = "p = 0.7",
-        x = "Proportion of\nthose who work",
-        y = "Count"
+        x = "工作者的\n比例",
+        y = "频数"
       )
 
     set.seed(47)
@@ -271,40 +271,40 @@
       specify(response = outside, success = "work") |>
       generate(reps = 1000, type = "bootstrap") |>
       calculate(stat = "prop") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "Data bootstrap",
-        x = "Bootstrapped proportion of\nthose who work",
-        y = "Count"
+        title = "数据自助法",
+        x = "工作者的\n自助法比例",
+        y = "频数"
       )
 
     p_para + p_data
     ```
 
-    a.  The sampling was done under two different settings to generate each of the distributions shown above.
-        Describe the two different settings.
+    a.  为生成上方所示的两个分布，抽样是在两种不同的设置下进行的。
+        描述这两种不同的设置。
 
-    b.  Where are each of the two distributions centered?
-        How do their centers compare?
+    b.  这两个分布的中心各在哪里？
+        它们的中心如何比较？
 
-    c.  Estimate the standard error of the simulated proportions based on each distribution.
-        Are the two standard errors you estimate roughly equal?
+    c.  基于每个分布估计模拟比例的标准误。
+        你估计的这两个标准误是否大致相等？
 
-    d.  Describe the shapes of the two distributions.
-        Are they roughly the same?
+    d.  描述这两个分布的形态。
+        它们是否大致相同？
 
 \vfill
 
 \clearpage
 
-10. **National Health Plan, simulated null hypothesis.** A Kaiser Family Foundation poll for a random sample of US adults in 2019 found that 79% of Democrats, 55% of Independents, and 24% of Republicans supported a generic "National Health Plan".
-    There were 347 Democrats, 298 Republicans, and 617 Independents surveyed.
+10. **全民医保计划，模拟原假设。** 凯撒家庭基金会 2019 年针对美国成年人的一个随机样本进行的民意调查发现，79% 的民主党人、55% 的独立人士和 24% 的共和党人支持一般的“国家健康计划”。
+    接受调查的人中，有 347 名民主党人、298 名共和党人和 617 名独立人士。
     [@data:KFF2019nathealthplan]
 
-    A political pundit on TV claims that a majority of Independents support a National Health Plan.
-    Do these data provide strong evidence to support this type of statement?
-    One approach to assessing the question of whether a majority of Independents support a National Health Plan is to simulate 1,000 draws from a null hypothesis with $p = 0.5$ as the proportion of Independents in support.
+    一名电视上的政治评论员声称，过半数的独立人士支持全民医保计划。
+    这些数据是否提供了有力证据来支持这类说法？
+    评估独立人士中是否有过半数支持全民医保计划这一问题的一种方法是，从以 $p = 0.5$ 为独立人士支持比例的原假设中模拟抽取 1,000 次。
 
     ```{r}
     #| fig-asp: 0.4
@@ -318,29 +318,28 @@
       calculate(stat = "prop")
 
     null_dist |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.005, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "1,000 proportions from null hypothesis draws",
+        title = "从原假设中抽取的 1,000 个比例",
         subtitle = "p = 0.50",
-        x = "Proportion of those who\nsupport a national health plan",
-        y = "Count"
+        x = "支持全民医保计划的\n人士比例",
+        y = "频数"
       )
     ```
 
-    a.  The histogram above displays 1000 values of what?
+    a.  上方的直方图展示了 1,000 个什么值？
 
-    b.  Is the observed proportion of Independents consistent with the null hypothesis simulated proportions under the setting where $p=0.5?$
+    b.  在 $p=0.5$ 的设定下，独立人士的观测比例与原假设模拟比例是否一致？
 
-    c.  In order to test the claim that "a majority of Independents support a National Health Plan" what are the null and alternative hypotheses?
+    c.  为了检验“过半数独立人士支持全民医保计划”这一说法，原假设和备择假设分别是什么？
 
-    d.  Using the simulated null hypothesis distribution, find the p-value and conclude the hypothesis test in the context of the problem.
+    d.  使用模拟的原假设分布，求 p 值并在问题背景下对假设检验下结论。
 
-11. **Statistics and employment, use the bootstrap.** In a large university where 70% of the full-time students are employed at least 5 hours per week, the members of the Statistics Department wonder if the same proportion of their students work at least 5 hours per week.
-    They randomly sample 25 majors and find that 15 of the students work 5 or more hours each week.
+11. **统计专业与就业，使用自助法。** 在一所约有 70% 的全日制学生每周至少工作 5 小时的大型大学中，统计系的成员想知道他们的学生中每周至少工作 5 小时的比例是否相同。他们随机抽取了 25 名专业学生，发现其中 15 名学生每周工作 5 小时或以上。
 
-    Two sampling distributions are created to describe the variability in the proportion of statistics majors who work at least 5 hours per week.
-    The null hypothesis distribution imposes a true population proportion of $p=0.7$ while the data bootstrap resamples from the actual data (which has 60% of the observations who work at least 5 hours per week).
+    创建了两个抽样分布来描述统计专业学生中每周至少工作 5 小时比例的变异性。
+    原假设分布设定了真实的总体比例 $p=0.7$，而数据自助法则从实际数据（其中有 60% 的观测值对应的学生每周至少工作 5 小时）中进行重抽样。
 
     ```{r}
     #| out-width: 100%
@@ -354,13 +353,13 @@
       hypothesize(null = "point", p = 0.7) |>
       generate(reps = 1000, type = "simulate") |>
       calculate(stat = "prop") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "Draws from null hypothesis",
+        title = "从原假设中抽取",
         subtitle = "p = 0.7",
-        x = "Proportion of\nthose who work",
-        y = "Count"
+        x = "工作者的\n比例",
+        y = "频数"
       )
 
     set.seed(47)
@@ -368,278 +367,276 @@
       specify(response = outside, success = "work") |>
       generate(reps = 1000, type = "bootstrap") |>
       calculate(stat = "prop") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(binwidth = 0.05, fill = IMSCOL["green", "full"]) +
       labs(
-        title = "Data bootstrap",
-        x = "Bootstrapped proportion of\nthose who work",
-        y = "Count"
+        title = "数据自助法",
+        x = "工作者的\n自助法比例",
+        y = "频数"
       )
 
     p_para + p_data
     ```
-    
+
     ::: {.content-visible when-format="pdf"}
-    *See the next page for the questions.*
+    *问题见下一页。*
     :::
-    
+
     \clearpage
 
-    a.  Which distribution should be used to test whether the proportion of all statistics majors who work at least 5 hours per week is 70%?
-        And which distribution should be used to find a confidence interval for the true poportion of statistics majors who work at least 5 hours per week?
+    a.  应该使用哪个分布来检验所有统计专业学生中每周至少工作 5 小时的比例是否为 70%? 并且应该使用哪个分布来求解统计专业学生中每周至少工作 5 小时的真实比例的置信区间？
 
-    b.  Using the appropriate histogram, test the claim that 70% of statistics majors, like their peers, work at least 5 hours per week.
-        State the null and alternative hypotheses, find the p-value, and conclude the test in the context of the problem.
+    b.  使用合适的直方图，检验 70% 的统计学专业学生和同龄人一样，每周至少工作 5 小时这一说法。
+        陈述原假设和备择假设，求 p 值，并在问题背景下对检验下结论。
 
-    c.  Using the appropriate histogram, find a 98% bootstrap percentile confidence interval for the true proportion of statistics majors who work at least 5 hours per week.
-        Interpret the confidence interval in the context of the problem.
+    c.  使用合适的直方图，求一个统计专业学生中每周至少工作 5 小时的真实比例的 98% 自助百分位置信区间。
+        在问题背景下解释该置信区间。
 
-    d.  Using the appropriate historgram, find a 98% bootstrap SE confidence interval for the true proportion of statistics majors who work at least 5 hours per week.
-        Interpret the confidence interval in the context of the problem.
-
-\vfill
-
-12. **CLT for proportions.** Define the term "sampling distribution" of the sample proportion, and describe how the shape, center, and spread of the sampling distribution change as the sample size increases when $p = 0.1$.
+    d.  使用合适的直方图，求一个统计专业学生中每周至少工作 5 小时的真实比例的 98% 自助标准误置信区间。
+        在问题背景下解释该置信区间。
 
 \vfill
 
-13. **Vegetarian college students.** Suppose that 8% of college students are vegetarians.
-    Determine if the following statements are true or false, and explain your reasoning.
-
-    a.  The distribution of the sample proportions of vegetarians in random samples of size 60 is approximately normal since $n \ge 30$.
-
-    b.  The distribution of the sample proportions of vegetarian college students in random samples of size 50 is right skewed.
-
-    c.  A random sample of 125 college students where 12% are vegetarians would be considered unusual.
-
-    d.  A random sample of 250 college students where 12% are vegetarians would be considered unusual.
-
-    e.  The standard error would be reduced by one-half if we increased the sample size from 125 to 250.
+12. **比例的中心极限定理 (CLT)。** 定义样本比例的“抽样分布”这一术语，并描述当 $p = 0.1$ 时，抽样分布的形态、中心和展布如何随样本量增加而变化。
 
 \vfill
 
-14. **Young Americans, American dream.** About 77% of young adults think they can achieve the American dream.
-    Determine if the following statements are true or false, and explain your reasoning.
+13. **大学生素食者。** 假设 8% 的大学生是素食者。
+    判断下列陈述是对是错，并解释你的推理。
+
+a.  在样本量为 60 的随机样本中，素食者样本比例的分布近似正态，因为 $n \ge 30$。
+
+    b.  在样本量为 50 的随机样本中，大学生素食者样本比例的分布是右偏的。
+
+    c.  一个包含 125 名大学生的随机样本，其中 12% 是素食者，这会被认为是不寻常的。
+
+    d.  一个包含 250 名大学生的随机样本，其中 12% 是素食者，这会被认为是不寻常的。
+
+    e.  如果我们将样本量从 125 增加到 250，标准误将减半。
+
+\vfill
+
+14. **年轻美国人与美国梦。** 大约 77% 的年轻人认为他们能实现美国梦。
+    判断以下陈述是正确还是错误，并解释你的推理。
     [@news:youngAmericans1]
 
-    a.  The distribution of sample proportions of young Americans who think they can achieve the American dream in random samples of size 20 is left skewed.
+    a.  在样本量为 20 的随机样本中，认为自己能实现美国梦的年轻美国人样本比例的分布是左偏的。
 
-    b.  The distribution of sample proportions of young Americans who think they can achieve the American dream in random samples of size 40 is approximately normal since $n \ge 30$.
+    b.  在样本量为 40 的随机样本中，认为自己能实现美国梦的年轻美国人样本比例的分布近似正态，因为 $n \ge 30$。
 
-    c.  A random sample of 60 young Americans where 85% think they can achieve the American dream would be considered unusual.
+    c.  一个包含 60 名年轻美国人的随机样本，其中 85% 的人认为他们能实现美国梦，这会被认为是不寻常的。
 
-    d.  A random sample of 120 young Americans where 85% think they can achieve the American dream would be considered unusual.
+    d.  一个包含 120 名年轻美国人的随机样本，其中 85% 的人认为他们能实现美国梦，这会被认为是不寻常的。
 
 \vfill
 
-15. **Orange tabbies.** Suppose that 90% of orange tabby cats are male.
-    Determine if the following statements are true or false, and explain your reasoning.
+15. **橘色虎斑猫。** 假设 90% 的橘色虎斑猫是雄性。
+    判断以下陈述是正确还是错误，并解释你的推理。
 
-    a.  The distribution of sample proportions of random samples of size 30 is left skewed.
+    a.  样本量为 30 的随机样本的样本比例分布是左偏的。
 
-    b.  Using a sample size that is 4 times as large will reduce the standard error of the sample proportion by one-half.
+    b.  使用 4 倍大的样本量将使样本比例的标准误减半。
 
-    c.  The distribution of sample proportions of random samples of size 140 is approximately normal.
+    c.  样本量为 140 的随机样本的样本比例分布近似正态。
 
-    d.  The distribution of sample proportions of random samples of size 280 is approximately normal.
+    d.  样本量为 280 的随机样本的样本比例分布近似正态。
 
 \vfill
 
 \clearpage
 
-16. **Young Americans, starting a family.** About 25% of young Americans have delayed starting a family due to the continued economic slump.
-    Determine if the following statements are true or false, and explain your reasoning.
+16. **年轻美国人，组建家庭。** 大约 25% 的年轻美国人因持续的经济低迷而推迟了组建家庭的时间。
+    判断以下陈述是正确还是错误，并解释你的推理。
     [@news:youngAmericans2]
 
-    a.  The distribution of sample proportions of young Americans who have delayed starting a family due to the continued economic slump in random samples of size 12 is right skewed.
+    a.  在样本量为 12 的随机样本中，由于经济持续低迷而推迟组建家庭的年轻美国人样本比例的分布是右偏的。
 
-    b.  In order for the distribution of sample proportions of young Americans who have delayed starting a family due to the continued economic slump to be approximately normal, we need random samples where the sample size is at least 40.
+    b.  为了使由于经济持续低迷而推迟组建家庭的年轻美国人样本比例的分布近似正态，我们需要样本量至少为 40 的随机样本。
 
-    c.  A random sample of 50 young Americans where 20% have delayed starting a family due to the continued economic slump would be considered unusual.
+    c.  一个包含 50 名年轻美国人的随机样本，其中 20% 的人因持续的经济低迷而推迟组建家庭，这将被视为不寻常。
 
-    d.  A random sample of 150 young Americans where 20% have delayed starting a family due to the continued economic slump would be considered unusual.
+    d.  一个包含 150 名年轻美国人的随机样本，其中 20% 的人因持续的经济低迷而推迟组建家庭，这将被视为不寻常。
 
-    e.  Tripling the sample size will reduce the standard error of the sample proportion by one-third.
+    e.  将样本量增至三倍将使样本比例的标准误减少三分之一。
 
 \vfill
 
-17. **Sex equality.** The General Social Survey asked a random sample of 1,390 Americans the following question: "On the whole, do you think it should or should not be the government's responsibility to promote equality between men and women?" 82% of the respondents said it "should be".
-    At a 95% confidence level, this sample has 2% margin of error.
-    Based on this information, determine if the following statements are true or false, and explain your reasoning.
+17. **性别平等。** 综合社会调查询问了 1,390 名美国人构成的一个随机样本以下问题：“总体而言，你认为促进男女平等应该是还是不应该是政府的责任？” 82% 的受访者表示“应该是”。
+    在 95% 的置信水平下，该样本的误差界为 2%。
+    基于此信息，判断以下陈述是正确还是错误，并解释你的推理。
     [@data:gsssexeq]
 
-    a.  We are 95% confident that 80% to 84% of Americans in this sample think it's the government's responsibility to promote equality between men and women.
+    a.  我们有 95% 的把握认为，该样本中 80% 到 84% 的美国人认为促进男女平等是政府的责任。
 
-    b.  We are 95% confident that 80% to 84% of all Americans think it's the government's responsibility to promote equality between men and women.
+    b.  我们有 95% 的把握认为，所有美国人中 80% 到 84% 的人认为促进男女平等是政府的责任。
 
-    c.  If we considered many random samples of 1,390 Americans, and we calculated 95% confidence intervals for each, 95% of these intervals would include the true population proportion of Americans who think it's the government's responsibility to promote equality between men and women.
+    c.  如果我们考虑许多样本量为 1,390 名美国人的随机样本，并为每个样本计算 95% 置信区间，那么这些区间中 95% 将包含认为促进男女平等是政府责任的美国人的真实总体比例。
 
-    d.  In order to decrease the margin of error to 1%, we would need to quadruple (multiply by 4) the sample size.
+    d.  为了将误差界降低到 1%，我们需要将样本量增加至原来的四倍（乘以 4）。
 
-    e.  Based on this confidence interval, there is sufficient evidence to conclude that a majority of Americans think it's the government's responsibility to promote equality between men and women.
+    e.  基于这个置信区间，有充分的证据得出结论：大多数美国人认为政府有责任促进男女平等。
 
 \vfill
 
-18. **Elderly drivers.** A Marist Poll report states that 66% of American adults think licensed drivers should be required to retake their road test once they reach 65 years of age, based on a random sample of 1,018 American adults. They also report a margin of error was 3% at the 95% confidence level.
+18. **老年司机。** 一份 Marist Poll 报告指出，基于 1,018 名美国成年人的随机样本，66% 的美国成年人认为应要求持证司机在年满 65 岁时重新参加路考。他们还报告称，在 95% 的置信水平下误差幅度为 3%。
     [@data:elderlyDriving]
 
-    a.  Verify the margin of error reported by The Marist Poll using a mathematical model.
+    a.  使用数学模型验证 Marist Poll 报告的误差界。
 
-    b.  Based on a 95% confidence interval, does the poll provide convincing evidence that *more than* two thirds of the population think that licensed drivers should be required to retake their road test once they turn 65?
+    b.  基于 95% 置信区间，这项民意调查是否提供了令人信服的证据，表明超过三分之二的人口认为一旦持照驾驶员年满 65 岁，就应被要求重新参加路考？
 
 \vfill
 
-19. **Fireworks on July 4**$^{\text{th}}$.
-    A local news outlet reported that 56% of 600 randomly sampled Kansas residents planned to set off fireworks on July $4^{th}$.
-    Determine the margin of error for the 56% point estimate using a 95% confidence level using a mathematical model.
+19. **7 月 4 日烟花**。
+    一家当地新闻媒体报道称，600 名随机抽样的堪萨斯州居民中有 56% 计划在 7 月 $4^{th}$ 日燃放烟花。
+    使用数学模型，在 95% 置信水平下确定 56% 这一估计值的误差界。
     [@data:july4]
 
 \vfill
 
 \clearpage
 
-20. **Proof of COVID-19 vaccination.** In the US, businesses and schools shut down due to the COVID-19 pandemic in March 2020, and a vaccine became publicly available for the first time in April 2021.
-    That month, a Gallup poll surveyed a random sample of 3,731 US adults, asking how they felt about the COVID-19 vaccine requirement for air travel.
-    The poll found that 57% said they would favor it.
+20. **COVID-19 疫苗接种证明。** 在美国，企业和学校因 2020 年 3 月的 COVID-19 大流行而关闭，而疫苗于 2021 年 4 月首次向公众提供。
+    当月，盖洛普民意调查对一个由 3,731 名美国成年人构成的随机样本进行了调查，询问他们对航空旅行要求 COVID-19 疫苗接种的看法。
+    调查发现，57% 的人表示赞成。
     [@data:gallupcovidvaccine]
 
-    a.  Describe the population parameter of interest.
-        What is the value of the point estimate of this parameter?
+    a.  描述感兴趣的总体参数。该参数的点估计值是多少？
 
-    b.  Check if the conditions required for constructing a confidence interval using a mathematical model based on these data are met.
+    b.  检查基于这些数据使用数学模型构建置信区间所需的条件是否满足。
 
-    c.  Construct a 95% confidence interval for the proportion of US adults who favor requiring proof of COVID-19 vaccination for travel by airplane.
+    c.  构建一个美国成年人中赞成乘飞机旅行时要求提供 COVID-19 疫苗接种证明的比例的 95% 置信区间。
 
-    d.  Without doing any calculations, describe what would happen to the confidence interval if we decided to use a higher confidence level.
+    d.  在不进行任何计算的情况下，描述如果我们决定使用更高的置信水平，置信区间会发生什么变化。
 
-    e.  Without doing any calculations, describe what would happen to the confidence interval if we used a larger sample.
+    e.  在不进行任何计算的情况下，描述如果我们使用更大的样本，置信区间会发生什么变化。
 
 \vfill
 
-21. **Study abroad.** A survey on 1,509 high school seniors who took the SAT and who completed an optional web survey shows that 55% of high school seniors are fairly certain that they will participate in a study abroad program in college.
+21.  **留学项目。** 一项针对 1,509 名参加了 SAT 考试并完成了一项可选网络调查的高中毕业生的调查显示，有 55% 的高中毕业生非常确定他们将在大学期间参加留学项目。
     [@data:studyAbroad]
 
-    a.  Is this sample a representative sample from the population of all high school seniors in the US?
-        Explain your reasoning.
+    a.  这个样本是美国所有高中毕业生总体的有代表性的样本吗？
+        请解释你的推理。
 
-    b.  Suppose the conditions for inference are met, regardless of your answer to part (a).
-        Using a mathematical model, construct a 90% confidence interval for the proportion of high school seniors (of those who took the SAT) who are fairly certain they will participate in a study abroad program in college, and interpret this interval in context.
+    b.  假设推断条件已满足，无论你对 部分的回答如何。
+        使用数学模型，构建一个参加 SAT 考试的高中毕业生中非常确定会在大学期间参加留学项目的比例的 90% 置信区间，并在问题背景下解释该区间。
 
-    c.  What does "90% confidence" mean?
+    c.  “90% 置信”是什么意思？
 
-    d.  Based on this interval, would it be appropriate to claim that the majority of high school seniors are fairly certain that they will participate in a study abroad program in college?
+    d.  基于这个区间，声称大多数高中毕业生都相当确定自己会在大学期间参加留学项目是否合适？
 
 \vfill
 
-22. **Legalization of marijuana, mathematical interval.** The General Social Survey asked a random sample of 1,563 US adults: "Do you think the use of marijuana should be made legal, or not?" 60% of the respondents said it should be made legal.
+22.  **大麻合法化，数学区间。** 综合社会调查询问了一个由 1,563 名美国成年人构成的随机样本：“你认为大麻的使用应该合法化，还是不应该？” 60% 的受访者回答应该合法化。
     [@data:gssgrass]
 
-    a.  Is 60% a sample statistic or a population parameter?
-        Explain.
+    a.  这 60% 是样本统计量还是总体参数？
+        请解释。
 
-    b.  Using a mathematical model, construct a 95% confidence interval for the proportion of US adults who think marijuana should be made legal, and interpret it in the context of the data.
+    b.  使用数学模型，构建一个美国成年人中认为大麻应被合法化的比例的 95% 置信区间，并在数据背景下对其进行解释。
 
-    c.  A critic points out that this 95% confidence interval is only accurate if the statistic follows a normal distribution, or if the normal model is a good approximation.
-        Do the technical conditions hold for these data?
-        Explain.
+    c.  一位批评者指出，这个 95% 置信区间只有在统计量服从正态分布，或者正态模型是一个良好近似时才是准确的。
+        这些数据满足技术条件吗？
+        请解释。
 
-    d.  A news piece on this survey's findings states, "Majority of US adults think marijuana should be legalized." Based on your confidence interval, is the news piece's statement justified?
+    d.  一篇关于此项调查结果的新闻报道指出：“大多数美国成年人认为应该将大麻合法化。”根据你的置信区间，这篇报道的说法是否合理？
 
 \vfill
 
 \clearpage
 
-23. **National Health Plan, mathematical inference.** A Kaiser Family Foundation poll for a random sample of US adults in 2019 found that 79% of Democrats, 55% of Independents, and 24% of Republicans supported a generic "National Health Plan".
-    There were 347 Democrats, 298 Republicans, and 617 Independents surveyed.
+23.  **国家健康计划，数学推断。** 凯撒家庭基金会在 2019 年对美国成年人随机样本的一项民意调查发现，79% 的民主党人、55% 的独立人士和 24% 的共和党人支持一般的“国家健康计划”。
+    接受调查的有 347 位民主党人、298 位共和党人和 617 位独立人士。
     [@data:KFF2019nathealthplan]
 
-    a.  A political pundit on TV claims that a majority of Independents support a National Health Plan.
-        Do these data provide strong evidence to support this type of statement?
-        Your response should use a mathematical model.
+    a.  一位电视政治评论员声称，大多数独立人士支持国家健康计划。
+        这些数据是否提供了强有力的证据来支持这种说法？
+        你的回答应该使用数学模型。
 
-    b.  Would you expect a confidence interval for the proportion of Independents who oppose the public option plan to include 0.5?
-        Explain.
+    b.  你是否会预期，反对该公共选项计划的独立人士比例的置信区间会包含 0.5？
+        请解释。
 
 \vfill
 
-24. **Is college worth it?** Among a simple random sample of 331 American adults who do not have a four-year college degree and are not currently enrolled in school, 48% said they decided not to go to college because they could not afford school.
+24.  **上大学值得吗？** 在一个由 331 名没有四年制大学学位且目前未在校就读的美国成年人构成的简单随机样本中，48% 的人表示他们决定不上大学是因为负担不起学费。
     [@data:collegeWorthIt]
 
-    a.  A newspaper article states that only a minority of the Americans who decide not to go to college do so because they cannot afford it and uses the point estimate from this survey as evidence.
-        Conduct a hypothesis test to determine if these data provide strong evidence supporting this statement.
+    a.  一篇报纸文章声称，只有少数决定不上大学的美国人是因为负担不起，并以此调查的点估计作为证据。
+        进行一项假设检验，以确定这些数据是否提供了强有力的证据来支持这一说法。
 
-    b.  Would you expect a confidence interval for the proportion of American adults who decide not to go to college because they cannot afford it to include 0.5?
-        Explain.
-
-\vfill
-
-25. **Taste test.** Some people claim that they can tell the difference between a diet soda and a regular soda in the first sip.
-    A researcher wanting to test this claim randomly sampled 80 such people.
-    He then filled 80 plain white cups with soda, half diet and half regular through random assignment, and asked each person to take one sip from their cup and identify the soda as diet or regular.
-    53 participants correctly identified the soda.
-
-    a.  Do these data provide strong evidence that these people are able to detect the difference between diet and regular soda, in other words, are the results discernibly better than just random guessing?
-        Your response should use a mathematical model.
-
-    b.  Interpret the p-value in this context.
+    b.  你是否会预期，因为负担不起而决定不上大学的美国成年人比例的置信区间会包含 0.5？
+        请解释。
 
 \vfill
 
-26. **Will the coronavirus bring the world closer together?** In early 2020 the COVID-19 pandemic arrived in the US; by December 2020 the first COVID-19 vaccine was available.
-    An April 2021 YouGov poll asked 4,265 UK adults whether they think the coronavirus bring the world closer together or leave us further apart.
-    12% of the respondents said it will bring the world closer together.
-    37% said it would leave us further apart, 39% said it won't make a difference and the remainder didn't have an opinion on the matter.
+25.  **口味测试。** 有些人声称他们能在第一口就尝出无糖汽水和普通汽水的区别。
+    一位想要验证此说法的研究人员随机抽取了 80 位这样的人。
+    然后，他通过随机分配，将汽水装入 80 个纯白色杯子中（一半无糖，一半普通），并要求每个人从自己的杯中啜饮一口，然后判断汽水是无糖的还是普通的。
+    53 位参与者正确识别了汽水。
+
+    a.  这些数据是否提供了强有力的证据，证明这些人能够区分无糖汽水和普通汽水？换言之，其结果是否明显优于纯粹的随机猜测？
+        你的回答应使用数学模型。
+
+    b.  在此背景下解释 p 值。
+
+\vfill
+
+26.  **新冠疫情会让世界更紧密吗？** 2020 年初，COVID-19 大流行抵达美国；到 2020 年 12 月，第一种 COVID-19 疫苗问世。
+    2021 年 4 月，YouGov 的一项民意调查询问了 4,265 名英国成年人，他们认为新冠疫情是会让世界更紧密还是会让我们更疏远。
+    12% 的受访者表示这会让世界更紧密。
+    37% 的受访者表示这会让我们更疏远，39% 表示不会有影响，其余受访者对此没有意见。
     [@data:yougovcovid]
 
-    a.  Calculate, using a mathematical model, a 90% confidence interval for the proportion of UK adults who think the coronavirus will bring the world closer together, and interpret the interval in context.
+    a.  使用数学模型，计算一个英国成年人中认为冠状病毒将使世界更加紧密的比例的 90% 置信区间，并在问题背景下解释该区间。
 
-    b.  Suppose we wanted the margin of error for the 90% confidence level to be about 0.5%.
-        How large of a sample size would you recommend for the poll?
+    b.  假设我们希望在 90% 的置信水平下的误差界约为 0.5%。
+        你会建议这项民意调查使用多大的样本量？
 
 \vfill
 
 \clearpage
 
-27. **Quality control.** As part of a quality control process for computer chips, an engineer at a factory randomly samples 212 chips during a week of production to test the current rate of chips with severe defects.
-    She finds that 27 of the chips are defective.
+27.  **质量控制。** 作为计算机芯片质量控制流程的一部分，工厂的一位工程师在一周的生产中随机抽取了 212 个芯片，以测试当前存在严重缺陷的芯片的比率。
+    她发现其中有 27 个芯片是有缺陷的。
 
-    a.  What population is under consideration in the dataset?
+    a.  数据集中所考虑的总体是什么？
 
-    b.  What parameter is being estimated?
+    b.  正在估计的参数是什么？
 
-    c.  What is the point estimate for the parameter?
+    c.  该参数的点估计是多少？
 
-    d.  What is the name of the statistic that can be used to measure the uncertainty of the point estimate?
+    d.  可以用来衡量该点估计不确定性的统计量的名称是什么？
 
-    e.  Compute the value of the statistic from part (d) using a mathematical model.
+    e.  使用数学模型，计算 部分中该统计量的值。
 
-    f.  The historical rate of defects is 10%.
-        Should the engineer be surprised by the observed rate of defects during the current week?
+f.  历史缺陷率为 10%.
+    工程师是否应对本周观测到的缺陷率感到惊讶？
 
-    g.  Suppose the true population value was found to be 10%.
-        If we use this proportion to recompute the value in part (d) using $p = 0.1$ instead of $\hat{p}$, how much does the resulting value of the statistic change?
-
-\vfill
-
-28. **Nearsighted children.** Nearsightedness (myopia) is a common vision condition in which you can see near objects clearly, but farther away objects blurry.
-    It is believed that nearsightedness affects about 8% of all children.
-    In a random sample of 194 children, 21 are nearsighted.
-    Using a mathematical model, conduct a hypothesis test for the following question: do these data provide evidence that the 8% value is inaccurate?
+g.  假设发现真实总体值为 10%.
+    如果我们使用这个比例，以 $p = 0.1$ 代替 $\hat{p}$ 重新计算 部分的值，所得的统计量值会发生多大变化？
 
 \vfill
 
-29. **Website registration.** A website is trying to increase registration for first-time visitors, exposing 1% of these visitors to a new site design.
-    Of 752 randomly sampled visitors over a month who saw the new design, 64 registered.
-
-    a.  Check the conditions for constructing a confidence interval for the proportion of first-time visitors of the site who would register under the new design using a mathematical model.
-
-    b.  Compute the standard error which would describe the variability os the point estimate associated with repeated samples of size 752.
-
-    c.  Construct and interpret a 90% confidence interval for the fraction of first-time visitors of the site who would register under the new design (assuming stable behaviors by new visitors over time).
+28.  **近视儿童。** 近视是一种常见的视力问题，患者能看清近处物体，但看远处模糊。
+     据信，近视大约影响 8% 的儿童。
+     在一个由 194 名儿童组成的随机样本中，有 21 人近视。
+     使用数学模型，对以下问题进行假设检验：这些数据是否提供了证据表明 8% 这一数值是不准确的？
 
 \vfill
 
-30. **Coupons driving visits.** A store randomly samples 603 shoppers over the course of a year and finds that 142 of them made their visit because of a coupon they'd received in the mail.
-    Using a mathematical model, construct a 95% confidence interval for the fraction of all shoppers during the year whose visit was because of a coupon they'd received in the mail.
+29.  **网站注册。** 某网站正试图增加首次访客的注册量，向 1% 的访客展示了新网站设计。
+     在一个月内随机抽取的 752 名看到新设计的访客中，有 64 人注册。
+
+    a.  检查使用数学模型为“在新设计下会注册的网站首次访客的比例”构造置信区间所需的条件。
+
+    b.  计算能描述与样本量为 752 的重复样本有关联的点估计变异性的标准误。
+
+    c.  构造并解释一个在新设计下会注册的该网站首次访问者比例的 90% 置信区间（假设新访客的行为随时间保持稳定）。
+
+\vfill
+
+30.  **优惠券驱动光顾。** 一家商店在一年内随机抽取了 603 名购物者，发现其中有 142 人是因为收到了邮寄的优惠券而来店消费的。
+     使用数学模型，构造一个一年内所有购物者中因收到邮寄优惠券而来店消费的比例的 95% 置信区间。
 
 \vfill

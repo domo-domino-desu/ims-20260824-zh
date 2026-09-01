@@ -1,44 +1,44 @@
-1.  \(a\) Population mean, $\mu_{2007} = 52$; sample mean, $\bar{x}_{2008} = 58$. (b) Population mean, $\mu_{2001} = 3.37$; sample mean, $\bar{x}_{2012} = 3.59$.
+1.  \(a\) 总体均值，$\mu_{2007} = 52$；样本均值，$\bar{x}_{2008} = 58$。(b) 总体均值，$\mu_{2001} = 3.37$；样本均值，$\bar{x}_{2012} = 3.59$。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Population: all births, sample: 143,196 births between 1989 and 1993 in Southern California. (b) If births in this time span at the geography can be considered to be representative of all births, then the results are generalizable to the population of Southern California. However, since the study is observational the findings cannot be used to establish causal relationships.
+1.  \(a\) 总体：所有新生儿，样本：1989年至1993年间南加利福尼亚的143,196名新生儿。(b) 如果该地理区域该时间段内的新生儿可以被认为对所有新生儿具有代表性，那么结果可以推广到南加利福尼亚总体。然而，由于这项研究是观察性研究，其发现不能用于建立因果关系。
 \addtocounter{enumi}{1}
 
-1.  \(a\) The population of interest is all college students studying statistics. The sample consists of 365 such students. (b) If the students in this sample, who are likely not randomly sampled, can be considered to be representative of all college students studying statistics, then the results are generalizable to the population defined above. This is probably not a reasonable assumption since these students are from two specific majors only. Additionally, since the study is experimental, the findings can be used to establish causal relationships.
+1.  \(a\) 感兴趣的总体是所有学习统计学的大学生。样本由365名这样的学生组成。(b) 如果这个样本中的学生（他们很可能不是随机抽样的）可以被认为对所有学习统计学的大学生具有代表性，那么结果可以推广到上述定义的总体。这可能不是一个合理的假设，因为这些学生仅来自两个特定的专业。此外，由于这项研究是实验，其发现可用于建立因果关系。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Observation. (b) Variable. (c) Sample statistic (mean). (d) Population parameter (mean).
+1.  \(a\) 观测。 变量。 样本统计量（均值）。 总体参数（均值）。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Observational. (b) Use stratified sampling to randomly sample a fixed number of students, say 10, from each section for a total sample size of 40 students.
+1.  \(a\) 观察性研究。 使用分层抽样从每个班级随机抽取固定数量的学生，例如10名，从而获得总计40名学生的样本量。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Positive, non-linear, somewhat strong. Countries in which a higher percentage of the population have access to the internet also tend to have higher average life expectancies, however rise in life expectancy trails off before around 80 years old. (b) Observational. (c) Wealth: countries with individuals who can widely afford the internet can probably also afford basic medical care. (Note: Answers may vary.)
+1.  \(a\) 正相关、非线性、强度中等。国民中能使用互联网的比例较高的国家，往往也有较高的平均预期寿命，然而预期寿命的增长在约80岁之前就逐渐放缓了。 观察性研究。 财富：国民能够广泛负担互联网的国家，可能也能负担基本的医疗保健。（注：答案可能不唯一。）
 \addtocounter{enumi}{1}
 
-1.  \(a\) Simple random sampling is okay. In fact, it's rare for simple random sampling to not be a reasonable sampling method! (b) The student opinions may vary by field of study, so the stratifying by this variable makes sense and would be reasonable. (c) Students of similar ages are probably going to have more similar opinions, and we want clusters to be diverse with respect to the outcome of interest, so this would **not** be a good approach. (Additional thought: the clusters in this case may also have very different numbers of people, which can also create unexpected sample sizes.)
+1.  \(a\) 简单随机抽样没问题。事实上，简单随机抽样很少是不合理的抽样方法！ 学生的观点可能因研究领域而异，因此按该变量进行分层是有意义的且合理的。 年龄相近的学生观点可能更相似，而我们希望“群”在感兴趣的结果变量方面是多样化的，所以这**不是**一个好方法。（补充思考：在这种情况下，各个“群”的人数也可能差异很大，这也会导致意想不到的样本量。）
 \addtocounter{enumi}{1}
 
-1.  \(a\) The cases are 200 randomly sampled men and women. (b) The response variable is attitude towards a fictional microwave oven. (c) The explanatory variable is dispositional attitude. (d) Yes, the cases are sampled randomly, recruited online using Amazon's Mechanical Turk. (e) This is an observational study since there is no random assignment to treatments. (f) No, we cannot establish a causal link between the explanatory and response variables since the study is observational. (g) Yes, the results of the study can be generalized to the population at large since the sample is random.
+1.  \(a\) 观测单位是200名随机抽样的男性和女性。 响应变量是对一台虚构微波炉的态度。 解释变量是态度倾向。 是的，观测单位是随机抽样的，通过亚马逊土耳其机器人在线招募。 这是一项观察性研究，因为没有进行处理的随机分配。 不能，我们无法在解释变量和响应变量之间建立因果联系，因为这项研究是观察性研究。 是的，由于样本是随机的，研究结果可以推广到更广泛的总体。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Simple random sample. Non-response bias, if only those people who have strong opinions about the survey responds their sample may not be representative of the population. (b) Convenience sample. Under coverage bias, their sample may not be representative of the population since it consists only of their friends. It is also possible that the study will have non-response bias if some choose to not bring back the survey. (c) Convenience sample. This will have a similar issues to handing out surveys to friends. (d) Multi-stage sampling. If the classes are similar to each other with respect to student composition this approach should not introduce bias, other than potential non-response bias.
+1.  \(a\) 简单随机样本。无回答偏差：如果只有那些对该调查有强烈看法的人回答，他们的样本可能对总体不具有代表性。 便利样本。覆盖不足偏差：因为样本仅由他们的朋友组成，可能对总体不具有代表性。如果一些人选择不交回调查问卷，该研究也可能存在无回答偏差。 便利样本。这将面临与向朋友分发调查问卷类似的问题。 多阶段抽样。如果各个班级在学生构成方面彼此相似，那么这种方法不应引入偏差，除了潜在的无回答偏差。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Exam performance. (b) Light level: fluorescent overhead lighting, yellow overhead lighting, no overhead lighting (only desk lamps). (c) Wearing glasses or not.
+1.  \(a\) 考试成绩。 光照水平：荧光顶灯照明、黄色顶灯照明、无顶灯照明（仅台灯）。 是否戴眼镜。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Experiment. (b) Light level (overhead lighting, yellow overhead lighting, no overhead lighting) and noise level (no noise, construction noise, and human chatter noise). (c) Since the researchers want to ensure equal representation of those wearing glasses and not wearing glasses, wearing glasses is a blocking variable.
+1.  \(a\) 实验。 光照水平（顶灯照明、黄色顶灯照明、无顶灯照明）和噪音水平（无噪音、施工噪音和人声交谈噪音）。 由于研究人员希望确保戴眼镜和不戴眼镜的人有相等的代表性，是否戴眼镜是一个区组变量。
 \addtocounter{enumi}{1}
 
-1. Need randomization and blinding. One possible outline: (1) Prepare two cups for each participant, one containing regular Coke and the other containing Diet Coke. Make sure the cups ar identical and contain equal amounts of soda. Label the cups (regular) and B (diet). (Be sure to randomize A and B for each trial!) (2) Give each participant the two cups, one cup at a time, in random order, and ask the participant to record a value that indicates ho much she liked the beverage. Be sure that neither the participant nor the person handing out the cups knows the identity of th beverage to make this a double-blind experiment. (Answers may vary.)
+1.  需要随机化和盲法。一种可能的设计方案如下：(1) 为每位参与者准备两个杯子，一个装普通可乐，另一个装健怡可乐。确保杯子完全相同且含有等量的苏打水。将杯子标记为A（普通）和B（健怡）。（务必在每次试验中对A和B进行随机分配！）(2) 以随机顺序，每次一杯地将两个杯子交给每位参与者，并要求参与者记录一个数值，表示她对饮料的喜爱程度。确保参与者和发杯子的人都不知道饮料的身份，以使其成为双盲实验。（答案可能不唯一。）
 \addtocounter{enumi}{1}
 
-1.  \(a\) Experiment. (b) Treatment: 25 grams of chia seeds twice a day, control: placebo. (c) Yes, gender. (d) Yes, single blind since the patients were blinded to the treatment they received. (e) Since this is an experiment, we can make a causal statement. However, since the sample is not random, the causal statement cannot be generalized to the population at large.
+1.  \(a\) 实验。 处理：每日两次，每次25克奇亚籽；对照：安慰剂。 是，性别。 是，单盲，因为患者对他们接受的处理采用了盲法。 由于这是一项实验，我们可以作出因果陈述。然而，由于样本不是随机的，该因果陈述不能推广到更广泛的总体。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Non-responders may have a different response to this question, e.g., parents who returned the surveys likely don't have difficulty spending time with their children. (b) It is unlikely that the women who were reached at the same address 3 years later are a random sample. These missing responders are probably renters (as opposed to homeowners) which means that they might have a lower socio-economic status than the respondents. (c) There is no control group in this study, this is an observational study, and there may be confounding variables, e.g., these people may go running because they are generally healthier and/or do other exercises.
+1.  \(a\) 无应答者可能对这个问题有不同的回答，例如，交回调查问卷的父母很可能在花时间陪伴孩子方面没有困难。 三年后在相同地址联系到的女性不太可能是一个随机样本。这些缺失的应答者可能是租客（而非房主），这意味着他们的社会经济地位可能低于受访者。 本研究没有对照组，这是一项观察性研究，并且可能存在混杂变量，例如，这些人去跑步可能是因为他们通常更健康和/或进行了其他锻炼。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Randomized controlled experiment. (b) Explanatory: treatment group (categorical, with 3 levels). Response variable: Psychological well-being. (c) No, because the participants were volunteers. (d) Yes, because it was an experiment. (e) The statement should say "evidence" instead of "proof".
+1.  \(a\) 随机对照实验。 解释变量：处理组（分类的，3个水平）。响应变量：心理健康。 不能，因为参与者是志愿者。 能，因为这是一项实验。 该陈述应使用“证据”一词，而非“证明”。
 \addtocounter{enumi}{1}

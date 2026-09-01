@@ -14,7 +14,7 @@
 \usepackage[explicit]{titlesec}
 \usepackage{
   amsmath, calc,
-  footnote, fancyhdr,
+  fancyhdr,
   geometry, graphicx,
   makeidx,
   booktabs,
@@ -150,14 +150,28 @@
 
 % Fonts
 
-\usepackage{fontspec}
-\newfontfamily\Helvetica{Helvetica}
+\usepackage[default]{fontsetup}
+\newcommand{\Helvetica}{\sffamily}
+\setCJKfamilyfont{zhemph}{FandolSong-Regular}[
+  Extension = .otf,
+  BoldFont = FandolHei-Regular,
+  ItalicFont = FandolKai-Regular,
+  BoldItalicFont = FandolKai-Regular,
+  BoldItalicFeatures = {FakeBold=2.5},
+]
+\let\imsoriginaltextbf\textbf
+\renewcommand{\textbf}[1]{%
+  \ifmmode
+    \imsoriginaltextbf{#1}%
+  \else
+    {\CJKfamily{zhemph}\bfseries #1}%
+  \fi}
 
 % Chapter and section titles
 
 \titleformat{\chapter}[display]
 {\color{oiB}\normalfont\Huge\bfseries\Helvetica}
-{\color{oiB}Chapter \thechapter}{1em}{#1}
+{\color{oiB}第 \thechapter 章}{1em}{#1}
 
 \titleformat{\section}
 {\color{oiB}\normalfont\Large\bfseries\Helvetica}
@@ -296,7 +310,7 @@
 \begin{minipage}[t]{0.90\textwidth}
 %\vspace{-2mm}
 \setlength{\parskip}{1em}
-\noindent\textbf{\color{oiB}\small\Helvetica{\MakeUppercase{Guided Practice}}} $\:$ \\ 
+\noindent\textbf{\color{oiB}\small\CJKfamily{zhemph}{引导练习}} $\:$ \\
 }{\end{minipage}
 \end{mdframedwithfootGPWE}
 \vspace{4mm}
@@ -316,7 +330,7 @@
 \begin{minipage}[t]{0.90\textwidth}
 %\vspace{-2mm}
 \setlength{\parskip}{1em}
-\noindent\textbf{\color{oiB}\small\Helvetica{\MakeUppercase{Example}}} $\:$ \\
+\noindent\textbf{\color{oiB}\small\CJKfamily{zhemph}{范例}} $\:$ \\
 \small}{\end{minipage}
 \end{mdframedwithfootGPWE}
 \vspace{4mm}
@@ -473,7 +487,7 @@ $\:$ \\
 \begin{minipage}[t]{0.90\textwidth}
 \vspace{-2mm}
 \setlength{\parskip}{1em}
-\noindent\textbf{\color{oiGray}\small\Helvetica{{\MakeUppercase{TO DO}}}} $\:$ \\ \\
+\noindent\textbf{\color{oiGray}\small\CJKfamily{zhemph}{待办}} $\:$ \\ \\
 }{\end{minipage}
 \end{mdframed}
 \vspace{4mm}
@@ -494,7 +508,7 @@ $\:$ \\
 \begin{minipage}[t]{0.90\textwidth}
 \vspace{-2mm}
 \setlength{\parskip}{1em}
-\noindent\textbf{\color{oiR}\small\Helvetica{{\MakeUppercase{Under construction}}}} $\:$ \\ \\
+\noindent\textbf{\color{oiR}\small\CJKfamily{zhemph}{尚在编写}} $\:$ \\ \\
 }{\end{minipage}
 \end{mdframed}
 \vspace{4mm}
@@ -518,7 +532,7 @@ $\:$ \\
 
 \titleformat{\part}[display]
 {\color{oiR}\titlerule[5pt]\vspace{3pt}\color{oiLR}\titlerule[2pt]\vspace{3pt}\color{oiB}\normalfont\Huge\bfseries\scshape\Helvetica}
-{\color{oiB}PART \thepart}{2em}{#1 \\ \noindent \vspace{3pt}\color{oiR}\titlerule[5pt]}
+{\color{oiB}第\thepart 部分}{2em}{#1 \\ \noindent \vspace{3pt}\color{oiR}\titlerule[5pt]}
 
 % https://tex.stackexchange.com/questions/506428/background-color-for-section-title
 %\titleformat{\part}{\LARGE}{\rlap{\color{oiLB}\rule[-0.4cm]{\linewidth}{5cm}}\color{oiB}\normalfont\Huge\bfseries\scshape\Helvetica PART \thepart}{1em}{\color{oiB}\normalfont\Huge\bfseries\scshape\Helvetica #1}

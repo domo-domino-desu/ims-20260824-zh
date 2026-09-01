@@ -1,4 +1,4 @@
-1.  (a) Two-way table is shown below. (b-i) $E_{row_1, col_1} = \frac{(row~1~total)\times(col~1~total)}{table~total} = 35$. This is lower than the observed value. (b-ii) $E_{row_2, col_2} = \frac{(row~2~total)\times(col~2~total)}{table~total} = 115$. This is lower than the observed value.
+1.  (a) 双向表如下所示。(b-i) $E_{row_1, col_1} = \frac{(row~1~total)\times(col~1~total)}{table~total} = 35$。这低于观测值。(b-ii) $E_{row_2, col_2} = \frac{(row~2~total)\times(col~2~total)}{table~total} = 115$。这低于观测值。
 
     ```{r}
     tribble(
@@ -8,40 +8,40 @@
        "Total", 70, 230, 300
     ) |>
        kbl(linesep = "", booktabs = TRUE, align = "lrrr") |>
-       kable_styling(bootstrap_options = c("striped", "condensed"), 
-                     latex_options = "HOLD_position", 
+       kable_styling(bootstrap_options = c("striped", "condensed"),
+                     latex_options = "HOLD_position",
                      full_width = FALSE) |>
        column_spec(1, width = "10em") |>
        column_spec(2:4, width = "5em") |>
-       add_header_above(c(" " = 1, "Quit" = 2, " " = 1))
+       add_header_above(c(" " = 1, "是否戒烟" = 2, " " = 1))
     ```
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) Sun = 0.343, Partial = 0.325, Shade = 0.331. (b) For each, the numbers are listed in the order sun, partial, and shade: Desert (40,9, 38,7, 39.4), Mountain (36.7, 34.8, 35.5), Valley (36.4, 34.5, 35.1). (c) Yes. (d) We can't evaluate the association without a formal test.
+1.  \(a\) 向阳 = 0.343，部分向阳 = 0.325，背阴 = 0.331。(b) 对于每一组，数字按向阳、部分向阳和背阴的顺序列出：沙漠 (40.9, 38.7, 39.4)，山地 (36.7, 34.8, 35.5)，山谷 (36.4, 34.5, 35.1)。(c) 是。(d) 如果不进行正式检验，我们无法评估关联性。
 
     \addtocounter{enumi}{1}
 
-1.  The original dataset will have a higher Chi-squared statistic than the randomized dataset.
+1.  原始数据集的卡方统计量将高于随机化数据集的卡方统计量。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) The two variables are independent. (b) The randomized Chi-squared values range from zero to approximately 15. (c) The null hypothesis is that the variables are independent; the alternative hypothesis is that the variables are associated. The p-value is extremely small. The habitat provides information about the likelihood of being in the different sunshine states.
+1.  \(a\) 这两个变量是独立的。(b) 随机化卡方值的范围从 0 到大约 15。(c) 原假设是两个变量独立；备择假设是两个变量有关联。p 值极小。栖息地提供了有关处于不同日照状态可能性的信息。
 
     \addtocounter{enumi}{1}
 
-1.  \(a\) The two variables are independent. (b) The randomized Chi-squared values range from zero to approximately 25. (c) The null hypothesis is that the variables are independent; the alternative hypothesis is that the variables are associated. The p-value is around 0. There is convincing evidence to claim that site and sunlight preference are associated. (d) With larger sample sizes, the power (the probability of rejecting $H_0$ when $H_A$ is true) is higher.
+1.  \(a\) 这两个变量是独立的。(b) 随机化卡方值的范围从 0 到大约 25。(c) 原假设是两个变量独立；备择假设是两个变量有关联。p 值约为 0。有令人信服的证据表明地点和日照偏好有关联。(d) 样本量越大，检验功效（即当 $H_A$ 为真时拒绝 $H_0$ 的概率）就越高。
 
     \addtocounter{enumi}{1}
 
-1.  (a) False. The Chi-square distribution has one parameter called degrees of freedom. (b) True. (c) True. (d) False. As the degrees of freedom increases, the shape of the Chi-square distribution becomes more symmetric.
+1.  (a) 错误。卡方分布有一个称为自由度的参数。(b) 正确。(c) 正确。(d) 错误。随着自由度增加，卡方分布的形状变得更加对称。
 
     \addtocounter{enumi}{1}
 
-1.  The hypotheses are $H_0:$ Sleep levels and profession are independent. $H_A:$ Sleep levels and profession are associated. The observations are independent and the sample sizes are large enough to conduct a Chi-square test of independence. The Chi-square statistic is 1 with 2 degrees of freedom. The p-value is 0.6. Since the p-value is high (default to alpha = 0.05), we fail to reject $H_0$. The data do not provide convincing evidence of an association between sleep levels and profession.
+1.  假设为 $H_0$：睡眠水平与职业独立。$H_A$：睡眠水平与职业有关联。观测相互独立，且样本量足够大，可以进行卡方独立性检验。卡方统计量为 1，自由度为 2。p 值为 0.6。由于 p 值较高（默认 $\alpha = 0.05$），我们未能拒绝 $H_0$。数据未能提供令人信服的证据表明睡眠水平与职业之间存在关联。
 
     \addtocounter{enumi}{1}
 
-1.  (a) $H_0$: The age of Los Angeles residents is independent of shipping carrier preference variable. $H_A$: The age of Los Angeles residents is associated with the shipping carrier preference variable. (b) The conditions are not satisfied since some expected counts are below 5.
+1.  (a) $H_0$：洛杉矶居民的年龄与物流承运商偏好变量独立。$H_A$：洛杉矶居民的年龄与物流承运商偏好变量有关联。(b) 由于部分期望频数低于 5，条件不满足。
 
     \addtocounter{enumi}{1}

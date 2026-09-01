@@ -1,41 +1,39 @@
-# Decision Errors {#sec-foundations-decision-errors}
+# 决策错误 {#sec-foundations-decision-errors}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-Using data to make inferential decisions about larger populations is not a perfect process.
-As seen in [Chapter -@sec-foundations-randomization], a small p-value typically leads the researcher to a decision to reject the null claim or hypothesis.
-Sometimes, however, data can produce a small p-value when the null hypothesis is actually true and the data are just inherently variable.
-Here we describe the errors which can arise in hypothesis testing, how to define and quantify the different errors, and suggestions for mitigating errors if possible.
+利用数据对更大总体进行推断性决策的过程并非完美。正如在 [第 -@sec-foundations-randomization 章] 中所见，较小的 p 值通常会导致研究者做出拒绝原主张或原假设的决定。然而，有时在原假设实际为真、仅仅是数据本身存在固有变异性的情况下，数据也可能产生较小的 p 值。在此，我们将描述假设检验中可能出现的错误，如何定义和量化不同的错误，以及在可能情况下减少错误的建议。
 :::
 
 \index{decision errors}
 
-Hypothesis tests are not flawless.
-Just think of the court system: innocent people are sometimes wrongly convicted and the guilty sometimes walk free.
-Similarly, data can point to the wrong conclusion.
-However, what distinguishes statistical hypothesis tests from a court system is that our framework allows us to quantify and control how often the data lead us to the incorrect conclusion.
+假设检验并非完美无瑕。
+想想法庭系统：无辜的人有时会被误判有罪，而有罪的人有时却逍遥法外。
+同样，数据也可能指向错误的结论。
+然而，统计假设检验与法庭系统的区别在于，我们的框架允许我们量化和控制数据导致我们得出错误结论的频率。
 
-In a hypothesis test, there are two competing hypotheses: the null and the alternative.
-We make a statement about which one might be true, but we might choose incorrectly.
-There are four possible scenarios in a hypothesis test, which are summarized in @tbl-fourHTScenarios.
+在假设检验中，有两个相互竞争的假设：原假设和备择假设。
+我们对哪一个可能为真作出判断，但我们可能会选错。
+假设检验有四种可能的场景，总结在 @tbl-fourHTScenarios 中。
 
 ```{r}
 #| label: tbl-fourHTScenarios
-#| tbl-cap: Four different scenarios for hypothesis tests.
+#| tbl-cap: 假设检验的四种不同场景。
 #| tbl-pos: H
 ht_scenarios <- tribble(
-  ~Truth                           , ~`Reject null hypothesis` , ~`Fail to reject null hypothesis` ,
-  "Null hypothesis is true"        , "Type I error"            , "Good decision"                   ,
-  "Alternative hypothesis is true" , "Good decision"           , "Type II error"
+  ~真实情况                           , ~`拒绝原假设` , ~`未能拒绝原假设` ,
+  "原假设为真"        , "第一类错误"            , "正确决策"                   ,
+  "备择假设为真" , "正确决策"           , "第二类错误"
 )
 
 ht_scenarios |>
   kbl(linesep = "", booktabs = TRUE) |>
-  add_header_above(c("", "Test conclusion" = 2)) |>
+  add_header_above(c("", "检验结论" = 2)) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     latex_options = c("striped"),
@@ -45,104 +43,100 @@ ht_scenarios |>
   column_spec(2:3, width = "12em")
 ```
 
-A **Type I error**\index{Type I error} is rejecting the null hypothesis when $H_0$ is actually true.
-Since we rejected the null hypothesis in the sex discrimination and opportunity cost studies, it is possible that we made a Type I error in one or both of those studies.
-A **Type II error**\index{Type II error} is failing to reject the null hypothesis when the alternative is actually true.
+
+
+**第一类错误**\index{Type I error} 是在 $H_0$ 实际为真时拒绝原假设。
+既然我们在性别歧视研究和机会成本研究中都拒绝了原假设，那么我们有可能在其中一项或两项研究中犯了第一类错误。
+**第二类错误**\index{Type II error} 是在备择假设实际为真时未能拒绝原假设。
 
 ```{r}
 #| include: false
 terms_chp_14 <- c("Type I error", "Type II error")
 ```
 
+
 ::: {.workedexample data-latex=""}
-In a US court, the defendant is either innocent $(H_0)$ or guilty $(H_A).$ What does a Type I error represent in this context?
-What does a Type II error represent?
-@tbl-fourHTScenarios may be useful.
+在美国法庭上，被告要么是无辜的 $(H_0)$，要么是有罪的 $(H_A)$。在此背景下，第一类错误代表什么？
+第二类错误又代表什么？
+@tbl-fourHTScenarios 可能会有所帮助。
 
 ------------------------------------------------------------------------
 
-If the court makes a Type I error, this means the defendant is innocent $(H_0$ true) but wrongly convicted.
-A Type II error means the court failed to reject $H_0$ (i.e., failed to convict the person) when they were in fact guilty $(H_A$ true).
+如果法庭犯了第一类错误，这意味着被告是无辜的（$H_0$ 为真）却被误判有罪。
+第二类错误意味着法庭未能拒绝 $H_0$（即未能给此人定罪），而实际上他是有罪的（$H_A$ 为真）。
 :::
 
 ::: {.guidedpractice data-latex=""}
-Consider the opportunity cost study where we concluded students were less likely to make a DVD purchase if they were reminded that money not spent now could be spent later.
-What would a Type I error represent in this context?[^14-foundations-errors-1]
+回忆一下我们曾得出以下结论的机会成本研究：如果提醒学生现在不花的钱以后可以花，他们购买 DVD 的可能性会降低。
+在此背景下，第一类错误代表什么？[^14-foundations-errors-1]
 :::
 
-[^14-foundations-errors-1]: Making a Type I error in this context would mean that reminding students that money not spent now can be spent later does not affect their buying habits, despite the strong evidence (the data suggesting otherwise) found in the experiment.
-    Notice that this does *not* necessarily mean something was wrong with the data or that we made a computational mistake.
-    Sometimes data simply point us to the wrong conclusion, which is why scientific studies are often repeated to check initial findings.
+[^14-foundations-errors-1]: 在此背景下犯第一类错误，意味着提醒学生现在不花的钱以后可以花并不会影响他们的购买习惯，尽管实验中发现了强有力的证据（数据表明情况并非如此）。请注意，这*并不*一定意味着数据有问题或我们犯了计算错误。有时数据只是将我们引向了错误的结论，这就是为什么科学研究经常要重复进行以检验初始发现的原因。
 
 ::: {.workedexample data-latex=""}
-How could we reduce the Type I error rate in US courts?
-What influence would this have on the Type II error rate?
+在美国法庭系统中，我们如何降低第一类错误率？
+这会对第二类错误率产生什么影响？
 
 ------------------------------------------------------------------------
 
-To lower the Type I error rate, we might raise our standard for conviction from "beyond a reasonable doubt" to "beyond a conceivable doubt" so fewer people would be wrongly convicted.
-However, this would also make it more difficult to convict the people who are actually guilty, so we would make more Type II errors.
+为了降低第一类错误率，我们可能会将定罪标准从“排除合理怀疑”提高到“排除一切可能的怀疑”，从而减少被误判的人数。
+然而，这也会使那些真正有罪的人更难被定罪，因此我们会犯更多的第二类错误。
 :::
 
 ::: {.guidedpractice data-latex=""}
-How could we reduce the Type II error rate in US courts?
-What influence would this have on the Type I error rate?[^14-foundations-errors-2]
+在美国法庭系统中，我们如何降低第二类错误率？
+这会对第一类错误率产生什么影响？[^14-foundations-errors-2]
 :::
 
-[^14-foundations-errors-2]: To lower the Type II error rate, we want to convict more guilty people.
-    We could lower the standards for conviction from "beyond a reasonable doubt" to "beyond a little doubt".
-    Lowering the bar for guilt will also result in more wrongful convictions, raising the Type I error rate.
+[^14-foundations-errors-2]: 为了降低第二类错误率，我们希望给更多的有罪者定罪。我们可以将定罪标准从“排除合理怀疑”降低到“排除些许怀疑”。降低有罪的门槛也将导致更多误判，从而提高第一类错误率。
 
 \index{decision errors}
 
-The example and guided practice above provide an important lesson: if we reduce how often we make one type of error, we generally make more of the other type.
+上面的例子和引导练习给出了一个重要启示：如果我们减少犯某类错误的频率，通常就会增加犯另一类错误的频率。
 
-## Discernibility level
+## 可辨识水平
 
-The **discernibility level**\index{discernibility level}\index{significance level} provides the cutoff for the p-value which will lead to a decision of "reject the null hypothesis." Choosing a discernibility level for a test is important in many contexts, and the traditional level is 0.05.
-However, it is sometimes helpful to adjust the discernibility level based on the application.
-We may select a level that is smaller or larger than 0.05 depending on the consequences of any conclusions reached from the test.
+**可辨识水平**\index{discernibility level}\index{significance level} 为 p 值提供了一个截断值，当 p 值低于该值时，我们将做出“拒绝原假设”的决策。在许多情境中，为检验选择一个可辨识水平非常重要，传统水平是 0.05。
+然而，有时根据具体应用来调整可辨识水平是有帮助的。
+我们可以选择一个小于或大于 0.05 的水平，具体取决于基于该检验所得出任何结论的后果。
 
-If making a Type I error is dangerous or especially costly, we should choose a small discernibility level (e.g., 0.01 or 0.001).
-If we want to be very cautious about rejecting the null hypothesis, we demand very strong evidence favoring the alternative $H_A$ before we would reject $H_0.$
+如果犯第一类错误是危险的或代价特别高，我们应该选择较小的可辨识水平（例如，0.01 或 0.001）。
+如果我们想对拒绝原假设持非常谨慎的态度，我们就会要求在拒绝 $H_0$ 之前，必须有非常强有力的支持备择假设 $H_A$ 的证据。
 
-If a Type II error is relatively more dangerous or much more costly than a Type I error, then we should choose a higher discernibility level (e.g., 0.10).
-Here we want to be cautious about failing to reject $H_0$ when the null is actually false.
+如果第二类错误比第一类错误相对更危险或代价高得多，那么我们应该选择更高的可辨识水平（例如，0.10）。
+在这里，我们希望对原假设实际为假却未能拒绝 $H_0$ 的情况保持谨慎。
 
 ```{r}
 #| include: false
 terms_chp_14 <- c(terms_chp_14, "discernibility level", "significance level")
 ```
 
-::: {.tip data-latex=""}
-**Discernibility levels should reflect consequences of errors.**
 
-The discernibility level selected for a test should reflect the real-world consequences associated with making a Type I or Type II error.
+::: {.tip data-latex=""}
+**可辨识水平应反映错误的后果。**
+
+为检验选择的可辨识水平应反映与犯第一类或第二类错误相关的现实后果。
 :::
 
-## Two-sided hypotheses {#sec-two-sided-hypotheses}
+## 双侧假设 {#sec-two-sided-hypotheses}
 
 \index{hypothesis testing}
 
-In [Chapter -@sec-foundations-randomization] we explored whether women were discriminated against and whether a simple trick could make students a little thriftier.
-In these two case studies, we have actually ignored some possibilities:
+在 [第 -@sec-foundations-randomization 章] 中，我们探讨了女性是否受到歧视，以及一个小技巧是否能让学生更节俭一些。
+在这两个案例研究中，我们实际上忽略了某些可能性：
 
--   What if *men* are actually discriminated against?
--   What if the money trick actually makes students *spend more*?
+-   如果*男性*实际上受到了歧视呢？
+-   如果那个金钱小技巧实际上让学生*花得更多*呢？
 
-These possibilities weren't considered in our original hypotheses or analyses.
-The disregard of the extra alternatives may have seemed natural since the data pointed in the directions in which we framed the problems.
-However, there are two dangers if we ignore possibilities that disagree with our data or that conflict with our world view:
+这些可能性在我们最初的假设或分析中未被考虑。
+忽略这些额外的可能性看似顺理成章，因为数据恰好指向了我们构建问题的方向。
+然而，如果我们忽略那些与数据相悖或与我们世界观冲突的可能性，将面临两种危险：
 
-1.  Framing an alternative hypothesis simply to match the direction that the data point will generally inflate the Type I error rate.
-    After all the work we have done (and will continue to do) to rigorously control the error rates in hypothesis tests, careless construction of the alternative hypotheses can disrupt that hard work.
+1.  仅仅为了迎合数据指向的方向而构建备择假设，通常会导致第一类错误率膨胀。毕竟，我们为了严格控制假设检验中的错误率付出了（并将继续付出）大量努力，而草率构建备择假设可能会破坏这些努力。
 
-2.  If we only use alternative hypotheses that agree with our worldview, then we are going to be subjecting ourselves to **confirmation bias**\index{confirmation bias}, which means we are looking for data that supports our ideas.
-    That's not very scientific, and we can do better!
+2.  如果我们只使用符合我们世界观的备择假设，那么我们将受到**确认偏差**\index{confirmation bias}的影响，这意味着我们只是在寻找支持我们想法的数据。这不太科学，我们可以做得更好！
 
-The original hypotheses we have seen are called **one-sided hypothesis tests**\index{one-sided hypothesis test} because they only explored one direction of possibilities.
-Such hypotheses are appropriate when we are exclusively interested in the single direction, but usually we want to consider all possibilities.
-To do so, let's learn about **two-sided hypothesis tests**\index{two-sided hypothesis test} in the context of a new study that examines the impact of using blood thinners on patients who have undergone CPR.
+我们之前看到的原假设检验被称为**单侧假设检验**\index{one-sided hypothesis test}，因为它们只探究了一个方向的可能性。当我们仅对单一方向感兴趣时，这种假设是合适的，但通常我们希望考虑所有的可能性。为此，让我们在一项考察使用抗凝血剂对接受过 CPR 患者影响的新研究中，学习**双侧假设检验**\index{two-sided hypothesis test}。
 
 ```{r}
 #| include: false
@@ -154,53 +148,55 @@ terms_chp_14 <- c(
 )
 ```
 
-Cardiopulmonary resuscitation (CPR) is a procedure used on individuals suffering a heart attack when other emergency resources are unavailable.
-This procedure is helpful in providing some blood circulation to keep a person alive, but CPR chest compression can also cause internal injuries.
-Internal bleeding and other injuries that can result from CPR complicate additional treatment efforts.
-For instance, blood thinners may be used to help release a clot that is causing the heart attack once a patient arrives in the hospital.
-However, blood thinners negatively affect internal injuries.
 
-Here we consider an experiment with patients who underwent CPR for a heart attack and were subsequently admitted to a hospital.
-Each patient was randomly assigned to either receive a blood thinner (treatment group) or not receive a blood thinner (control group).
-The outcome variable of interest was whether the patient survived for at least 24 hours.
+
+心肺复苏（CPR）是在其他急救资源不可用时，对心脏病发作患者采取的一种急救程序。
+该程序有助于提供一定的血液循环以维持患者生命，但 CPR 胸外按压也可能造成内伤。
+CPR 可能导致的内出血和其他损伤会给后续治疗增加困难。
+例如，一旦患者到达医院，可能会使用抗凝血剂来帮助溶解导致心脏病发作的血块。
+然而，抗凝血剂会对内伤产生不利影响。
+
+这里我们考虑一项实验，对象是因心脏病发作接受 CPR 并随后住院的患者。
+每位患者被随机分配到接受抗凝血剂（处理组）或不接受抗凝血剂（对照组）。
+我们关注的结果变量是患者是否至少存活 24 小时。
 [@Bottiger:2001]
 
 ::: {.data data-latex=""}
-The [`cpr`](http://openintrostat.github.io/openintro/reference/cpr.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`cpr`](http://openintrostat.github.io/openintro/reference/cpr.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ::: {.workedexample data-latex=""}
-Form hypotheses for this study in plain and statistical language.
-Let $p_C$ represent the true survival rate of people who do not receive a blood thinner (corresponding to the control group) and $p_T$ represent the survival rate for people receiving a blood thinner (corresponding to the treatment group).
+用通俗语言和统计语言为本研究提出假设。
+令 $p_C$ 代表未接受抗凝血剂的人群（对应对照组）的真实存活比例，$p_T$ 代表接受抗凝血剂的人群（对应处理组）的真实存活比例。
 
 ------------------------------------------------------------------------
 
-We want to understand whether blood thinners are helpful or harmful.
-We'll consider both of these possibilities using a two-sided hypothesis test.
+我们想了解抗凝血剂是有益还是有害。
+我们将使用双侧假设检验来考虑这两种可能性。
 
--   $H_0:$ Blood thinners do not have an overall survival effect, i.e., the survival proportions are the same in each group.
+-   $H_0:$ 抗凝血剂没有整体存活效果，即各组的存活比例相同。
     $p_T - p_C = 0.$
 
--   $H_A:$ Blood thinners have an impact on survival, either positive or negative, but not zero.
+-   $H_A:$ 抗凝血剂对存活有影响，可能是正向的也可能是负向的，但不为零。
     $p_T - p_C \neq 0.$
 
-Note that if we had done a one-sided hypothesis test, the resulting hypotheses would have been:
+注意，如果我们进行的是单侧假设检验，得到的假设将是：
 
--   $H_0:$ Blood thinners do not have a positive overall survival effect, i.e., the survival proportions for the blood thinner group is the same or lower than the control group.
+-   $H_0:$ 抗凝血剂没有正向的整体存活效果，即抗凝血剂组的存活比例与对照组相同或更低。
     $p_T - p_C \leq 0.$
 
--   $H_A:$ Blood thinners have a positive impact on survival.
+-   $H_A:$ 抗凝血剂对存活有正向影响。
     $p_T - p_C > 0.$
 :::
 
-There were 50 patients in the experiment who did not receive a blood thinner and 40 patients who did.
-The study results are shown in @tbl-cpr-summary.
+实验中有 50 位患者未接受抗凝血剂，40 位患者接受了。
+研究结果如 @tbl-cpr-summary 所示。
 
 ```{r}
 #| label: tbl-cpr-summary
 #| tbl-cap: |
-#|   Results for the CPR study. Patients in the treatment group were given a
-#|   blood thinner, and patients in the control group were not.
+#|   CPR 研究结果。处理组患者接受了抗凝血剂，
+#|   对照组患者则没有接受。
 #| tbl-pos: H
 cpr |>
   mutate(
@@ -213,7 +209,7 @@ cpr |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Group", "Died", "Survived", "Total"),
+    col.names = c("组", "死亡", "存活", "合计"),
     align = "lccc"
   ) |>
   kable_styling(
@@ -224,36 +220,36 @@ cpr |>
   column_spec(1:4, width = "7em")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-What is the observed survival rate in the control group?
-And in the treatment group?
-Also, provide a point estimate $(\hat{p}_T - \hat{p}_C)$ for the true difference in population survival proportions across the two groups: $p_T - p_C.$[^14-foundations-errors-3]
+对照组观察到的存活率是多少？处理组的呢？同时，请给出两组间总体存活比例真实差异 $p_T - p_C$ 的点估计 $(\hat{p}_T - \hat{p}_C)$。[^14-foundations-errors-3]
 :::
 
-[^14-foundations-errors-3]: Observed control survival rate: $\hat{p}_C = \frac{11}{50} = 0.22.$ Treatment survival rate: $\hat{p}_T = \frac{14}{40} = 0.35.$ Observed difference: $\hat{p}_T - \hat{p}_C = 0.35 - 0.22 = 0.13.$
+[^14-foundations-errors-3]: 观察到的对照组存活率：$\hat{p}_C = \frac{11}{50} = 0.22.$ 观察到的处理组存活率：$\hat{p}_T = \frac{14}{40} = 0.35.$ 观察到的差异：$\hat{p}_T - \hat{p}_C = 0.35 - 0.22 = 0.13.$
 
-According to the point estimate, for patients who have undergone CPR outside of the hospital, an additional 13% of these patients survive when they are treated with blood thinners.
-However, we wonder if this difference could be easily explainable by chance, if the treatment has no effect on survival.
+根据点估计，对于在院外接受过 CPR 的患者，使用抗凝血剂治疗可能会使额外 13% 的患者存活。
+然而，我们想知道，如果处理对存活没有效果，这个差异是否可能轻易由随机机会来解释。
 
-As we did in past studies, we will simulate what type of differences we might see from chance alone under the null hypothesis.
-By randomly assigning each of the patient's files to a "simulated treatment" or "simulated control" allocation, we get a new grouping.
-If we repeat this simulation 1,000 times, we can build a **null distribution**\index{null distribution} of the differences shown in @fig-CPR-study-right-tail.
+正如我们在以往的研究中所做的那样，我们将模拟在原假设下仅由随机机会可能产生的差异类型。
+通过将每位患者的档案随机分配到“模拟处理”或“模拟对照”组，我们得到一个新的分组。
+如果我们将这个模拟重复 1,000 次，就可以构建出如 @fig-CPR-study-right-tail 中所示的差异的**原假设分布**\index{null distribution}。
 
 ```{r}
 #| include: false
 terms_chp_14 <- c(terms_chp_14, "null distribution")
 ```
 
+
 ```{r}
 #| label: fig-CPR-study-right-tail
 #| fig-cap: |
-#|   Null distribution of the point estimate for the difference in proportions,
-#|   $\hat{p}_T - \hat{p}_C.$ The shaded right tail shows observations that are
-#|   at least as large as the observed difference, 0.13.
+#|   比例差异的点估计在原假设下的分布，
+#|   $\hat{p}_T - \hat{p}_C.$ 阴影右尾显示了大于或等于观察到的差异值
+#|   0.13 的观测。
 #| fig-alt: |
-#|   Histogram of the null distribution of the point estimate for the difference
-#|   in proportions, $\hat{p}_T - \hat{p}_C.$ The shaded right tail shows
-#|   observations that are at least as large as the observed difference, 0.13.
+#|   比例差异的点估计在原假设下的分布直方图，
+#|   $\hat{p}_T - \hat{p}_C.$ 阴影右尾显示了大于或等于观察到的差异值
+#|   0.13 的观测。
 #| fig-asp: 0.5
 set.seed(47)
 cpr_rand_dist <- cpr |>
@@ -269,8 +265,8 @@ cpr_rand_dist |>
   geom_histogram(binwidth = 0.05) +
   labs(
     y = NULL,
-    x = "Difference in randomized survival rates\n(treatment - control)",
-    title = "1,000 randomized differences"
+    x = "随机化存活率的差异\n（处理组 - 对照组）",
+    title = "1,000 个随机化差异"
   ) +
   theme(
     axis.title.y = element_blank(),
@@ -285,33 +281,35 @@ cpr_tail <- cpr_rand_dist |>
   pull()
 ```
 
-The right tail area is `r cpr_tail`.
-(Note: it is only a coincidence that we also have $\hat{p}_T - \hat{p}_C=0.13.)$ However, contrary to how we calculated the p-value in previous studies, the p-value of this test is not actually the tail area we calculated, i.e., it's not `r cpr_tail`!
 
-The p-value is defined as the probability we observe a result at least as favorable to the alternative hypothesis as the observed difference.
-In this case, any differences less than or equal to -0.13 would also provide equally strong evidence favoring the alternative hypothesis as a difference of +0.13 did.
-A difference of -0.13 would correspond to 13% higher survival rate in the control group than the treatment group.
-In @fig-CPR-study-p-value we have also shaded these differences in the left tail of the distribution.
-These two shaded tails provide a visual representation of the p-value for a two-sided test.
+
+右尾面积是 `r cpr_tail`。
+（注意：我们同样得到 $\hat{p}_T - \hat{p}_C=0.13.)$ 仅仅是个巧合。）然而，与我们之前研究计算 p 值的方法不同，这个检验的 p 值实际上并不是我们刚刚计算的尾部面积，也就是说，它不是 `r cpr_tail`！
+
+p 值的定义是：我们观察到对备择假设的支持程度至少与观察到的差异相同的结果的概率。
+在本例中，任何小于或等于 -0.13 的差异，也能提供与 +0.13 差异同等强度的支持备择假设的证据。
+-0.13 的差异将对应于对照组比治疗组高 13% 的存活率。
+在 @fig-CPR-study-p-value 中，我们也对分布左尾中的这些差异值进行了阴影标记。
+这两个有阴影的尾部，为双侧检验的 p 值提供了可视化表示。
 
 ```{r}
 #| label: fig-CPR-study-p-value
 #| fig-cap: |
-#|   Null distribution of the point estimate for the difference in proportions,
-#|   $\hat{p}_T - \hat{p}_C.$ All values that are at least as extreme as +0.13
-#|   but in either direction away from 0 are shaded.
+#|   比例差异的点估计在原假设下的分布，
+#|   $\hat{p}_T - \hat{p}_C.$ 所有在偏离 0 的任一方向上至少像 +0.13 一样极端
+#|   的值均以阴影标出。
 #| fig-alt: |
-#|   Histogram of the null distribution of the point estimate for the difference
-#|   in proportions, $\hat{p}_T - \hat{p}_C.$ All values that are at least as
-#|   extreme as +0.13 but in either direction away from 0 are shaded.
+#|   比例差异的点估计在原假设下的分布直方图，
+#|   $\hat{p}_T - \hat{p}_C.$ 所有在偏离 0 的任一方向上至少像 +0.13 一样极端
+#|   的值均以阴影标出。
 #| fig-asp: 0.5
 cpr_rand_dist |>
   ggplot(aes(x = stat)) +
   geom_histogram(binwidth = 0.05) +
   labs(
     y = NULL,
-    x = "Difference in randomized survival rates\n(treatment - control)",
-    title = "1,000 randomized differences"
+    x = "随机化存活率的差异\n（处理组 - 对照组）",
+    title = "1,000 个随机化差异"
   ) +
   theme(
     axis.title.y = element_blank(),
@@ -321,66 +319,63 @@ cpr_rand_dist |>
   gghighlight(stat >= 0.13 | stat <= -0.13)
 ```
 
-For a two-sided test, take the single tail (in this case, 0.131) and double it to get the p-value: 0.262.
-Since this p-value is larger than 0.05, we do not reject the null hypothesis.
-That is, we do not find convincing evidence that the blood thinner has any influence on survival of patients who undergo CPR prior to arriving at the hospital.
+
+
+对于双侧检验，取单尾面积（在本例中为 0.131）然后乘以 2，就得到 p 值：0.262。
+由于这个 p 值大于 0.05，我们不拒绝原假设。
+也就是说，我们没有找到有说服力的证据表明，抗凝血剂对到达医院前行 CPR 的患者的存活率有任何影响。
 
 ::: {.important data-latex=""}
-**Default to a two-sided test.**
+**默认使用双侧检验。**
 
-We want to be rigorous and keep an open mind when we analyze data and evidence.
-Use a one-sided hypothesis test only if you truly have interest in only one direction.
+我们希望在分析数据和证据时保持严谨和开放的态度。
+只有当你真正只关心一个方向时，才使用单侧假设检验。
 :::
 
 ::: {.important data-latex=""}
-**Computing a p-value for a two-sided test.**
+**计算双侧检验的 p 值。**
 
-First compute the p-value for one tail of the distribution, then double that value to get the two-sided p-value.
-That's it!
+首先计算分布一侧尾部的 p 值，然后将该值乘以 2，就得到了双侧检验的 p 值。
+就这样！
 :::
 
 \vspace{-3mm}
 
 ::: {.workedexample data-latex=""}
-Consider the situation of the medical consultant.
-Now that you know about one-sided and two-sided tests, which type of test do you think is more appropriate?
+考虑医疗顾问的那个案例。
+既然你已经了解了单侧和双侧假设检验，你认为哪种检验更合适？
 
 ------------------------------------------------------------------------
 
-The setting has been framed in the context of the consultant being helpful (which is what led us to a one-sided test originally), but what if the consultant actually performed *worse* than the average?
-Would we care?
-More than ever!
-Since it turns out that we care about a finding in either direction, we should run a two-sided test.
-The p-value for the two-sided test is double that of the one-sided test, here the simulated p-value would be 0.2444.
+这个情境之前被框定为顾问是有帮助的（这最初引导我们采用了单侧假设检验），但如果顾问的实际表现比平均水平更差呢？我们会在意吗？比以往任何时候都更在意！既然事实证明我们关心任何方向上的发现，我们就应该进行双侧假设检验。
+双侧假设检验的 p 值是单侧假设检验 p 值的两倍，在这里模拟的 p 值将是 0.2444。
 :::
 
 \vspace{-5mm}
 
-Generally, to find a two-sided p-value we double the single tail area, which remains a reasonable approach even when the distribution is asymmetric.
-However, the approach can result in p-values larger than 1 when the point estimate is very near the mean in the null distribution; in such cases, we write that the p-value is 1.
-Also, very large p-values computed in this way (e.g., 0.85), may also be slightly inflated.
-Typically, we do not worry too much about the precision of very large p-values because they lead to the same analysis conclusion, even if the value is slightly off.
+通常，为了计算双侧 p 值，我们将单尾面积加倍，即使分布不对称时，这仍是一种合理的方法。
+然而，当点估计非常接近原假设分布的均值时，这种方法可能导致 p 值大于 1；在这种情况下，我们记 p 值为 1。
+此外，以这种方式计算出的非常大的 p 值（例如 0.85）也可能被轻微高估。
+通常，我们不太担心非常大的 p 值的精确度，因为即使数值略有偏差，它们也会得出相同的分析结论。
 
-## Controlling the Type I error rate
+## 控制第一类错误率
 
-Now that we understand the difference between one-sided and two-sided tests, we must recognize when to use each type of test.
-Because of the result of increased error rates, it is never okay to change two-sided tests to one-sided tests after observing the data.
-We explore the consequences of ignoring this advice in the next example.
+既然我们已经了解了单侧检验和双侧检验的区别，就必须认识到何时该使用哪种类型的检验。
+由于会导致错误率增加，在观察到数据后将双侧检验改为单侧检验是绝对不可取的。
+在下一个示例中，我们将探讨忽视这一建议的后果。
 
 ::: {.workedexample data-latex=""}
-Using $\alpha=0.05,$ we show that freely switching from two-sided tests to one-sided tests will lead us to make twice as many Type I errors as intended.
+使用 $\alpha=0.05$，我们将说明自由地从双侧检验切换到单侧检验会导致我们犯的第一类错误是预期的两倍。
 
 ------------------------------------------------------------------------
 
-Suppose we are interested in finding any difference from 0.
-We've created a smooth-looking **null distribution** representing differences due to chance below.
+假设我们关注的是找出与 0 的任何差异。下面我们创建了一个平滑的**原假设分布**，表示由偶然性造成的差异。
 
 ```{r}
 #| label: type1ErrorDoublingExampleFigure
 #| fig-alt: |
-#|   Density curve of a normal distribution with mean 0 and standard deviation 1.
-#|   The shaded regions represent areas where we would reject $H_0$ under the
-#|   bad practices considered in when $\alpha = 0.05.$
+#|   均值为 0、标准差为 1 的正态分布密度曲线。
+#|   阴影区域代表了在 $\alpha = 0.05$ 时，按照所考虑的错误做法我们会拒绝 $H_0$ 的区域。
 #| fig-asp: 0.4
 #| out-width: 60%
 #| fig-align: center
@@ -392,97 +387,101 @@ arrows(2, 0.17, 1.9, 0.08, length = 0.07, lwd = 1.5)
 text(2.08, 0.21, "5%", cex = 1.2)
 ```
 
-First, suppose the sample difference was larger than 0.
-In a one-sided test, we would set $H_A:$ difference $> 0.$ If the observed difference falls in the upper 5% of the distribution, we would reject $H_0$ since the p-value would just be the single tail.
-Thus, if $H_0$ is true, we incorrectly reject $H_0$ about 5% of the time when the sample mean is above the null value, as shown above.
+首先，假设样本差异大于 0。
+在单侧检验中，我们会设 $H_A:$ 差异 $> 0$。如果观测到的差异落在分布的上侧 5% 区域内，我们就会拒绝 $H_0$，因为此时 p 值正好就是单侧尾部的面积。
+因此，如果 $H_0$ 为真，当样本均值高于原假设值时，我们错误地拒绝 $H_0$ 的概率约为 5%，如上所示。
 
-Then, suppose the sample difference was smaller than 0.
-In a one-sided test, we would set $H_A:$ difference $< 0.$ If the observed difference falls in the lower 5% of the figure, we would reject $H_0.$ That is, if $H_0$ is true, then we would observe this situation about 5% of the time.
+然后，假设样本差异小于 0。
+在单侧检验中，我们会设 $H_A:$ 差异 $< 0$。如果观测到的差异落在图形下侧的 5% 区域内，我们就会拒绝 $H_0$。也就是说，如果 $H_0$ 为真，我们观察到这种情况的概率约为 5%。
 
-By examining these two scenarios, we can determine that we will make a Type I error $5\%+5\%=10\%$ of the time if we are allowed to swap to the "best" one-sided test for the data.
-This is twice the error rate we prescribed with our discernibility level: $\alpha=0.05$!
+通过考察这两种情况，我们可以确定，如果允许我们根据数据切换到“最佳”的单侧检验，我们犯第一类错误的比例将达到 $5\%+5\%=10\%$。
+这是我们在可辨识水平下设定的错误率的两倍：$\alpha=0.05$！
 :::
 
 ::: {.important data-latex=""}
-**Hypothesis tests should be set up *before* seeing the data.**
+**假设检验应在观察数据*之前*设定好。**
 
-After observing data, it is tempting to turn a two-sided test into a one-sided test.
-Avoid this temptation.
-Hypotheses should be set up *before* observing the data.
+在观测到数据后，将双侧检验变为单侧检验是很诱人的。
+请避免这种诱惑。
+假设应在观测数据*之前*设定好。
 :::
 
 \index{hypothesis testing}
 
-## Power {#sec-pow}
+## 检验功效 {#sec-pow}
 
-Although we won't go into extensive detail here, power is an important topic for follow-up consideration after understanding the basics of hypothesis testing.
-A good power analysis is a vital preliminary step to any study as it will inform whether the data you collect are sufficient for being able to conclude your research broadly.
+虽然我们在这里不会深入探讨细节，但在理解了假设检验的基础知识后，检验功效是一个重要的后续思考主题。
+良好的功效分析是任何研究至关重要的初步步骤，因为它能告诉你所收集的数据是否足以让你得出具有广泛性的研究结论。
 
-Often times in experiment planning, there are two competing considerations:
+在实验规划中，通常有两种相互冲突的考虑因素：
 
--   We want to collect enough data that we can detect important effects.
--   Collecting data can be expensive, and, in experiments involving people, there may be some risk to patients.
+-   我们希望收集足够的数据，以便检测出重要的效应。
+-   收集数据可能成本高昂，而且在涉及人的实验中，可能会给患者带来一定的风险。
 
-When planning a study, we want to know how likely we are to detect an effect we care about.
-In other words, if there is a real effect, and that effect is large enough that it has practical value, then what is the probability that we detect that effect?
-This probability is called the **power**\index{power}, and we can compute it for different sample sizes or different effect sizes.
+在规划研究时，我们想知道检测出我们所关心的效应的可能性有多大。
+换句话说，如果存在真实的效应，且该效应大到具有实际价值，那么我们检测出该效应的概率是多少？
+这个概率称为**检验功效**\index{power}，我们可以针对不同的样本量或不同的效应大小来计算它。
 
 ::: {.important data-latex=""}
-**Power.**
+**检验功效。**
 
-The power of the test is the probability of rejecting the null claim when the alternative claim is true.
+检验功效是指当备择假设为真时，拒绝原假设的概率。
 
-How easy it is to detect the effect depends on both how big the effect is (e.g., how good the medical treatment is) as well as the sample size.
+检测效应的难易程度既取决于效应的大小（例如，医疗处理有多有效），也取决于样本量。
 :::
 
-We think of power as the probability that you will become rich and famous from your science.
-In order for your science to make a splash, you need to have good ideas!
-That is, you won't become famous if you happen to find a single Type I error which rejects the null hypothesis.
-Instead, you'll become famous if your science is very good and important (that is, if the alternative hypothesis is true).
-The better your science is (i.e., the better the medical treatment), the larger the *effect size* and the easier it will be for you to convince people of your work.
+我们可以将检验功效想象成你因科学发现而名利双收的概率。
+为了让你的科学发现引起轰动，你需要有好的想法！
+也就是说，如果你碰巧犯了一个导致拒绝原假设的第一类错误，你是不会成名的。
+相反，只有当你的科学研究非常出色且重要时（即备择假设为真），你才会成名。
+你的科学研究越好（即医疗处理越有效），*效应量*就越大，你也越容易让别人信服你的工作。
 
-Not only does your science need to be solid, but you also need to have evidence (i.e., data) that shows the effect.
-A few observations (e.g., $n = 2)$ is unlikely to be convincing because of well known ideas of natural variability.
-Indeed, the larger the dataset which provides evidence for your scientific claim, the more likely you are to convince the community that your idea is correct.
+不仅你的科学要扎实，你还需要有能展示该效应的证据（即数据）。
+少数观测（例如 $n = 2$）不太可能令人信服，这是由于众所周知的自然变异性。
+的确，为你的科学主张提供证据的数据集越大，你就越有可能说服科学界相信你的想法是正确的。
 
-Although a full discussion of relative power is beyond the scope of this text, you might be interested to know that, often, paired t-tests (discussed in @sec-mathpaired) are more powerful than independent t-tests (discussed in @sec-math2samp) because the pairing reduces the inherent variability across observations.
-Additionally, because the median is almost always more variable than the mean, tests based on the mean are more powerful than tests based on the median.
-That is to say, reducing variability (done in different ways depending on the experimental design and set-up of the analysis) makes a test more powerful in such that the data are more likely to reject the null hypothesis.
+虽然对相对功效的全面讨论超出了本书的范围，但你可能有兴趣了解，配对 t 检验（在 @sec-mathpaired 中讨论）通常比独立 t 检验（在 @sec-math2samp 中讨论）功效更强，因为配对减少了观测间的固有变异性。
+此外，由于中位数的变异性几乎总是大于均值的变异性，基于均值的检验比基于中位数的检验功效更强。
+也就是说，减少变异性（具体方式取决于实验设计和分析设置）能使检验的功效更强，从而使数据更有可能拒绝原假设。
 
 ```{r}
 #| include: false
 terms_chp_14 <- c(terms_chp_14, "power")
 ```
 
+
+
 \clearpage
 
-## Chapter review {#sec-chp15-review}
+## 章节回顾 {#sec-chp15-review}
 
-### Summary
+### 总结
 
-Although hypothesis testing provides a strong framework for making decisions based on data, as the analyst, you need to understand how and when the process can go wrong.
-That is, always keep in mind that the conclusion to a hypothesis test may not be right!
-Sometimes when the null hypothesis is true, we will accidentally reject it and commit a Type I error; sometimes when the alternative hypothesis is true, we will fail to reject the null hypothesis and commit a Type II error.
-The power of the test quantifies how likely it is to obtain data which will reject the null hypothesis when indeed the alternative is true; the power of the test is increased when larger sample sizes are taken.
+虽然假设检验为基于数据做决策提供了一个强大的框架，但作为分析者，你需要理解这个过程可能在何时以及如何出错。
+也就是说，要始终牢记，假设检验的结论可能并不正确！
+有时当原假设为真时，我们会意外地拒绝它，从而犯下第一类错误；有时当备择假设为真时，我们未能拒绝原假设，从而犯下第二类错误。
+检验功效量化了在备择假设确实为真时，获得能够拒绝原假设的数据的可能性；当样本量增大时，检验功效也会提高。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-14.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列于 @tbl-terms-chp-14 中。
+如果你不确定其中某些术语的含义，我们建议你回到正文中回顾它们的定义。
+你应该能轻松地识别它们，因为它们在正文中是**加粗文本**。
 
 ```{r}
 #| label: tbl-terms-chp-14
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_14)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp14-exercises}
+## 习题 {#sec-chp14-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-14].
+奇数编号习题的答案可在 [附录 -@sec-exercise-solutions-14] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_14-ex-foundations-errors.qmd >}}

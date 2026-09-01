@@ -1,93 +1,74 @@
-# Inference for comparing many means {#sec-inference-many-means}
+# 比较多个均值的推断 {#sec-inference-many-means}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
 ::: {.chapterintro data-latex=""}
-In [Chapter -@sec-inference-two-means] analysis was done to compare the average population value across two different groups.
-An important aspect of the analysis was to look at the difference in sample means as an estimate for the difference in population means.
-When comparing more than two groups, the difference (i.e., subtraction) will not fully capture the nuance in variation across the three or more groups.
-As with two groups, the research question will focus on whether the group membership is independent of the numerical response variable.
-Here, independence across groups means that knowledge of the observations in one group does not change what we would expect to happen in the other group.
-But what happens if the groups are **dependent**?
-In this section we focus on a new statistic which incorporates differences in means across more than two groups.
-Although the ideas in this chapter are quite similar to the t-test, they have earned themselves their own name: **AN**alysis **O**f **VA**riance\index{Analysis of Variance}, or ANOVA\index{ANOVA}.
+在 [第 -@sec-inference-two-means 章] 中，我们进行了分析以比较两个不同组的总体平均数。该分析的一个重要方面是将样本均值之差作为总体均值之差的估计。当比较多于两个组时，差值（即减法）将无法完全捕捉三个或更多组之间变异的细微差别。与两组比较一样，研究问题将聚焦于分组变量是否独立于数值的响应变量。这里，组间的独立性意味着，已知一组的观测并不会改变我们对另一组会发生什么的预期。但如果各组是**相依的**，会发生什么呢？本节我们将关注一个能够纳入多于两组均值差异的新统计量。尽管本章的思想与 t 检验非常相似，但它们拥有了自己的专属名称：**方差分析**（英文名称缩写为 **ANOVA**）\index{Analysis of Variance}\index{ANOVA}。
 :::
 
 \index{analysis of variance (ANOVA)}
 
-Sometimes we want to compare means across many groups.
-We might initially think to do pairwise comparisons.
-For example, if there were three groups, we might be tempted to compare the first mean with the second, then with the third, and then finally compare the second and third means for a total of three comparisons.
-However, this strategy can be treacherous.
-If we have many groups and do many comparisons, it is likely that we will eventually find a difference just by chance, even if there is no difference in the populations.
-Instead, we should apply a holistic test to check whether there is evidence that at least one pair of groups are in fact different, which is where **ANOVA** saves the day.
+有时我们想要比较多组的均值。我们最初可能会想到进行两两比较。例如，如果有三个组，我们可能会想要先比较第一个和第二个均值，然后比较第一个和第三个均值，最后再比较第二个和第三个均值，总共进行三次比较。然而，这种策略可能靠不住。如果我们有很多组并进行很多次比较，即使总体中没有差异，我们也很有可能会仅仅由于偶然性最终发现某个差异。相反，我们应该采用一个**整体性检验**来检查是否有证据表明至少有一对组实际上是不同的，这正好是 **ANOVA** 的用武之地。
 
 ```{r}
 #| include: false
 terms_chp_22 <- c("ANOVA", "analysis of variance")
 ```
 
-In this section, we will learn a new method called **analysis of variance (ANOVA)** and a new test statistic called an $F$-statistic (which we will introduce in our discussion of mathematical models).
-ANOVA uses a single hypothesis test to check whether the means across many groups are equal:
 
--   $H_0:$ The mean outcome is the same across all groups, i.e., $\mu_1 = \mu_2 = \cdots = \mu_k$ where $\mu_j$ represents the mean of the outcome for observations in category $j.$
--   $H_A:$ At least one mean is different.
 
-Generally we must check three conditions on the data before performing ANOVA:
+在本节中，我们将学习一种名为**方差分析（ANOVA）**的新方法，以及一种名为 **$F$ 统计量**的新检验统计量（我们将在讨论数学模型时介绍它）。ANOVA 使用一次假设检验来检查多组均值是否相等：
 
--   the observations are independent within and between groups,
--   the responses within each group are nearly normal, and
--   the variability across the groups is about equal.
+-   $H_0:$ 所有组的结果变量的均值相同，即 $\mu_1 = \mu_2 = \cdots = \mu_k$，其中 $\mu_j$ 代表第 $j$ 类别中观测的结果变量的均值。
+-   $H_A:$ 至少有一个均值不同。
 
-When the three technical conditions are met, we may perform an ANOVA to determine whether the data provide convincing evidence against the null hypothesis that all the $\mu_j$ are equal.
+通常，在进行 ANOVA 之前，我们必须检查数据是否满足三个条件：
+
+-   组内和组间的观测是独立的，
+-   每组内的响应近似正态分布，且
+-   各组之间的变异性大致相等。
+
+当这三个技术条件得到满足时，我们可以进行 ANOVA 来确定数据是否提供了令人信服的证据来反对“所有 $\mu_j$ 都相等”的原假设。
 
 ::: {.workedexample data-latex=""}
-College departments commonly run multiple sections of the same introductory course each semester because of high demand.
-Consider a statistics department that runs three sections of an introductory statistics course.
-We might like to determine whether there are substantial differences in first exam scores in these three classes (Section A, Section B, and Section C).
-Describe appropriate hypotheses to determine whether there are any differences between the three classes.
+由于需求量大，大学院系通常每学期会为同一门导论课程开设多个班级。假设一个统计系开设了三个初级统计学课程的班级。我们可能想确定这三个班级（A班、B班和C班）的第一次考试成绩是否有显著差异。请描述适当的假设以确定三个班级之间是否存在任何差异。
 
 ------------------------------------------------------------------------
 
-The hypotheses may be written in the following form:
+假设可按以下形式书写：
 
--   $H_0:$ The average score is identical in all sections, $\mu_A = \mu_B = \mu_C$. Assuming each class is equally difficult, the observed difference in the exam scores is due to chance.
--   $H_A:$ The average score varies by class. We would reject the null hypothesis in favor of the alternative hypothesis if there were larger differences among the class averages than what we might expect from chance alone.
+-   $H_0:$ 所有班级的平均分相同，即 $\mu_A = \mu_B = \mu_C$。假设每个班级的难度相同，则观察到的考试成绩差异是由偶然性造成的。
+-   $H_A:$ 平均分因班级而异。如果班级平均分之间的差异大于我们仅凭偶然性所能预期的，我们将拒绝原假设，转而支持备择假设。
 :::
 
-Strong evidence favoring the alternative hypothesis in ANOVA is described by unusually large differences among the group means.
-We will soon learn that assessing the variability of the group means relative to the variability among individual observations within each group is key to ANOVA's success.
+ANOVA 中支持备择假设的有力证据表现为组均值之间异常大的差异。我们很快将认识到，评估组均值的变异性和每组内个体观测的变异性之间的相对大小，是 ANOVA 成功的关键。
 
 ::: {.workedexample data-latex=""}
-Examine @fig-toyANOVA.
-Compare groups I, II, and III.
-Can you visually determine if the differences in the group centers is unlikely to have occurred if there were no differences in the groups?
-Now compare groups IV, V, and VI.
-Do these differences appear to be unlikely to have occurred if there were no differences in the groups?
+查看 @fig-toyANOVA。
+比较第 I、II、III 组。
+你能从视觉上判断，如果各组之间不存在差异，那么观察到的组中心差异是否不太可能出现吗？
+现在比较第 IV、V、VI 组。
+如果各组之间不存在差异，这些差异看起来是否不太可能出现？
 
 ------------------------------------------------------------------------
 
-Any real difference in the means of groups I, II, and III is difficult to discern, because the data within each group are very volatile relative to any differences in the average outcome.
-On the other hand, it appears there are differences in the centers of groups IV, V, and VI.
-For instance, group V appears to have a higher mean than that of the other two groups.
-Investigating groups IV, V, and VI, we see the differences in the groups' centers are noticeable because those differences are large *relative to the variability in the individual observations within each group*.
+第 I、II、III 组的均值之间任何真实的差异都难以辨别，因为每组内数据的波动相对于结果变量平均数的任何差异而言都非常大。
+另一方面，第 IV、V、VI 组的中心似乎存在差异。
+例如，第 V 组的均值似乎高于其他两组。
+考察第 IV、V、VI 组，我们发现各组中心的差异是明显的，因为这些差异相对于*各组内个体观测的变异性*而言较大。
 :::
 
 ```{r}
 #| label: fig-toyANOVA
 #| fig-cap: |
-#|   Side-by-side dot plot for the outcomes for six groups. Two sets of groups;
-#|   first set is comprised of Groups I, II, and III, the second set is comprised of
-#|   Groups IV, V, and VI.
+#|   六个组结果变量的并排点图。包含两组分组：第一组由第 I、II、III 组构成，
+#|   第二组由第 IV、V、VI 组构成。
 #| fig-alt: |
-#|   Two sets of side by side dot plots. The first set shows three
-#|   groups of observations where the variability within a group is so large
-#|   that it swamps out any variability across the groups. The second set
-#|   shows three groups of observations where the variability within a group is
-#|   much smaller and the center of the groups appears different.
+#|   两组并排点图。第一组显示了三个观测组，其中组内变异性非常大，以至于盖过了组间的任何变异性。第二组显示了三个观测组，其中组内变异性要小得多，各组的中心看起来不同。
 #| fig-asp: 0.5
 toy_anova |>
   mutate(group2 = if_else(group %in% c("I", "II", "III"), "A", "B")) |>
@@ -99,16 +80,18 @@ toy_anova |>
   theme(strip.text = element_blank())
 ```
 
-## Case study: Batting
 
-We would like to discern whether there are real differences between the batting performance of baseball players according to their position: outfielder (OF), infielder (IF), and catcher (C).
-We will use a dataset called `mlb_players_18`, which includes batting records of 429 Major League Baseball (MLB) players from the 2018 season who had at least 100 at bats.
-Six of the 429 cases represented in `mlb_players_18` are shown in @tbl-mlbBat18DataFrame, and descriptions for each variable are provided in @tbl-mlbBat18Variables.
-The measure we will use for the player batting performance (the outcome variable) is on-base percentage (`OBP`).
-The on-base percentage roughly represents the fraction of the time a player successfully gets on base or hits a home run.
+
+## 案例研究：击球表现
+
+我们想分辨棒球球员的击球表现是否会根据其守备位置——外场手 (OF)、内场手 (IF) 和捕手 (C)——而存在真实差异。
+我们将使用一个名为 `mlb_players_18` 的数据集，它包含了 2018 赛季美国职业棒球大联盟 (MLB) 中至少拥有 100 个打数的 429 名球员的击球记录。
+`mlb_players_18` 包含 429 个观测单位，其中 6 个展示在 @tbl-mlbBat18DataFrame 中，每个变量的描述则提供在 @tbl-mlbBat18Variables 中。
+我们将用于衡量球员击球表现（结果变量）的指标是上垒率 (`OBP`)。
+上垒率大致代表一名球员成功上垒或击出本垒打的时间比例。
 
 ::: {.data data-latex=""}
-The [`mlb_players_18`](http://openintrostat.github.io/openintro/reference/mlb_players_18.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`mlb_players_18`](http://openintrostat.github.io/openintro/reference/mlb_players_18.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ```{r}
@@ -128,9 +111,10 @@ mlb_players_18 <- mlb_players_18 |>
   )
 ```
 
+
 ```{r}
 #| label: tbl-mlbBat18DataFrame
-#| tbl-cap: Six cases and some of the variables from the `mlb_players_18` data frame.
+#| tbl-cap: 来自 `mlb_players_18` 数据框的 6 个观测单位及部分变量。
 #| tbl-pos: H
 mlb_players_18 |>
   arrange(name) |>
@@ -145,30 +129,33 @@ mlb_players_18 |>
   column_spec(1, width = "7em")
 ```
 
+
+
 \vspace{-5mm}
 
 ```{r}
 #| label: tbl-mlbBat18Variables
-#| tbl-cap: Variables and their descriptions for the `mlb_players_18` dataset.
+#| tbl-cap: |
+#|   `mlb_players_18` 数据集的变量及其描述。
 #| tbl-pos: H
 mlb_players_18_vars <- tribble(
   ~variable  , ~col1                                                                                                          ,
-  "name"     , "Player name"                                                                                                  ,
-  "team"     , "The abbreviated name of the player's team"                                                                    ,
-  "position" , "The player's primary field position (OF, IF, C)"                                                              ,
-  "AB"       , "Number of opportunities at bat"                                                                               ,
-  "H"        , "Number of hits"                                                                                               ,
-  "HR"       , "Number of home runs"                                                                                          ,
-  "RBI"      , "Number of runs batted in"                                                                                     ,
-  "AVG"      , "Batting average, which is equal to H/AB"                                                                      ,
-  "OBP"      , "On-base percentage, which is roughly equal to the fraction of times a player gets on base or hits a home run"
+  "name"     , "球员姓名"                                                                                                  ,
+  "team"     , "球员所属球队的缩写名称"                                                                    ,
+  "position" , "球员的主要守备位置 (OF, IF, C)"                                                              ,
+  "AB"       , "上场击球机会次数"                                                                               ,
+  "H"        , "安打数"                                                                                               ,
+  "HR"       , "本垒打数"                                                                                          ,
+  "RBI"      , "打点数"                                                                                     ,
+  "AVG"      , "打击率，等于 H/AB"                                                                      ,
+  "OBP"      , "上垒率，大致等于球员上垒或击出本垒打的次数比例"
 )
 
 mlb_players_18_vars |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Variable", "Description")
+    col.names = c("变量", "描述")
   ) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
@@ -179,35 +166,36 @@ mlb_players_18_vars |>
   column_spec(2, width = "30em")
 ```
 
+
 ::: {.guidedpractice data-latex=""}
-The null hypothesis under consideration is the following: $\mu_{OF} = \mu_{IF} = \mu_{C} % = \mu_{DH}.$ Write the null and corresponding alternative hypotheses in plain language.[^22-inference-many-means-1]
+考虑的原假设如下：$\mu_{OF} = \mu_{IF} = \mu_{C} = \mu_{DH}.$ 请用通俗的语言写出原假设及对应的备择假设。[^22-inference-many-means-1]
 :::
 
-[^22-inference-many-means-1]: $H_0:$ The average on-base percentage is equal across the four positions.
-    $H_A:$ The average on-base percentage varies across some (or all) groups.
+[^22-inference-many-means-1]: $H_0:$ 四个位置的平均上垒率相等。
+    $H_A:$ 某些（或所有）组之间的平均上垒率存在差异。
 
 \vspace{-5mm}
 
 ::: {.workedexample data-latex=""}
-The player positions have been divided into three groups: outfield (OF), infield (IF), and catcher (C).
-What would be an appropriate point estimate of the on-base percentage by outfielders, $\mu_{OF}$?
+球员位置被分为三组：外场手 (OF)、内场手 (IF) 和捕手 (C)。
+外场手的上垒率 $\mu_{OF}$，其合适的点估计应该是什么？
 
 ------------------------------------------------------------------------
 
-A good estimate of the on-base percentage by outfielders would be the sample average of `OBP` for just those players whose position is outfield: $\bar{x}_{OF} = 0.320.$
+对外野手上垒率的一个好估计是，仅针对那些守备位置为外野的球员，取其 `OBP` 的样本均值：$\bar{x}_{OF} = 0.320.$
 :::
 
 \clearpage
 
-## Randomization test for comparing many means {#sec-randANOVA}
+## 比较多组均值的随机化检验 {#sec-randANOVA}
 
-@tbl-mlbHRPerABSummaryTable provides summary statistics for each group.
-A side-by-side box plots for the on-base percentage is shown in @fig-mlbANOVABoxPlot.
-Notice that the variability appears to be approximately constant across groups; nearly constant variance across groups is an important assumption that must be satisfied before we consider the ANOVA approach.
+@tbl-mlbHRPerABSummaryTable 提供了各组的汇总统计量。
+@fig-mlbANOVABoxPlot 展示了上垒率的并列箱线图。
+注意，各组间的变异性看起来大致恒定；组间方差近似齐性是我们在考虑采用方差分析（ANOVA）方法之前必须满足的一个重要假设。
 
 ```{r}
 #| label: tbl-mlbHRPerABSummaryTable
-#| tbl-cap: Summary statistics of on-base percentage, split by player position.
+#| tbl-cap: 按球员位置划分的上垒率汇总统计量。
 #| tbl-pos: H
 mlb_players_18 |>
   group_by(position) |>
@@ -219,7 +207,7 @@ mlb_players_18 |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Position", "n", "Mean", "SD"),
+    col.names = c("位置", "n", "均值", "标准差"),
     align = "lccc"
   ) |>
   kable_styling(
@@ -230,58 +218,55 @@ mlb_players_18 |>
   column_spec(1:4, width = "6em")
 ```
 
+
 ```{r}
 #| label: fig-mlbANOVABoxPlot
 #| fig-cap: |
-#|   Side-by-side box plots of the on-base percentage for 429 players across three
-#|   groups. There are a few potential outliers, but with large numbers of
-#|   observations in each group, the outliers are not extreme enough to have an
-#|   impact on the calculations, so it is not a concern for moving forward with the analysis.
+#|   429 名球员按三组划分的上垒率并列箱线图。存在少量潜在的离群值，
+#|   但由于每组的观测数量都很大，离群值并未极端到足以影响计算结果，
+#|   因此这不影响继续进行分析。
 #| fig-alt: |
-#|   Side-by-side box plots describing on-base percentage broken down by
-#|   outfield, infield, or catcher. The catchers seems to have a slightly lower on-base
-#|   percentage, but the vast majority of players have an on-base percentage 0.27
-#|   and 0.35.
+#|   按外野、内野或捕手分组的描述上垒率的并列箱线图。捕手似乎有略低的上垒率，
+#|   但绝大多数球员的上垒率在 0.27 到 0.35 之间。
 #| fig-asp: 0.4
 ggplot(mlb_players_18, aes(x = position, y = OBP)) +
   geom_boxplot() +
   scale_y_continuous(breaks = seq(0.15, 0.45, 0.05)) +
   labs(
-    x = "Position",
-    y = "On-base percentage"
+    x = "位置",
+    y = "上垒率"
   )
 ```
 
 ::: {.workedexample data-latex=""}
-The largest difference between the sample means is between the catcher and the outfielder positions.
-Consider again the original hypotheses:
+样本均值之间差异最大的是捕手和外野手这两个位置。
+让我们再次考虑原始假设：
 
 -   $H_0:$ $\mu_{OF} = \mu_{IF} = \mu_{C}$
--   $H_A:$ The average on-base percentage $(\mu_j)$ varies across some (or all) groups.
+-   $H_A:$ 平均上垒率 $(\mu_j)$ 在某些（或所有）组之间存在差异。
 
-Why might it be inappropriate to run the test by simply estimating whether the difference of $\mu_{C}$ and $\mu_{OF}$ is "statistically discernible" at a 0.05 discernibility level?
+为什么可能不适宜通过简单地评估 $\mu_{C}$ 和 $\mu_{OF}$ 的差值是否在 0.05 可辨识水平下“统计上可辨识”来进行检验？
 
 ------------------------------------------------------------------------
 
-The primary issue here is that we are inspecting the data before picking the groups that will be compared.
-It is inappropriate to examine all data by eye (informal testing) and only afterwards decide which parts to formally test.
-This is called **data snooping**\index{data snooping} or **data fishing**\index{data fishing}.
-Naturally, we would pick the groups with the large differences for the formal test, and this would lead to an inflation in the Type I error rate.
-To understand inflated Type I error rates better, let's consider a slightly different problem.
+这里的主要问题在于，我们在选取要比较的组之前就先检查了数据。
+先目视检查所有数据（非正式检验），然后再决定对哪些部分进行正式检验，这种做法是不恰当的。这被称为**数据窥探**\index{data snooping}或**数据钓鱼（即数据窥探）**\index{data fishing}。
+自然地，我们会选择差异大的组进行正式检验，而这将导致第一类错误率的膨胀。
+为了更好地理解膨胀的第一类错误率，让我们考虑一个稍有不同的情况。
 
-Suppose we are to measure the aptitude for students in 20 classes in a large elementary school at the beginning of the year.
-In this school, all students are randomly assigned to classrooms, so any differences we observe between the classes at the start of the year are completely due to chance.
-However, with so many groups, we will probably observe a few groups that look rather different from each other.
-If we select only the classes that look different and then perform a formal test, we will probably make the wrong conclusion that the assignment wasn't random.
-While we might only formally test differences for a few pairs of classes, we informally evaluated the other classes by eye before choosing the most extreme cases for a comparison.
+假设我们要在学年之初测量一所大型小学 20 个班级学生的能力倾向。
+在这所学校，所有学生都被随机分配到各个班级，因此我们在年初观察到的任何班级差异完全是由偶然造成的。
+然而，由于组别很多，我们很可能观察到少数几个组彼此之间看起来差异相当大。
+如果我们只选择那些看起来有差异的班级，然后进行正式检验，我们很可能会得出错误的结论，认为分配不是随机的。
+尽管我们可能只正式检验少数几对班级之间的差异，但我们在选择最极端的情况进行比较之前，已经通过目视非正式地评估了其他班级。
 :::
 
 <!--
 n.b. I removed this bit because the data snooping example above isn't related to the prosecutor's fallacy at all.
 
-For additional information on the ideas expressed above, we recommend reading about the **prosecutor's fallacy**.[^22-inference-many-means-2]
+有关上述观点的更多信息，我们建议阅读关于**检察官谬误**（prosecutor's fallacy）的内容。[^22-inference-many-means-2]
 
-[^22-inference-many-means-2]: See, for example, [this blog post](https://statmodeling.stat.columbia.edu/2007/05/18/the_prosecutors/).
+[^22-inference-many-means-2]: 参见例如[这篇博客文章](https://statmodeling.stat.columbia.edu/2007/05/18/the_prosecutors/)。
 -->
 
 ```{r}
@@ -289,21 +274,22 @@ For additional information on the ideas expressed above, we recommend reading ab
 terms_chp_22 <- c(terms_chp_22, "data snooping", "data fishing")
 ```
 
-### Observed data
 
-In the next section we will learn how to use the $F$ statistic to test whether observed differences in sample means could have happened just by chance even if there was no difference in the respective population means.
 
-The method of analysis of variance in this context focuses on answering one question: is the variability in the sample means so large that it seems unlikely to be from chance alone?
-This question is different from earlier testing procedures since we will *simultaneously* consider many groups, and evaluate whether their sample means differ more than we would expect from natural variation.
-We call this variability the **mean square between groups (MSG)**\index{mean square between groups} $(MSG)$, and it has an associated degrees of freedom, $df_{G} = k - 1$ when there are $k$ groups.
-The $MSG$ can be thought of as a scaled variance formula for means.
-If the null hypothesis is true, any variation in the sample means is due to chance and shouldn't be too large.
-Details of $MSG$ calculations are provided in the footnote.[^22-inference-many-means-3]
-However, we typically use software for these computations.
+### 观测数据
+
+在下一节中，我们将学习如何使用 $F$ 统计量来检验：即使各总体均值没有差异，观察到的样本均值差异是否仍可能仅由偶然造成。
+在这种情境下，方差分析方法专注于回答一个问题：样本均值的变异性是否大到不太可能仅由偶然造成？
+这个问题不同于之前的检验过程，因为我们将*同时*考虑多个组，并评估它们的样本均值差异是否超出了我们对自然变异的预期。
+我们将这种变异性称为**均方组间**\index{mean square between groups} $(MSG)$，它有一个关联的自由度，当有 $k$ 个组时，$df_{G} = k - 1$。
+$MSG$ 可以看作是均值的一个缩放后的方差公式。
+如果原假设为真，样本均值的任何变异都源于偶然，因此不应太大。
+$MSG$ 计算的细节在脚注中提供。[^22-inference-many-means-3]
+不过，我们通常使用软件进行这些计算。
 \index{degrees of freedom}\index{degrees of freedom!ANOVA}\index{ANOVA!degrees of freedom}
 
-[^22-inference-many-means-3]: Let $\bar{x}$ represent the mean of outcomes across all groups.
-    Then the mean square between groups is computed as $MSG = \frac{1}{df_{G}}SSG = \frac{1}{k-1}\sum_{j=1}^{k} n_{j} \left(\bar{x}_{j} - \bar{x}\right)^2$ where $SSG$ is called the **sum of squares between groups** $(SSG)$\index{sum of squares between groups} and $n_{j}$ is the sample size of group $j.$
+[^22-inference-many-means-3]: 令 $\bar{x}$ 表示所有组结果变量的总均值。
+    则均方组间计算为 $MSG = \frac{1}{df_{G}}SSG = \frac{1}{k-1}\sum_{j=1}^{k} n_{j} \left(\bar{x}_{j} - \bar{x}\right)^2$，其中 $SSG$ 称为**组间平方和** $(SSG)$\index{sum of squares between groups}，$n_{j}$ 是第 $j$ 组的样本容量。
 
 ```{r}
 #| include: false
@@ -318,57 +304,52 @@ terms_chp_22 <- c(
 )
 ```
 
-The mean square between the groups is, on its own, quite useless in a hypothesis test.
-We need a benchmark value for how much variability should be expected among the sample means if the null hypothesis is true.
-To this end, we compute a pooled variance estimate, often abbreviated as the **mean square error** $(MSE)$\index{mean square error}, which has an associated degrees of freedom value $df_E = n - k.$ It is helpful to think of $MSE$ as a measure of the variability within the groups.
-Details of the computations of the $MSE$ and a link to an extra online section for ANOVA calculations are provided in the footnote.[^22-inference-many-means-4]
+组间均方本身在假设检验中是毫无用处的。我们需要一个基准值，用于衡量如果原假设为真，样本均值之间预期的变异性有多大。为此，我们计算一个合并方差估计值，通常缩写为**均方误差** $(MSE)$\index{mean square error}，其对应的自由度为 $df_E = n - k.$ 将 $MSE$ 视为组内变异性的度量是有帮助的。脚注中提供了 $MSE$ 的计算细节以及 ANOVA 计算的补充在线章节链接。[^22-inference-many-means-4]
 
-[^22-inference-many-means-4]: See [additional details on ANOVA calculations](https://www.openintro.org/download.php?file=stat_extra_anova_calculations) for interested readers.
-    Let $\bar{x}$ represent the mean of outcomes across all groups.
-    Then the **sum of squares total** $(SST)$\index{sum of squares total} is computed as $$SST = \sum_{i=1}^{n} \left(x_{i} - \bar{x}\right)^2$$ where the sum is over all observations in the dataset.
-    Then we compute the **sum of squared errors** $(SSE)$\index{sum of squared errors} in one of two equivalent ways: $SSE = SST - SSG = (n_1-1)s_1^2 + (n_2-1)s_2^2 + \cdots + (n_k-1)s_k^2$ where $s_j^2$ is the sample variance (square of the standard deviation) of the residuals in group $j.$ Then the $MSE$ is the standardized form of $SSE: MSE = \frac{1}{df_{E}}SSE.$
+[^22-inference-many-means-4]: 供感兴趣的读者参考的[ANOVA 计算补充细节](https://www.openintro.org/download.php?file=stat_extra_anova_calculations)。
+    令 $\bar{x}$ 表示所有组结果变量的均值。
+    然后计算**总平方和** $(SST)$\index{sum of squares total}，计算公式为
+    $$SST = \sum_{i=1}^{n} \left(x_{i} - \bar{x}\right)^2$$
+    其中求和范围遍及数据集中的所有观测。
+    接着，我们用以下两种等价方式之一计算**误差平方和** $(SSE)$\index{sum of squared errors}：$SSE = SST - SSG = (n_1-1)s_1^2 + (n_2-1)s_2^2 + \cdots + (n_k-1)s_k^2$，其中 $s_j^2$ 是第 $j$ 组残差的样本方差（标准差的平方）。然后，$MSE$ 是 $SSE$ 的标准化形式：$MSE = \frac{1}{df_{E}}SSE.$
 
-When the null hypothesis is true, any differences among the sample means are only due to chance, and the $MSG$ and $MSE$ should be about equal.
-As a test statistic for ANOVA, we examine the fraction of $MSG$ and $MSE:$
+当原假设为真时，样本均值之间的任何差异纯粹出于偶然，且 $MSG$ 和 $MSE$ 应大致相等。作为 ANOVA 的检验统计量，我们考察 $MSG$ 与 $MSE$ 的比值：
 
 $$F = \frac{MSG}{MSE}$$
 
-The $MSG$ represents a measure of the between-group variability, and $MSE$ measures the variability within each of the groups.
+$MSG$ 代表组间变异性的度量，而 $MSE$ 度量各组内部的变异性。
 
 ::: {.important data-latex=""}
-**The test statistic for three or more means is an F.**
+**检验三个或更多均值的统计量是 F。**
 
-The F statistic is a ratio of how the groups differ (MSG) as compared to how the observations within a group vary (MSE).
+F 统计量是组间差异（MSG）与组内观测变异（MSE）的比值。
 
 $$F = \frac{MSG}{MSE}$$
 
-When the null hypothesis is true and the conditions are met, F has an F-distribution with $df_1 = k-1$ and $df_2 = n-k.$
+当原假设为真且满足条件时，F 服从自由度为 $df_1 = k-1$ 和 $df_2 = n-k$ 的 F 分布。
 
-Conditions:
+条件：
 
--   independent observations, both within and across groups
--   large samples and no extreme outliers
+-   观测独立，包括组内独立和组间独立
+-   大样本且无极端离群值
 :::
 
 \clearpage
 
-### Variability of the statistic
+### 统计量的变异性
 
-We recall the exams from @sec-rand2mean which demonstrated a two-sample randomization test for a comparison of means.
-Suppose now that the teacher had had such an extremely large class that three different exams were given: A, B, and C.
-@tbl-summaryStatsForThreeVersionsOfExams and @fig-boxplotThreeVersionsOfExams provide a summary of the data including exam C.
-Again, we would like to investigate whether the difficulty of the exams is the same across the three exams, so the test is
+我们回顾 @sec-rand2mean 中的考试例子，该例子演示了用于比较均值的双样本随机化检验。假设现在老师有一个非常庞大的班级，以至于需要给出三种不同的考试：A、B 和 C。@tbl-summaryStatsForThreeVersionsOfExams 和 @fig-boxplotThreeVersionsOfExams 提供了包含考试 C 在内的数据概览。我们再次希望调查三场考试的难度是否相同，因此检验为
 
--   $H_0: \mu_A = \mu_B = \mu_C.$ The inherent average difficulty is the same across the three exams.
--   $H_A:$ not $H_0.$ At least one of the exams is inherently more (or less) difficult than the others.
+-   $H_0: \mu_A = \mu_B = \mu_C.$ 三场考试的固有平均难度相同。
+-   $H_A:$ 不是 $H_0.$ 至少有一场考试本质上比其他考试更难（或更容易）。
 
 ::: {.data data-latex=""}
-The [`classdata`](http://openintrostat.github.io/openintro/reference/classdata.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`classdata`](http://openintrostat.github.io/openintro/reference/classdata.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
 ```{r}
 #| label: tbl-summaryStatsForThreeVersionsOfExams
-#| tbl-cap: Summary statistics of scores for each exam version.
+#| tbl-cap: 各考试版本成绩的汇总统计量。
 #| tbl-pos: H
 classdata <- classdata |>
   mutate(exam = str_to_upper(lecture))
@@ -385,7 +366,7 @@ classdata |>
   kbl(
     linesep = "",
     booktabs = TRUE,
-    col.names = c("Exam", "n", "Mean", "SD", "Min", "Max"),
+    col.names = c("考试", "n", "均值", "标准差", "最小值", "最大值"),
     align = "lccccc"
   ) |>
   kable_styling(
@@ -396,13 +377,12 @@ classdata |>
   column_spec(1:6, width = "5em")
 ```
 
+
 ```{r}
 #| label: fig-boxplotThreeVersionsOfExams
-#| fig-cap: Exam scores for students given one of three different exams.
+#| fig-cap: 参加三种不同考试之一的学生的考试成绩。
 #| fig-alt: |
-#|   Side-by-side box plots of exam score broken down by exam A, exam B, or
-#|   exam C. Exam C's median is above 80 which is higher than exam A with a median
-#|   around 74 and exam B with a median around 72.
+#|   按考试 A、考试 B 或考试 C 分组的考试成绩并列箱线图。考试 C 的中位数在 80 分以上，高于中位数在 74 分左右的考试 A 和中位数在 72 分左右的考试 B。
 classdata |>
   ggplot(aes(x = exam, y = m1, color = exam)) +
   geom_boxplot(show.legend = FALSE) +
@@ -415,58 +395,48 @@ classdata |>
     )
   ) +
   labs(
-    x = "Exam",
-    y = "Score",
-    title = "Box plot of exam score broken down by version of exam."
+    x = "考试",
+    y = "成绩",
+    title = "按考试版本分组的成绩箱线图。"
   )
 ```
 
-@fig-randANOVA shows the process of randomizing the three different exams to the observed exam scores.
-If the null hypothesis is true, then the score on each exam should represent the true student ability on that material.
-It shouldn't matter whether they were given exam A or exam B or exam C.
-By reallocating which student got which exam, we are able to understand how the difference in average exam scores changes due only to natural variability.
-There is only one iteration of the randomization process in @fig-randANOVA, leading to three different randomized sample means (computed assuming the null hypothesis is true).
+@fig-randANOVA 展示了将三种不同考试随机分配给观测考试成绩的过程。
+如果原假设为真，那么每个考试成绩都应代表学生在该内容上的真实能力水平。
+学生参加的是考试 A、B 还是 C 应该无关紧要。
+通过重新分配学生参加的考试，我们能够了解平均考试成绩的差异如何仅因自然变异性而发生变化。
+@fig-randANOVA 中只展示了随机化过程的一次迭代，得到了三个不同的随机化样本均值（在原假设为真的条件下计算得出）。
 
 ```{r}
 #| label: fig-randANOVA
 #| fig-cap: |
-#|   The version of the test (A or B or C) is randomly allocated to the test scores,
-#|   under the null assumption that the tests are equally difficult.
+#|   在各考试难度相同的原假设下，考试版本（A、B 或 C）被随机分配给考试成绩。
 #| fig-alt: |
-#|   Four panels representing four different orientations of a toy dataset of
-#|   13 exam scores. The first panel provides the observed data; 4 of the exams were
-#|   version A and the average score was 77.25; 5 of the exams were version B and the
-#|   average score was 75.8; 4 of the exams were version C and the average score was
-#|   78.5. The observed F statistic is 0.0747. The second panel shows the shuffled
-#|   reassignment of the exam versions (4 of the scores are randomly reassigned to A,
-#|   5 of the scores are randomly reassigned to B, 4 of the scores are randomly
-#|   reassigned to C). The third panel shows which score is connected with which new reassigned
-#|   version of the exam. And the fourth panel sorts the exams so that version A exams
-#|   are together, version B exams are together, and version C exams are together. In
-#|   the randomly reassigned versions, the average score for version A is 72.25, the
-#|   average score for version B is 78, and the average score for version C is
-#|   75.25. The randomized F statistic is 0.1637.
+#|   四个面板展示了一个包含 13 个考试成绩的示例数据集的四种不同排列方式。第一个面板展示了观测数据；其中 4 份考试为版本 A，平均分为 77.25；5 份考试为版本 B，平均分为 75.8；4 份考试为版本 C，平均分为 78.5。观测到的 F 统计量为 0.0747。
+#|   第二个面板展示了考试版本的洗牌重分配（将 4 个成绩随机重新分配给版本 A，5 个重新分配给版本 B，4 个重新分配给版本 C）。
+#|   第三个面板展示了每个成绩与新重新分配的考试版本之间的对应关系。
+#|   第四个面板将考试重新排序，使得版本 A 的考试在一起，版本 B 的在一起，版本 C 的在一起。在随机重新分配的版本中，版本 A 的平均分为 72.25，版本 B 的平均分为 78，版本 C 的平均分为 75.25。随机化后的 F 统计量为 0.1637。
 #| out-width: 75%
 include_graphics("images/randANOVA.png")
 ```
 
-In the two-sample case, the null hypothesis was investigated using the difference in the sample means.
-However, as noted above, with three groups (three different exams), the comparison of the three sample means gets slightly more complicated.
-We have already derived the F-statistic which is exactly the way to compare the averages across three or more groups!
-Recall, the F statistic is a ratio of how the groups differ (MSG) as compared to how the observations within a group vary (MSE).
 
-Building on @fig-randANOVA, @fig-rand3exams shows the values of the simulated $F$ statistics over 1,000 random simulations.
-We see that, just by chance, the F statistic can be as large as 7.
+
+在两样本情况下，对原假设的检验是通过样本均值之差进行的。
+然而，如上所述，对于三组（三种不同考试），对三个样本均值的比较变得稍微复杂一些。
+我们已经推导出了 F 统计量，这恰好是比较三个或更多组均值的方法！
+回顾一下，F 统计量是组间差异（MSG）与组内观测变异（MSE）的比值。
+
+在 @fig-randANOVA 的基础上，@fig-rand3exams 展示了在 1,000 次随机模拟中得到的 $F$ 统计量的值。
+我们看到，纯粹出于偶然，F 统计量也可能高达 7。
 
 ```{r}
 #| label: fig-rand3exams
 #| fig-cap: |
-#|   Histogram of F statistics calculated from 1,000 different randomizations
-#|   of the exam type.
+#|   基于 1,000 次不同考试类型随机化计算出的 F 统计量直方图。
 #| fig-alt: |
-#|   Histogram of the F statistics that were calculated from 1000 different
-#|   randomizations of the exam type. The distribution is right-skewed with most
-#|   of the values less than 2. The tail extends to about 6.
+#|   基于 1000 次不同考试类型随机化计算出的 F 统计量的直方图。
+#|   该分布呈右偏态，大多数值小于 2。尾部延伸至大约 6。
 set.seed(47)
 classdata |>
   specify(m1 ~ exam) |>
@@ -475,26 +445,25 @@ classdata |>
   calculate(stat = "F") |>
   visualize() +
   labs(
-    y = "Count",
-    title = "1,000 randomized F statistics",
-    x = "F statistic for 1,000 randomizations of the exams."
+    y = "频数",
+    title = "1,000 个随机化的 F 统计量",
+    x = "1,000 次考试随机化所对应的 F 统计量。"
   )
 ```
 
-### Observed statistic vs. null statistics
+
+
+### 观测统计量 vs. 原假设统计量
 
 ```{r}
 #| label: fig-rand3examspval
 #| fig-cap: |
-#|   Histogram of F statistics calculated from 1000 different randomizations of
-#|   the exam type. The observed F statistic is given as a red vertical line at 3.48. The
-#|   area to the right is more extreme than the observed value and represents the p-value.
+#|   基于 1000 次不同考试类型随机化计算出的 F 统计量直方图。观测到的 F 统计量以红色垂直线表示，位于 3.48 处。其右侧的区域比观测值更极端，代表 p 值。
 #| fig-alt: |
-#|   Histogram of the F statistics that were calculated from 1000 different
-#|   randomizations of the exam type. The distribution is right-skewed with most
-#|   of the values less than 2. The tail extends to about 6. The observed F
-#|   statistic is given as a red vertical line at 3.48. The area to the right of
-#|   3.48 is more extreme than the observed value and represents the p-value.
+#|   基于 1000 次不同考试类型随机化计算出的 F 统计量的直方图。
+#|   该分布呈右偏态，大多数值小于 2。尾部延伸至大约 6。
+#|   观测到的 F 统计量以一条位于 3.48 的红色垂直线表示。
+#|   3.48 右侧的区域比观测值更极端，代表 p 值。
 #| fig-width: 10.0
 class_Fstat <- classdata |>
   specify(m1 ~ exam) |>
@@ -515,59 +484,59 @@ classdata |>
     color = IMSCOL["red", "full"]
   ) +
   labs(
-    y = "Count",
-    title = "1,000 randomized F statistics",
-    x = "F statistic for 1,000 randomizations of the exams."
+    y = "频数",
+    title = "1,000 个随机化的 F 统计量",
+    x = "1,000 次考试随机化所对应的 F 统计量。"
   )
 ```
 
-Using statistical software, we can calculate that 3.6% of the randomized F test statistics were at or above the observed test statistic of $F= 3.48.$ That is, the p-value of the test is 0.036.
-Assuming that we had set the level of discernibility to be $\alpha = 0.05,$ the p-value is smaller than the level of discernibility which would lead us to reject the null hypothesis.
-We claim that the difficulty level (i.e., the true average score, $\mu)$ is different for at least one of the exams.
+使用统计软件，我们可以计算出有 3.6% 的随机化 $F$ 检验统计量大于或等于观测到的检验统计量 $F= 3.48$。也就是说，该检验的 p 值为 0.036。
+假设我们已将显著性水平设定为 $\alpha = 0.05$，那么 p 值小于该显著性水平，这将导致我们拒绝原假设。
+我们得出结论，至少有一个考试的难度水平（即真实平均分，$\mu$）与其他考试不同。
 
-While it is temping to say that exam C is harder than the other two (given the inability to differentiate between exam A and exam B in @sec-rand2mean), we must be very careful about conclusions made using different techniques on the same data.
+虽然由于在 @sec-rand2mean 中无法区分考试 A 和考试 B，很容易让人认为考试 C 比另外两门考试更难，但我们必须对使用不同技术分析同一数据得出的结论保持高度谨慎。
 
-When the null hypothesis is true, random variability that exists in nature sometimes produces data with p-values less than 0.05.
-How often does that happen?
-5% of the time.
-That is to say, if you use 20 different models applied to the same data where there is no signal (i.e., the null hypothesis is true), you are reasonably likely to get a p-value less than 0.05 in one of the tests you run.
-The details surrounding the ideas of this problem, called a **multiple comparisons test** or **multiple comparisons problem**, are outside the scope of this textbook, but should be something that you keep in the back of your head.
-To best mitigate any extra Type I errors, we suggest that you set up your hypotheses and testing protocol before running any analyses.
-Once the conclusions have been reached, you should report your findings instead of running a different type of test on the same data.
+当原假设为真时，自然界中存在的随机变异性有时会产生 p 值小于 0.05 的数据。
+这种情况发生的频率有多高？
+这种情况约有 5% 的概率发生。
+也就是说，如果你将 20 种不同的模型应用于同一组没有真实效应（即原假设为真）的数据，那么在你运行的检验中，很有可能会得到一个小于 0.05 的 p 值。
+围绕这一问题思路的细节，被称为**多重比较检验**或**多重比较问题**，已超出本教材的范围，但你应将其牢记在心。
+为了最大限度地减少任何额外的第一类错误，我们建议你在运行任何分析之前，先设定好你的假设和检验方案。
+一旦得出结论，你应该报告你的发现，而不是对同一数据进行另一种类型的检验。
 
-## Mathematical model for test for comparing many means {#sec-mathANOVA}
+## 比较多组均值检验的数学模型 {#sec-mathANOVA}
 
-As seen with many of the tests and statistics from previous sections, the randomization test on the F statistic has corresponding mathematical theory to describe the distribution that can be used without using a computational approach.
+正如前面章节中的许多检验和统计量一样，基于 F 统计量的随机化检验也有对应的数学理论来描述其分布，从而无需使用计算方法即可加以应用。
 
-We return to the baseball example from @tbl-mlbHRPerABSummaryTable to demonstrate the mathematical model applied to the ANOVA setting.
+我们回到 @tbl-mlbHRPerABSummaryTable 中的棒球例子，来演示应用于方差分析（ANOVA）场景的数学模型。
 
 \clearpage
 
-### Variability of the statistic
+### 统计量的变异性
 
-The larger the observed variability in the sample means $(MSG)$ relative to the within-group observations $(MSE)$, the larger $F$-statistic will be and the stronger the evidence against the null hypothesis.
-Because larger $F$-statistics represent stronger evidence against the null hypothesis, we use the upper tail of the distribution to compute a p-value.
+样本均值间的观测变异性 $(MSG)$ 相对于组内观测的变异性 $(MSE)$ 越大，$F$ 统计量的值就会越大，反对原假设的证据也就越强。
+因为更大的 $F$ 统计量代表反对原假设的证据越强，所以我们使用该分布的右尾来计算 p 值。
 
 ::: {.important data-latex=""}
-**The F statistic and the F-test.**
+**F 统计量与 F 检验。**
 
 \index{F-test}
 
-Analysis of variance (ANOVA) is used to test whether the mean outcome differs across two or more groups.
-ANOVA uses a test statistic, the $F$-statistic, which represents a standardized ratio of variability in the sample means relative to the variability within the groups.
-If $H_0$ is true and the model conditions are satisfied, an $F$-statistic follows an $F$ distribution with parameters $df_{1} = k - 1$ and $df_{2} = n - k.$ The upper tail of the $F$ distribution is used to represent the p-value.
+方差分析（ANOVA）用于检验两个或更多组之间的结果变量均值是否存在差异。
+ANOVA 使用一个检验统计量——$F$ 统计量，它代表了样本均值间的变异性相对于组内变异性的一个标准化比值。
+如果 $H_0$ 成立且模型条件满足，则 $F$ 统计量服从一个参数为 $df_{1} = k - 1$ 和 $df_{2} = n - k$ 的 $F$ 分布。$F$ 分布的右尾用于表示 p 值。
 :::
 
 ::: {.guidedpractice data-latex=""}
-For the baseball data, $MSG = 0.00803$ and $MSE=0.00158$. Identify the degrees of freedom associated with MSG and MSE and verify the $F$-statistic is approximately 5.077.[^22-inference-many-means-5]
+对于棒球数据，$MSG = 0.00803$，$MSE=0.00158$。请找出与 MSG 和 MSE 相关的自由度，并验证 $F$ 统计量大约为 5.077。[^22-inference-many-means-5]
 :::
 
-[^22-inference-many-means-5]: There are $k = 3$ groups, so $df_{G} = k - 1 = 2.$ There are $n = n_1 + n_2 + n_3 = 429$ total observations, so $df_{E} = n - k = 426.$ Then the $F$-statistic is computed as the ratio of $MSG$ and $MSE:$ $F = \frac{MSG}{MSE} = \frac{0.00803}{0.00158} = 5.082 \approx 5.077.$ $(F = 5.077$ was computed by using values for $MSG$ and $MSE$ that were not rounded.)
+[^22-inference-many-means-5]: 共有 $k = 3$ 个组，因此 $df_{G} = k - 1 = 2.$ 总共有 $n = n_1 + n_2 + n_3 = 429$ 个观测，因此 $df_{E} = n - k = 426.$ 那么 $F$ 统计量计算为 $MSG$ 与 $MSE$ 的比值：$F = \frac{MSG}{MSE} = \frac{0.00803}{0.00158} = 5.082 \approx 5.077.$ ($F = 5.077$ 是使用未经四舍五入的 $MSG$ 和 $MSE$ 值计算得到的。)
 
-### Observed statistic vs. null statistics
+### 观测统计量与原假设统计量
 
-We can use the $F$-statistic to evaluate the hypotheses in what is called an F-test.
-A p-value can be computed from the $F$ statistic using an $F$ distribution, which has two associated parameters: $df_{1}$ and $df_{2}.$ For the $F$-statistic in ANOVA, $df_{1} = df_{G}$ and $df_{2} = df_{E}.$ An $F$ distribution with 2 and 426 degrees of freedom, corresponding to the $F$ statistic for the baseball hypothesis test, is shown in @fig-fDist2And423Shaded.
+我们可以使用 $F$ 统计量在所谓的 F 检验中评估假设。
+p 值可以利用 $F$ 分布由 $F$ 统计量计算得出，$F$ 分布有两个相关参数：$df_{1}$ 和 $df_{2}.$ 对于 ANOVA 中的 $F$ 统计量，$df_{1} = df_{G}$ 且 $df_{2} = df_{E}.$ 一个自由度为 2 和 426 的 $F$ 分布（对应于棒球假设检验的 $F$ 统计量）如 @fig-fDist2And423Shaded 所示。
 
 ```{r}
 #| include: false
@@ -576,12 +545,9 @@ terms_chp_22 <- c(terms_chp_22, "F-test")
 
 ```{r}
 #| label: fig-fDist2And423Shaded
-#| fig-cap: An $F$ distribution with $df_1=2$ and $df_2=426.$
+#| fig-cap: 一个自由度为 $df_1=2$ 且 $df_2=426$ 的 $F$ 分布。
 #| fig-alt: |
-#|   A line plot showing the theoretical F distribution with the first degree
-#|   of freedom equal to 2 and the second degree of freedom equal to 426. The curve
-#|   is right-skewed with most values less than 4. The tail extends to approximately 8.
-#|   Area to the right of 5.077 has been shaded in red.
+#|   一条展示理论 F 分布的线图，其第一个自由度等于2，第二个自由度等于426。该曲线为右偏态，大部分数值小于4。尾部延伸至大约8。5.077右侧的区域已被填充为红色。
 #| fig-width: 10.0
 X <- seq(0, 8, len = 300)
 Y <- df(X, 2.00001, 426)
@@ -600,44 +566,43 @@ polygon(
   lwd = 2
 )
 arrows(6.3, 0.3, 6.5, 0.05, length = 0.05)
-text(6.3, 0.3, "Small tail area", pos = 3)
+text(6.3, 0.3, "小尾部区域", pos = 3)
 ```
 
 ::: {.workedexample data-latex=""}
-The p-value corresponding to the shaded area in @fig-fDist2And423Shaded is equal to about 0.0066.
-Does this provide strong evidence against the null hypothesis?
+@fig-fDist2And423Shaded 中阴影区域对应的 p 值约为 0.0066。
+这是否构成了反对原假设的强证据？
 
 ------------------------------------------------------------------------
 
-The p-value is smaller than 0.05, indicating the evidence is strong enough to reject the null hypothesis at a discernibility level of 0.05.
-That is, the data provide strong evidence that the average on-base percentage varies by player's primary field position.
+p 值小于 0.05，表明该证据足够强，可以在 0.05 的可辨识水平下拒绝原假设。
+也就是说，数据提供了强有力的证据，表明平均上垒率因球员的主要守备位置而异。
 :::
 
-Note that the small p-value indicates that there is a notable difference between the mean batting averages of the different positions.
-However, the ANOVA test does not provide a mechanism for knowing *which* group is driving the differences.
-If we move forward with all possible two mean comparisons, we run the risk of a high Type I error rate.
-As we saw at the end of @sec-randANOVA, the follow-up questions surrounding individual group comparisons is called a problem of **multiple comparisons**\index{multiple comparisons} and is outside the scope of this text.
-We encourage you to learn more about multiple comparisons, however, so that additional comparisons, after you have rejected the null hypothesis in an ANOVA test, do not lead to undue false positive conclusions.
+需要注意的是，这个较小的 p 值表明不同位置的平均击球率之间存在显著差异。
+然而，ANOVA 检验并没有提供机制来确定*哪些*组别是导致这些差异的因素。
+如果我们对所有可能的两个均值进行比较，我们将面临较高的第一类错误率。
+正如我们在 @sec-randANOVA 末尾看到的，围绕各个组别比较的后续问题被称为**多重比较**\index{multiple comparisons}的问题，这超出了本书的范围。
+不过，我们鼓励你学习更多关于多重比较的知识，这样在你拒绝了 ANOVA 检验的原假设后，额外的比较就不会导致不必要的假阳性结论。
 
 ```{r}
 #| include: false
 terms_chp_22 <- c(terms_chp_22, "multiple comparisons")
 ```
 
-### Reading an ANOVA table from software
+### 阅读软件输出的 ANOVA 表
 
-The calculations required to perform an ANOVA by hand are tedious and prone to human error.
-For these reasons, it is common to use statistical software to calculate the $F$-statistic and p-value.
+手工进行 ANOVA 计算非常繁琐且容易出错。
+因此，通常使用统计软件来计算 $F$ 统计量和 p 值。
 
-An ANOVA analysis can be summarized in a table very similar to that of a regression summary, which we saw in @sec-model-slr and @sec-model-mlr.
-@tbl-anovaSummaryTableForOBPAgainstPosition shows an ANOVA summary to test whether the mean of on-base percentage varies by player positions in the MLB.
-Many of these values should look familiar; in particular, the $F$-statistic and p-value can be retrieved from the last two columns.
+ANOVA 分析可以汇总在一个表格中，这与我们在 [第 -@sec-model-slr 章] 和 [第 -@sec-model-mlr 章] 中看到的回归摘要表非常相似。
+@tbl-anovaSummaryTableForOBPAgainstPosition 展示了一个 ANOVA 摘要，用于检验 MLB 中不同球员位置的平均上垒率是否存在差异。
+其中许多值看起来应该很熟悉；特别是，$F$ 统计量和 p 值可以在最后两列中找到。
 
 ```{r}
 #| label: tbl-anovaSummaryTableForOBPAgainstPosition
 #| tbl-cap: |
-#|   ANOVA summary for testing whether the average on-base percentage differs
-#|   across player positions.
+#|   用于检验不同球员位置的平均上垒率是否存在差异的 ANOVA 摘要。
 #| tbl-pos: H
 mod <- lm(OBP ~ position, data = mlb_players_18)
 
@@ -658,37 +623,36 @@ anova(mod) |>
   column_spec(2:6, width = "5em")
 ```
 
-### Conditions for an ANOVA analysis
+### ANOVA 分析的条件
 
-There are three conditions we must check for an ANOVA analysis: all observations must be independent, the data in each group must be nearly normal (or each group must have reasonably large sample sizes), and the variance within each group must be approximately equal.
+对于 ANOVA 分析，我们必须检查三个条件：所有观测必须是独立的，每组中的数据必须近似正态（或者每组必须有合理的较大样本量），并且各组内的方差必须近似相等。
 
--   **Independence.** If the data are a simple random sample, this condition can be assumed to be satisfied.
-    For processes and experiments, carefully consider whether the data may be independent (e.g., no pairing).
-    For example, in the MLB data, the data were not sampled.
-    However, there are not obvious reasons why independence would not hold for most or all observations.
+-   **独立性。** 如果数据是简单随机样本，则可以认为满足此条件。
+    对于过程和实验数据，需要仔细考虑数据是否可能是独立的（例如，没有配对）。
+    例如，在 MLB 数据中，数据并非通过抽样获得。
+    然而，没有明显的理由认为大多数或所有观测的独立性不成立。
 
--   **Approximately normal.** As with one- and two-sample testing for means, the normality assumption is especially important when the sample size is quite small when it is ironically difficult to check for non-normality.
-    A histogram of the observations from each group is shown in @fig-mlbANOVADiagNormalityGroups.
-    Since each of the groups we are considering have relatively large sample sizes, what we are looking for are major outliers.
-    None are apparent, so this conditions is reasonably met.
+-   **近似正态。** 与单样本和两样本均值检验一样，当样本量很小时，正态性假设尤为重要——但讽刺的是，此时也最难检查非正态性。
+    各组的观测直方图如 @fig-mlbANOVADiagNormalityGroups 所示。
+    由于我们所考虑的每组样本量都相对较大，我们关注的是是否存在严重的离群值。
+    从图中未发现明显的离群值，因此该条件基本满足。
 
--   **Constant variance.** The last assumption is that the variance in the groups is about equal from one group to the next. This assumption can be checked by examining side-by-side box plots of the outcomes across the groups, as in @fig-mlbANOVABoxPlot. In this case, the variability is similar in the four groups but not identical. We see in @tbl-mlbHRPerABSummaryTable that the standard deviation does not vary much from one group to the next.
+-   **恒定方差。** 最后一个假设是，各组的方差大致相等。可以通过检查各组结果变量的并列箱线图来验证此假设，如 @fig-mlbANOVABoxPlot 所示。在本例中，四个组的变异性相似但并不完全相同。从 @tbl-mlbHRPerABSummaryTable 中我们看到，各组的标准差差异不大。
 
 ::: {.important data-latex=""}
-**Diagnostics for an ANOVA analysis.**
+**方差分析（ANOVA）的诊断。**
 
-Independence is always important to an ANOVA analysis.
-The normality condition is important when the sample sizes for each group are relatively small (if the group sizes are large, the observations do not need to be normal but should also not contain any large outliers).
-The constant variance condition is especially important when the sample sizes differ between groups.
+独立性对于方差分析（ANOVA）始终重要。
+正态性条件在每组样本量相对较小时重要（如果组样本量很大，观测无需服从正态分布，但也不应包含任何严重的离群值）。
+恒定方差条件在各组样本量不同时尤为重要。
 :::
 
 ```{r}
 #| label: fig-mlbANOVADiagNormalityGroups
-#| fig-cap: Histograms of OBP for each field position.
+#| fig-cap: 各守位上垒率直方图。
 #| fig-alt: |
-#|   Three separate histograms of on-base percentage, one for each field position
-#|   of outfielder, infielder, and catcher. All three histograms are reasonably
-#|   bell-shaped and symmetric.
+#|   三个独立的上垒率直方图，分别对应外野手、内野手和捕手三个守位。
+#|   所有三个直方图都大致呈钟形且对称。
 #| fig-asp: 1.0
 #| out-width: 100%
 mlb_players_18 |>
@@ -704,41 +668,45 @@ mlb_players_18 |>
   geom_histogram() +
   facet_wrap(~position, ncol = 1, scales = "free_y") +
   labs(
-    x = "On-base percentage",
-    y = "Count"
+    x = "上垒率",
+    y = "频数"
   )
 ```
 
+
+
 \clearpage
 
-## Chapter review {#sec-chp22-review}
+## 章节回顾 {#sec-chp22-review}
 
-### Summary
+### 小结
 
-In this chapter we have provided both the randomization test and the mathematical model appropriate for addressing questions of equality of means across two or more groups.
-Note that there were important technical conditions required for confirming that the F distribution appropriately modeled the ANOVA test statistic.
-Also, you may have noticed that there was no discussion of creating confidence intervals.
-That is because the ANOVA statistic does not have a direct analogue parameter to estimate.
-If there is interest in comparisons of mean differences (across each set of two groups), then the methods from @sec-inference-two-means comparing two independent means should be applied.
+在本章中，我们介绍了适用于解决两组或多组之间均值相等问题的随机化检验和数学模型。
+请注意，要确认 F 分布是否适合用于对方差分析（ANOVA）检验统计量进行建模，需要满足重要的技术条件。
+另外，你可能已经注意到，本章没有讨论如何构建置信区间。
+这是因为方差分析（ANOVA）统计量没有一个可直接类比的参数来进行估计。
+如果对均值差（每两组之间）的比较感兴趣，则应使用 [第 -@sec-inference-two-means 章] 中比较两个独立均值的方法。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-22.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章介绍的术语列于 @tbl-terms-chp-22 中。
+如果你不确定其中某些术语的含义，建议你返回正文回顾其定义。
+你应该能轻易地将它们识别为**加粗文本**。
 
 ```{r}
 #| label: tbl-terms-chp-22
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章介绍的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_22)
 ```
 
+
+
 \clearpage
 
-## Exercises {#sec-chp22-exercises}
+## 练习 {#sec-chp22-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-22].
+奇数编号练习的答案可在 [附录 -@sec-exercise-solutions-22] 中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_22-ex-inference-many-means.qmd >}}

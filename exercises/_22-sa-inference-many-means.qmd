@@ -1,20 +1,20 @@
-1. Alternative.
+1.  备择假设。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Means across original data are more variable. (b) Standard deviation of egg lengths are about the same for both plots. (c) F statistic is bigger for the original data.
+1.  \(a\) (a) 原始数据中各组均值的变异性更大。(b) 两幅图中蛋长的标准差大致相同。(c) 原始数据的 F 统计量更大。
 \addtocounter{enumi}{1}
 
-1. $H_0$: $\mu_1 = \mu_2 = \cdots = \mu_6$. $H_A$: The average weight varies across some (or all) groups. Independence: Chicks are randomly assigned to feed types (presumably kept separate from one another), therefore independence of observations is reasonable. Approx. normal: the distributions of weights within each feed type appear to be fairly symmetric. Constant variance: Based on the side-by-side box plots, the constant variance assumption appears to be reasonable. There are differences in the actual computed standard deviations, but these might be due to chance as these are quite small samples. $F_{5,65} = 15.36$ and the p-value is approximately 0. With such a small p-value, we reject $H_0$. The data provide convincing evidence that the average weight of chicks varies across some (or all) feed supplement groups.
+1.  $H_0$: $\mu_1 = \mu_2 = \cdots = \mu_6$。$H_A$: 平均体重在部分（或所有）组之间存在差异。**独立性**：小鸡被随机分配到不同的饲料类型（且可能彼此隔离饲养），因此观测的独立性是合理的。**近似正态性**：每种饲料类型内的体重分布看起来相当对称。**常数方差**：根据并列箱线图，常数方差的假设似乎是合理的。实际计算出的标准差存在差异，但这可能是由于偶然性，因为这些样本量很小。$F_{5,65} = 15.36$，且 p 值约为 0。由于 p 值如此之小，我们拒绝 $H_0$。数据提供了令人信服的证据，表明小鸡的平均体重在部分（或所有）饲料补充组之间存在差异。
 \addtocounter{enumi}{1}
 
-1. \(a) $H_0$: The population mean of MET for each group is equal to the others. $H_A$: At least one pair of means is different. (b) Independence: We don't have any information on how the data were collected, so we cannot assess independence. To proceed, we must assume the subjects in each group are independent. In practice, we would inquire for more details. Normality: The data are bound below by zero and the standard deviations are larger than the means, indicating very strong skew. However, since the sample sizes are extremely large, even extreme skew is acceptable. Constant variance: This condition is sufficiently met, as the standard deviations are reasonably consistent across groups. (c) Since p-value is very small, reject $H_0$. The data provide convincing evidence that the average MET differs between at least one pair of groups.
+1.  \(a\) $H_0$：各组 MET 的总体均值彼此相等。$H_A$：至少有一对均值不同。(b) 独立性：我们没有关于数据收集方式的信息，因此无法评估独立性。为了继续分析，我们必须假设各组中的受试者是独立的。在实际操作中，我们会进一步询问详情。正态性：数据以零为下界，且标准差大于均值，表明存在非常强的偏斜。然而，由于样本量非常大，即使是极端偏斜也是可以接受的。等方差性：该条件充分满足，因为各组的标准差相当一致。(c) 由于 p 值非常小，拒绝 $H_0$。数据提供了令人信服的证据，表明至少有一对组之间的平均 MET 存在差异。
 \addtocounter{enumi}{1}
 
-1. \(a) $H_0$: Average GPA is the same for all majors. $H_A$: At least one pair of means are different. (b) Since p-value $>$ 0.05, fail to reject $H_0$. The data do not provide convincing evidence of a difference between the average GPAs across three groups of majors. (c) The total degrees of freedom is $195 + 2 = 197$, so the sample size is $197+1=198$.
+1. \(a\) $H_0$：所有专业的平均 GPA 相同。$H_A$：至少有一对均值不同。(b) 由于 p 值 $>$ 0.05，未能拒绝 $H_0$。数据没有提供令人信服的证据表明三组专业之间的平均 GPA 存在差异。(c) 总自由度为 $195 + 2 = 197$，因此样本量为 $197+1=198$。
 \addtocounter{enumi}{1}
 
-1. \(a) False. As the number of groups increases, so does the number of comparisons and hence the modified discernibility level decreases. (b) True. (c) True. (d) False. We need observations to be independent regardless of sample size.
+1. \(a\) 错误。随着组数增加，比较次数也增加，因此修正后的显著性水平会降低。(b) 正确。(c) 正确。(d) 错误。无论样本量大小如何，我们都需要观测是独立的。
 \addtocounter{enumi}{1}
 
-1.  \(a\) Left is Dataset B. (b) Right is Dataset A.
+1.  \(a\) (a) 左侧是数据集 B。(b) 右侧是数据集 A。
 \addtocounter{enumi}{1}

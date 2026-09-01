@@ -1,19 +1,21 @@
-# Logistic regression {#sec-model-logistic}
+# 逻辑斯谛回归 {#sec-model-logistic}
 
 ```{r}
 #| include: false
 source("_common.R")
 ```
 
+
+
 \vspace{-10mm}
 
 ::: {.chapterintro data-latex=""}
-In this chapter we introduce **logistic regression**\index{logistic regression} as a tool for building models when there is a categorical response variable with two levels, e.g., yes and no.
-Logistic regression is a type of **generalized linear model (GLM)**\index{generalized linear model} for response variables where regular multiple regression does not work very well.
-GLMs can be thought of as a two-stage modeling approach.
-We first model the response variable using a probability distribution, such as the binomial or Poisson distribution.
-Second, we model the parameter of the distribution using a collection of predictors and a special form of multiple regression.
-Ultimately, the application of a GLM will feel very similar to multiple regression, even if some of the details are different.
+在本章中，我们将介绍**逻辑斯谛回归**\index{logistic regression}，它是一种当响应变量为具有两个水平（例如“是”和“否”）的分类变量时使用的建模工具。
+逻辑斯谛回归是**广义线性模型 (GLM)**\index{generalized linear model}的一种，适用于常规多元回归效果不佳时的响应变量。
+GLM 可以被视为一种两阶段的建模方法。
+首先，我们使用一种概率分布（如二项分布或泊松分布）对响应变量进行建模。
+其次，我们使用一组预测变量和一种特殊形式的多元回归，对该分布的参数进行建模。
+最终，应用 GLM 的体验会非常类似于多元回归，即使某些细节有所不同。
 :::
 
 ```{r}
@@ -21,35 +23,37 @@ Ultimately, the application of a GLM will feel very similar to multiple regressi
 terms_chp_09 <- c("logistic regression", "generalized linear model")
 ```
 
+
+
 \vspace{-8mm}
 
-## Discrimination in hiring
+## 招聘中的歧视
 
-We will consider experiment data from a study that sought to understand the effect of race and sex on job application callback rates [@bertrand2003].
-To evaluate which factors were important, job postings were identified in Boston and Chicago for the study, and researchers created many fake resumes to send off to these jobs to see which would elicit a callback.[^09-model-logistic-1]
-The researchers enumerated important characteristics, such as years of experience and education details, and they used these characteristics to randomly generate fake resumes.
-Finally, they randomly assigned a name to each resume, where the name would imply the applicant's sex and race.
+我们将考虑一项旨在了解种族和性别对求职回电率影响的研究的实验数据 [@bertrand2003]。
+为了评估哪些因素重要，研究者在波士顿和芝加哥确定了招聘岗位，并制作了许多虚假简历投递给这些岗位，以观察哪些简历会获得回电。[^09-model-logistic-1]
+研究人员列出了工作经验年限、教育背景等重要特征，并利用这些特征随机生成虚假简历。
+最后，他们为每份简历随机分配了一个名字，该名字暗示了申请人的性别和种族。
 
-[^09-model-logistic-1]: We did omit discussion of some structure in the data for the analysis presented: the experiment design included blocking, where typically four resumes were sent to each job: one for each inferred race/sex combination (as inferred based on the first name).
-    We did not worry about the blocking aspect, since accounting for the blocking would *reduce* the standard error without notably changing the point estimates for the `race` and `sex` variables versus the analysis performed in the section.
-    That is, the most interesting conclusions in the study are unaffected even when completing a more sophisticated analysis.
+[^09-model-logistic-1]: 在所呈现的分析中，我们确实省略了对数据中某些结构的讨论：该实验设计包含了区组化，通常每个工作岗位会收到四份简历：分别对应每种推断出的种族/性别组合（根据名字推断）。
+    我们没有考虑区组化这一方面，因为考虑区组化会*降低*标准误，而不会显著改变本节分析中对 `race` 和 `sex` 变量的点估计。
+    也就是说，即使进行更复杂的分析，该研究中最有趣的结论也不会受到影响。
 
 ::: {.data data-latex=""}
-The [`resume`](http://openintrostat.github.io/openintro/reference/resume.html) data can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[`resume`](http://openintrostat.github.io/openintro/reference/resume.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 :::
 
-The first names that were used and randomly assigned in the experiment were selected so that they would predominantly be recognized as belonging to Black or White individuals; other races were not considered in the study.
-While no name would definitively be inferred as pertaining to a Black individual or to a White individual, the researchers conducted a survey to check for racial association of the names; names that did not pass the survey check were excluded from usage in the experiment.
-You can find the full set of names that did pass the survey test and were ultimately used in the study in @tbl-resume-names.
-For example, Lakisha was a name that their survey indicated would be interpreted as a Black woman, while Greg was a name that would generally be interpreted to be associated with a White male.
+实验中使用并被随机分配的名字是经过挑选的，以便它们主要能被识别为属于黑人或白人；研究中未考虑其他种族。
+虽然没有任何名字能绝对地被推断为属于黑人或白人，但研究人员进行了一项调查以检查名字与种族的关联；未通过该调查检查的名字在实验中被排除使用。
+你可以在 @tbl-resume-names 中找到通过了调查测试并最终在研究中使用的完整名字列表。
+例如，Lakisha 是一个根据他们的调查会被解读为黑人女性的名字，而 Greg 则是一个通常被解读为与白人男性有关联的名字。
 
 \clearpage
 
 ```{r}
 #| label: tbl-resume-names
 #| tbl-cap: |
-#|   List of all 36 unique names along with the commonly inferred
-#|   race and sex associated with these names.
+#|   所有 36 个独特名字的列表，以及通常由这些名字推断出的
+#|   种族和性别。
 #| tbl-pos: H
 resume_names_full <- resume |>
   select(firstname, race, gender) |>
@@ -86,15 +90,15 @@ resume_names_1 |>
     booktabs = TRUE,
     align = "lllllllll",
     col.names = c(
-      "first_name",
-      "race",
-      "sex",
-      "first_name",
-      "race",
-      "sex",
-      "first_name",
-      "race",
-      "sex"
+      "名字",
+      "种族",
+      "性别",
+      "名字",
+      "种族",
+      "性别",
+      "名字",
+      "种族",
+      "性别"
     )
   ) |>
   kable_styling(
@@ -105,6 +109,7 @@ resume_names_1 |>
   column_spec(4, border_left = T) |>
   column_spec(7, border_left = T)
 ```
+
 
 ```{r}
 #| label: resume-data-prep
@@ -133,33 +138,33 @@ resume <- resume |>
   )
 ```
 
-The response variable of interest is whether there was a callback from the employer for the applicant, and there were 8 attributes that were randomly assigned that we'll consider, with special interest in the race and sex variables.
-Race and sex are protected classes in the United States, meaning they are not legally permitted factors for hiring or employment decisions.
-The full set of attributes considered is provided in @tbl-resume-variables.
+
+
+我们关注的响应变量是雇主是否给申请人回了电话，我们将考虑 8 个被随机分配的属性，其中特别关注种族和性别变量。
+种族和性别在美国属于受保护类别，这意味着法律不允许将它们作为招聘或雇佣决策的因素。
+表 @tbl-resume-variables 列出了所考虑的全部属性。
 
 ```{r}
 #| label: tbl-resume-variables
 #| tbl-cap: |
-#|   Descriptions of nine variables from the `resume` dataset. Many
-#|   of the variables are indicator variables, meaning they take
-#|   the value 1 if the specified characteristic is present and
-#|   0 otherwise.
+#|   `resume` 数据集中九个变量的描述。许多变量是指示变量，
+#|   这意味着如果存在指定特征，则取值为 1，否则为 0。
 #| tbl-pos: H
 resume_variables <- tribble(
   ~variable           , ~description                                                                                               ,
-  "received_callback" , "Specifies whether the employer called the applicant following submission of the application for the job." ,
-  "job_city"          , "City where the job was located: Boston or Chicago."                                                       ,
-  "college_degree"    , "An indicator for whether the resume listed a college degree."                                             ,
-  "years_experience"  , "Number of years of experience listed on the resume."                                                      ,
-  "honors"            , "Indicator for the resume listing some sort of honors, e.g. employee of the month."                        ,
-  "military"          , "Indicator for if the resume listed any military experience."                                              ,
-  "has_email_address" , "Indicator for if the resume listed an email address for the applicant."                                   ,
-  "race"              , "Race of the applicant, implied by their first name listed on the resume."                                 ,
-  "sex"               , "Sex of the applicant (limited to only man and woman), implied by the first name listed on the resume."
+  "received_callback" , "表示雇主在收到求职申请后是否给申请人回了电话。" ,
+  "job_city"          , "工作岗位所在城市：波士顿或芝加哥。"                                                       ,
+  "college_degree"    , "指示变量，表示简历上是否列出了大学学位。"                                             ,
+  "years_experience"  , "简历上列出的工作经验年限。"                                                      ,
+  "honors"            , "指示变量，表示简历上是否列出了某种荣誉，例如月度最佳员工。"                        ,
+  "military"          , "指示变量，表示简历上是否列出了任何参军经历。"                                              ,
+  "has_email_address" , "指示变量，表示简历上是否列出了申请人的电子邮件地址。"                                   ,
+  "race"              , "申请人的种族，由简历上列出的名字暗示。"                                 ,
+  "sex"               , "申请人的性别（仅限于男性和女性），由简历上列出的名字暗示。"
 )
 
 resume_variables |>
-  kbl(linesep = "", booktabs = TRUE) |>
+  kbl(linesep = "", booktabs = TRUE, col.names = c("变量", "描述")) |>
   kable_styling(
     bootstrap_options = c("striped", "condensed"),
     full_width = FALSE
@@ -168,24 +173,24 @@ resume_variables |>
   column_spec(2, width = "30em")
 ```
 
-All of the attributes listed on each resume were randomly assigned, which means that no attributes that might be favorable or detrimental to employment would favor one demographic over another on these resumes.
-Importantly, due to the experimental nature of the study, we can infer causation between these variables and the callback rate, if substantial differences are found.
-Our analysis will allow us to compare the practical importance of each of the variables relative to each other.
+每份简历上列出的所有属性都是随机分配的，这意味着任何可能有利于或不利于录用的属性，都不会在这些简历上优待某个人口统计学群体而歧视另一个。
+重要的是，由于该研究的实验性质，如果发现实质性差异，我们就可以推断这些变量与回电率之间存在因果关系。
+通过我们的分析，可以比较各个变量之间的相对实际重要性。
 
 \clearpage
 
-## Modelling the probability of an event {#sec-modelingTheProbabilityOfAnEvent}
+## 对事件概率建模 {#sec-modelingTheProbabilityOfAnEvent}
 
-Logistic regression is a generalized linear model where the outcome is a two-level categorical variable.
-The outcome, $Y_i$, takes the value 1 (in our application, the outcome represents a callback for the resume) with probability $p_i$ and the value 0 with probability $1 - p_i$.
-Because each observation has a slightly different context, e.g., different education level or a different number of years of experience, the probability $p_i$ will differ for each observation.
-Ultimately, it is the **probability**\index{probability of an event} of the outcome taking the value 1 (i.e., being a "success") that we model in relation to the predictor variables: we will examine which resume characteristics correspond to higher or lower callback rates.
+逻辑斯谛回归是一种广义线性模型，其结果变量是一个两水平分类变量。
+结果变量 $Y_i$ 以概率 $p_i$ 取值 1（在我们的应用中，该结果代表简历收到了回电），以概率 $1 - p_i$ 取值 0。
+由于每个观测的背景略有不同，例如不同的教育水平或不同的工作经验年数，概率 $p_i$ 会因观测而异。
+最终，我们建模的是结果变量取值为 1（即“成功”）的**事件概率**\index{probability of an event} 与预测变量之间的关系：我们将探讨哪些简历特征对应较高或较低的回电率。
 
 ::: {.important data-latex=""}
-**Notation for a logistic regression model.**
+**逻辑斯谛回归模型的记号。**
 
-The outcome variable for a GLM is denoted by $Y_i$, where the index $i$ is used to represent observation $i$.
-In the resume application, $Y_i$ will be used to represent whether resume $i$ received a callback ($Y_i=1$) or not ($Y_i=0$).
+GLM 的结果变量用 $Y_i$ 表示，其中下标 $i$ 代表第 $i$ 个观测。
+在简历应用中，$Y_i$ 将用来表示第 $i$ 份简历是否收到回电（$Y_i=1$）或未收到回电（$Y_i=0$）。
 :::
 
 ```{r}
@@ -193,33 +198,39 @@ In the resume application, $Y_i$ will be used to represent whether resume $i$ re
 terms_chp_09 <- c(terms_chp_09, "probability of an event")
 ```
 
-The predictor variables are represented as follows: $x_{1,i}$ is the value of variable 1 for observation $i$, $x_{2,i}$ is the value of variable 2 for observation $i$, and so on.
+
+
+预测变量表示如下：$x_{1,i}$ 是变量 1 在观测 $i$ 处的取值，$x_{2,i}$ 是变量 2 在观测 $i$ 处的取值，以此类推。
 
 $$
 transformation(p_i) = \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \cdots + \beta_k x_{k,i}
 $$
 
-We want to choose a **transformation**\index{transformation} in the equation that makes practical and mathematical sense.
-For example, we want a transformation that makes the range of possibilities on the left hand side of the equation equal to the range of possibilities for the right hand side; if there was no transformation in the equation, the left hand side could only take values between 0 and 1, but the right hand side could take values well outside of the range from 0 to 1.
+我们希望在方程中选择一种在实践和数学意义上都合理的**变换**\index{transformation}。
+例如，我们需要一种变换，使得方程左侧的可能取值范围与右侧的可能取值范围相匹配；如果方程中没有变换，左侧的取值只能在 0 到 1 之间，而右侧的取值可能会远远超出 0 到 1 的范围。
 
 ```{r}
 #| include: false
 terms_chp_09 <- c(terms_chp_09, "transformation")
 ```
 
-A common transformation for $p_i$ is the **logit transformation**\index{logit transformation}, which may be written as
+
+
+对 $p_i$ 的一种常见变换是**logit 变换**\index{logit transformation}，可以写为
 
 $$
 logit(p_i) = \log_{e}\left( \frac{p_i}{1-p_i} \right)
 $$
 
-The **logit transformation**\index{logit transformation} is shown in @fig-logit-transformation.
-Below, we rewrite the equation relating $Y_i$ to its predictors using the logit transformation of $p_i$:
+**logit 变换**\index{logit transformation} 如 @fig-logit-transformation 所示。
+下面，我们使用 $p_i$ 的 logit 变换重写 $Y_i$ 与其预测变量关系的方程：
 
 ```{r}
 #| include: false
 terms_chp_09 <- c(terms_chp_09, "logit transformation")
 ```
+
+
 
 $$
 \log_{e}\left( \frac{p_i}{1-p_i} \right) = \beta_0 + \beta_1 x_{1,i} + \beta_2 x_{2,i} + \cdots + \beta_k x_{k,i}
@@ -227,10 +238,10 @@ $$
 
 ```{r}
 #| label: fig-logit-transformation
-#| fig-cap: Values of $p_i$ against values of $logit(p_i)$.
+#| fig-cap: |
+#|   $p_i$ 取值与 $logit(p_i)$ 取值的对应关系。
 #| fig-alt: |
-#|   A scatterplot with a superimposed line connecting values of p from -5
-#|   to +6 (on the x-axis) with their logit transformed value (on the y-axis).
+#|   一个散点图，上面叠加了一条线，将 $p$ 的值（在 x 轴上，从 -5 到 +6）与其经过 logit 变换后的值（在 y 轴上）连接起来。
 #| out-width: 100%
 #| fig-asp: 0.45
 logit_df_line <- tibble(
@@ -301,11 +312,11 @@ ggplot(logit_df_line, aes(x = lp, y = p)) +
   )
 ```
 
-In our resume example, there are 8 predictor variables, so $k = 8$.
-While the precise choice of a logit function isn't intuitive, it is based on theory that underpins generalized linear models, which is beyond the scope of this book.
-Fortunately, once we fit a model using software, it will start to feel like we are back in the multiple regression context, even if the interpretation of the coefficients is more complex.
+在我们的简历示例中，有 8 个预测变量，因此 $k = 8$。
+虽然选择 logit 函数的确切原因并不直观，但它建立在支撑广义线性模型的理论基础之上，这超出了本书的范围。
+幸运的是，一旦使用软件拟合了模型，就会感觉仿佛又回到了多元回归的语境中，即使系数的解释更为复杂。
 
-To convert from values on the logistic regression scale to the probability scale, we need to back transform and then solve for $p_i$:
+为了将逻辑斯谛回归尺度上的值转换为概率尺度上的值，我们需要进行逆变换，然后解出 $p_i$：
 
 $$
 \begin{aligned}
@@ -319,40 +330,39 @@ p_i &= \frac{e^{\beta_0 + \beta_1 x_{1,i}  + \cdots + \beta_k x_{k,i}}}{1 + e^{\
 \end{aligned}
 $$
 
-As with most applied data problems, we substitute in the point estimates (the observed $b_i$) to calculate relevant probabilities.
+与大多数应用数据问题一样，我们代入点估计（观测到的 $b_i$）来计算相关的概率。
 
 ::: {.workedexample data-latex=""}
-We start by fitting a model with a single predictor: `honors`.
-This variable indicates whether the applicant had any type of honors listed on their resume, such as employee of the month.
-A logistic regression model was fit using statistical software and the following model was found:
+我们首先用一个预测变量：`honors` 来拟合模型。
+这个变量表示申请者的简历上是否列出了任何类型的荣誉，例如月度最佳员工。
+使用统计软件拟合逻辑斯谛回归模型，得到以下模型：
 
 $$\log_e \left( \frac{\widehat{p}_i}{1-\widehat{p}_i} \right) = -2.4998 + 0.8668 \times {\texttt{honors}}$$
 
-a.  If a resume is randomly selected from the study and it does not have any honors listed, what is the probability it resulted in a callback?
+a.  如果从研究中随机选择一份简历，且该简历没有列出任何荣誉，那么它获得回电的概率是多少？
 
-b.  What would the probability be if the resume did list some honors?
+b.  如果简历确实列出了一些荣誉，概率会是多少？
 
 ------------------------------------------------------------------------
 
-a.  If a randomly chosen resume from those sent out is considered, and it does not list honors, then `honors` takes the value of 0 and the right side of the model equation equals -2.4998. Solving for $p_i$: $\frac{e^{-2.4998}}{1 + e^{-2.4998}} = 0.076$. Just as we labeled a fitted value of $y_i$ with a "hat" in single-variable and multiple regression, we do the same for this probability: $\hat{p}_i = 0.076{}$.
+a.  如果考虑所发出简历中随机选择的一份，且它没有列出荣誉，那么 `honors` 取值为 0，模型方程右侧等于 -2.4998。求解 $p_i$：$\frac{e^{-2.4998}}{1 + e^{-2.4998}} = 0.076$。正如我们在单变量和多元回归中用“帽子”标记 $y_i$ 的拟合值一样，我们对这个概率也做同样的处理：$\hat{p}_i = 0.076{}$。
 
-b.  If the resume had listed some honors, then the right side of the model equation is $-2.4998 + 0.8668 \times 1 = -1.6330$, which corresponds to a probability $\hat{p}_i = 0.163$. Notice that we could examine -2.4998 and -1.6330 in @fig-logit-transformation to estimate the probability before formally calculating the value.
+b.  如果简历列出了一些荣誉，那么模型方程右侧是 $-2.4998 + 0.8668 \times 1 = -1.6330$，对应的概率 $\hat{p}_i = 0.163$。请注意，在正式计算该值之前，我们可以在 @fig-logit-transformation 中查看 -2.4998 和 -1.6330 来估计概率。
 :::
 
-While knowing whether a resume listed honors provides some signal when predicting whether the employer would call, we would like to account for many different variables at once to understand how each of the different resume characteristics affected the chance of a callback.
+虽然知道简历是否列出了荣誉在预测雇主是否会回电时提供了一些信号，但我们希望同时纳入多个不同的变量，以了解不同的简历特征如何影响收到回电的机会。
 
 \clearpage
 
-## Logistic model with many variables
+## 多变量的逻辑斯谛模型
 
-We used statistical software to fit the logistic regression model with all 8 predictors described in @tbl-resume-variables.
-Like multiple regression, the result may be presented in a summary table, which is shown in @tbl-resume-full-fit.
+我们使用统计软件拟合了包含 @tbl-resume-variables 中描述的所有 8 个预测变量的逻辑斯谛回归模型。
+与多元回归类似，其结果可以汇总表的形式呈现，如 @tbl-resume-full-fit 所示。
 
 ```{r}
 #| label: tbl-resume-full-fit
 #| tbl-cap: |
-#|   Summary table for the full logistic regression model for the
-#|   resume callback example.
+#|   简历回电示例中完整逻辑斯谛回归模型的汇总表。
 #| tbl-pos: H
 resume_full_fit <- logistic_reg() |>
   fit(
@@ -385,22 +395,23 @@ resume_full_fit |>
   column_spec(2:5, width = "5em")
 ```
 
-Just like multiple regression, we could trim some variables from the model.
-Here we'll use a statistic called **Akaike information criterion (AIC)**\index{AIC}\index{Akaike information criterion}, which is analogous to how we used adjusted $R^2$ in multiple regression.
-AIC is a popular model selection method used in many disciplines, and is praised for its emphasis on model uncertainty and parsimony.
-AIC selects a "best" model by ranking models from best to worst according to their AIC values.
-In the calculation of a model's AIC, a penalty is given for including additional variables.
-The penalty for added model complexity attempts to strike a balance between underfitting (too few variables in the model) and overfitting (too many variables in the model).
-When using AIC for model selection, models with a lower AIC value are considered to be "better." Remember that when using adjusted $R^2$ we select models with higher values instead.
-It is important to note that AIC provides information about the quality of a model relative to other models, but does not provide information about the overall quality of a model.
 
-@tbl-resume-full-fit-aic provides the AIC and the number of observations used to fit the model.  We also know from @tbl-resume-full-fit that eight variables (with nine coefficients, including the intercept) were fit.
+
+就像多元回归一样，我们可以从模型中剔除一些变量。
+这里我们将使用一个称为 **Akaike 信息准则（AIC）**\index{AIC}\index{Akaike information criterion} 的统计量，它类似于我们在多元回归中使用的调整 $R^2$。
+AIC 是一种在许多学科中广泛使用的流行模型选择方法，并因其强调模型不确定性和简约性而受到推崇。
+AIC 通过根据 AIC 值将模型从好到差进行排序，从而选择“最佳”模型。
+在计算模型的 AIC 时，会对包含额外的变量施加惩罚。
+对增加的模型复杂度的惩罚，试图在欠拟合（模型中变量太少）和过拟合（模型中变量太多）之间取得平衡。
+当使用 AIC 进行模型选择时，AIC 值较低的模型被认为是“更好的”。请记住，在使用调整 $R^2$ 时，我们选择的则是值较高的模型。
+需要注意的是，AIC 提供的是模型相对于其他模型的质量信息，但并不能提供关于模型整体质量的信息。
+
+@tbl-resume-full-fit-aic 提供了 AIC 和用于拟合模型的观测数。我们也可以从 @tbl-resume-full-fit 得知，拟合了八个变量（包括截距在内共九个系数）。
 
 ```{r}
 #| label: tbl-resume-full-fit-aic
 #| tbl-cap: |
-#|   AIC for the full logistic regression model fit to the full
-#|   resume callback example.
+#|   对完整简历回调示例数据拟合全逻辑斯谛回归模型的 AIC。
 #| tbl-pos: H
 resume_full_fit <- logistic_reg() |>
   fit(
@@ -423,6 +434,7 @@ resume_full_fit |>
     linesep = "",
     booktabs = TRUE,
     digits = 2,
+    col.names = c("AIC", "观测数"),
     align = "rr"
   ) |>
   kable_styling(
@@ -433,13 +445,12 @@ resume_full_fit |>
   column_spec(1:2, width = "10em", monospace = TRUE)
 ```
 
-We will look for models with a lower AIC using a backward elimination strategy.  @tbl-resume-fit-aic provides the AIC values for the model with variables as given in @tbl-resume-fit.  Notice that the same number of observations are used, but one fewer variable (`college_degree` is dropped from the model).
+我们将使用后向消去法寻找 AIC 较低的模型。@tbl-resume-fit-aic 给出了 @tbl-resume-fit 中变量所对应模型的 AIC 值。请注意，使用的观测数相同，但变量少了一个（`college_degree` 已从模型中剔除）。
 
 ```{r}
 #| label: tbl-resume-fit-aic
 #| tbl-cap: |
-#|   AIC for the logistic regression model fit to the
-#|   resume callback example without `college_degree`.
+#|   对简历回调示例数据拟合不含 `college_degree` 的逻辑斯谛回归模型的 AIC。
 #| tbl-pos: H
 resume_fit <- logistic_reg() |>
   fit(
@@ -461,6 +472,7 @@ resume_fit |>
     linesep = "",
     booktabs = TRUE,
     digits = 2,
+    col.names = c("AIC", "观测数"),
     align = "rrr"
   ) |>
   kable_styling(
@@ -471,7 +483,7 @@ resume_fit |>
   column_spec(1:2, width = "10em", monospace = TRUE)
 ```
 
-After using the AIC criteria, the variable `college_degree` is eliminated (the AIC value without `college_degree` is smaller than the AIC value on the full model), giving the model summarized in @tbl-resume-fit with fewer variables, which is what we'll rely on for the remainder of the section.
+根据 AIC 准则，变量 `college_degree` 被剔除（不含 `college_degree` 的模型的 AIC 值比全模型的 AIC 值更小），从而得到了变量更少、在 @tbl-resume-fit 中汇总的模型，这也是本节剩余部分将使用的模型。
 
 ```{r}
 #| include: false
@@ -481,9 +493,8 @@ terms_chp_09 <- c(terms_chp_09, "Akaike information criterion", "AIC")
 ```{r}
 #| label: tbl-resume-fit
 #| tbl-cap: |
-#|   Summary table for the logistic regression model for the resume
-#|   callback example, where variable selection has been performed
-#|   using AIC and `college_degree` has been dropped from the model.
+#|   对简历回调示例数据拟合逻辑斯谛回归模型的汇总表，其中变量选择
+#|   已通过 AIC 完成，且 `college_degree` 已从模型中被剔除。
 #| tbl-pos: H
 resume_fit <- logistic_reg() |>
   fit(
@@ -505,6 +516,7 @@ resume_fit |>
     linesep = "",
     booktabs = TRUE,
     digits = 2,
+    col.names = c("项", "估计值", "标准误", "统计量", "p 值"),
     align = "lrrrrr"
   ) |>
   kable_styling(
@@ -516,141 +528,142 @@ resume_fit |>
 ```
 
 ::: {.workedexample data-latex=""}
-The `race` variable had taken only two levels: `Black` and `White`.
-Based on the model results, what does the coefficient of the `race` variable say about callback decisions?
+`race` 变量仅有 `Black` 和 `White` 两个水平。
+根据模型结果，关于回调决策，`race` 变量的系数能说明什么？
 
 ------------------------------------------------------------------------
 
-The coefficient shown corresponds to the level of `White`, and it is positive.
-The positive coefficient reflects a positive gain in callback rate for resumes where the candidate's first name implied they were White.
-The model results suggest that prospective employers favor resumes where the first name is typically interpreted to be White.
+显示的系数对应于 `White` 水平，且为正值。
+这个正系数反映了，当候选人名字暗示其为白人时，回调率会有正向提升。
+模型结果表明，潜在雇主更青睐名字通常被解读为白人的简历。
 :::
 
-The coefficient of $\texttt{race}_{\texttt{White}}$ in the full model in @tbl-resume-full-fit, is nearly identical to the model shown in @tbl-resume-fit.
-The predictors in the experiment were thoughtfully laid out so that the coefficient estimates would typically not be much influenced by which other predictors were in the model, which aligned with the motivation of the study to tease out which effects were important to getting a callback.
-In most observational data, it's common for point estimates to change a little, and sometimes a lot, depending on which other variables are included in the model.
+在 @tbl-resume-full-fit 的全模型中，$\texttt{race}_{\texttt{White}}$ 的系数与 @tbl-resume-fit 中显示的模型的系数几乎相同。
+实验中的预测变量经过了精心设计，因此系数估计值通常不会因模型中包含的其他预测变量的不同而受到很大影响，这与该研究旨在辨别出哪些效应对获得回调至关重要的动机是一致的。
+在大多数观测数据中，随着模型中包含的其他变量的不同，点估计值发生轻微变化（有时甚至是大幅变化）是很常见的。
 
 ::: {.workedexample data-latex=""}
-Use the model summarized in @tbl-resume-fit to estimate the probability of receiving a callback for a job in Chicago where the candidate lists 14 years experience, no honors, no military experience, includes an email address, and has a first name that implies they are a White male.
+使用 @tbl-resume-fit 中汇总的模型，估计一名在芝加哥求职、拥有 14 年工作经验、无荣誉、无军队经历、提供了电子邮箱地址、且从名字推断为白人男性的候选人收到回调的概率。
 
 ------------------------------------------------------------------------
 
-We can start by writing out the equation using the coefficients from the model:
+我们可以先用模型的系数写出方程：
 
 $$
 \begin{aligned}
 log_e \left(\frac{\widehat{p}}{1 - \widehat{p}}\right) = -2.7162 &- 0.4364 \times \texttt{job\_city}_{\texttt{Chicago}} + 0.0206 \times \texttt{years\_experience} \\
 &+ 0.7634 \times \texttt{honors} - 0.3443 \times \texttt{military} + 0.2221 \times \texttt{email} \\
-&+ 0.4429 \times \texttt{race}_{\texttt{White}} - 0.1959 \times \texttt{sex}_{\texttt{man}} 
+&+ 0.4429 \times \texttt{race}_{\texttt{White}} - 0.1959 \times \texttt{sex}_{\texttt{man}}
 \end{aligned}
 $$
 
-Now we can add in the corresponding values of each variable for the individual of interest:
+现在，我们可以为该个体代入每个变量的对应值：
 
 $$
 \begin{aligned}
 log_e \left(\frac{\widehat{p}}{1 - \widehat{p}}\right) = - 2.7162 &- 0.4364 \times 1 + 0.0206 \times 14 \\
 &+ 0.7634 \times 0 - 0.3443 \times 0 + 0.2221 \times 1 \\
-&+ 0.4429 \times 1 - 0.1959 \times 1 = - 2.3955  
+&+ 0.4429 \times 1 - 0.1959 \times 1 = - 2.3955
 \end{aligned}
 $$
 
-We can now back-solve for $\widehat{p}$: the chance such an individual will receive a callback is about $\frac{e^{-2.3955}}{1 + e^{-2.3955}} = 0.0835.$
+现在我们可以反解 $\widehat{p}$：这样一位个体收到回调的概率约为 $\frac{e^{-2.3955}}{1 + e^{-2.3955}} = 0.0835.$
 :::
 
 \clearpage
 
 ::: {.workedexample data-latex=""}
-Compute the probability of a callback for an individual with a name commonly inferred to be from a Black male but who otherwise has the same characteristics as the one described in the previous example.
+计算一名名字通常被认为属于黑人男性、但其他特征与上一个例子所述相同的个体收到回调的概率。
 
 ------------------------------------------------------------------------
 
-We can complete the same steps for an individual with the same characteristics who is Black, where the only difference in the calculation is that the indicator variable $\texttt{race}_{\texttt{White}}$ will take a value of 0.
-Doing so yields a probability of 0.0553.
-Let's compare the results with those of the previous example.
+我们可以对具有相同特征的黑人个体重复相同的步骤，计算中唯一的区别是指示变量 $\texttt{race}_{\texttt{White}}$ 的取值将为 0。
+这样计算得到的概率为 0.0553。
+让我们将此结果与上一个例子的结果进行比较。
 
-In practical terms, an individual perceived as White based on their first name would need to apply to $\frac{1}{0.0835} \approx 12$ jobs on average to receive a callback, while an individual perceived as Black based on their first name would need to apply to $\frac{1}{0.0553} \approx 18$ jobs on average to receive a callback.
-That is, applicants who are perceived as Black need to apply to 50% more employers to receive a callback than someone who is perceived as White based on their first name for jobs like those in the study.
+从实际角度来看，基于名字被认定为白人的个体平均需要申请 $\frac{1}{0.0835} \approx 12$ 份工作才能收到一次回调，而基于名字被认定为黑人的个体平均需要申请 $\frac{1}{0.0553} \approx 18$ 份工作才能收到一次回调。
+也就是说，对于研究中的这类工作，基于名字被认定为黑人的求职者为了收到一次回调，需要比基于名字被认定为白人的求职者多向 50% 的雇主申请。
 :::
 
-What we have quantified in the current section is alarming and disturbing.
-However, one aspect that makes the racism so difficult to address is that the experiment, as well-designed as it is, cannot send us much signal about which employers are discriminating.
-It is only possible to say that discrimination is happening, even if we cannot say which particular callbacks --- or non-callbacks --- represent discrimination.
-Finding strong evidence of racism for individual cases is a persistent challenge in enforcing anti-discrimination laws.
+我们在本节中量化的结果令人震惊和不安。
+然而，使得这种种族主义如此难以应对的一个原因是，尽管这项实验设计精良，却无法为我们提供太多关于哪些雇主存在歧视行为的信号。
+我们只能说歧视确实存在，即使我们无法指出具体的哪些回调——或未回调——代表了歧视。在个案中找到种族主义的强证据，是落实反歧视法律时持续存在的一项挑战。
 
-## Groups of different sizes
+## 不同规模的群体
 
-Any form of discrimination is concerning, which is why we decided it was so important to discuss the topic using data.
-The resume study also only examined discrimination in a single aspect: whether a prospective employer would call a candidate who submitted their resume.
-There was a 50% higher barrier for resumes simply when the candidate had a first name that was perceived to be of a Black individual.
-It's unlikely that discrimination would stop there.
+任何形式的歧视都令人担忧，这也是为什么我们认为用数据来探讨这个话题如此重要。
+该简历研究也仅考察了歧视的一个方面：潜在雇主是否会给提交简历的候选人回电。
+仅仅因为候选人的名字被认为属于黑人，其简历就面临高出 50% 的障碍。
+歧视不太可能仅止步于此。
 
 ::: {.workedexample data-latex=""}
-Let's consider a sex-imbalanced company that consists of 20% women and 80% men, and we'll suppose that the company is very large, consisting of perhaps 20,000 employees.
-(A more deliberate example would include more inclusive gender identities.) Suppose when someone goes up for promotion at the company, 5 of their colleagues are randomly chosen to provide feedback on their work.
+让我们考虑一家性别比例失衡的公司，其中 20% 是女性，80% 是男性，并且我们假设这家公司规模非常大，大约由 20,000 名员工组成。
+（更周全的示例会纳入更具包容性的性别认同。）假设当公司里有人申请晋升时，会随机抽取 5 位同事对其工作提供反馈。
 
-Now let's imagine that 10% of the people in the company are prejudiced against the other sex.
-That is, 10% of men are prejudiced against women, and similarly, 10% of women are prejudiced against men. Who is discriminated against more at the company, men or women?
+现在假设公司里有 10% 的人对异性存在偏见。
+也就是说，10% 的男性对女性有偏见，同样地，10% 的女性对男性有偏见。在公司里，男性还是女性受到的歧视更多？
 
 ------------------------------------------------------------------------
 
-Let's suppose we took 100 men who have gone up for promotion in the past few years.
-For these men, $5 \times 100 = 500$ random colleagues will be tapped for their feedback, of which about 20% will be women (100 women).
-Of these 100 women, 10 are expected to be biased against the man they are reviewing.
-Then, of the 500 colleagues reviewing them, men will experience discrimination by about 2% of their colleagues when they go up for promotion.
+假设我们抽取过去几年中申请晋升的 100 名男性。
+对于这些男性，将有 $5 \times 100 = 500$ 名随机同事被邀请提供反馈，其中大约 20% 是女性（100 名女性）。
+在这 100 名女性中，预计有 10 名会对她们所评审的男性存在偏见。
+那么，在这 500 名为他们提供评审的同事中，男性在申请晋升时将在大约 2% 的同事那里遭遇歧视。
 
-Let's do a similar calculation for 100 women who have gone up for promotion in the last few years.
-They will also have 500 random colleagues providing feedback, of which about 400 (80%) will be men.
-Of these 400 men, about 40 (10%) hold a bias against women.
-Of the 500 colleagues providing feedback on the promotion packet for these women, 8% of the colleagues hold a bias against the women.
+让我们对过去几年中申请晋升的 100 名女性进行类似的计算。
+她们同样会有 500 名随机同事提供反馈，其中大约 400 名（80%）是男性。
+在这 400 名男性中，大约有 40 名（10%）对女性存在偏见。
+在为这些女性的晋升材料提供反馈的 500 名同事中，有 8% 的同事对女性存在偏见。
 :::
 
 \clearpage
 
-The example highlights something profound: even in a hypothetical setting where each demographic has the same degree of prejudice against the other demographic, the smaller group experiences the negative effects more frequently.
-Additionally, if we would complete a handful of examples like the one above with different numbers, we would learn that the greater the imbalance in the population groups, the more the smaller group is disproportionately impacted.[^09-model-logistic-2]
+这个例子揭示了一个深刻的道理：即使在每个人口群体对另一群体抱有相同程度偏见的假设情境下，规模较小的群体也会更频繁地遭受负面效应。
+此外，如果我们用不同的数字多算几个类似上面的例子，就会发现总体群体失衡越严重，较小群体受到的不成比例影响就越大。[^09-model-logistic-2]
 
-[^09-model-logistic-2]: If a proportion $p$ of a company are women and the rest of the company consists of men, then under the hypothetical situation the ratio of rates of discrimination against women versus men would be given by $(1 - p) / p,$ a ratio that is always greater than 1 when $p < 0.5$.
+[^09-model-logistic-2]: 如果公司中女性员工的比例为 $p$，其余为男性，那么在上述假设情境下，针对女性与男性的歧视发生率之比将是 $(1 - p) / p,$ 当 $p < 0.5$ 时，该比率总是大于 1。
 
-Of course, there are other considerable real-world omissions from the hypothetical example.
-For example, studies have found instances where people from an oppressed group also discriminate against others within their own oppressed group.
-As another example, there are also instances where a majority group can be oppressed, with apartheid in South Africa being one such historic example.
-Ultimately, discrimination is complex, and there are many factors at play beyond the mathematics property we observed in the previous example.
+当然，这个假设性例子在现实世界中还存在其他相当重要的遗漏。
+例如，研究发现，受压迫群体中的人也会歧视自己所在群体内其他人的情况。
+再如，也存在多数群体受压迫的情况，南非的种族隔离制度就是这样一个历史实例。
+归根结底，歧视是复杂的，除了我们在前例中观察到的数学性质外，还有许多因素在起作用。
 
-We close the chapter on the serious topic of discrimination, and we hope it inspires you to think about the power of reasoning with data.
-Whether it is with a formal statistical model or by using critical thinking skills to structure a problem, we hope the ideas you have learned will help you do more and do better in life.
+我们以歧视这一严肃话题结束本章，希望它能启发你思考用数据推理的力量。
+无论是通过正式的统计模型，还是运用批判性思维技能来结构化问题，我们都希望你所学的这些理念能帮助你在生活中做得更多、做得更好。
 
 \vfill
 
-## Chapter review {#sec-chp9-review}
+## 章节回顾 {#sec-chp9-review}
 
-### Summary
+### 摘要
 
-Logistic and linear regression models have many similarities.
-The strongest of which is the linear combination of the explanatory variables which is used to form predictions related to the response variable.
-However, with logistic regression, the response variable is binary and therefore a prediction is given on the probability of a successful event.
-Logistic model fit and variable selection can be carried out in similar ways as multiple linear regression.
+逻辑斯谛回归模型与线性回归模型有许多相似之处。
+其中最突出的一点是，它们都利用解释变量的线性组合来形成与响应变量相关的预测。
+然而，在逻辑斯谛回归中，响应变量是二元的，因此预测的是“成功”事件的概率。
+逻辑斯谛模型的拟合和变量选择，可以采用与多元线性回归相似的方式进行。
 
-### Terms
+### 术语
 
-The terms introduced in this chapter are presented in @tbl-terms-chp-09.
-If you're not sure what some of these terms mean, we recommend you go back in the text and review their definitions.
-You should be able to easily spot them as **bolded text**.
+本章引入的术语列于 @tbl-terms-chp-09。
+如果你不确定其中某些术语的含义，我们建议你回到正文中复习它们的定义。
+你应该能很容易地找到它们，因为它们在正文中以**粗体文本**出现。
 
 ```{r}
 #| label: tbl-terms-chp-09
-#| tbl-cap: Terms introduced in this chapter.
+#| tbl-cap: 本章引入的术语。
 #| tbl-pos: H
 make_terms_table(terms_chp_09)
 ```
 
+
+
 \vfill
 
 \clearpage
 
-## Exercises {#sec-chp09-exercises}
+## 练习 {#sec-chp09-exercises}
 
-Answers to odd-numbered exercises can be found in [Appendix -@sec-exercise-solutions-09].
+奇数编号练习的答案可在[附录 -@sec-exercise-solutions-09]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_09-ex-model-logistic.qmd >}}

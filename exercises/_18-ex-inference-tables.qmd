@@ -1,21 +1,21 @@
-1.  **Quitters.** Does being part of a support group affect the ability of people to quit smoking?
-    A county health department enrolled 300 smokers in a randomized experiment.
-    150 participants were randomly assigned to a group that used a nicotine patch and met weekly with a support group; the other 150 received the patch and did not meet with a support group.
-    At the end of the study, 40 of the participants in the patch plus support group had quit smoking while only 30 smokers had quit in the other group.
+1.  **戒烟者。** 参与支持小组是否会影响人们的戒烟能力？
+    某县卫生部门招募了300名吸烟者参与一项随机化实验。
+    150名参与者被随机分配到一个使用尼古丁贴片并每周与支持小组会面的组；另外150人接受贴片但不与支持小组会面。
+    研究结束时，"贴片+支持"组有40名参与者成功戒烟，而另一组只有30名吸烟者戒烟。
 
-    a.  Create a two-way table presenting the results of this study.
+    a.  创建一个双向表来呈现本研究的结果。
 
-    b.  Answer each of the following questions under the null hypothesis that being part of a support group does not affect the ability of people to quit smoking, and indicate whether the expected values are higher or lower than the observed values.
+    b.  在"参与支持小组不影响人们戒烟能力"的原假设下，回答以下每个问题，并指出期望值是高于还是低于观测值。
 
-        i.  How many subjects in the "patch + support" group would you expect to quit?
+        i.  你预计"贴片+支持"组中有多少受试者会戒烟？
 
-        ii. How many subjects in the "patch only" group would you expect to not quit?
+        ii. 你预计"仅贴片"组中有多少受试者不会戒烟？
 
 \vfill
 
-2.  **Act on climate change.** The table below summarizes results from a Pew Research poll which asked respondents whether they have personally taken action to help address climate change within the last year and their generation.
-    The differences in each generational group may be due to chance.
-    Complete the following computations under the null hypothesis of independence between an individual's generation and whether they have personally taken action to help address climate change within the last year.
+2.  **应对气候变化的行动。** 下表总结了皮尤研究中心的一项民意调查结果，该调查询问受访者在过去一年中是否亲自采取了行动帮助应对气候变化以及他们所属的世代。
+    每个世代组之间的差异可能由偶然性造成。
+    请在个人所属世代与过去一年中是否亲自采取行动帮助应对气候变化相互独立的原假设下，完成以下计算。
     [@pewclimatechange2021]
 
     ```{r}
@@ -28,11 +28,11 @@
     ) |>
       mutate(
         Generation = fct_relevel(Generation, "Gen Z", "Millenial", "Gen X", "Boomer & older"),
-        `Took action` = round(n * p, 0),
-        `Didn't take action` = n - `Took action`
+        `采取行动` = round(n * p, 0),
+        `未采取行动` = n - `采取行动`
       ) |>
       select(-n, -p) |>
-      pivot_longer(cols = c(`Took action`, `Didn't take action`),
+      pivot_longer(cols = c(`采取行动`, `未采取行动`),
                    names_to = "response",
                    values_to = "n") |>
       uncount(weights = n)
@@ -40,32 +40,32 @@
     climate_change_action |>
       count(Generation, response) |>
       pivot_wider(names_from = response, values_from = n) |>
-      select(Generation, `Took action`, `Didn't take action`) |>
+      select(Generation, `采取行动`, `未采取行动`) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrr", format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "7em") |>
       column_spec(2:4, width = "8em") |>
-      add_header_above(c(" " = 1, "Response" = 2, " " = 1))
+      add_header_above(c(" " = 1, "回应" = 2, " " = 1))
     ```
 
-    If there is no relationship between age and action, 
-    
-    a.  how many Gen Z'ers would you expect to have personally taken action to help address climate change within the last year?
+    如果年龄（世代）与行动之间没有关联，
 
-    b.  how many Millenials would you expect to have personally taken action to help address climate change within the last year?
+    a.  你预计会有多少 Z 世代成员在过去一年中亲自采取行动帮助应对气候变化？
 
-    c.  how many Gen X'ers would you expect to have personally taken action to help address climate change within the last year?
+    b.  你预计会有多少千禧一代在过去一年中亲自采取行动帮助应对气候变化？
 
-    d.  how many Boomers and older would you expect to have personally taken action to help address climate change within the last year?
+    c.  你预计会有多少 X 世代成员在过去一年中亲自采取行动帮助应对气候变化？
+
+    d.  你预计会有多少婴儿潮一代及更年长者在过去一年中亲自采取行动帮助应对气候变化？
 
 \vfill
 
 \clearpage
 
-3.  **Lizard habitats, data.** In order to assess whether habitat conditions are related to the sunlight choices a lizard makes for resting, Western fence lizard (*Sceloporus occidentalis*) were observed across three different microhabitats.[^_18-ex-inference-tables-1]
+3.  **蜥蜴栖息地，数据。** 为了评估栖息地条件是否与蜥蜴休息时对阳光的选择相关，研究人员在三种不同的微生境中观察了西部栅栏蜥蜴 (*Sceloporus occidentalis*)。[^_18-ex-inference-tables-1]
     [@Adolph:1990; @Asbury:2007]
 
     ```{r}
@@ -74,32 +74,32 @@
       pivot_wider(names_from = sunlight, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" "=1, "sunlight" = 3, " " = 1)) |>
+      add_header_above(c(" "=1, "阳光条件" = 3, " " = 1)) |>
       column_spec(1:5, width = "3em")
     ```
 
-    a.  If the variables describing the habitat and the amount of sunlight are independent, what proporiton of lizards (total) would be expected in each of the three sunlight categories?
+    a.  如果描述栖息地和阳光量的变量是独立的，那么预计每种阳光类别中会各有多少比例（总计）的蜥蜴？
 
-    b.  Given the proportions of each sunlight condition, how many lizards of each type would you expect to see in the sun?
-        in the partial sun?
-        in the shade?
+    b.  给定每种阳光条件的比例，你预计在阳光下会看到多少只每种类型的蜥蜴？
+        在部分阳光下呢？
+        在阴影中呢？
 
-    c.  Compare the observed (original data) and expected (part b.) tables.
-        From a first glance, does it seem as though the habitat and choice of sunlight may be associated?
+    c.  比较观测频数（原始数据）表和期望频数（b 题）表。
+        第一印象来看，栖息地和阳光选择之间是否看起来可能存在关联？
 
-    d.  Regardless of your answer to part (c), is it possible to tell from looking only at the expected and observed counts whether the two variables are associated?
+    d.  不论你对 (c) 的回答是什么，仅通过观察期望频数和观测频数，是否有可能判断这两个变量是否有关联？
 
 \vfill
 
-4.  **Disaggregating Asian American tobacco use, data.** Understanding cultural differences in tobacco use across different demographic groups can lead to improved health care education and treatment.
-    A recent study disaggregated tobacco use across Asian American ethnic groups including Asian-Indian (n = 4,373), Chinese (n = 4,736), and Filipino (n = 4,912), in comparison to non-Hispanic Whites (n = 275,025).
-    The number of current smokers in each group was reported as Asian-Indian (n = 223), Chinese (n = 279), Filipino (n = 609), and non-Hispanic Whites (n = 50,880).
+4.  **亚裔美国人烟草使用的细分，数据。** 了解不同人口群体间烟草使用的文化差异有助于改进健康教育和治疗。
+    一项近期研究将烟草使用细分为亚裔印度人（n = 4,373）、华人（n = 4,736）和菲律宾人（n = 4,912），并与非西班牙裔白人（n = 275,025）进行比较。
+    各组当前吸烟者人数报告为：亚裔印度人（n = 223）、华人（n = 279）、菲律宾人（n = 609）和非西班牙裔白人（n = 50,880）。
     [@Rao:2021]
 
-    In order to assess whether there is a difference in current smoking rates across three Asian American ethnic groups, the observed data is compared to the data that would be expected if there were no association between the variables.
+    为了评估三个亚裔美国人群体之间的当前吸烟率是否存在差异，将观测数据与假设变量间无关联时的期望数据进行比较。
 
     ```{r}
     asian_smoke <- tibble(
@@ -120,31 +120,31 @@
       pivot_wider(names_from = outcome, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", format.args = list(big.mark = ","), booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" " = 1, "Smoking" = 2, " " = 1)) |>
+      add_header_above(c(" " = 1, "吸烟情况" = 2, " " = 1)) |>
       column_spec(1, width = "7em") |>
       column_spec(2:4, width = "7em")
     ```
 
-    a.  If the variables on ethnicity and smoking status are independent, estimate the proporiton of individuals (total) who smoke?
+    a.  如果种族和吸烟状况这两个变量是独立的，估计（所有亚裔样本）吸烟者的总比例是多少？
 
-    b.  Given the overall proportion who smoke, how many of each Asian American ethnicity would you expect to smoke?
+    b.  给定吸烟者的总比例，你预计每个亚裔族群中分别会有多少人吸烟？
 
-    c.  Compare the observed and expected counts.
-        From a first glance, does it seem as though the Asian American ethnicity and choice of smoking may be associated?
+    c.  比较观测频数和期望频数。
+        第一印象来看，亚裔美国人种族和是否吸烟的选择之间是否看起来可能存在关联？
 
-    d.  Regardless of your answer to part (c), is it possible to tell from looking only at the expected and observed counts whether the two variables are associated?
+    d.  不论你对 (c) 的回答是什么，仅通过观察期望频数和观测频数，是否有可能判断这两个变量是否有关联？
 
 \vfill
 
 \clearpage
 
-5.  **Lizard habitats, randomize once.** In order to assess whether habitat conditions are related to the sunlight choices a lizard makes for resting, Western fence lizard (*Sceloporus occidentalis*) were observed across three different microhabitats.
+5.  **蜥蜴栖息地，进行一次随机化。** 为了评估栖息地条件是否与蜥蜴休息时对阳光的选择相关，研究人员在三种不同的微生境中观察了西部栅栏蜥蜴 (*Sceloporus occidentalis*)。
     [@Adolph:1990; @Asbury:2007]
-    Then, the data were randomized once, where sunlight preference was randomly assigned to the lizards across different sites.
-    The original data are shown on the left and the results of the randomization is shown on the right.
+    然后，对数据进行一次随机化，即将阳光偏好随机分配给不同地点的蜥蜴。
+    原始数据显示在左侧，随机化的结果显示在右侧。
 
     ```{r}
     #| layout-ncol: 2
@@ -153,15 +153,15 @@
       pivot_wider(names_from = sunlight, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" "=1, "sunlight" = 3, " " = 1)) |>
+      add_header_above(c(" "=1, "阳光条件" = 3, " " = 1)) |>
       column_spec(1:5, width = "3em") |>
-      add_header_above(c("Original data" = 5))
+      add_header_above(c("原始数据" = 5))
 
     set.seed(47)
-    lizard_habitat |>      
+    lizard_habitat |>
       specify(sunlight ~ site) |>
       hypothesize(null = "independence") |>
       generate(1, type = "permute") |>
@@ -171,24 +171,24 @@
       pivot_wider(names_from = sunlight, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" "=1, "sunlight" = 3, " " = 1)) |>
+      add_header_above(c(" "=1, "阳光条件" = 3, " " = 1)) |>
       column_spec(1:5, width = "3em") |>
-      add_header_above(c("Randomized data" = 5))
+      add_header_above(c("随机化数据" = 5))
     ```
 
-    Recall that the Chi-squared statistic $(X^2)$ measures the difference between the expected and observed counts.
-    Without calculating the actual statistic, report on whether the original data or the randomized data will have a larger Chi-squared statistic.
-    Explain your choice.
+回顾一下，卡方统计量 $(X^2)$ 衡量的是期望计数与观测计数之间的差异。
+    在不实际计算统计量的情况下，指出原始数据与随机化数据中哪一个会产生更大的卡方统计量。
+    解释你的选择。
 
 \vfill
 
-6.  **Disaggregating Asian American tobacco use, randomize once.** In a study that aims to disaggregate tobacco use across Asian American ethnic groups (Asian-Indian, Chinese, and Filipino, in comparison to non-Hispanic Whites), respondents were asked whether they smoke tobacco or not.
+6.  **细分亚裔美国人的烟草使用情况，随机化一次。** 在一项旨在细分亚裔美国人不同族群（亚裔印度人、华人、菲律宾人，并与非西班牙裔白人比较）烟草使用情况的研究中，受访者被问及是否吸烟。
     [@Rao:2021]
-    Then, the data were randomized once, where smoking status was randomly assigned to the participants across different ethnicities.
-    The original data are shown on the left and the results of the randomization is shown on the right.
+    然后，将数据随机化一次，即将吸烟状态随机分配给不同族裔的参与者。
+    原始数据显示在左侧，随机化的结果显示在右侧。
 
     ```{r}
     #| layout-ncol: 2
@@ -210,17 +210,17 @@
       pivot_wider(names_from = outcome, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", format.args = list(big.mark = ","), booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" " = 1, "Smoking" = 2, " " = 1)) |>
+      add_header_above(c(" " = 1, "吸烟" = 2, " " = 1)) |>
       column_spec(1, width = "7em") |>
       column_spec(2:4, width = "3em") |>
-      add_header_above(c("Original data" = 4))
-    
-    
+      add_header_above(c("原始数据" = 4))
+
+
     set.seed(47)
-    asian_smoke |>      
+    asian_smoke |>
       specify(outcome ~ ethnicity) |>
       hypothesize(null = "independence") |>
       generate(1, type = "permute") |>
@@ -229,66 +229,66 @@
       pivot_wider(names_from = outcome, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", format.args = list(big.mark = ","), booktabs = TRUE) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" " = 1, "Smoking" = 2, " " = 1)) |>
+      add_header_above(c(" " = 1, "吸烟" = 2, " " = 1)) |>
       column_spec(1, width = "7em") |>
       column_spec(2:4, width = "3em") |>
-      add_header_above(c("Randomized data" = 4))
+      add_header_above(c("随机化数据" = 4))
     ```
 
-    Recall that the Chi-squared statistic $(X^2)$ measures the difference between the expected and observed counts.
-    Without calculating the actual statistic, report on whether the original data or the randomized data will have a larger Chi-squared statistic.
-    Explain your choice.
+    回顾一下，卡方统计量 $(X^2)$ 衡量的是期望计数与观测计数之间的差异。
+    在不实际计算统计量的情况下，指出原始数据与随机化数据中哪一个会产生更大的卡方统计量。
+    解释你的选择。
 
 \vfill
 
 \clearpage
 
-7.  **Lizard habitats, randomization test.** In order to assess whether habitat conditions are related to the sunlight choices a lizard makes for resting, Western fence lizard (*Sceloporus occidentalis*) were observed across three different microhabitats.
+7.  **蜥蜴栖息地，随机化检验。** 为了评估栖息地条件是否与蜥蜴休息时的阳光选择存在关联，研究人员在三种不同的微生境中观测了西部栅栏蜥蜴。
     [@Adolph:1990; @Asbury:2007]
-    The original data were randomized 1,000 times (sunlight variable randomly assigned to the observations across different habitats), and the histogram of the Chi-squared statistic on each randomization is displayed.
+    将原始数据随机化 1,000 次（将阳光变量随机分配给不同栖息地的观测），并绘制了每次随机化所得卡方统计量的直方图。
 
     ```{r}
     #| fig-asp: 0.38
-    obs_x2 <- lizard_habitat |>      
+    obs_x2 <- lizard_habitat |>
       specify(sunlight ~ site) |>
       hypothesize(null = "independence") |>
-      calculate(stat = "Chisq") |> 
+      calculate(stat = "Chisq") |>
       pull()
-      
+
     set.seed(47)
-    lizard_habitat |>      
+    lizard_habitat |>
       specify(sunlight ~ site) |>
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "Chisq") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 2) +
       geom_vline(xintercept = obs_x2, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized Chi-squared statistics",
-        x = "Chi-squared statistic for randomized data", 
-        y = "Count"
+        title = "1,000 次随机化的卡方统计量",
+        x = "随机化数据的卡方统计量",
+        y = "频数"
         )
     ```
 
-    a.  The histogram above describes the Chi-squared statistics for 1,000 different randomization datasets.
-        When randomizing the data, is the imposed structure that the variables are independent or that the variables are associated?
-        Explain.
+    a.  上方的直方图描述了 1,000 个不同随机化数据集的卡方统计量。
+        在随机化数据时，所施加的结构是变量独立的，还是变量有关联的？
+        请解释。
 
-    b.  What is the range of plausible values for the randomized Chi-squared statistic?
+    b.  随机化卡方统计量的合理取值范围是多少？
 
-    c.  The observed Chi-squared statistic is 68.8 (marked in red on plot).
-        Does the observed value provide evidence against the null hypothesis?
-        To answer the question, state the null and alternative hypotheses, approximate the p-value, and conclude the test in the context of the problem.
+    c.  观测到的卡方统计量为 68.8（图中以红色标出）。
+        该观测值是否提供了反对原假设的证据？
+        为了回答这个问题，请陈述原假设和备择假设，估算 p 值，并在问题背景下做出检验结论。
 
-8.  **Disaggregating Asian American tobacco use, randomization test.** Understanding cultural differences in tobacco use across different demographic groups can lead to improved health care education and treatment.
-    A recent study disaggregated tobacco use across Asian American ethnic groups including Asian-Indian (n = 4373), Chinese (n = 4736), and Filipino (n = 4912), in comparison to non-Hispanic Whites (n = 275,025).
-    The number of current smokers in each group was reported as Asian-Indian (n = 223), Chinese (n = 279), Filipino (n = 609), and non-Hispanic Whites (n = 50,880).
+8.  **细分亚裔美国人的烟草使用情况，随机化检验。** 理解不同人口统计组之间烟草使用的文化差异，可以促进医疗教育和治疗的改善。
+    最近一项研究细分了亚裔美国人不同族群（包括亚裔印度人 (n = 4373)、华人 (n = 4736) 和菲律宾人 (n = 4912)）相对于非西班牙裔白人 (n = 275,025) 的烟草使用情况。
+    每个族群的当前吸烟者人数报告如下：亚裔印度人 (n = 223)、华人 (n = 279)、菲律宾人 (n = 609) 和非西班牙裔白人 (n = 50,880)。
     [@Rao:2021]
-    The original data were randomized 1000 times (smoking status randomly assigned to the observations across ethnicities), and the histogram of the Chi-squared statistic on each randomization is displayed.
+    原始数据被随机化了 1000 次（吸烟状态被随机分配给跨族群的观测），并绘制了每次随机化所得卡方统计量的直方图。
 
     ```{r}
     #| fig-asp: 0.38
@@ -304,10 +304,10 @@
         rep("smoke", 609), rep("don't smoke", 4303)
       )
     )
-     
+
     obs_x2 <- asian_smoke |>
       specify(outcome ~ ethinicity, success = "smoke") |>
-      calculate(stat = "Chisq") |> 
+      calculate(stat = "Chisq") |>
       pull()
 
     set.seed(47)
@@ -317,55 +317,54 @@
       generate(reps = 1000, type = "permute") |>
       calculate(stat = "Chisq") |>
       #summarize(mean(stat < -0.008))
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 2) +
       geom_vline(xintercept = obs_x2, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized Chi-squared statistics",
-        x = "Chi-squared statistic for randomized data", 
-        y = "Count"
+        title = "1,000 次随机化的卡方统计量",
+        x = "随机化数据的卡方统计量",
+        y = "频数"
         )
     ```
 
-    a.  The histogram above describes the Chi-squared statistics for 1000 different randomization datasets.
-        When randomizing the data, is the imposed structure that the variables are independent or that the variables are associated?
-        Explain.
+    a.  上方的直方图描述了 1000 个不同随机化数据集的卡方统计量。
+        在随机化数据时，所施加的结构是变量独立的，还是变量有关联的？
+        请解释。
 
-    b.  What is the range of plausible values for the randomized Chi-squared statistic?
+    b.  随机化卡方统计量的合理取值范围是多少？
 
-    c.  The observed Chi-squared statistic is 209.42 (marked in red on plot).
-        Does the observed value provide evidence against the null hypothesis?
-        To answer the question, state the null and alternative hypotheses, approximate the p-value, and conclude the test in the context of the problem.
+    c.  观测到的卡方统计量为 209.42（图中以红色标出）。
+        该观测值是否提供了反对原假设的证据？
+        为了回答这个问题，请陈述原假设和备择假设，估算 p 值，并在问题背景下做出检验结论。
 
 \clearpage
 
-9.  **Lizard habitats, larger data.** In order to assess whether habitat conditions are related to the sunlight choices a lizard makes for resting, Western fence lizard (*Sceloporus occidentalis*) were observed across three different microhabitats.
+9.  **蜥蜴栖息地，更大的数据集。** 为了评估栖息地条件是否与蜥蜴休息时的阳光选择存在关联，研究者观察了三种不同微生境下的西部栅栏蜥蜴 (*Sceloporus occidentalis*)。
     [@Adolph:1990; @Asbury:2007]
 
-    Consider the situation where the dataset is 5 times *larger* than the original data (but have the same proportional representation in each category).
-    The distribution of lizards in each of the sites resting in the sun, partial sun, and shade are as follows.
+    考虑这样一种情况：数据集比原始数据*大* 5 倍（但每个类别中的比例构成保持不变）。各地点蜥蜴在阳光下、部分阳光下和阴影中休息的分布情况如下。
 
     ```{r}
-    lizard_habitat_large <- lizard_habitat |> 
+    lizard_habitat_large <- lizard_habitat |>
       count(site, sunlight) |>
       mutate(n_large = n * 5) |>
       select(-n) |>
       uncount(weights = n_large)
 
-    lizard_habitat_large |> 
+    lizard_habitat_large |>
       count(site, sunlight) |>
       pivot_wider(names_from = sunlight, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", booktabs = TRUE, format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" "=1, "sunlight" = 3, " " = 1)) |>
+      add_header_above(c(" "=1, "阳光" = 3, " " = 1)) |>
       column_spec(1:5, width = "5em") |>
-      add_header_above(c("Larger data" = 5))
+      add_header_above(c("更大的数据集" = 5))
     ```
 
-    The larger dataset was randomized 1,000 times (sunlight preference randomly assigned to the observations across sites), and the histogram of the Chi-squared statistic on each randomization is displayed.
+    这个更大的数据集被随机化了 1,000 次（阳光偏好被随机分配给跨地点的观测），并绘制了每次随机化所得卡方统计量的直方图。
 
     ```{r}
     #| fig-asp: 0.5
@@ -374,44 +373,44 @@
       calculate(stat = "Chisq") |>
       pull()
 
-    set.seed(47)
+set.seed(47)
     lizard_habitat_large |>
       specify(sunlight ~ site) |>
       hypothesize(null = "independence") |>
       generate(reps = 1000, type = "permute") |>
       calculate(stat = "Chisq") |>
       #summarize(mean(stat > obs_x2))
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 2) +
       geom_vline(xintercept = obs_x2, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized Chi-squared statistics",
-        x = "Chi-squared statistic for randomized data", 
-        y = "Count"
+        title = "1,000 次随机化的卡方统计量",
+        x = "随机化数据的卡方统计量",
+        y = "频数"
         ) +
       scale_x_continuous(breaks = seq(0, 350, 25))
     ```
 
-    a.  The histogram above describes the Chi-squared statistics for 1,000 different randomization of the larger dataset.
-        When randomizing the data, is the imposed structure that the variables are independent or that the variables are associated?
-        Explain.
+    a.  上方的直方图描述了基于较大数据集的 1,000 次不同随机化得到的卡方统计量。
+        在随机化数据时，强制施加的结构是变量独立还是变量有关联？
+        请解释。
 
-    b.  What is the (approximate) range of plausible values for the randomized Chi-squared statistic?
+    b.  随机化卡方统计量的（近似）合理值范围是多少？
 
-    c.  The observed Chi-squared statistic is `r obs_x2` (and seen in red on the graph).
-        Does the observed value provide evidence against the null hypothesis?
-        To answer the question, state the null and alternative hypotheses, approximate the p-value, and conclude the test in the context of the problem.
+    c.  观测到的卡方统计量是 `r obs_x2`（在图中以红线标出）。
+        这个观测值是否提供了反对原假设的证据？
+        请通过陈述原假设和备择假设，近似计算 p 值，并在问题背景下得出结论来回答这个问题。
 
-    d.  If the alternative hypothesis is true, how does the sample size effect the ability to reject the null hypothesis?
-        (*Hint:* Consider the original data as compared with the larger dataset that have the same proportional values.)
+    d.  如果备择假设为真，样本量如何影响我们拒绝原假设的能力？
+        （*提示：*考虑原始数据与具有相同比例值的较大数据集的对比。）
 
 \clearpage
 
-10. **Disaggregating Asian American tobacco use, smaller data.** Understanding cultural differences in tobacco use across different demographic groups can lead to improved health care education and treatment.
-    A recent study disaggregated tobacco use across Asian American ethnic groups. [@Rao:2021]
+10. **细分亚裔美国人烟草使用情况，较小数据集。** 理解不同人口群体间烟草使用的文化差异，有助于改善医疗保健教育和治疗。
+    一项近期研究针对亚裔美国人的不同种族群体细分了烟草使用情况。 [@Rao:2021]
 
-    Consider the situation where the dataset is 50 times *smaller* than the original data (but have the same proportional representation in each category).
-    The distribution of smokers in each of the ethnicity groups in the smaller data are as follows.
+    考虑一个数据集，其规模是原始数据的 1/50（但每个类别中的比例相同）。
+    这个较小数据集中，各种族群体的吸烟者分布如下。
 
     ```{r}
     asian_smoke_small <- tibble(
@@ -433,16 +432,16 @@
       adorn_totals(where = c("row", "col")) |>
       kbl(align = "lrrrr", booktabs = TRUE,
           format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
-      add_header_above(c(" " = 1, "Smoking" = 2, " " = 1)) |>
+      add_header_above(c(" " = 1, "吸烟情况" = 2, " " = 1)) |>
       column_spec(1, width = "7em") |>
       column_spec(2:4, width = "5em") |>
-      add_header_above(c("Smaller data" = 4))
+      add_header_above(c("较小数据集" = 4))
     ```
 
-    The smaller dataset was randomized 1,000 times (smoking status randomly assigned to the observations across ethnicities), and the histogram of the Chi-squared statistic on each randomization is displayed.
+    这个较小的数据集被随机化了 1,000 次（吸烟状态在各族裔观测间随机分配），并展示了每次随机化的卡方统计量的直方图。
 
     ```{r}
     #| fig-asp: 0.5
@@ -458,83 +457,83 @@
       generate(reps = 1000, type = "permute") |>
       calculate(stat = "Chisq") |>
       #summarize(mean(stat > obs_x2))
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"], binwidth = 1) +
       geom_vline(xintercept = obs_x2, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        title = "1,000 randomized Chi-squared statistics",
-        x = "Chi-squared statistic for randomized data", 
-        y = "Count"
+        title = "1,000 次随机化的卡方统计量",
+        x = "随机化数据的卡方统计量",
+        y = "频数"
       )
     ```
 
-    a.  The histogram above describes the Chi-squared statistics for 1,000 different randomization of the smaller dataset.
-        When randomizing the data, is the imposed structure that the variables are independent or that the variables are associated?
-        Explain.
+    a.  上方的直方图描述了基于较小数据集的 1,000 次不同随机化得到的卡方统计量。
+        在随机化数据时，强制施加的结构是变量独立还是变量有关联？
+        请解释。
 
-    b.  What is the (approximate) range of plausible values for the randomized Chi-squared statistic?
+    b.  随机化卡方统计量的（近似）合理值范围是多少？
 
-    c.  The observed Chi-squared statistic is 4.19 (and seen in red on the graph).
-        Does the observed value provide evidence against the null hypothesis?
-        To answer the question, state the null and alternative hypotheses, approximate the p-value, and conclude the test in the context of the problem.
+    c.  观测到的卡方统计量是 4.19（在图中以红线标出）。
+        这个观测值是否提供了反对原假设的证据？
+        请通过陈述原假设和备择假设，近似计算 p 值，并在问题背景下得出结论来回答这个问题。
 
-    d.  If the alternative hypothesis is true, how does the sample size effect the ability to reject the null hypothesis?
-        (*Hint:* Consider the original data as compared with the smaller dataset that have the same proportional values.)
+    d.  如果备择假设为真，样本量如何影响我们拒绝原假设的能力？
+        （*提示：*考虑原始数据与具有相同比例值的较小数据集的对比。）
 
 \clearpage
 
-11. **True / False, I.** Determine if the statements below are true or false.
-    For each false statement, suggest an alternative wording to make it a true statement.
+11. **判断正误 I。** 判断以下陈述是否正确。
+    对于每个错误的陈述，提出一个可使其变为正确陈述的替代措辞。
 
-    a.  The Chi-square distribution, just like the normal distribution, has two parameters, mean and standard deviation.
+    a.  卡方分布与正态分布一样，有两个参数：均值和标准差。
 
-    b.  The Chi-square distribution is always right skewed, regardless of the value of the degrees of freedom parameter.
+    b.  无论自由度参数的值是多少，卡方分布总是右偏的。
 
-    c.  The Chi-square statistic is always greater than or equal to 0.
+    c.  卡方统计量总是大于或等于 0。
 
-    d.  As the degrees of freedom increases, the shape of the Chi-square distribution becomes more skewed.
-
-\vfill
-
-12. **True / False, II.** Determine if the statements below are true or false.
-    For each false statement, suggest an alternative wording to make it a true statement.
-
-    a.  As the degrees of freedom increases, the mean of the Chi-square distribution increases.
-
-    b.  If you found $\chi^2 = 10$ with $df = 5$ you would fail to reject $H_0$ at the 5% discernibility level.
-
-    c.  When finding the p-value of a Chi-square test, we always shade the tail areas in both tails.
-
-    d.  As the degrees of freedom increases, the variability of the Chi-square distribution decreases.
+    d.  随着自由度增加，卡方分布的形态变得更加偏斜。
 
 \vfill
 
-13. **Sleep deprived transportation workers.** The National Sleep Foundation conducted a survey on the sleep habits of randomly sampled transportation workers and randomly sampled non-transportation workers that serve as a "control" for comparison.
+12. **判断正误 II。** 判断以下陈述是否正确。
+    对于每个错误的陈述，提出一个可使其变为正确陈述的替代措辞。
+
+    a.  随着自由度增加，卡方分布的均值也随之增加。
+
+    b.  如果你在 $df = 5$ 时得到 $\chi^2 = 10$，那么在 5% 的可辨识水平下，你将无法拒绝 $H_0$。
+
+    c.  在求卡方检验的 p 值时，我们总是在两个尾部区域都涂阴影。
+
+    d.  随着自由度增加，卡方分布的变异性会减小。
+
+\vfill
+
+13. **睡眠不足的运输工人。** 国家睡眠基金会开展了一项调查，调查了随机抽取的运输工人和作为比较"对照"的随机抽取的非运输工人的睡眠习惯。
     [@data:sleepTransport]
-    The results of the survey are shown below.
-    Conduct a hypothesis test to evaluate if these data provide evidence of an association between sleep levels and profession.
+    调查结果如下所示。
+    请进行假设检验，以评估这些数据是否提供了睡眠水平与职业之间存在关联的证据。
 
     ```{r}
     tribble(
-      ~Profession,                   ~`Less than 6 hours`, ~`6 to 8 hours`, ~`More than 8 hours`, ~Total,
-      "Non-transportation workers",               35,                  193,                   64,    292,
-      "Transportation workers",                  104,                  499,                  192,    795,
-      "Total",                                   139,                  692,                  256,   1087
+      ~职业,                   ~`少于 6 小时`, ~`6 至 8 小时`, ~`多于 8 小时`, ~合计,
+      "非运输行业工人",               35,                  193,                   64,    292,
+      "运输行业工人",                104,                  499,                  192,    795,
+      "合计",                       139,                  692,                  256,   1087
     ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "15em") |>
-      column_spec(2:5, width = "5em") 
+      column_spec(2:5, width = "5em")
     ```
 
 \vfill
 
-14. **Parasitic worm.** Lymphatic filariasis is a disease caused by a parasitic worm.
-    Complications of the disease can lead to extreme swelling and other complications.
-    Here we consider results from a randomized experiment that compared three different drug treatment options to clear people of the this parasite, which people are working to eliminate entirely.
-    The results for the second year of the study are given below: [@KingSuamani2018]
+14. **寄生蠕虫。** 淋巴丝虫病是一种由寄生蠕虫引起的疾病。
+    该疾病的并发症可导致极端肿胀和其他并发症。
+    本文考虑了一项随机化实验的结果，该实验比较了三种不同的药物治疗方案，以清除人体内的这种寄生虫（人们正致力于彻底消除它）。
+    该研究第二年的结果如下：[@KingSuamani2018]
 
     ```{r}
     parasitic_worm <- tribble(
@@ -554,26 +553,33 @@
       count(group, outcome) |>
       pivot_wider(names_from = outcome, values_from = n) |>
       adorn_totals(where = c("row", "col")) |>
+      mutate(group = recode(group,
+        "Three drugs" = "三种药物",
+        "Two drugs" = "两种药物",
+        "Two drugs annually" = "每年使用两种药物",
+        "Total" = "合计"
+      )) |>
+      rename("第二年已清除" = `Clear at Year 2`, "第二年未清除" = `Not Clear at Year 2`, "合计" = Total) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrr", format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1:3, width = "10em") |>
       column_spec(4, width = "5em") |>
-      add_header_above(c(" " = 1, "Outcome" = 2, " " = 1))
+      add_header_above(c(" " = 1, "结果变量" = 2, " " = 1))
     ```
 
-    a.  Set up hypotheses for evaluating whether there is any difference in the performance of the treatments, and also check conditions.
+    a.  建立假设以评估这些治疗方法在表现上是否存在任何差异，并检查条件。
 
-    b.  Statistical software was used to run a Chi-square test, which output: $X^2 = 23.7 \quad df = 2 \quad \text{p-value} < 0.0001$.
-        Use these results to evaluate the hypotheses from part (a), and provide a conclusion in the context of the problem.
+    b.  使用统计软件进行了卡方检验，其输出为：$X^2 = 23.7 \quad df = 2 \quad \text{p 值} < 0.0001$。
+        利用这些结果来评估 部分的假设，并在问题背景下给出结论。
 
 \vfill
 
 \clearpage
 
-15. **Shipping holiday gifts.** A local news survey asked 500 randomly sampled Los Angeles residents which shipping carrier they prefer to use for shipping holiday gifts.
-    The table below shows the distribution of responses by age group as well as the expected counts for each cell (shown in italics).
+15.  **节日礼物运输。** 一项地方新闻调查询问了500名随机抽取的洛杉矶居民，他们更喜欢使用哪家运输公司来运送节日礼物。
+    下表显示了按年龄组分组的回答分布，以及每个单元格的期望频数（以*斜体*显示）。
 
     ```{r}
     tribble(
@@ -581,11 +587,11 @@
       "USPS",                   72,         "81",       97,       "102",        76,        "62",    245,
       "UPS",                    52,         "53",       76,        "68",        34,        "41",    162,
       "FedEx",                  31,         "21",       24,        "27",         9,        "16",     64,
-      "Something else",          7,          "5",        6,         "7",         3,         "4",     16,
-      "Not sure",                3,          "5",        6,         "5",         4,         "3",     13,
-      "Total",                 165,             "",      209,            "",       126,            "",    500
+      "其他",                    7,          "5",        6,         "7",         3,         "4",     16,
+      "不确定",                  3,          "5",        6,         "5",         4,         "3",     13,
+      "合计",                  165,             "",      209,            "",       126,            "",    500
     ) |>
-    kbl(linesep = "", booktabs = TRUE, 
+    kbl(linesep = "", booktabs = TRUE,
         col.names = c("", "", "", "", "", "", "", ""),
         align = "lrrrrrrr") |>
     column_spec(1, width = "10em") |>
@@ -594,22 +600,22 @@
     column_spec(7, color = IMSCOL["blue", "full"], italic = TRUE, width = "3em") |>
     column_spec(c(2, 4, 6), width = "3em") |>
     column_spec(8, width = "5em") |>
-    add_header_above(c("Shipping method" = 1, "18-34" = 2, "35-54" = 2, "55+" = 2, "Total" = 1)) |>
-    add_header_above(c(" " = 1, "Age" = 6, " " = 1)) |>
-    kable_styling(bootstrap_options = c("striped", "condensed"), 
+    add_header_above(c("运输方式" = 1, "18-34" = 2, "35-54" = 2, "55+" = 2, "合计" = 1)) |>
+    add_header_above(c(" " = 1, "年龄" = 6, " " = 1)) |>
+    kable_styling(bootstrap_options = c("striped", "condensed"),
                   latex_options = "HOLD_position", full_width = FALSE)
     ```
 
-    a.  State the null and alternative hypotheses for testing for independence of age and preferred shipping method for holiday gifts among Los Angeles residents.
+    a.  陈述检验洛杉矶居民年龄与节日礼物运输方式偏好之间独立性的原假设和备择假设。
 
-    b.  Are the conditions for inference using a Chi-square test satisfied?
+    b.  使用卡方检验进行推断的条件是否满足？
 
 \vspace{10mm}
 
-16. **Coffee and depression.** Researchers conducted a study investigating the relationship between caffeinated coffee consumption and risk of depression in women.
-    They collected data on 50,739 women free of depression symptoms at the start of the study in the year 1996, and these women were followed through 2006.
-    The researchers used questionnaires to collect data on caffeinated coffee consumption, asked each individual about physician- diagnosed depression, and also asked about the use of antidepressants.
-    The table below shows the distribution of incidences of depression by amount of caffeinated coffee consumption.
+16.  **咖啡与抑郁。** 研究人员进行了一项研究，调查女性含咖啡因咖啡消费与抑郁风险之间的关系。
+    他们在研究开始时的1996年，收集了50,739名无抑郁症状女性的数据，并对这些女性追踪至2006年。
+    研究人员使用问卷收集含咖啡因咖啡消费数据，询问每个人关于医生诊断的抑郁症情况，同时也询问了抗抑郁药的使用情况。
+    下表显示了按含咖啡因咖啡消费量划分的抑郁症发病率分布。
     [@Lucas:2011]
 
     ```{r}
@@ -620,30 +626,28 @@
       "Total",             12215,        "6,617",      17234,         12290,       2383,  50739
     ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrrrr", format.args = list(big.mark = ",")) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "5em") |>
       column_spec(2:6, width = "4em") |>
       column_spec(7, width = "4em") |>
-      add_header_above(c(" " = 1, "Caffeinated coffee consumption" = 5, " " = 1))
+      add_header_above(c(" " = 1, "含咖啡因咖啡摄入量" = 5, " " = 1))
     ```
 
-    a.  What type of test is appropriate for evaluating if there is an association between coffee intake and depression?
+    a.  哪种检验适合用于评估咖啡摄入量与抑郁之间是否存在关联？
 
-    b.  Write the hypotheses for the test you identified in part (a).
+    b.  为 (a) 中确定的检验写出假设。
 
-    c.  Calculate the overall proportion of women who do and do not suffer from depression.
+    c.  计算患有和不患有抑郁症的女性总比例。
 
-    d.  Identify the expected count for the empty cell, and calculate the contribution of this cell to the test statistic.
+    d.  找出空单元格的期望频数，并计算该单元格对检验统计量的贡献。
 
-    e.  The test statistic is $\chi^2=20.93$.
-        What is the p-value?
+    e.  检验统计量为 $\chi^2=20.93$。p 值是多少？
 
-    f.  What is the conclusion of the hypothesis test?
+    f.  假设检验的结论是什么？
 
-    g.  One of the authors of this study was quoted on the New York Times as saying it was "too early to recommend that women load up on extra coffee" based on just this study.
-        [@news:coffeeDepression] Do you agree with this statement?
-        Explain your reasoning.
+    g.  这项研究的作者之一在《纽约时报》上被引述说，仅凭这一项研究就“建议女性多喝咖啡还为时过早”。
+        [@news:coffeeDepression] 你同意这种说法吗？解释你的推理。
 
-[^_18-ex-inference-tables-1]: The [`lizard_habitat`](http://openintrostat.github.io/openintro/reference/lizard_habitat.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_18-ex-inference-tables-1]: 本练习中使用的 [`lizard_habitat`](http://openintrostat.github.io/openintro/reference/lizard_habitat.html) 数据集可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。

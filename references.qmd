@@ -1,4 +1,4 @@
-# References {#sec-references}
+# 参考文献 {#sec-references}
 
 ::: {#refs}
 :::

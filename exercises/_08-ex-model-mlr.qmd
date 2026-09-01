@@ -1,22 +1,22 @@
-1.  **High correlation, good or bad?** Two friends, Frances and Annika, are in disagreement about whether high correlation values are *always* good in the context of regression.
-    Frances claims that it's desirable for all variables in the dataset to be highly correlated to each other when building linear models.
-    Annika claims that while it's desirable for each of the predictors to be highly correlated with the outcome, it is not desirable for the predictors to be highly correlated with each other.
-    Who is right: Frances, Annika, both, or neither?
-    Explain your reasoning using appropriate terminology.
+1.  **高相关系数，好还是坏？** 两个朋友，Frances 和 Annika，对于在回归情境下高相关系数值是否*总是*好事存在分歧。
+    Frances 声称，在建立线性模型时，数据集中的所有变量彼此高度相关是理想的。
+    Annika 则声称，虽然每个预测变量与结果变量高度相关是理想的，但预测变量彼此之间高度相关则是不理想的。
+    谁是正确的：Frances、Annika、两人都对，还是两人都错？
+    请使用恰当的术语解释你的推理。
 
-2.  **Dealing with categorical predictors.** Two friends, Elliott and Adrian, want to build a model predicting typing speed (average number of words typed per minute) from whether the person wears glasses or not.
-    Before building the model they want to conduct some exploratory analysis to evaluate the strength of the association between these two variables, but they're in disagreement about how to evaluate how strongly a categorical predictor is associated with a numerical outcome.
-    Elliott claims that it is not possible to calculate a correlation coefficient to summarize the relationship between a categorical predictor and a numerical outcome, however they're not sure what a better alternative is.
-    Adrian claims that you can recode a binary predictor as a 0/1 variable (assign one level to be 0 and the other to be 1), thus converting it to a numerical variable.
-    According to Adrian, you can then calculate the correlation coefficient between the predictor and the outcome.
-    Who is right: Elliott or Adrian?
-    If you pick Elliott, can you suggest a better alternative for evaluating the association between the categorical predictor and the numerical outcome?
+2.  **处理分类预测变量。** 两个朋友，Elliott 和 Adrian，想要建立一个模型，根据一个人是否戴眼镜来预测其打字速度（每分钟平均打字数）。
+    在建立模型之前，他们想进行一些探索性分析，以评估这两个变量之间关联的强度，但在如何评估分类预测变量与数值结果变量之间关联的强度上存在分歧。
+    Elliott 声称，不可能计算相关系数来概括分类预测变量与数值结果变量之间的关系，但他不确定更好的替代方法是什么。
+    Adrian 声称，你可以将二分类预测变量重新编码为一个 0/1 变量（将一个水平赋值为 0，另一个赋值为 1），从而将其转换为数值变量。
+    根据 Adrian 的说法，这样就可以计算预测变量与结果变量之间的相关系数了。
+    谁是正确的：Elliott 还是 Adrian？
+    如果你选择 Elliott，你能为评估分类预测变量与数值结果变量之间的关联提出一个更好的替代方法吗？
 
-3.  **Meat consumption and life expectancy.** In data collected for @You:2022, total meat intake is associated with life expectancy (at birth) in 175 countries.
-    Meat intake is measured in kg per capita per year (averaged over 2011 to 2013).
-    The scatterplot on the top left displays the relationship between life expectancy at birth vs. per capita meat consumption.
-    The scatterplot on the top right displays the same relationship colored by income status of the country.
-    The set of scatterplots across the bottom display the same relationship by income status of the country.
+3.  **肉类消费与预期寿命。** 在为 @You:2022 收集的数据中，175个国家的肉类总摄入量与出生时预期寿命有关联。
+    肉类摄入量以公斤/人/年为单位（2011年至2013年的平均数）。
+    左上角的散点图显示了出生时预期寿命与人均肉类消费量之间的关系。
+    右上角的散点图显示了相同的关系，但按国家的收入状况着色。
+    底部的一系列散点图则按国家的收入状况分别显示了相同的关系。
 
     ```{r}
     #| fig-asp: 0.6
@@ -30,55 +30,55 @@
       ggplot(aes(x = meat, y = life_0)) +
       geom_point(alpha = 0.8) +
       theme(axis.title = element_text(size = 11))  +
-      labs(x = "Meat consumption", y = "Life expectancy")
+      labs(x = "肉类消费量", y = "预期寿命")
 
-    p_life_confound <-  meat |> 
+    p_life_confound <-  meat |>
       drop_na(life_0) |>
       drop_na(gdp) |>
       mutate(ses = cut(gdp, breaks = c(-Inf, 2000, 10000, Inf))) |>
       mutate(income = case_when(
-        ses == "(-Inf,2e+03]" ~ "low income",
-        ses == "(2e+03,1e+04]" ~ "middle income",
-        ses == "(1e+04, Inf]" ~ "high income")) |>
-      mutate(income = fct_relevel(income, c("low income", "middle income", "high income"))) |>
-      ggplot(aes(x = meat, y  = life_0, color = income, shape = income)) + 
+        ses == "(-Inf,2e+03]" ~ "低收入",
+        ses == "(2e+03,1e+04]" ~ "中等收入",
+        ses == "(1e+04, Inf]" ~ "高收入")) |>
+      mutate(income = fct_relevel(income, c("低收入", "中等收入", "高收入"))) |>
+      ggplot(aes(x = meat, y  = life_0, color = income, shape = income)) +
       geom_point(alpha = 0.8) +
       theme(axis.title = element_text(size = 11))  +
-      labs(x = "Meat consumption", y = "Life expectancy", color = "", shape = "") 
+      labs(x = "肉类消费量", y = "预期寿命", color = "", shape = "")
 
-    p_life_confound2 <-  meat |> 
+    p_life_confound2 <-  meat |>
       drop_na(life_0) |>
       drop_na(gdp) |>
       mutate(ses = cut(gdp, breaks = c(-Inf, 3000, 10000, Inf))) |>
       mutate(income = case_when(
-        ses == "(-Inf,3e+03]" ~ "low income",
-        ses == "(3e+03,1e+04]" ~ "middle income",
-        ses == "(1e+04, Inf]" ~ "high income")) |>
-      mutate(income = fct_relevel(income, c("low income", "middle income", "high income"))) |>
-      ggplot(aes(x = meat, y  = life_0, color = income, shape = income)) + 
+        ses == "(-Inf,3e+03]" ~ "低收入",
+        ses == "(3e+03,1e+04]" ~ "中等收入",
+        ses == "(1e+04, Inf]" ~ "高收入")) |>
+      mutate(income = fct_relevel(income, c("低收入", "中等收入", "高收入"))) |>
+      ggplot(aes(x = meat, y  = life_0, color = income, shape = income)) +
       geom_point(alpha = 0.8) +
-      labs(x = "Meat consumption (kg per capita)", y = "Life expectancy",
+      labs(x = "肉类消费量（公斤/人）", y = "预期寿命",
            color = "", shape = "") +
       theme(axis.title = element_text(size = 11)) +
       guides(color = "none", shape = "none")  +
       facet_wrap(~ income)
 
-    (p_life + p_life_confound) / p_life_confound2 + plot_layout(guides='collect') & 
+    (p_life + p_life_confound) / p_life_confound2 + plot_layout(guides='collect') &
       theme(legend.position='bottom')
     ```
 
-    a.  Describe the relationship between meat consumption and life expectancy.
+    a.  描述肉类消费量与预期寿命之间的关系。
 
-    b.  Why do you think the variables are positively associated?
+    b.  为什么你认为这些变量是正相关的？
 
-    c.  Is the relationship between meat consumption and life expectancy stronger, similar, or weaker when broken down by income bracket in the separate plots along the bottom (as compared with the relationship when combined in the top left figure)?
+    c.  按收入阶层在底部的分图中拆分显示时（与左上角汇总图的关系相比），肉类消费量与预期寿命之间的关系是更强、相似还是更弱？
 
 \clearpage
-    
-4.  **Arrival delays.** Consider all of the flights out of New York City in 2013 that flew into Puerto Rico (BQN) or San Francisco (SFO) on the following two airlines: JetBlue (B6) or United Airlines (UA).
-    We consider the relationship between day of the year and arrival delay (in minutes).
-    Note that a negative arrival delay means that the flight arrived early.
-    The figures display a least squares regression line for arrival delay versus time (day of the year).[^_08-ex-model-mlr-1]
+
+4.  **到达延误。** 考虑2013年所有从纽约市起飞，飞往波多黎各（BQN）或旧金山（SFO），且由以下两家航司运营的航班：JetBlue（B6）或 United Airlines（UA）。
+    我们考虑一年中的第几天与到达延误（分钟）之间的关系。
+    注意，负的到达延误意味着航班提前到达。
+    这些图展示了到达延误与时间（一年中的第几天）的最小二乘回归线。[^_08-ex-model-mlr-1]
 
     ```{r}
     #| fig-asp: 0.4
@@ -93,8 +93,8 @@
       mutate(date = ymd(paste(year, month, day, sep= ' '))) |>
       ggplot(aes(x = time_hour, y = arr_delay, color = carrier, linetype = carrier)) +
       #geom_point(size = 0.001, alpha = 0.5) +
-      geom_smooth(method = "lm", se = FALSE) + 
-      labs(x = NULL, y = NULL, color = "Carrier", linetype = "Carrier") +
+      geom_smooth(method = "lm", se = FALSE) +
+      labs(x = NULL, y = NULL, color = "航司", linetype = "航司") +
       theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
       scale_color_openintro("two") +
       theme(legend.position = c(0.15, 0.8))
@@ -109,7 +109,7 @@
       mutate(date = ymd(paste(year, month, day, sep= ' '))) |>
       ggplot(aes(x = time_hour, y = arr_delay, color = carrier, linetype = carrier)) +
       #geom_point(size = 0.001, alpha = 0.5) +
-      geom_smooth(method = "lm", se = FALSE, show.legend = FALSE) + 
+      geom_smooth(method = "lm", se = FALSE, show.legend = FALSE) +
       labs(x = NULL, y = NULL) +
       theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
       facet_wrap(~dest) +
@@ -118,21 +118,21 @@
     p_delay + p_delay_city
     ```
 
-    a.  Does it seem like there are differences in arrival delays across time when looking at BQN and SFO airports combined (left figure)?
-        Explain.
+    a.  将 BQN 和 SFO 机场的数据结合起来看（左图），到达延误随时间推移看起来存在差异吗？
+        解释一下。
 
-    b.  Does it seem like there are difference in arrival delays across time when looking at BQN and SFO airports separately (right figure)?
-        Explain.
+    b.  将 BQN 和 SFO 机场分开来看（右图），到达延误随时间推移看起来存在差异吗？
+        解释一下。
 
-    c.  Would it be more appropriate to display the combined plot or the plots which display the airports separately?
-        Explain.
+    c.  显示合并的图，还是显示分开的图（即分别展示各机场），哪种方式更合适？
+        解释一下。
 
-5.  **Training for a 5K.** Nico signs up for a 5K (a 5,000 metre running race) 30 days prior to the race.
-    They decide to run a 5K every day to train for it, and each day they record the following information: `days_since_start` (number of days since starting training), `days_till_race` (number of days left until the race), `mood` (poor, good, awesome), `tiredness` (1-not tired to 10-very tired), and `time` (time it takes to run 5K, recorded as mm:ss).
-    Top few rows of the data they collect is shown below.
-    Using these data Nico wants to build a model predicting `time` from the other variables.
-    Should they include all variables shown above in their model?
-    Why or why not?
+5.  **5K训练。** Nico在比赛30天前报名参加了一项5K（5000米跑步比赛）。
+    他们决定每天跑一次5K来训练，并且每天记录以下信息：`days_since_start`（自开始训练的天数），`days_till_race`（距离比赛剩余的天数），`mood`（不佳, 良好, 棒极了），`tiredness`（1（不累）到 10（非常累）），以及`time`（跑完5K所需时间，格式为 mm:ss）。
+    他们收集的数据的前几行如下所示。
+    利用这些数据，Nico想建立一个用其他变量预测 `time` 的模型。
+    他们应该将上述所有变量都纳入模型中吗？
+        为什么该纳入或不该纳入？
 
     ```{r}
     tribble(
@@ -143,29 +143,29 @@
       "...", "...", "...", "...", "..."
     ) |>
       kbl(linesep = "", booktabs = TRUE, align = "rrlrr") |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE)
     ```
 
-6.  **Multiple regression fact checking.** Determine which of the following statements are true and false.
-    For each statement that is false, explain why it is false.
+6.  **多元回归事实判断。** 判断下列陈述哪些为真，哪些为假。
+    对于每个错误的陈述，解释它为什么是错误的。
 
-    a.  If predictors are collinear, then removing one variable will have no influence on the point estimate of another variable's coefficient.
+    a.  如果预测变量是共线的，那么移除一个变量对另一个变量系数的点估计没有影响。
 
-    b.  Suppose a numerical variable $x$ has a coefficient of $b_1 = 2.5$ in the multiple regression model.
-        Suppose also that the first observation has $x_1 = 7.2$, the second observation has a value of $x_1 = 8.2$, and these two observations have the same values for all other predictors.
-        Then the predicted value of the second observation will be 2.5 higher than the prediction of the first observation based on the multiple regression model.
+    b.  假设一个数值变量 $x$ 在多元回归模型中的系数为 $b_1 = 2.5$。
+        同时假设第一个观测的 $x_1 = 7.2$，第二个观测的 $x_1 = 8.2$，并且这两个观测在所有其他预测变量上的取值都相同。
+        那么，根据该多元回归模型，第二个观测的预测值将比第一个观测的预测值高 2.5。
 
-    c.  If a regression model's first variable has a coefficient of $b_1 = 5.7$, then if we are able to influence the data so that an observation will have its $x_1$ be 1 larger than it would otherwise, the value $y_1$ for this observation would increase by 5.7.
+    c.  如果一个回归模型的第一个变量的系数是 $b_1 = 5.7$，那么如果我们能够干预数据，使得某一观测的 $x_1$ 值比原本大 1，则该观测的 $y_1$ 值将增加 5.7。
 
 \clearpage
 
-7.  **Baby weights and smoking.** US Department of Health and Human Services, Centers for Disease Control and Prevention collect information on births recorded in the country.
-    The data used here are a random sample of 1,000 births from 2014.
-    Here, we study the relationship between smoking and weight of the baby.
-    The variable `smoke` is coded 1 if the mother is a smoker, and 0 if not.
-    The summary table below shows the results of a linear regression model for predicting the average birth weight of babies, measured in pounds, based on the smoking status of the mother.[^_08-ex-model-mlr-2]
+7.  **婴儿体重与吸烟。** 美国卫生与公众服务部下属的疾病控制与预防中心收集了该国记录的出生信息。
+    这里使用的数据是2014年1000例出生记录的随机样本。
+    在此，我们研究吸烟与婴儿体重之间的关联。
+    变量 `smoke` 的编码规则为：如果母亲吸烟则为1，否则为0。
+    下面的汇总表展示了一个线性回归模型的结果，该模型基于母亲的吸烟状况来预测婴儿的平均出生体重（以磅为单位）。[^_08-ex-model-mlr-2]
     [@data:births14]
 
     ```{r}
@@ -175,7 +175,7 @@
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -183,13 +183,13 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write the equation of the regression model.
+    a.  写出回归模型的方程。
 
-    b.  Interpret the slope in this context, and calculate the predicted birth weight of babies born to smoker and non-smoker mothers.
+    b.  在此背景下解释斜率，并计算吸烟与不吸烟母亲所生婴儿的预测出生体重。
 
 \vfill
 
-8.  **Baby weights and mature moms.** The following is a model for predicting baby weight from whether the mom is classified as a `mature` mom (35 years or older at the time of pregnancy).
+8.  **婴儿体重与高龄母亲。** 以下是一个根据母亲是否被归类为 `mature`（怀孕时年龄为35岁或以上）来预测婴儿体重的模型。
     [@data:births14]
 
     ```{r}
@@ -199,21 +199,21 @@
       tidy() |>
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 4) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write the equation of the regression model.
+    a.  写出回归模型的方程。
 
-    b.  Interpret the slope in this context, and calculate the predicted birth weight of babies born to mature and younger mothers.
+    b.  在此背景下解释斜率，并计算高龄母亲和年轻母亲所生婴儿的预测出生体重。
 
 \vfill
 
-9.  **Movie returns, prediction.** A model was fit to predict return-on-investment (ROI) on movies based on release year and genre (Adventure, Action, Drama, Horror, and Comedy).
-    The model output is shown below.
+9.  **电影投资回报率，预测。** 建立了一个模型，基于上映年份和类型（冒险、动作、剧情、恐怖和喜剧）来预测电影的投资回报率。
+    模型输出如下所示。
     [@webpage:horrormovies]
 
     ```{r}
@@ -241,26 +241,26 @@
       tidy() |>
       mutate(p.value = ifelse(p.value < 0.0001, "<0.0001", round(p.value, 4))) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 2) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
                     latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
 
-    a.  For a given release year, which genre of movies are predicted, on average, to have the highest predicted return on investment?
+    a.  对于给定的上映年份，平均而言，预测哪种类型的电影具有最高的预测投资回报率？
 
-    b.  The adjusted $R^2$ of this model is `r m_movie_small_adj_rsq`%.
-        Adding the production budget of the movie to the model increases the adjusted $R^2$ to `r m_movie_large_adj_rsq`%.
-        Should production budget be added to the model?
+    b.  此模型的调整 $R^2$ 为 `r m_movie_small_adj_rsq`%.
+        将电影的制作预算加入模型后，调整 $R^2$ 增加到 `r m_movie_large_adj_rsq`%.
+        是否应将制作预算加入模型？
 
 \vfill
 
 \clearpage
 
-10. **Movie returns by genre.** A model was fit to predict return-on-investment (ROI) on movies based on release year and genre (Adventure, Action, Drama, Horror, and Comedy).
-    The plots below show the predicted ROI vs. actual ROI for each of the genres separately.
-    Do these figures support the comment in the FiveThirtyEight.com article that states, "The return-on-investment potential for horror movies is absurd." Note that the x-axis range varies for each plot.
+10. **电影投资回报率（按类型）。** 建立了一个模型，基于上映年份和类型（冒险、动作、剧情、恐怖和喜剧）来预测电影的投资回报率。
+    下图分别显示了每种类型的预测投资回报率与实际投资回报率的关系图。
+    这些图是否支持 FiveThirtyEight.com 文章中“恐怖电影的投资回报潜力是荒谬的”这一评论？请注意，每张图的x轴范围各不相同。
     [@webpage:horrormovies]
 
     ```{r}
@@ -283,19 +283,19 @@
     m_movie <- lm(ww_gross_to_prod ~ release_year + genre, data = movie_profit)
     m_movie_aug <- augment(m_movie)
 
-    ggplot(m_movie_aug, aes(y = .fitted, x = ww_gross_to_prod, color = genre)) + 
+    ggplot(m_movie_aug, aes(y = .fitted, x = ww_gross_to_prod, color = genre)) +
       geom_point(alpha = 0.5, show.legend = FALSE, size = 2) +
       facet_wrap(~genre, scales = "free_x") +
-      theme_minimal() + 
-      labs(x = "Actual ROI", y = "Predicted ROI", color = "Genre") +
+      theme_minimal() +
+      labs(x = "实际投资回报率", y = "预测投资回报率", color = "类型") +
       scale_color_openintro("five")
     ```
 
 \vfill
 
-11. **Predicting baby weights.** A more realistic approach to modeling baby weights is to consider all possibly related variables at once.
-    Other variables of interest include length of pregnancy in weeks (`weeks`), mother's age in years (`mage`), the sex of the baby (`sex`), smoking status of the mother (`habit`), and the number of hospital (`visits`) visits during pregnancy.
-    Below are three observations from this dataset.
+11. **预测婴儿体重。** 对婴儿体重建模更现实的方法是同时考虑所有可能相关的变量。
+    其他感兴趣的变量包括妊娠周数（`weeks`）、母亲年龄（岁，`mage`）、婴儿性别（`sex`）、母亲吸烟状况（`habit`）以及孕期去医院就诊的次数（`visits`）。
+    下面给出了该数据集中的三个观测。
 
     ```{r}
     births14 |>
@@ -312,7 +312,7 @@
 
     \vspace{-5mm}
 
-    The summary table below shows the results of a regression model for predicting the average birth weight of babies based on all of the variables presented above.
+    下面的汇总表显示了基于上述所有变量预测婴儿平均出生体重的回归模型结果。
 
     ```{r}
     lm(weight ~ weeks + mage + sex + visits + habit, births14) |>
@@ -328,19 +328,18 @@
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write the equation of the regression model that includes all of the variables.
+    a.  写出包含所有变量的回归模型的方程。
 
-    b.  Interpret the slopes of `weeks` and `habit` in this context.
+    b.  在此背景下解释 `weeks` 和 `habit` 的斜率。
 
-    c.  If we fit a model predicting baby weight from only `habit` (whether the mom smokes), we observe a difference in the slope coefficient for `habit` in this small model and the slope coefficient for `habit` in the larger model.
-        Why might there be a difference?
+    c.  如果我们拟合一个仅用 `habit`（母亲是否吸烟）预测婴儿体重的模型，我们会观察到这个“小模型”中 `habit` 的斜率系数与较大模型中 `habit` 的斜率系数存在差异。为什么会存在这种差异？
 
-    d.  Calculate the residual for the first observation in the dataset.
+    d.  计算数据集中第一个观测的残差。
 
 \clearpage
 
-12. **Palmer penguins, predicting body mass.** Researchers studying a community of Antarctic penguins collected body measurement (bill length, bill depth, and flipper length measured in millimeters and body mass, measured in grams), species (*Adelie*, *Chinstrap*, or *Gentoo*), and sex (female or male) data on 344 penguins living on three islands (Torgersen, Biscoe, and Dream) in the Palmer Archipelago, Antarctica.[^_08-ex-model-mlr-3]
-    The summary table below shows the results of a linear regression model for predicting body mass (which is more difficult to measure) from the other variables in the dataset.
+12. **帕尔默企鹅，预测体重。** 研究南极洲帕尔默群岛三个岛屿（Torgersen、Biscoe 和 Dream）上企鹅群落的研究人员，收集了生活在该群落的 344 只企鹅的身体测量数据（喙长、喙深和鳍肢长，单位毫米；体重，单位克）、物种（*阿德利企鹅*、*帽带企鹅* 或 *巴布亚企鹅*）和性别（雌性或雄性）数据。[^_08-ex-model-mlr-3]
+    下面的汇总表显示了用数据集中其他变量预测体重（这项测量较为困难）的线性回归模型结果。
     [@palmerpenguins]
 
     ```{r}
@@ -355,31 +354,31 @@
         ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 1,
           format.args = list(scientific = FALSE)) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
 
-    a.  Write the equation of the regression model.
+    a.  写出回归模型的方程。
 
-    b.  Interpret each one of the slopes in this context.
+    b.  在此背景下解释每一个斜率。
 
-    c.  Calculate the residual for a male Adelie penguin that weighs 3,750 grams with the following body measurements: 
-    
+c.  计算一只体重为 3,750 克且具有以下身体测量数据的雄性阿德利企鹅的残差：
+
         - `bill_length_mm` = 39.1
         - `bill_depth_mm` = 18.7
         - `flipper_length_mm` = 181
-        
-        Does the model overpredict or underpredict this penguin's weight?
 
-    d.  The $R^2$ of this model is `r m_full_penguins_rsq`%.
-        Interpret this value in context of the data and the model.
+        模型是高估还是低估了这只企鹅的体重？
+
+    d.  该模型的 $R^2$ 为 `r m_full_penguins_rsq`%.
+        请结合数据和模型解释此值的含义。
 
 \vspace{10mm}
 
-13. **Baby weights, backwards elimination.** Let's consider a model that predicts `weight` of newborns using several predictors: whether the mother is considered `mature`, number of `weeks` of gestation, number of hospital `visits` during pregnancy, weight `gained` by the mother during pregnancy, `sex` of the baby, and whether the mother smoke cigarettes during pregnancy (`habit`).
+13. **新生儿体重，向后剔除法。** 我们来考虑一个使用几个预测变量来预测新生儿`体重`的模型：母亲是否被视为成熟（`mature`）、妊娠周数（`weeks`）、孕期医院就诊次数（`visits`）、母亲孕期增重（`gained`）、婴儿性别（`sex`），以及母亲孕期是否吸烟（`habit`）。
     [@data:births14]
 
     ```{r}
@@ -387,9 +386,9 @@
     m_full_adj_rsq <- round(glance(m_full)$adj.r.squared, 4)
     ```
 
-    The adjusted $R^2$ of the full model is `r m_full_adj_rsq`.
-    We remove each variable one by one, refit the model, and record the adjusted $R^2$.
-    Which, if any, variable should be removed from the model?
+    全模型的调整 $R^2$ 为 `r m_full_adj_rsq`。
+    我们依次剔除每个变量，重新拟合模型，并记录调整 $R^2$。
+    哪个变量（如果有的话）应该从模型中剔除？
 
     ```{r}
     m_m <- update(m_full, . ~ . - mature, data = births14) |>
@@ -414,15 +413,15 @@
       round(3)
     ```
 
-    -   Drop `mature`: `r m_m`
-    -   Drop `weeks`: `r m_w`
-    -   Drop `visits`: `r m_v`
-    -   Drop `gained`: `r m_g`
-    -   Drop `sex`: `r m_s`
+    -   剔除 `mature`：`r m_m`
+    -   剔除 `weeks`：`r m_w`
+    -   剔除 `visits`：`r m_v`
+    -   剔除 `gained`：`r m_g`
+    -   剔除 `sex`：`r m_s`
 
 \clearpage
 
-14. **Palmer penguins, backwards elimination.** The following full model is built to predict the weights of three species (*Adelie*, *Chinstrap*, or *Gentoo*) of penguins living in the Palmer Archipelago, Antarctica.
+14. **帕尔默企鹅，向后剔除法。** 构建了如下全模型来预测生活在南极洲帕尔默群岛的三种企鹅（*阿德利*、*帽带* 或 *巴布亚*）的体重。
     [@palmerpenguins]
 
     ```{r}
@@ -437,16 +436,16 @@
         ) |>
       kbl(linesep = "", booktabs = TRUE, align = "lrrrr", digits = 1,
           format.args = list(scientific = FALSE)) |>
-      kable_styling(bootstrap_options = c("striped", "condensed"), 
-                    latex_options = "HOLD_position", 
+      kable_styling(bootstrap_options = c("striped", "condensed"),
+                    latex_options = "HOLD_position",
                     full_width = FALSE) |>
       column_spec(1, width = "10em", monospace = TRUE) |>
       column_spec(2:5, width = "5em")
     ```
 
-    The adjusted $R^2$ of the full model is `r m_full_penguins_rsq_adj`.
-    In order to evaluate whether any of the predictors can be dropped from the model without losing predictive performance of the model, the researchers dropped one variable at a time, refit the model, and recorded the adjusted $R^2$ of the smaller model.
-    These values are given below.
+    全模型的调整 $R^2$ 为 `r m_full_penguins_rsq_adj`。
+    为了评估是否可以在不损失模型预测性能的前提下剔除任意预测变量，研究人员每次剔除一个变量，重新拟合模型，并记录较小模型的调整 $R^2$。
+    这些值如下所示。
 
     ```{r}
     m_bl <- update(m_full_penguins, . ~ . - bill_length_mm, data = penguins) |>
@@ -471,20 +470,20 @@
       round(3)
     ```
 
-    -   Drop `bill_length_mm`: `r m_bl`
-    -   Drop `bill_depth_mm`: `r m_bd`
-    -   Drop `flipper_length_mm`: `r m_fl`
-    -   Drop `sex`: `r m_sex`
-    -   Drop `species`: `r m_sp`
+    -   剔除 `bill_length_mm`：`r m_bl`
+    -   剔除 `bill_depth_mm`：`r m_bd`
+    -   剔除 `flipper_length_mm`：`r m_fl`
+    -   剔除 `sex`：`r m_sex`
+    -   剔除 `species`：`r m_sp`
 
-    Which, if any, variable should be removed from the model first?
+    哪个变量（如果有的话）应该首先从模型中剔除？
 
 \vfill
 
-15. **Baby weights, forward selection.** Using information on the mother and the sex of the baby (which can be determined prior to birth), we want to build a model that predicts the birth weight of babies.
-    In order to do so, we will evaluate six candidate predictors: whether the mother is considered `mature`, number of `weeks` of gestation, number of hospital `visits` during pregnancy, weight `gained` by the mother during pregnancy, `sex` of the baby, and whether the mother smoke cigarettes during pregnancy (`habit`).
-    And we will make a decision about including them in the model using forward selection and adjusted $R^2$.
-    Below are the six models we evaluate and their adjusted $R^2$ values.
+15. **新生儿体重，前向选择法。** 使用关于母亲和婴儿性别的信息（可在出生前确定），我们希望建立一个模型来预测婴儿的出生体重。
+    为此，我们将评估六个候选预测变量：母亲是否成熟（`mature`）、妊娠周数（`weeks`）、孕期医院就诊次数（`visits`）、母亲孕期增重（`gained`）、婴儿性别（`sex`），以及母亲孕期是否吸烟（`habit`）。
+    我们将使用前向选择法和调整 $R^2$ 来决定是否将它们纳入模型。
+    下面是我们评估的六个模型及其调整 $R^2$ 值。
     [@data:births14]
 
     ```{r}
@@ -514,20 +513,20 @@
       round(3)
     ```
 
-    -   Predict `weight` from `mature`: `r m_mature`
-    -   Predict `weight` from `weeks`: `r m_weeks`
-    -   Predict `weight` from `visits`: `r m_visits`
-    -   Predict `weight` from `gained`: `r m_gained`
-    -   Predict `weight` from `sex`: `r m_sex`
-    -   Predict `weight` from `habit`: `r m_habit`
+    -   用 `mature` 预测 `weight`：`r m_mature`
+    -   用 `weeks` 预测 `weight`：`r m_weeks`
+    -   用 `visits` 预测 `weight`：`r m_visits`
+    -   用 `gained` 预测 `weight`：`r m_gained`
+    -   用 `sex` 预测 `weight`：`r m_sex`
+    -   用 `habit` 预测 `weight`：`r m_habit`
 
-    Which variable should be added to the model first?
+    哪个变量应该首先加入模型？
 
 \vfill
 
-16. **Palmer penguins, forward selection.** Using body measurement and other relevant data on three species (*Adelie*, *Chinstrap*, or *Gentoo*) of penguins living in the Palmer Archipelago, Antarctica, we want to predict their body mass.
-    In order to do so, we will evaluate five candidate predictors and make a decision about including them in the model using forward selection and adjusted $R^2$.
-    Below are the five models we evaluate and their adjusted $R^2$ values:
+16. **帕尔默企鹅，前向选择法。** 利用生活在南极洲帕尔默群岛的三个物种（*阿德利*、*帽带* 或 *巴布亚* 企鹅）的身体测量和其他相关数据，我们想要预测它们的体重。
+    为此，我们将评估五个候选预测变量，并使用前向选择法和调整 $R^2$ 来决定是否将它们纳入模型。
+    下面是我们评估的五个模型及其调整 $R^2$ 值：
 
     ```{r}
     m_bl  <- lm(body_mass_g ~ bill_length_mm, data = penguins) |>
@@ -552,16 +551,16 @@
       round(3)
     ```
 
-    -   Predict body mass from `bill_length_mm`: `r m_bl`
-    -   Predict body mass from `bill_depth_mm`: `r m_bd`
-    -   Predict body mass from `flipper_length_mm`: `r m_fl`
-    -   Predict body mass from `sex`: `r m_sex`
-    -   Predict body mass from `species`: `r m_sp`
+    -   用 `bill_length_mm` 预测体重：`r m_bl`
+    -   用 `bill_depth_mm` 预测体重：`r m_bd`
+    -   用 `flipper_length_mm` 预测体重：`r m_fl`
+    -   用 `sex` 预测体重：`r m_sex`
+    -   用 `species` 预测体重：`r m_sp`
 
-    Which variable should be added to the model first?
+    哪个变量应该首先加入模型？
 
-[^_08-ex-model-mlr-1]: The `flights` data used in this exercise can be found in the [**nycflights13**](https://github.com/tidyverse/nycflights13) R package.
+[^_08-ex-model-mlr-1]: 本练习中使用的 `flights` 数据可在 [**nycflights13**](https://github.com/tidyverse/nycflights13) R 包中找到。
 
-[^_08-ex-model-mlr-2]: The [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) data used in this exercise can be found in the [**openintro**](http://openintrostat.github.io/openintro) R package.
+[^_08-ex-model-mlr-2]: 本练习中使用的 [`births14`](http://openintrostat.github.io/openintro/reference/births14.html) 数据可在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
 
-[^_08-ex-model-mlr-3]: The [`penguins`](https://allisonhorst.github.io/palmerpenguins/reference/penguins.html) data used in this exercise can be found in the [**palmerpenguins**](https://allisonhorst.github.io/palmerpenguins/) R package.
+[^_08-ex-model-mlr-3]: 本练习中使用的 [`penguins`](https://allisonhorst.github.io/palmerpenguins/reference/penguins.html) 数据可在 [**palmerpenguins**](https://allisonhorst.github.io/palmerpenguins/) R 包中找到。

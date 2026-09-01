@@ -1,30 +1,24 @@
-1.  **Fill in the blank.** When doing an ANOVA, you observe large differences in means between groups.
-    Within the ANOVA framework, this would most likely be interpreted as evidence strongly favoring the \_\_\_\_\_\_\_\_\_\_\_\_\_ hypothesis.
+1.  **填空题。** 在进行方差分析（ANOVA）时，你观察到组间均值存在很大差异。在方差分析的框架下，这最有可能被解释为有力支持 \_\_\_\_\_\_\_\_\_\_\_\_\_ 假设的证据。
 
 \vfill
 
-2.  **Which test?** We would like to test if students who are in the social sciences, natural sciences, arts and humanities, and other fields spend the same amount of time, on average, studying for a course.
-    What type of test should we use?
-    Explain your reasoning.
+2.  **选择检验方法。** 我们想检验社会科学、自然科学、艺术与人文学科以及其他领域的学生用于课程学习的平均时间是否相同。我们应该使用哪种检验方法？请解释你的理由。
 
 \vfill
 
-3.  **Cuckoo bird egg lengths, randomize once.** Cuckoo birds lay their eggs in other birds' nests, making them known as brood parasites.
-    One question relates to whether the size of the cuckoo egg differs depending on the species of the host bird.[^_22-ex-inference-many-means-1]
-    [@Latter:1902]
-    Consider the following plots, one represents the original data, the second represents data where the host species has been randomly assigned to the egg length.
+3.  **杜鹃鸟蛋长度，一次随机化。** 杜鹃鸟在其他鸟的巢中产卵，这让它们被称为巢寄生者。其中一个问题是，杜鹃蛋的大小是否因寄主鸟的物种而异。[^_22-ex-inference-many-means-1] [@Latter:1902] 请考虑下面的图形，一幅代表原始数据，第二幅代表将寄主物种随机分配给蛋长度后的数据。
 
     ```{r}
     #| out-width: 100%
     #| fig-width: 10
     data(Cuckoo)
-    
+
     p_orig <- ggplot(Cuckoo, aes(y = Bird, x = Length)) +
       geom_boxplot(size = 1) +
       labs(
-        y = "Host bird species",
-        x = "Cuckoo egg length",
-        title = "Original host species"
+        y = "寄主鸟物种",
+        x = "杜鹃蛋长度",
+        title = "原始寄主物种"
       ) +
       theme(plot.title.position = "plot")
 
@@ -33,37 +27,29 @@
       specify(Length ~ Bird) |>
       hypothesize(null = "independence") |>
       generate(1, type = "permute") |>
-      ggplot(aes(y = Bird, x = Length)) + 
+      ggplot(aes(y = Bird, x = Length)) +
       geom_boxplot(color = IMSCOL["green", "full"], size = 1) +
       labs(
-        y = "Host bird species",
-        x = "Cuckoo egg length",
-        title = "Host species randomized to egg length"
+        y = "寄主鸟物种",
+        x = "杜鹃蛋长度",
+        title = "寄主物种随机分配给蛋长度"
       ) +
       theme(plot.title.position = "plot")
 
     p_orig + p_rand
     ```
 
-    a.  Consider the average length of the eggs for each species.
-        Is the average length for the original data: more variable, less variable, or about the same as the randomized species?
-        Describe what you see in the plots.
+    a.  考虑每个物种的蛋的平均长度。原始数据的平均长度比起随机化后的物种，是变异性更大、变异性更小，还是差不多？请描述你在图中看到的情况。
 
-    b.  Consider the standard deviation of the lengths of the eggs within each species.
-        Is the within species standard deviation of the length for the original data: bigger, smaller, or about the same as the randomized species?
+    b.  考虑每个物种内部蛋长度的标准差。原始数据的物种内标准差比起随机化后的物种，是更大、更小，还是差不多？
 
-    c.  Recall that the F statistic's numerator measures how much the groups vary (MSG) with the denominator measuring how much the within species values vary (MSE), which of the plots above would have a larger F statistic, the original data or the randomized data?
-        Explain.
+    c.  回想一下，F 统计量的分子度量了组间变异有多大（MSG），而分母度量了物种内观测值变异有多大（MSE）。上面的哪幅图会有一个更大的 F 统计量，是原始数据还是随机化后的数据？请解释。
 
 \vfill
 
 \clearpage
 
-4.  **Cuckoo bird egg lengths, randomization test.** Cuckoo birds lay their eggs in other birds' nests, making them known as brood parasites.
-    One question relates to whether the size of the cuckoo egg differs depending on the species of the host bird.[^_22-ex-inference-many-means-2]
-    [@Latter:1902]
-    Using the randomization distribution of the F statistic (host species randomized to egg length), conduct a hypothesis test to evaluate if there is a difference, in the population, between the average egg lengths for different host bird species.
-    Make sure to state your hypotheses clearly and interpret your results in context of the data.
+4.  **杜鹃鸟蛋长度，随机化检验。** 杜鹃鸟在其他鸟的巢中产卵，这让它们被称为巢寄生者。其中一个问题是，杜鹃蛋的大小是否因寄主鸟的物种而异。[^_22-ex-inference-many-means-2] [@Latter:1902] 使用 F 统计量的随机化分布（寄主物种随机分配给蛋长度），进行一项假设检验，以评估在总体中，不同寄主鸟物种的平均蛋长度是否存在差异。请务必清晰陈述你的假设，并基于数据背景解释你的结果。
 
     ```{r}
     #| fig-asp: 0.4
@@ -79,22 +65,19 @@
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "F") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = F_obs, color = IMSCOL["red", "full"], size = 1) +
       labs(
-        x = "F statistic for randomized egg lengths", 
-        y = "Count",
-        title = "1,000 randomized F statistics"
+        x = "随机化蛋长度的F统计量",
+        y = "计数",
+        title = "1000个随机化的F统计量"
         )
     ```
 
 \vfill
 
-5.  **Chicken diet and weight, many groups.** An experiment was conducted to measure and compare the effectiveness of various feed supplements on the growth rate of chickens.
-    Newly hatched chicks were randomly allocated into six groups, and each group was given a different feed supplement.
-    Sample statistics and a visualization of the observed data are shown below.
-    [@data:chickwts]
+5.  **鸡饲料与体重，多组。** 进行了一项实验，以测量和比较不同饲料补充剂对鸡生长速度的效果。新孵出的小鸡被随机分配到六个组，每个组给予不同的饲料补充剂。样本统计量和观测数据的可视化如下所示。 [@data:chickwts]
 
     ```{r}
     #| layout-ncol: 2
@@ -103,7 +86,7 @@
     #| out-width: 100%
     ggplot(chickwts, aes(x = feed, y = weight)) +
       geom_boxplot() +
-      labs(x = NULL, y = "Weight (in grams)")
+      labs(x = NULL, y = "体重（克）")
 
     chickwts |>
       group_by(feed) |>
@@ -113,18 +96,18 @@
         n    = n()
       ) |>
       kbl(
-        linesep = "", booktabs = TRUE, align = "lccc", 
-        col.names = c("Feed type", "Mean", "SD", "n")
+        linesep = "", booktabs = TRUE, align = "lccc",
+        col.names = c("饲料类型", "均值", "标准差", "n")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       )
     ```
 
-    Using the ANOVA output below, conduct a hypothesis test to determine if these data provide convincing evidence that the average weight of chicks varies across some (or all) groups.
-    Make sure to check relevant conditions.
+    使用下面的方差分析（ANOVA）输出，进行假设检验，以确定这些数据是否提供令人信服的证据，表明在某些（或全部）组之间，小鸡的平均体重存在差异。
+    请务必检查相关条件。
 
     ```{r}
     lm(weight ~ feed, data = chickwts) |>
@@ -134,9 +117,9 @@
       kbl(
         linesep = "", booktabs = TRUE,
         digits = 4, align = "lrrrrr", format.args = list(big.mark = ",")
-      ) |> 
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position"
       ) |>
       column_spec(1, width = "5em", monospace = TRUE) |>
@@ -145,68 +128,68 @@
 
 \vfill
 
-6.  **Teaching descriptive statistics.** A study compared five different methods for teaching descriptive statistics.
-    The five methods were traditional lecture and discussion, programmed textbook instruction, programmed text with lectures, computer instruction, and computer instruction with lectures.
-    45 students were randomly assigned, 9 to each method.
-    After completing the course, students took a 1-hour exam.
+6.  **描述统计学教学。** 一项研究比较了五种不同的描述统计学教学方法。
+    这五种方法分别是：传统讲授与讨论、程序化教科书教学、程序化文本结合讲授、计算机教学、计算机教学结合讲授。
+    45名学生被随机分配，每种方法9人。
+    完成课程后，学生参加了一场1小时的考试。
 
-    a.  What are the hypotheses for evaluating if the average test scores are different for the different teaching methods?
+    a.  为了评估不同教学方法下的平均考试成绩是否存在差异，其假设是什么？
 
-    b.  What are the degrees of freedom associated with the $F$-test for evaluating these hypotheses?
+    b.  评估这些假设的 $F$ 检验的自由度是多少？
 
-    c.  Suppose the p-value for this test is 0.0168.
-        What is the conclusion?
+    c.  假设该检验的 p 值为 0.0168。结论是什么？
 
 \clearpage
 
-7.  **Coffee, depression, and physical activity.** Caffeine is the world's most widely used stimulant, with approximately 80% consumed in the form of coffee.
-    Participants in a study investigating the relationship between coffee consumption and exercise were asked to report the number of hours they spent per week on moderate (e.g., brisk walking) and vigorous (e.g., strenuous sports and jogging) exercise.
-    Based on these data the researchers estimated the total hours of metabolic equivalent tasks (MET) per week, a value always greater than 0.
-    The table below gives summary statistics of MET for women in this study based on the amount of coffee consumed.
+7.  **咖啡、抑郁和身体活动。** 咖啡因是世界上使用最广泛的兴奋剂，大约有 80% 是以咖啡的形式消耗的。
+    一项调查咖啡消耗与运动之间关系的研究的参与者被要求报告他们每周花在中度（例如，快走）和剧烈（例如，剧烈运动和慢跑）运动上的小时数。
+    根据这些数据，研究者估计了每周代谢当量任务（MET）的总小时数，该值总是大于 0。
+    下表根据咖啡消耗量，给出了本研究中女性的 MET 汇总统计量。
     [@Lucas:2011]
 
     ```{r}
     tribble(
       ~` `, ~`1 cup / week or fewer`, ~`2-6 cups / week`, ~`1 cups / day`, ~`2-3 cups / day`, ~`4 cups / day or more`,
-      "Mean",    18.7, 19.6,  19.3,  18.9, 17.5,
-      "SD",      21.1, 25.5,  22.5,  22.0, 22.0,
+      "均值",    18.7, 19.6,  19.3,  18.9, 17.5,
+      "标准差",      21.1, 25.5,  22.5,  22.0, 22.0,
       "n",      12215, 6617, 17234, 12290, 2383
     ) |>
       kbl(
-        linesep = "", booktabs = TRUE, align = "lrrrrrr", 
-        format.args = list(big.mark = ",")
+        linesep = "", booktabs = TRUE, align = "lrrrrrr",
+        format.args = list(big.mark = ","),
+        col.names = c("", "每周1杯或更少", "每周2-6杯", "每天1杯", "每天2-3杯", "每天4杯或更多")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
-        latex_options = "HOLD_position", 
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "3em") |>
       column_spec(2:6, width = "6em") |>
-      add_header_above(c(" " = 1, "Caffeinated coffee consumption" = 5))
+      add_header_above(c(" " = 1, "含咖啡因咖啡消耗量" = 5))
     ```
 
-    a.  Write the hypotheses for evaluating if the average physical activity level varies among the different levels of coffee consumption.
+    a.  为评估不同咖啡消耗水平下平均身体活动水平是否存在差异，写出其假设。
 
-    b.  Check conditions and describe any assumptions you must make to proceed with the test.
+    b.  检查条件，并描述你为进行检验必须做出的任何假设。
 
-    c.  Below is the output associated with this test.
-        What is the conclusion of the test?
+    c.  下面是该检验相关的输出。检验的结论是什么？
 
     ```{r}
     tribble(
       ~` `,         ~`df`, ~`sumsq`, ~`meansq`, ~`statistic`, ~`p.value`,
-      "cofee",          4,    10508,      2627,          5.2,     0.0003,
-      "Residuals",  50734, 25564819,       504,           NA,         NA,
-      "Total",      50738, 25575327,        NA,           NA,         NA  
+      "咖啡",          4,    10508,      2627,          5.2,     0.0003,
+      "残差",  50734, 25564819,       504,           NA,         NA,
+      "总计",      50738, 25575327,        NA,           NA,         NA
     ) |>
       kbl(
-        linesep = "", booktabs = TRUE, align = "lrrrrrr", 
-        format.args = list(big.mark = ",")
+        linesep = "", booktabs = TRUE, align = "lrrrrrr",
+        format.args = list(big.mark = ","),
+        col.names = c("", "自由度", "平方和", "均方", "统计量", "p 值")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
-        latex_options = "HOLD_position", 
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "5em", monospace = TRUE) |>
@@ -215,61 +198,61 @@
 
 \vfill
 
-8.  **Student performance across discussion sections.** A professor who teaches a large introductory statistics class (197 students) with eight discussion sections would like to test if student performance differs by discussion section, where each discussion section has a different teaching assistant.
-    The summary table below shows the average final exam score for each discussion section as well as the standard deviation of scores and the number of students in each section.
+8.  **不同讨论课的学生表现。** 一位教授讲授一门大型统计学导论课（197名学生，设有八个讨论课），想要检验学生表现是否因讨论课而异，其中每个讨论课由不同的助教负责。
+    下面的汇总表显示了每个讨论课的期末考试平均分，以及分数的标准差和各课的学生人数。
 
     ```{r}
     tribble(
       ~` `,   ~`Sec 1`, ~`Sec 2`, ~`Sec 3`, ~`Sec 4`, ~`Sec 5`, ~`Sec 6`, ~`Sec 7`, ~`Sec 8`,
-      "Mean",    92.94,    91.11,    91.80,    92.45,    89.30,    88.30,    90.12,    93.35,
-      "SD",       4.21,     5.58,     3.43,     5.92,     9.32,     7.27,     6.93,     4.57,
+      "均值",    92.94,    91.11,    91.80,    92.45,    89.30,    88.30,    90.12,    93.35,
+      "标准差",     4.21,     5.58,     3.43,     5.92,     9.32,     7.27,     6.93,     4.57,
       "n",          33,       19,       10,       29,       33,       10,       32,       31
     ) |>
       kbl(linesep = "", booktabs = TRUE) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
-        latex_options = "HOLD_position", 
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "2em") |>
       column_spec(2:9, width = "3em")
     ```
 
-    The ANOVA output below can be used to test for differences between the average scores from the different discussion sections.
+    下面的方差分析（ANOVA）输出可用于检验不同讨论课之间的平均分是否存在差异。
 
     ```{r}
     tribble(
       ~` `,         ~`df`,  ~`sumsq`, ~`meansq`, ~`statistic`, ~`p.value`,
-      "section",        7,    525.01,     75.00,         1.87,     0.0767,
-      "Residuals",    189,   7584.11,     40.13,           NA,         NA,
-      "Total",        196,   8109.12,        NA,           NA,         NA  
+      "讨论课",        7,    525.01,     75.00,         1.87,     0.0767,
+      "残差",    189,   7584.11,     40.13,           NA,         NA,
+      "总计",        196,   8109.12,        NA,           NA,         NA
     ) |>
       kbl(
-        linesep = "", booktabs = TRUE, align = "lrrrrrr", 
+        linesep = "", booktabs = TRUE, align = "lrrrrrr",
         format.args = list(big.mark = ",")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
-        latex_options = "HOLD_position", 
+        bootstrap_options = c("striped", "condensed"),
+        latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
       column_spec(1, width = "5em", monospace = TRUE) |>
       column_spec(2:6, width = "5em")
     ```
 
-    Conduct a hypothesis test to determine if these data provide convincing evidence that the average score varies across some (or all) groups.
-    Check conditions and describe any assumptions you must make to proceed with the test.
+    进行假设检验，以确定这些数据是否提供了令人信服的证据，表明某些（或所有）组之间的平均分存在差异。
+    检查条件，并描述进行检验时必须做出的任何假设。
 
 \clearpage
 
-9.  **GPA and major.** Undergraduate students in an introductory statistics course at Duke University conducted a survey about GPA and major.
-    The density plots show the distributions of GPA among three groups of majors.
-    ANOVA output is also provided.
+9.  **GPA与专业。** 杜克大学一门统计学导论课的本科生开展了一项关于GPA和专业的调查。
+    密度图显示了三类专业的GPA分布情况。
+    同时提供了方差分析（ANOVA）输出。
 
     ```{r}
     #| fig-asp: 0.4
     #| fig-width: 7
-    survey_raw <- read_csv("data/survey.csv") 
+    survey_raw <- read_csv("data/survey.csv")
 
     survey <- survey_raw |>
       drop_na() |>
@@ -280,7 +263,7 @@
       geom_density_ridges(alpha = 0.5, show.legend = FALSE) +
       scale_fill_openintro("three") +
       scale_color_openintro("three") +
-      labs(x = "GPA", y = "Major")
+      labs(x = "GPA", y = "专业")
 
     lm(gpa ~ major, data = survey) |>
       anova() |>
@@ -289,26 +272,26 @@
       kbl(
         linesep = "", booktabs = TRUE,
         digits = 2, format.args = list(big.mark = ",")
-      ) |> 
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position"
       ) |>
       column_spec(1, width = "5em", monospace = TRUE) |>
       column_spec(2:6, width = "5em")
     ```
 
-    a.  Write the hypotheses for testing for a difference between average GPA across majors.
+    a.  写出用于检验各专业间平均GPA是否存在差异的假设。
 
-    b.  What is the conclusion of the hypothesis test?
+    b.  假设检验的结论是什么？
 
-    c.  How many students answered the questions on the survey, i.e., what is the sample size?
+    c.  有多少学生回答了调查中的问题，即样本量是多少？
 
 \vfill
 
-10. **Work hours and education.** The General Social Survey collects data on demographics, education, and work, among many other characteristics of US residents.
-    [@data:gss:2010] Using ANOVA, we can consider educational attainment levels for all 1,172 respondents at once.
-    Below are the distributions of hours worked by educational attainment and relevant summary statistics that will be helpful in carrying out this analysis.
+10. **工作时间与教育程度。** 综合社会调查（GSS）收集了美国居民的人口统计特征、教育、工作等许多特征的数据。
+    [@data:gss:2010] 使用方差分析（ANOVA），我们可以同时考察全部1,172名受访者的教育程度水平。
+    下面是根据教育程度分组的工作时数分布情况，以及有助于进行此项分析的相关汇总统计量。
 
     ```{r}
     #| layout-ncol: 2
@@ -324,8 +307,8 @@
 
     ggplot(gss2010_hrs_degree, aes(x = degree, y = hrs1)) +
       geom_boxplot() +
-      labs(x = NULL, y = "Hours worked per week")
-    
+      labs(x = NULL, y = "每周工作时数")
+
     gss2010_hrs_degree |>
       group_by(degree) |>
       summarise(
@@ -335,10 +318,10 @@
       ) |>
       kbl(
         linesep = "", booktabs = TRUE,
-        col.names = c("Educational attainment", "Mean", "SD", "n")
+        col.names = c("教育程度", "均值", "标准差", "n")
       ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position",
         full_width = FALSE
       ) |>
@@ -347,12 +330,12 @@
       column_spec(4, width = "2em")
     ```
 
-    a.  Write hypotheses for evaluating whether the average number of hours worked varies across the five groups.
+    a.  写出用于评估五个组之间平均工作时数是否存在差异的假设。
 
-    b.  Check conditions and describe any assumptions you must make to proceed with the test.
+    b.  检查条件，并描述进行检验时必须做出的任何假设。
 
-    c.  Below is the output associated with this test.
-        What is the conclusion of the test?
+    c.  下面是与该检验相关的输出。
+        检验的结论是什么？
 
     ```{r}
     lm(hrs1 ~ degree, data = gss2010_hrs_degree) |>
@@ -362,9 +345,9 @@
       kbl(
         linesep = "", booktabs = TRUE,
         digits = 2, format.args = list(big.mark = ",")
-      ) |> 
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position"
       ) |>
       column_spec(1, width = "5em", monospace = TRUE) |>
@@ -375,34 +358,34 @@
 
 \clearpage
 
-11. **True / False: ANOVA, I.** Determine if the following statements are true or false in ANOVA, and explain your reasoning for statements you identify as false.
+11. **正确/错误：ANOVA, I.** 判断以下关于ANOVA的陈述是正确还是错误，并为你认定为错误的陈述解释理由。
 
-    a.  As the number of groups increases, the modified discernibility level for pairwise tests increases as well.
+    a.  随着组数的增加，用于两两检验的修正可辨识水平也会增加。
 
-    b.  As the total sample size increases, the degrees of freedom for the residuals increases as well.
+    b.  随着总样本量的增加，残差的自由度也会增加。
 
-    c.  The constant variance condition can be somewhat relaxed when the sample sizes are relatively consistent across groups.
+    c.  当各组的样本量相对一致时，常数方差条件可以稍微放宽。
 
-    d.  The independence assumption can be relaxed when the total sample size is large.
-
-\vfill
-
-12. **True / False: ANOVA, II.** Determine if the following statements are true or false, and explain your reasoning for statements you identify as false.
-
-    If the null hypothesis that the means of four groups are all the same is rejected using ANOVA at a 5% discernibility level, then...
-
-    a.  we can then conclude that all the means are different from one another.
-
-    b.  the standardized variability between groups is higher than the standardized variability within groups.
-
-    c.  the pairwise analysis will identify at least one pair of means that are discernibly different.
-
-    d.  the appropriate $\alpha$ to be used in pairwise comparisons is 0.05 / 4 = 0.0125 since there are four groups.
+    d.  当总样本量很大时，独立性假设可以放宽。
 
 \vfill
 
-13. **Matching observed data with randomized F statistics.** Consider the following two datasets.
-    The response variable is the `score` and the explanatory variable is whether the individual is in one of four groups.
+12. **正确/错误：ANOVA, II.** 判断以下陈述是正确还是错误，并为你认定为错误的陈述解释理由。
+
+    如果在 5% 的可辨识水平下使用 ANOVA，那么……
+
+    a.  那么我们可以得出结论，所有均值都彼此不同。
+
+    b.  组间标准化变异性高于组内标准化变异性。
+
+    c.  两两分析将识别出至少一对存在可辨识差异的均值。
+
+    d.  由于有四个组，在两两比较中使用的适当 $\alpha$ 是 0.05 / 4 = 0.0125。
+
+\vfill
+
+13. **匹配观测数据与随机化 F 统计量。** 考虑以下两个数据集。
+    响应变量是 `score`，解释变量是个体是否属于四个组中的某一个。
 
     ```{r}
     #| out-width: 100%
@@ -418,19 +401,19 @@
       calculate(stat = "F") |> pull()
 
     p_A <- data_A |>
-      ggplot(aes(x = group, y = score)) + 
+      ggplot(aes(x = group, y = score)) +
       geom_boxplot() +
-      labs(y = "Score", title = "Dataset A")
+      labs(y = "分数", title = "数据集 A")
 
     rand_A <- data_A |>
       specify(score ~ group) |>
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "F") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = F_A, color = IMSCOL["red", "full"]) +
-      labs(x = "F statistic", y = "Count", title = "Right randomization")
+      labs(x = "F 统计量", y = "计数", title = "右侧随机化")
 
     data_B <- tibble(
       group = rep(c("Group 1", "Group 2", "Group 3", "Group 4"), each = 25),
@@ -439,43 +422,42 @@
 
     F_B <- data_B |>
       specify(score ~ group) |>
-      calculate(stat = "F") |> 
+      calculate(stat = "F") |>
       pull()
 
     p_B <- data_B |>
-      ggplot() + 
+      ggplot() +
       geom_boxplot(aes(x = group, y = score)) +
-      labs(y = "Score", title = "Dataset B")
+      labs(y = "分数", title = "数据集 B")
 
     rand_B <- data_B |>
       specify(score ~ group) |>
       hypothesize(null = "independence") |>
       generate(1000, type = "permute") |>
       calculate(stat = "F") |>
-      ggplot(aes(x = stat)) + 
+      ggplot(aes(x = stat)) +
       geom_histogram(fill = IMSCOL["green", "full"]) +
       geom_vline(xintercept = F_B, color = IMSCOL["red", "full"], size = 1) +
-      labs(x = "F statistic", y = "Count", title = "Left randomization")
+      labs(x = "F 统计量", y = "计数", title = "左侧随机化")
 
-    p_A + p_B + rand_B + rand_A + 
-      plot_layout(widths = c(2, 2)) 
+p_A + p_B + rand_B + rand_A +
+      plot_layout(widths = c(2, 2))
     ```
 
-    The randomizations (randomly assigning group to the score, calculating a randomization F statistic) were done 1000 times for each of Dataset A and B.
-    The red line on each plot indicates the observed F statistic for the original (unrandomized) data.
+    对数据集 A 和 B 各进行了 1000 次随机化（即将分组随机分配给观测值，计算随机化 F 统计量）。
+    每个图上的红线表示原始（未经随机化的）数据观测到的 F 统计量。
 
-    a.  Does the randomization distribution on the left correspond to Dataset A or B?
-        Explain.
+    a.  左边的随机化分布对应数据集 A 还是 B？
+        请解释。
 
-    b.  Does the randomization distribution on the right correspond to Dataset A or B?
-        Explain.
+    b.  右边的随机化分布对应数据集 A 还是 B？
+        请解释。
 
 \vfill
 
-14. **Child care hours.** The China Health and Nutrition Survey aims to examine the effects of the health, nutrition, and family planning policies and programs implemented by national and local governments.
-    [@data:china] It, for example, collects information on number of hours Chinese parents spend taking care of their children under age 6.
-    The side-by-side box plots below show the distribution of this variable by educational attainment of the parent.
-    Also provided below is the ANOVA output for comparing average hours across educational attainment categories.
+14. **儿童照看小时数。** 中国健康与营养调查旨在检验国家和地方政府实施的健康、营养和计划生育政策及项目的影响。 [@data:china] 例如，该调查收集了中国父母花费在照顾 6 岁以下儿童上的小时数信息。
+    下面的并列箱线图展示了这一变量按父母教育程度的分布情况。
+    下方同时也提供了用于比较不同教育程度类别之间平均小时数的方差分析（ANOVA）输出。
 
     ```{r}
     #| fig-asp: 0.5
@@ -489,21 +471,21 @@
       ) |>
       mutate(
         edu = case_when(
-          edu == 1 ~ "Primary school",
-          edu == 2 ~ "Lower middle school",
-          edu == 3 ~ "Upper middle school",
-          edu == 4 ~ "Technical or vocational",
-          edu == 5 ~ "College"
+          edu == 1 ~ "小学",
+          edu == 2 ~ "初中",
+          edu == 3 ~ "高中",
+          edu == 4 ~ "技校/职高",
+          edu == 5 ~ "大学"
         ),
-        edu = fct_relevel(edu, "Primary school", "Lower middle school", "Upper middle school", "Technical or vocational", "College")
+        edu = fct_relevel(edu, "小学", "初中", "高中", "技校/职高", "大学")
       )
 
     ggplot(china, aes(x = child_care, y = edu, color = edu, fill = edu)) +
       geom_density_ridges(alpha = 0.5, show.legend = FALSE) +
       scale_fill_openintro("five") +
       scale_color_openintro("five") +
-      labs(x = "Child care hours", y = NULL)
-      
+      labs(x = "儿童照看小时数", y = NULL)
+
     lm(child_care ~ edu, data = china) |>
       anova() |>
       tidy() |>
@@ -511,21 +493,21 @@
       kbl(
         linesep = "", booktabs = TRUE,
         digits = 2, format.args = list(big.mark = ",")
-      ) |> 
+      ) |>
       kable_styling(
-        bootstrap_options = c("striped", "condensed"), 
+        bootstrap_options = c("striped", "condensed"),
         latex_options = "HOLD_position"
       ) |>
       column_spec(1, width = "4em", monospace = TRUE) |>
       column_spec(2:6, width = "4em")
     ```
 
-    a.  Write the hypotheses for testing for a difference between the average number of hours spent on child care across educational attainment levels.
+    a.  请写出用于检验不同教育程度水平之间儿童照看平均小时数是否存在差异的假设。
 
-    b.  What is the conclusion of the hypothesis test?
+    b.  假设检验的结论是什么？
 
 \vfill
 
-[^_22-ex-inference-many-means-1]: The [`Cuckoo`](https://rdrr.io/cran/Stat2Data/man/Cuckoo.html) data used in this exercise can be found in the [**Stat2Data**](https://cran.r-project.org/web/packages/Stat2Data/index.html) R package.
+[^_22-ex-inference-many-means-1]: 本练习中使用的 [`Cuckoo`](https://rdrr.io/cran/Stat2Data/man/Cuckoo.html) 数据可以在 [**Stat2Data**](https://cran.r-project.org/web/packages/Stat2Data/index.html) R 包中找到。
 
-[^_22-ex-inference-many-means-2]: The data [`Cuckoo`](https://rdrr.io/cran/Stat2Data/man/Cuckoo.html) used in this exercise can be found in the [**Stat2Data**](https://cran.r-project.org/web/packages/Stat2Data/index.html) R package.
+[^_22-ex-inference-many-means-2]: 本练习中使用的 [`Cuckoo`](https://rdrr.io/cran/Stat2Data/man/Cuckoo.html) 数据可以在 [**Stat2Data**](https://cran.r-project.org/web/packages/Stat2Data/index.html) R 包中找到。
