@@ -35,7 +35,7 @@ terms_chp_1 <- c("data")
 
 研究人员将 224 名患者随机分配到处理组，227 名分配到对照组。在这项研究中，对照组提供了一个参照点，我们可以据此衡量处理组中支架的医疗效果。
 
-研究人员在两个时间点研究了支架的效果：入组后 30 天和入组后 365 天。5 名患者的结果汇总在 @tbl-stentStudyResultsDF 中。患者的结果变量记录为 `stroke` 或 `no event`，代表患者在该时间段内是否发生了卒中。
+研究人员在两个时间点研究了支架的效果：入组后 30 天和入组后 365 天。5 名患者的结果汇总在 [表 -@tbl-stentStudyResultsDF]中。患者的结果变量记录为 `stroke` 或 `no event`，代表患者在该时间段内是否发生了卒中。
 
 ::: {.data data-latex=""}
 [`stent30`](http://openintrostat.github.io/openintro/reference/stent30.html) 数据和 [`stent365`](http://openintrostat.github.io/openintro/reference/stent365.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
@@ -72,7 +72,7 @@ stent |>
 
 
 
-仅凭这些*单独的*观测，很难回答支架对**所有**研究患者卒中发生率的影响这个问题。这个问题最好通过对*所有*观测进行统计数据分析来解决。@tbl-stentStudyResultsDFsummary 以一种更清晰的方式总结了原始数据。在这个表格中，我们可以快速了解整个研究发生了什么。例如，要找出处理组中在处理后 30 天内发生卒中的患者数量，我们可以查看最左边的列（30 天），在处理组与卒中行的交叉处：33。要确定对照组中在接受处理后 365 天内未发生卒中的患者数量，我们可以查看最右边的列（365 天），在对照组与无事件行的交叉处：199。
+仅凭这些*单独的*观测，很难回答支架对**所有**研究患者卒中发生率的影响这个问题。这个问题最好通过对*所有*观测进行统计数据分析来解决。 [表 -@tbl-stentStudyResultsDFsummary]以一种更清晰的方式总结了原始数据。在这个表格中，我们可以快速了解整个研究发生了什么。例如，要找出处理组中在处理后 30 天内发生卒中的患者数量，我们可以查看最左边的列（30 天），在处理组与卒中行的交叉处：33。要确定对照组中在接受处理后 365 天内未发生卒中的患者数量，我们可以查看最右边的列（365 天），在对照组与无事件行的交叉处：199。
 
 ```{r}
 #| label: tbl-stentStudyResultsDFsummary
@@ -157,7 +157,7 @@ terms_chp_1 <- c(terms_chp_1, "summary statistic")
 
 ### 观测、变量与数据矩阵
 
-@tbl-loan50-df 显示了通过 Lending Club（一家点对点借贷公司）提供的 50 笔随机抽样贷款数据集中的六行数据。
+[表 -@tbl-loan50-df]显示了通过 Lending Club（一家点对点借贷公司）提供的 50 笔随机抽样贷款数据集中的六行数据。
 这个数据集将被称为 `loan50`。
 
 ::: {.data data-latex=""}
@@ -182,7 +182,7 @@ terms_chp_1 <- c(
 
 
 ::: {.guidedpractice data-latex=""}
-在 @tbl-loan50-df 中，第一笔贷款的等级是什么？该借款人的住房所有权状态是什么？
+在 [表 -@tbl-loan50-df]中，第一笔贷款的等级是什么？该借款人的住房所有权状态是什么？
 提醒：对于这些引导练习，你可以在脚注中核对答案。[^01-data-hello-2]
 :::
 
@@ -190,7 +190,7 @@ terms_chp_1 <- c(
 
 在实践中，提出明确问题以确保理解数据的重要方面尤为重要。
 例如，确保我们始终了解每个变量的含义及其测量单位，这一点至关重要。
-`loan50` 数据集中变量的描述见 @tbl-loan-50-variables。
+`loan50` 数据集中变量的描述见 [表 -@tbl-loan-50-variables]。
 
 ```{r}
 #| label: tbl-loan50-df
@@ -252,7 +252,7 @@ loan50_var_def |>
 
 
 
-@tbl-loan50-df 中的数据构成了一个 \index{data frame}**数据框**，这是一种便捷且常见的数据组织方式，尤其是在电子表格中收集数据时。
+[表 -@tbl-loan50-df]中的数据构成了一个 \index{data frame}**数据框**，这是一种便捷且常见的数据组织方式，尤其是在电子表格中收集数据时。
 如果一个数据框的每一行都是一个唯一的观测单位，每一列都是一个变量，每个单元格都是一个单一值，则通常被称为 \index{tidy data}**整洁数据** [@wickham2014]。
 
 ```{r}
@@ -284,8 +284,8 @@ terms_chp_1 <- c(terms_chp_1, "data frame", "tidy data")
 [^01-data-hello-4]: 每个县可看成一个观测单位，每个观测单位记录了十一条信息。
     一个包含 3,142 行和 14 列的表可以容纳这些数据，其中每一行代表一个县，每一列代表一条特定的信息。
 
-上述引导练习中描述的数据就是 `county` 数据集，它以数据框的形式呈现在 @tbl-county-df 中。
-该数据集中的变量（包括未在 @tbl-county-df 中展示的变量）均在 @tbl-county-variables 中进行了描述。
+上述引导练习中描述的数据就是 `county` 数据集，它以数据框的形式呈现在 [表 -@tbl-county-df]中。
+该数据集中的变量（包括未在 [表 -@tbl-county-df]中展示的变量）均在 [表 -@tbl-county-variables]中进行了描述。
 
 ```{r}
 #| label: tbl-county-df
@@ -389,7 +389,7 @@ terms_chp_1 <- c(terms_chp_1, "categorical", "level")
 最后，考虑变量 `median_edu`，它描述了县居民的中位教育水平，在每个县的取值为 `below_hs`、`hs_diploma`、`some_college` 或 `bachelors`。
 这个变量看起来像是一个混合体：它是分类变量，但其水平具有自然的顺序。
 具有这种性质的变量称为**有序**\index{variable!ordinal}变量，而没有这种特殊顺序的普通分类变量称为**名义**\index{variable!nominal}变量。
-为了简化分析，本书中的任何分类变量都将视为名义（无序）分类变量（参见 @fig-variables）。
+为了简化分析，本书中的任何分类变量都将视为名义（无序）分类变量（参见 [图 -@fig-variables]）。
 
 ```{r}
 #| include: false
@@ -471,14 +471,14 @@ par(par_og) # restore original par
 
 > 教育水平中位数能在多大程度上解释美国各县的家庭收入中位数？
 
-要回答这些问题，必须收集数据，例如 @tbl-county-df 中显示的 `county` 数据集。
+要回答这些问题，必须收集数据，例如 [表 -@tbl-county-df]中显示的 `county` 数据集。
 考察 \index{summary statistic}**汇总统计量**可以为每个问题的具体情况提供数值上的见解。
 或者，也可以使用图形对数据进行可视化探索，这有可能比汇总统计量提供更多见解。
 
 \clearpage
 
 \index{scatterplot}**散点图**是一种用于研究两个数值变量之间关系的图形。
-@fig-county-multi-unit-homeownership 展示了变量 `homeownership`（自有住房率）和 `multi_unit`（多单元结构住房单元百分比）之间的关系。
+[图 -@fig-county-multi-unit-homeownership]展示了变量 `homeownership`（自有住房率）和 `multi_unit`（多单元结构住房单元百分比）之间的关系。
 图上的每个点代表一个县。
 例如，高亮点对应的是 `county` 数据集中的 413 号县：佐治亚州的查特胡奇县，其39.4%的住房单元为多单元结构，自有住房率为31.3%。
 散点图表明这两个变量之间存在关联：多单元结构住房比例较高的县，其自有住房率往往较低。
@@ -550,7 +550,7 @@ terms_chp_1 <- c(terms_chp_1, "associated")
 
 
 ::: {.guidedpractice data-latex=""}
-查看 @tbl-loan-50-variables 中描述的 `loan50` 数据集里的变量。
+查看 [表 -@tbl-loan-50-variables]中描述的 `loan50` 数据集里的变量。
 针对 `loan50` 数据集中你感兴趣的变量间可能存在的关联，提出两个问题。[^01-data-hello-6]
 :::
 
@@ -558,7 +558,7 @@ terms_chp_1 <- c(terms_chp_1, "associated")
     (2) 如果某人的收入高于平均数，那么其贷款利率倾向于高于还是低于平均数？
 
 ::: {.workedexample data-latex=""}
-此示例考察了2010年至2017年间各县的人口百分比变化与家庭收入中位数之间的关系，该关系在 @fig-county-pop-change-med-hh-income 中被可视化为散点图。
+此示例考察了2010年至2017年间各县的人口百分比变化与家庭收入中位数之间的关系，该关系在 [图 -@fig-county-pop-change-med-hh-income]中被可视化为散点图。
 这些变量有关联吗？
 
 ------------------------------------------------------------------------
@@ -629,8 +629,8 @@ ggplot(county, aes(x = median_hh_income, y = pop_change)) +
 
 
 
-由于 @fig-county-multi-unit-homeownership 中呈现下降趋势——拥有更多多单元结构住房单元的县，其住房自有率往往较低——我们称这些变量是**负关联**\index{association}的。
-图 @fig-county-pop-change-med-hh-income 中 `median_hh_income` 和 `pop_change` 变量之间的关系展示了**正关联**\index{association}，即家庭收入中位数越高的县，其人口增长率往往也越高。
+由于 [图 -@fig-county-multi-unit-homeownership]中呈现下降趋势——拥有更多多单元结构住房单元的县，其住房自有率往往较低——我们称这些变量是**负关联**\index{association}的。
+[图 -@fig-county-pop-change-med-hh-income]中 `median_hh_income` 和 `pop_change` 变量之间的关系展示了**正关联**\index{association}，即家庭收入中位数越高的县，其人口增长率往往也越高。
 
 ```{r}
 #| include: false
@@ -702,9 +702,9 @@ terms_chp_1 <- c(
 为了检验解释变量（跑者是否饮用了能量饮料）和响应变量（比赛用时）之间是否真的存在因果关系，研究人员会抽取一个由个体组成的样本并将其分成若干组。
 每组中的个体被*分配*一种处理。
 当个体被随机分配到某个组时，该实验称为**随机化实验**\index{study!randomized experiment}\index{randomized experiment}。
-随机分配将研究中的参与者组织成在所有方面都大致相等的组，从而使我们能够控制可能影响结果变量的任何混杂变量（例如，健康水平、比赛经验等）。（关于混杂变量的更多信息，参见 @sec-principles-experimental-design。）
+随机分配将研究中的参与者组织成在所有方面都大致相等的组，从而使我们能够控制可能影响结果变量的任何混杂变量（例如，健康水平、比赛经验等）。（关于混杂变量的更多信息，参见 [第 -@sec-principles-experimental-design 节]。）
 例如，实验中的每位跑者可以被随机分配（比如通过抛硬币的方式）到两组之一：第一组接受**安慰剂**\index{placebo}（假处理，在此例中是无热量饮料），第二组接受高热量能量饮料。
-关于另一个实验的例子，参见 @sec-case-study-stents-strokes 中的案例研究，尽管该研究未使用安慰剂。
+关于另一个实验的例子，参见 [第 -@sec-case-study-stents-strokes 节]中的案例研究，尽管该研究未使用安慰剂。
 
 ```{r}
 #| include: false
@@ -716,7 +716,7 @@ terms_chp_1 <- c(terms_chp_1, "experiment", "randomized experiment", "placebo")
 当研究人员以不直接干扰数据产生过程的方式收集数据时，他们进行的是**观察性研究**\index{study!observational}\index{observational study}。
 例如，研究人员可能通过调查、查阅医疗或公司记录，或跟踪一个**队列**\index{cohort}\index{study!cohort}的许多相似个体来收集信息，从而形成关于某些疾病为何可能发生的假设。
 在每种情况下，研究人员仅仅是观测产生的数据。
-一般而言，观察性研究可以提供变量之间自然发生的**关联**的证据，但它们自身无法显示**因果**联系，因为它们没有提供控制混杂变量的机制。（关于混杂变量的更多信息，参见 @sec-principles-experimental-design。）
+一般而言，观察性研究可以提供变量之间自然发生的**关联**的证据，但它们自身无法显示**因果**联系，因为它们没有提供控制混杂变量的机制。（关于混杂变量的更多信息，参见 [第 -@sec-principles-experimental-design 节]。）
 
 ```{r}
 #| include: false
@@ -730,7 +730,7 @@ terms_chp_1 <- c(terms_chp_1, "observational study", "cohort")
 一般而言，关联并不意味着因果。
 随机化实验的一个优势是，用这样的研究更容易确立因果关系。
 其主要原因是观察性研究不控制混杂变量，因此用观察性研究确立因果关系需要高级的统计方法（这些方法超出了本书的范围）。
-在第 @sec-principles-experimental-design 节讨论实验时，我们会重新探讨混杂的概念。
+在 [第 -@sec-principles-experimental-design 节]讨论实验时，我们会重新探讨混杂的概念。
 :::
 
 \vspace{10mm}
@@ -746,7 +746,7 @@ terms_chp_1 <- c(terms_chp_1, "observational study", "cohort")
 
 ### 术语
 
-本章引入的术语列在 @tbl-terms-chp-1 中。
+本章引入的术语列在 [表 -@tbl-terms-chp-1]中。
 如果你不确定其中某些术语的含义，建议返回正文回顾它们的定义。
 你应该能很容易找到它们，因为它们都以**粗体**显示。
 

@@ -4,6 +4,9 @@ project:
   resources: 
     - _redirects
 
+language:
+  section-title-appendices: "附录"
+
 book:
   title: "现代统计学导论（第二版）"
   cover-image: images/IMS2_front_cover.png
@@ -71,6 +74,7 @@ bibliography:
   - packages.bib
 
 crossref:
+  appendix-title: "附录"
   fig-title: "图"
   fig-prefix: "图"
   tbl-title: "表"
@@ -80,6 +84,9 @@ crossref:
 
 format:
   pdf:
+    filters:
+      - latex/ims-filter.lua
+    papersize: a4
     include-in-header: latex/ims-style.tex
     include-after-body: latex/after-body.tex
     documentclass: ctexbook
@@ -87,6 +94,7 @@ format:
       - 10pt
       - openany
       - fontset=fandol
+      - a4paper
     pdf-engine: lualatex
     biblio-style: apalike
     keep-tex: true

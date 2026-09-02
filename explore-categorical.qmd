@@ -14,8 +14,8 @@ source("_common.R")
 掌握本章所介绍的内容对于理解本书其余部分介绍的方法和技术至关重要。
 :::
 
-在本章中，我们将使用你在 [第 -@sec-data-hello 章] 中见过的 Lending Club 贷款数据。
-[第 -@sec-data-hello 章] 中的 `loan50` 数据集代表了一个更大的名为 `loans` 的贷款数据集的一个样本。
+在本章中，我们将使用你在 [第 -@sec-data-hello 章]中见过的 Lending Club 贷款数据。
+[第 -@sec-data-hello 章]中的 `loan50` 数据集代表了一个更大的名为 `loans` 的贷款数据集的一个样本。
 这个更大的数据集包含了通过 Lending Club 发放的 10,000 笔贷款的信息。
 我们将研究 `homeownership`（在 `loans` 数据中，其取值可以是 `rent`、`mortgage`（有按揭）或 `own`）与 `application_type`（表示贷款申请是与伴侣共同提交的还是个人单独提交的）之间的关系。
 
@@ -47,7 +47,7 @@ loans_individual_rent <- loans |>
 
 
 
-@tbl-loan-home-app-type-totals 汇总了两个变量：`application_type` 和 `homeownership`。
+[表 -@tbl-loan-home-app-type-totals]汇总了两个变量：`application_type` 和 `homeownership`。
 请注意，Lending Club 的贷款通常用于小额商品或现金，而非购房。
 数据集中的个人是因个人用途申请贷款，我们根据其 `homeownership` 状态（这与贷款目的无关）对他们进行分类。
 以这种方式汇总两个分类变量数据的表格称为**列联表**\index{contingency table}。
@@ -56,7 +56,7 @@ loans_individual_rent <- loans |>
 例如，值 `r loans_individual_rent` 对应数据集中借款人是租房者且申请类型为个人的贷款数量。
 该表也包含了行合计和列合计。
 **行合计**\index{row totals}提供了每行的总计数，**列合计**\index{column totals}提供了每一列的总计数。
-我们也可以创建一个仅显示各个类别组合的整体百分比或比例的表格，或者可以为单个变量创建表格，如 @tbl-loan-homeownership-totals 中针对 `homeownership` 变量所示的表格。
+我们也可以创建一个仅显示各个类别组合的整体百分比或比例的表格，或者可以为单个变量创建表格，如 [表 -@tbl-loan-homeownership-totals]中针对 `homeownership` 变量所示的表格。
 
 ```{r}
 #| include: false
@@ -104,8 +104,8 @@ loans |>
 
 
 条形图是展示单个分类变量的常用方式。
-@fig-loan-homeownership-bar-plot-1 展示了 `homeownership` 变量的一个**条形图**。
-在 @fig-loan-homeownership-bar-plot-2 中，计数被转换为比例，显示属于每个水平的观测比例。
+[图 -@fig-loan-homeownership-bar-plot-1]展示了 `homeownership` 变量的一个**条形图**。
+在 [图 -@fig-loan-homeownership-bar-plot-2]中，计数被转换为比例，显示属于每个水平的观测比例。
 
 ```{r}
 #| label: fig-loan-homeownership-bar-plot
@@ -138,14 +138,14 @@ loans |>
 
 我们可以在一个条形图上同时展示两个分类变量的分布。
 这类图形通常对可视化两个分类变量之间的关系很有用。
-@fig-loan-homeownership-app-type-bar-plot 展示了三个这样的图形。
-其中，@fig-loan-homeownership-app-type-bar-plot-1 是一个**堆叠条形图**\index{plot!stacked bar}\index{stacked bar plot}。
+[图 -@fig-loan-homeownership-app-type-bar-plot]展示了三个这样的图形。
+其中， [图 -@fig-loan-homeownership-app-type-bar-plot-1]是一个**堆叠条形图**\index{plot!stacked bar}\index{stacked bar plot}。
 此图最清楚地显示出贷款申请人最常见的住房状况是按揭房屋。
 仅凭此图，很难说不同的申请类型在住房状况的各水平间有何差异。
-@fig-loan-homeownership-app-type-bar-plot-2 是一个**标准化条形图**\index{plot!standardized bar}\index{standardized bar plot}（亦称作**填充条形图**\index{plot!filled bar}\index{filled bar plot}）。
+[图 -@fig-loan-homeownership-app-type-bar-plot-2]是一个**标准化条形图**\index{plot!standardized bar}\index{standardized bar plot}（亦称作**填充条形图**\index{plot!filled bar}\index{filled bar plot}）。
 这种可视化有助于理解在 `homeownership` 的每个水平下，个人或联合贷款申请的比例。
 此外，由于联合贷款和个人贷款的比例在各组间有变化，我们可以得出结论：对于这个样本，这两个变量是有关联的。
-最后，@fig-loan-homeownership-app-type-bar-plot-3 是一个**并列条形图**\index{plot!dodged bar}\index{dodged bar plot}。
+最后， [图 -@fig-loan-homeownership-app-type-bar-plot-3]是一个**并列条形图**\index{plot!dodged bar}\index{dodged bar plot}。
 此图最清楚地显示，在住房状况的每个水平内，个人申请都比联合申请更常见。
 此图也最清楚地显示，与租房者和自有住房者相比，联合申请在按揭购房者中最为常见。
 
@@ -199,7 +199,7 @@ ggplot(loans, aes(x = homeownership, fill = application_type)) +
 ```
 
 ::: {.workedexample data-latex=""}
-观察 @fig-loan-homeownership-app-type-bar-plot 中的三幅条形图。
+观察 [图 -@fig-loan-homeownership-app-type-bar-plot]中的三幅条形图。
 什么时候使用堆叠条形图、并列条形图或标准化条形图最有用？
 
 ------------------------------------------------------------------------
@@ -208,7 +208,7 @@ ggplot(loans, aes(x = homeownership, fill = application_type)) +
 
 并列条形图在显示上对于哪个变量（如果有的话）代表解释变量、哪个代表响应变量则更为中立。
 同时，也易于辨别六个不同组别组合中各自的观测单位数。
-然而，它的一个缺点是往往需要更多的水平空间；与 @fig-loan-homeownership-app-type-bar-plot 中的其他两幅图相比，图 B 较窄，使得图形显得有些拥挤。
+然而，它的一个缺点是往往需要更多的水平空间；与 [图 -@fig-loan-homeownership-app-type-bar-plot]中的其他两幅图相比，图 B 较窄，使得图形显得有些拥挤。
 此外，当两个组的规模相差很大时（正如我们在 `own` 组相对于其他两个组中所看到的那样），就很难辨别变量之间是否存在关联。
 
 如果堆叠条形图中的主要变量相对不平衡，例如某个类别仅包含三分之一的观测，使得简单的堆叠条形图在检查关联时用处不大，那么标准化堆叠条形图就很有帮助。
@@ -228,12 +228,12 @@ terms_chp_04 <- c(terms_chp_04, "mosaic plot")
 
 
 
-在开始创建我们的第一个马赛克图时，我们将一个正方形按变量的每个类别划分为若干列，结果如 @fig-loan-homeownership-type-mosaic-plot-1 所示。
+在开始创建我们的第一个马赛克图时，我们将一个正方形按变量的每个类别划分为若干列，结果如 [图 -@fig-loan-homeownership-type-mosaic-plot-1]所示。
 每一列代表 `homeownership` 的一个水平，列的宽度对应于每个类别中贷款所占的比例。
 例如，借款人为房主的贷款数量少于借款人有抵押贷款的数量。
 通常，马赛克图使用方框的*面积*来表示每个类别中的观测单位数。
 
-@fig-loan-homeownership-type-mosaic-plot-2 显示了房屋拥有状况与申请类型之间的关系。
+[图 -@fig-loan-homeownership-type-mosaic-plot-2]显示了房屋拥有状况与申请类型之间的关系。
 每一列都按个人和联合借款人的贷款数量比例进行分割。
 例如，第二列代表借款人有抵押贷款的情况，它被分割为个人贷款（上部）和联合贷款（下部）。
 再举一个例子，第三列底部的区块代表借款人为房主且联合申请的贷款，而该列上部的区块代表借款人为房主且单独申请的贷款。
@@ -271,8 +271,8 @@ ggplot(loans) +
 
 
 
-在 @fig-loan-homeownership-type-mosaic-plot 中，我们选择首先按借款人的房屋拥有状况进行拆分。
-然而，我们也可以像 @fig-loan-app-type-mosaic-plot 中那样，首先按申请类型进行拆分。
+在 [图 -@fig-loan-homeownership-type-mosaic-plot]中，我们选择首先按借款人的房屋拥有状况进行拆分。
+然而，我们也可以像 [图 -@fig-loan-app-type-mosaic-plot]中那样，首先按申请类型进行拆分。
 与条形图类似，在马赛克图中，通常使用解释变量代表第一次拆分，然后（如果将这些标签赋予所考虑的变量是合理的）用响应变量来细分解释变量的每个水平。
 
 ```{r}
@@ -299,7 +299,7 @@ ggplot(loans) +
 在前面的几节中，我们考察了两个分类变量在条形图和马赛克图中的可视化。
 然而，我们尚未讨论那些显示比例的条形图和马赛克图中的数值是如何计算的。
 在本节中，我们将探讨一个变量在另一个变量中的比例构成，并且可以修改列联表来提供这样的视图。
-@tbl-loan-home-app-type-row-proportions 展示了 @tbl-loan-home-app-type-totals 的**行比例**\index{row proportions}，其计算方式为计数除以对应的行合计。
+[表 -@tbl-loan-home-app-type-row-proportions]展示了 [表 -@tbl-loan-home-app-type-totals]的**行比例**\index{row proportions}，其计算方式为计数除以对应的行合计。
 位于个人申请与租房交叉处的值 3496 被替换为 $3496 / 8505 = 0.411,$ 即 3496 除以其行合计 8505。
 那么，0.411 代表什么呢？
 它对应于个人申请者中租房者的比例。
@@ -329,7 +329,7 @@ loans |>
 
 
 **列比例**\index{column proportions}列联表的计算方式类似，每个比例由计数除以对应的列合计得到。
-@tbl-loan-home-app-type-column-proportions 展示了这样的表格，这里的数值 0.906 表示90.6%的租房者以个人身份申请贷款。
+[表 -@tbl-loan-home-app-type-column-proportions]展示了这样的表格，这里的数值 0.906 表示90.6%的租房者以个人身份申请贷款。
 这一比例高于有抵押贷款人群（80.2%）和自有住房人群（86.5%）。
 因为这些比例在 `homeownership` 的三个水平（`rent`, `mortgage`, `own`）之间存在差异，这提供了 `application_type` 和 `homeownership` 变量可能有关联的证据。
 
@@ -369,20 +369,20 @@ terms_chp_04 <- c(
 )
 ```
 
-我们也可以用行比例来检查 @tbl-loan-home-app-type-row-proportions 中 `application_type` 和 `homeownership` 之间的关联。
+我们也可以用行比例来检查 [表 -@tbl-loan-home-app-type-row-proportions]中 `application_type` 和 `homeownership` 之间的关联。
 比较这些行比例时，我们会沿着列向下看，观察借款人租房、有抵押贷款或拥有自有住房的贷款比例在不同申请类型之间是否存在差异。
 
 ::: {.guidedpractice data-latex=""}
-在 @tbl-loan-home-app-type-row-proportions 中，0.451 代表什么？
-在 @tbl-loan-home-app-type-column-proportions 中，0.802 代表什么？[^04-explore-categorical-1]
+在 [表 -@tbl-loan-home-app-type-row-proportions]中，0.451 代表什么？
+在 [表 -@tbl-loan-home-app-type-column-proportions]中，0.802 代表什么？[^04-explore-categorical-1]
 :::
 
 [^04-explore-categorical-1]: 0.451 代表个人申请者中有抵押贷款的比例。
     0.802 代表有抵押贷款的申请者中，以个人身份申请的比例。
 
 ::: {.guidedpractice data-latex=""}
-在 @tbl-loan-home-app-type-row-proportions 中，0.122 代表什么？
-在 @tbl-loan-home-app-type-column-proportions 中，0.135 代表什么？[^04-explore-categorical-2]
+在 [表 -@tbl-loan-home-app-type-row-proportions]中，0.122 代表什么？
+在 [表 -@tbl-loan-home-app-type-column-proportions]中，0.135 代表什么？[^04-explore-categorical-2]
 :::
 
 [^04-explore-categorical-2]: 0.122 代表共同借款人中拥有自有住房的比例。
@@ -392,7 +392,7 @@ terms_chp_04 <- c(
 数据科学家利用统计方法构建垃圾邮件过滤器。
 通过识别电子邮件的特定特征，数据科学家或许能以较高的准确率将某些邮件分类为垃圾邮件或非垃圾邮件。
 其中一个特征是邮件格式，它表明电子邮件是否包含任何 HTML 内容（例如加粗文本）。
-我们将使用数据集来关注邮件格式和垃圾邮件状态；这些变量汇总在 @tbl-email-count-table 的列联表中。对于希望根据此表将邮件分类为垃圾邮件或普通邮件的人来说，行比例和列比例哪个更有帮助？
+我们将使用数据集来关注邮件格式和垃圾邮件状态；这些变量汇总在 [表 -@tbl-email-count-table]的列联表中。对于希望根据此表将邮件分类为垃圾邮件或普通邮件的人来说，行比例和列比例哪个更有帮助？
 
 ------------------------------------------------------------------------
 
@@ -436,7 +436,7 @@ email |>
 
 
 ::: {.workedexample data-latex=""}
-回顾一下 @tbl-loan-home-app-type-row-proportions 和 @tbl-loan-home-app-type-column-proportions。
+回顾一下 [表 -@tbl-loan-home-app-type-row-proportions]和 [表 -@tbl-loan-home-app-type-column-proportions]。
 是否存在某些明显的情况，使得其中一种比例比另一种更有用？
 
 ------------------------------------------------------------------------
@@ -449,7 +449,7 @@ email |>
 
 ## 饼图
 
-**饼图**如 @fig-loan-homeownership-pie-chart-1 所示，旁边是 @fig-loan-homeownership-pie-chart-2 中表示相同信息的条形图。
+**饼图**如 [图 -@fig-loan-homeownership-pie-chart-1]所示，旁边是 [图 -@fig-loan-homeownership-pie-chart-2]中表示相同信息的条形图。
 饼图有助于提供宏观概览，显示一组观测单位是如何划分的。
 然而，饼图中的某些细节也难以解读。
 例如，从饼图中很难一眼看出借款人有抵押贷款的贷款数量多于租房的贷款数量，而这个细节在条形图中非常明显。
@@ -492,7 +492,7 @@ loans |>
 
 当目标是可视化水平数很少的分类变量时，饼图效果很好，特别是当每个水平代表简单分数（例如，二分之一、四分之一等）时。
 但是，当用于可视化水平数很多的分类变量时，饼图可能非常难以阅读。
-例如，饼图 @fig-loan-grade-pie-chart-1 和条形图 @fig-loan-grade-pie-chart-2 都表示贷款等级（从 A 到 G）的分布。
+例如，饼 [图 -@fig-loan-grade-pie-chart-1]和条形 [图 -@fig-loan-grade-pie-chart-2]都表示贷款等级（从 A 到 G）的分布。
 在这种情况下，使用条形图比饼图更容易比较每个贷款等级的频数。
 
 \vspace{-5mm}
@@ -541,7 +541,7 @@ loans |>
 华夫饼图可用于传达数据中落入分类变量每个水平的比例。
 就像饼图一样，当表示的水平数较少时，它们效果最好。
 但是，与饼图不同，华夫饼图可以更容易地比较那些代表非简单分数的比例。
-@fig-loan-waffle-1 是房屋所有权的华夫饼图，@fig-loan-waffle-2 是贷款状态的华夫饼图。
+[图 -@fig-loan-waffle-1]是房屋所有权的华夫饼图， [图 -@fig-loan-waffle-2]是贷款状态的华夫饼图。
 
 ```{r}
 #| label: fig-loan-waffle
@@ -637,7 +637,7 @@ n_pop_gain <- county |>
 
 
 
-我们有美国 `r n_county` 个县的数据。其中 `r n_missing_pop2017` 个县缺少 2017 年的人口数据，在剩下的 `r n_with_pop_change` 个县中，`r n_pop_gain` 个县的人口从 2010 年到 2017 年有所增长，其余 `r n_pop_no_gain` 个县的人口未增长。@tbl-countyIncomeSplitByPopGainTable 显示了来自每组的四个观测的样本。
+我们有美国 `r n_county` 个县的数据。其中 `r n_missing_pop2017` 个县缺少 2017 年的人口数据，在剩下的 `r n_with_pop_change` 个县中，`r n_pop_gain` 个县的人口从 2010 年到 2017 年有所增长，其余 `r n_pop_no_gain` 个县的人口未增长。 [表 -@tbl-countyIncomeSplitByPopGainTable]显示了来自每组的四个观测的样本。
 
 ```{r}
 #| label: tbl-countyIncomeSplitByPopGainTable
@@ -670,10 +670,10 @@ county |>
 
 
 
-我们可以通过颜色，根据某一分类变量的不同水平，来拆分针对数值变量绘制的直方图（关于直方图的介绍，参见 @sec-histograms）。
-这一用法的一个示例见 @fig-countyIncomeSplitByPopGain-1。
+我们可以通过颜色，根据某一分类变量的不同水平，来拆分针对数值变量绘制的直方图（关于直方图的介绍，参见 [第 -@sec-histograms 节]）。
+这一用法的一个示例见 [图 -@fig-countyIncomeSplitByPopGain-1]。
 **并列箱线图**\index{plot!side-by-side box}\index{side-by-side box plot}是另一种传统的跨组比较工具。
-其示例见 @fig-countyIncomeSplitByPopGain-2，图中包含两个箱线图（关于箱线图的介绍，参见 @sec-boxplots），每组一个，它们被放置在同一绘图窗口中并使用相同的尺度绘制。
+其示例见 [图 -@fig-countyIncomeSplitByPopGain-2]，图中包含两个箱线图（关于箱线图的介绍，参见 [第 -@sec-boxplots 节]），每组一个，它们被放置在同一绘图窗口中并使用相同的尺度绘制。
 
 ```{r}
 #| include: false
@@ -718,7 +718,7 @@ county |>
 
 
 ::: {.guidedpractice data-latex=""}
-使用 @fig-countyIncomeSplitByPopGain 中的图表来比较两组县的收入。
+使用 [图 -@fig-countyIncomeSplitByPopGain]中的图表来比较两组县的收入。
 你注意到各组的大致中心有何特征？
 你注意到组间的变异性有何特点？
 组间的形状是否相对一致？
@@ -734,14 +734,14 @@ county |>
 \vspace{-5mm}
 
 ::: {.guidedpractice data-latex=""}
-你认为 @fig-countyIncomeSplitByPopGain 中每个图表的哪些组成部分最有用？[^04-explore-categorical-4]
+你认为 [图 -@fig-countyIncomeSplitByPopGain]中每个图表的哪些组成部分最有用？[^04-explore-categorical-4]
 :::
 
 [^04-explore-categorical-4]: 答案会不尽相同。
     并列箱线图特别适用于比较中心和离散程度，而空心直方图则更适用于观察分布的形状、偏态、众数以及潜在的异常情况。
 
-另一个用于跨组比较数值数据的有用可视化是**山脊图（ridge plot）**\index{plot!ridge}\index{ridge plot}，它将不同组的密度图（关于密度图的介绍，参见 @sec-boxplots）组合到单一绘图窗口的相同尺度上绘制。
-@fig-countyIncomeSplitByPopGainRidge 展示了一个县家庭收入中位数分布的山脊图，该分布按人口是否增长进行了划分。
+另一个用于跨组比较数值数据的有用可视化是**山脊图（ridge plot）**\index{plot!ridge}\index{ridge plot}，它将不同组的密度图（关于密度图的介绍，参见 [第 -@sec-boxplots 节]）组合到单一绘图窗口的相同尺度上绘制。
+[图 -@fig-countyIncomeSplitByPopGainRidge]展示了一个县家庭收入中位数分布的山脊图，该分布按人口是否增长进行了划分。
 
 ```{r}
 #| include: false
@@ -781,17 +781,17 @@ county |>
 
 
 ::: {.guidedpractice data-latex=""}
-与 @fig-countyIncomeSplitByPopGain 中的图表相比，你觉得 @fig-countyIncomeSplitByPopGainRidge 中山脊图的哪些组成部分最有用？[^04-explore-categorical-5]
+与 [图 -@fig-countyIncomeSplitByPopGain]中的图表相比，你觉得 [图 -@fig-countyIncomeSplitByPopGainRidge]中山脊图的哪些组成部分最有用？[^04-explore-categorical-5]
 :::
 
 [^04-explore-categorical-5]: 山脊图让我们能更好地感知数据的形状，尤其是其模态性（如单峰或多峰）。
 
 我们要介绍的最后一个用于跨组比较数值数据的可视化技术是**分面**\index{plot!faceted}\index{faceted plot}。
 在这种技术中，我们根据组别将数据的图形显示分割（分面）到不同的绘图窗口中。
-@fig-countyIncomeSplitByPopGainFacetHist-1 展示的信息与 @fig-countyIncomeSplitByPopGain-1 相同，但这里有人口增长和没有人口增长的县的家庭收入中位数分布被分面到了两个绘图窗口中。
+[图 -@fig-countyIncomeSplitByPopGainFacetHist-1]展示的信息与 [图 -@fig-countyIncomeSplitByPopGain-1]相同，但这里有人口增长和没有人口增长的县的家庭收入中位数分布被分面到了两个绘图窗口中。
 我们保持了 x 轴和 y 轴尺度相同，以便于比较。
 这种方法的一个优点是，它可以扩展到按两个分类变量的水平来拆分数据，从而能够展示三个变量之间的关系。
-在 @fig-countyIncomeSplitByPopGainFacetHist-2 中，我们现在使用 `pop_change` 和 `metro` 变量将数据分成了四组：
+在 [图 -@fig-countyIncomeSplitByPopGainFacetHist-2]中，我们现在使用 `pop_change` 和 `metro` 变量将数据分成了四组：
 
 -   左上角代表*不*在都会区（`metro`）且人口增长的县，
 -   右上角代表在都会区且人口增长的县，
@@ -865,10 +865,10 @@ county |>
 :::
 
 我们可以在这个可视化基础上继续添加一个变量，`median_edu`，即县区的教育水平中位数。
-在 @fig-countyIncomeRidgeMulti 中，我们用颜色表示教育水平中位数，其中粉色（实线）代表教育水平中位数为高中文凭的县区，黄色（虚线）代表大学肄业的县区，红色（点线）代表拥有学士学位的县区。
+在 [图 -@fig-countyIncomeRidgeMulti]中，我们用颜色表示教育水平中位数，其中粉色（实线）代表教育水平中位数为高中文凭的县区，黄色（虚线）代表大学肄业的县区，红色（点线）代表拥有学士学位的县区。
 
 ::: {.guidedpractice data-latex=""}
-基于 @fig-countyIncomeRidgeMulti，关于县区家庭收入中位数如何随人口增长/未增长、都市区/非都市区以及中位教育学位的变化，你能得出什么结论？[^04-explore-categorical-6]
+基于 [图 -@fig-countyIncomeRidgeMulti]，关于县区家庭收入中位数如何随人口增长/未增长、都市区/非都市区以及中位教育学位的变化，你能得出什么结论？[^04-explore-categorical-6]
 :::
 
 [^04-explore-categorical-6]: 无论地理位置（都市区或非都市区）或人口变化情况如何，从只有高中文凭的人群，到大学肄业人群，再到拥有学士学位的人群，家庭收入中位数似乎都有所增加。
@@ -927,7 +927,7 @@ county |>
 
 ### 术语
 
-本章介绍的术语列于 @tbl-terms-chp-04 中。
+本章介绍的术语列于 [表 -@tbl-terms-chp-04]中。
 如果你不确定其中某些术语的含义，我们建议你返回正文回顾它们的定义。
 你应该能轻易地在文中找到它们，因为它们以 **粗体文本** 的形式出现。
 
@@ -944,7 +944,7 @@ make_terms_table(terms_chp_04)
 
 ## 练习题 {#sec-chp4-exercises}
 
-奇数编号练习题的答案可在 [附录 -@sec-exercise-solutions-04] 中找到。
+奇数编号练习题的答案可在 [附录 -@sec-exercise-solutions-04]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_04-ex-explore-categorical.qmd >}}

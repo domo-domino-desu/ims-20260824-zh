@@ -24,9 +24,9 @@ source("_common.R")
 
 在创建图形时，请牢记你希望读者看到什么。颜色应当用于对项目进行分组，或以有意义的方式区分不同的水平。如果颜色仅仅是为了让图形看起来更亮丽而使用，可能会分散读者的注意力。
 
-假设有一家制造公司将其成本汇总为五个不同的类别。在 @fig-pie-to-bar 提供的两个图形中，请注意 @fig-pie-to-bar-1 中饼图的量值很难用肉眼进行比较。也就是说，看着饼图的扇区，你的肉眼能分辨出“建筑与行政管理”与“工作场所材料”之间有多大差异吗？此外，饼图中的颜色没有任何实际意义，因此会分散注意力。最后，图像的三维效果并不能提高读者理解所呈现数据的能力。
+假设有一家制造公司将其成本汇总为五个不同的类别。在 [图 -@fig-pie-to-bar]提供的两个图形中，请注意 [图 -@fig-pie-to-bar-1]中饼图的量值很难用肉眼进行比较。也就是说，看着饼图的扇区，你的肉眼能分辨出“建筑与行政管理”与“工作场所材料”之间有多大差异吗？此外，饼图中的颜色没有任何实际意义，因此会分散注意力。最后，图像的三维效果并不能提高读者理解所呈现数据的能力。
 
-作为替代方案，@fig-pie-to-bar-2 提供了一个条形图。请注意，现在识别各类别之间差异的量值变得容易得多，同时也不会被图像的其他方面分散注意力。通常，条形图比饼图更容易被读者理解，尤其是在所绘制的分类数据具有不止几个水平时。
+作为替代方案， [图 -@fig-pie-to-bar-2]提供了一个条形图。请注意，现在识别各类别之间差异的量值变得容易得多，同时也不会被图像的其他方面分散注意力。通常，条形图比饼图更容易被读者理解，尤其是在所绘制的分类数据具有不止几个水平时。
 
 \clearpage
 
@@ -68,7 +68,7 @@ ggplot(expenses, aes(x = fct_infreq(category))) +
 
 ### 使用颜色吸引注意力
 
-你可能有多种理由选择在图形中添加**颜色**。需要牢记的一个重要原则是：使用颜色来吸引注意力。当然，你仍然应该考虑可视化在视觉上是否令人愉悦，如果你添加颜色只是为了让它看起来悦目，而没有将注意力引向某个特定的特征，那可能也未尝不可。然而，你应当对默认配色持批判态度，并明确决定是否使用颜色以及如何使用。请注意，在 @fig-red-bar-2 中，颜色的使用方式将读者的注意力引向了某条特定的信息。而 @fig-red-bar-1 中的默认配色可能会分散注意力，并让读者产生疑问，例如，红色条形和紫色条形之间是否存在某种相似之处？还需注意，并非每个人都以相同的方式感知颜色，通常有用的做法是除了颜色之外再添加一个特征（例如图案），这样你就可以通过多种方式来指代你想要吸引注意力的特征，如 @fig-red-bar-3 所示。
+你可能有多种理由选择在图形中添加**颜色**。需要牢记的一个重要原则是：使用颜色来吸引注意力。当然，你仍然应该考虑可视化在视觉上是否令人愉悦，如果你添加颜色只是为了让它看起来悦目，而没有将注意力引向某个特定的特征，那可能也未尝不可。然而，你应当对默认配色持批判态度，并明确决定是否使用颜色以及如何使用。请注意，在 [图 -@fig-red-bar-2]中，颜色的使用方式将读者的注意力引向了某条特定的信息。而 [图 -@fig-red-bar-1]中的默认配色可能会分散注意力，并让读者产生疑问，例如，红色条形和紫色条形之间是否存在某种相似之处？还需注意，并非每个人都以相同的方式感知颜色，通常有用的做法是除了颜色之外再添加一个特征（例如图案），这样你就可以通过多种方式来指代你想要吸引注意力的特征，如 [图 -@fig-red-bar-3]所示。
 
 \vspace{-2mm}
 
@@ -135,7 +135,7 @@ expenses |>
 
 对于许多图形来说，一个重要的方面是加入未被包含在所绘制数据集中的信息。这些外部信息的作用是为数据提供背景，并有助于传达研究的叙事。
 
-在 @fig-duke-hires 中，右侧的图形**标注了**关于大学财年开始的信息，这为数据所提供的信息增添了背景。有时，附加信息可能是一条由 $y = x$ 给出的对角线，线上方的点可以快速向读者展示哪些值的 $y$ 坐标大于 $x$ 坐标；线下方的点则表示相反的情况。
+在 [图 -@fig-duke-hires]中，右侧的图形**标注了**关于大学财年开始的信息，这为数据所提供的信息增添了背景。有时，附加信息可能是一条由 $y = x$ 给出的对角线，线上方的点可以快速向读者展示哪些值的 $y$ 坐标大于 $x$ 坐标；线下方的点则表示相反的情况。
 
 ```{r}
 #| label: fig-duke-hires
@@ -216,7 +216,7 @@ ggplot(duke_hires, aes(x = month, y = n, group = year)) +
 
 ### 顺序很重要
 
-大多数软件程序对一些绘图细节有内置的处理方式——有的按字母顺序对水平进行排序，有的则提供自定义排序的功能。如 @fig-brexit-bars-1 所示，按字母排序对于描述数据来说没有特别的意义。有时，将条形从高到矮（或反之）进行**排序**会更有意义，如 @fig-brexit-bars-2 所示。但在这个案例中，最好的排序方式可能正如 @fig-brexit-bars-3 所示，即按照提问的顺序排列。在问题情境下毫无意义的排序（例如这里的字母顺序），可能会误导那些只是快速扫一眼坐标轴而没有仔细阅读条形标签的读者。
+大多数软件程序对一些绘图细节有内置的处理方式——有的按字母顺序对水平进行排序，有的则提供自定义排序的功能。如 [图 -@fig-brexit-bars-1]所示，按字母排序对于描述数据来说没有特别的意义。有时，将条形从高到矮（或反之）进行**排序**会更有意义，如 [图 -@fig-brexit-bars-2]所示。但在这个案例中，最好的排序方式可能正如 [图 -@fig-brexit-bars-3]所示，即按照提问的顺序排列。在问题情境下毫无意义的排序（例如这里的字母顺序），可能会误导那些只是快速扫一眼坐标轴而没有仔细阅读条形标签的读者。
 
 2019年9月，YouGov调查向1,639名大不列颠成年人提出了以下问题[^06-explore-applications-1]：
 
@@ -302,11 +302,11 @@ brexit |>
   mutate(
     opinion = fct_relevel(
       opinion,
-      "Very well",
-      "Fairly well",
-      "Fairly badly",
-      "Very badly",
-      "Don't know"
+      "非常好",
+      "比较好",
+      "比较差",
+      "非常差",
+      "不知道"
     )
   ) |>
   ggplot(aes(y = opinion)) +
@@ -320,7 +320,7 @@ brexit |>
 
 英国脱欧民意调查的结果还按英国各地区进行了细分。
 堆叠条形图可以用来比较五个地区对英国脱欧的看法。
-在 @fig-brexit-region-1 中条形是垂直的，而在 @fig-brexit-region-2 中它们是水平的。
+在 [图 -@fig-brexit-region-1]中条形是垂直的，而在 [图 -@fig-brexit-region-2]中它们是水平的。
 虽然两幅图包含的定量信息完全相同，但翻转图形并创建水平条形可以为**轴标签**提供更多空间。
 类别越容易阅读，读者从可视化中获取的信息就越多。
 请记住，目标是以简洁明了的方式传达尽可能多的信息。
@@ -330,25 +330,17 @@ brexit <- brexit |>
   mutate(
     region = fct_relevel(
       region,
-      "london",
-      "rest_of_south",
-      "midlands_wales",
-      "north",
-      "scot"
-    ),
-    region = fct_recode(
-      region,
-      London = "london",
-      `Rest of South` = "rest_of_south",
-      `Midlands / Wales` = "midlands_wales",
-      North = "north",
-      Scotland = "scot"
+      "伦敦",
+      "南部其他地区",
+      "米德兰兹-威尔士",
+      "北部",
+      "苏格兰"
     )
   ) |>
   mutate(
-    Opinion = fct_relevel(
+    意见 = fct_relevel(
       opinion,
-      c("Very well", "Fairly well", "Fairly badly", "Very badly", "Don't know")
+      c("非常好", "比较好", "比较差", "非常差", "不知道")
     )
   )
 ```
@@ -363,7 +355,7 @@ brexit <- brexit |>
 #|   地区和看法的堆叠条形图，其中垂直条形沿 x 轴排列。
 #| fig-asp: 0.25
 #| out-width: 100%
-ggplot(brexit, aes(x = region, fill = Opinion)) +
+ggplot(brexit, aes(x = region, fill = 意见)) +
   geom_bar(show.legend = FALSE) +
   scale_fill_openintro("five") +
   labs(x = "地区", y = "数量")
@@ -376,9 +368,9 @@ ggplot(brexit, aes(x = region, fill = Opinion)) +
 #|   地区和看法的堆叠条形图，其中水平条形沿 y 轴排列。
 #| fig-asp: 0.3
 #| out-width: 100%
-ggplot(brexit, aes(y = region, fill = Opinion)) +
+ggplot(brexit, aes(y = region, fill = 意见)) +
   geom_bar() +
-  labs(x = "数量", y = NULL) +
+  labs(x = "数量", y = NULL, fill = "意见") +
   scale_fill_openintro("five") +
   theme(legend.position = "bottom")
 ```
@@ -396,9 +388,9 @@ ggplot(brexit, aes(y = region, fill = Opinion)) +
 堆叠条形图讲述的只是故事的一部分。
 根据你的研究问题，它们可能无法传达对研究而言最关键的那部分故事。
 
-@fig-seg-three-ways 展示了表示相同信息的三种不同方式。
-如果各地区之间最重要的比较是比例，你可能会倾向于 @fig-seg-three-ways-1。如果在跨地区比较时还需要考虑各地区的总人数，你可能会更倾向于 @fig-seg-three-ways-2。如果为每个地区绘制单独的条形图能更好地表达你的观点，则可以使用 @fig-seg-three-ways-3，该图已按地区进行了**分面**。
-@fig-seg-three-ways-3 还提供了完整的标题以及包含数据来源的简洁 URL。
+[图 -@fig-seg-three-ways]展示了表示相同信息的三种不同方式。
+如果各地区之间最重要的比较是比例，你可能会倾向于 [图 -@fig-seg-three-ways-1]。如果在跨地区比较时还需要考虑各地区的总人数，你可能会更倾向于 [图 -@fig-seg-three-ways-2]。如果为每个地区绘制单独的条形图能更好地表达你的观点，则可以使用 [图 -@fig-seg-three-ways-3]，该图已按地区进行了**分面**。
+[图 -@fig-seg-three-ways-3]还提供了完整的标题以及包含数据来源的简洁 URL。
 其他值得刻意考虑的决策包括使用信息丰富的标签和避免冗余。
 
 ::: {#fig-seg-three-ways layout="[[100], [100], [100]]"}
@@ -409,9 +401,9 @@ ggplot(brexit, aes(y = region, fill = Opinion)) +
 #| fig-alt: 地区与意见的堆叠条形图，显示百分比。
 #| fig-asp: 0.3
 #| out-width: 100%
-ggplot(brexit, aes(y = region, fill = Opinion)) +
+ggplot(brexit, aes(y = region, fill = 意见)) +
   geom_bar(position = "fill") +
-  labs(x = "百分比", y = NULL) +
+  labs(x = "百分比", y = NULL, fill = "意见") +
   scale_fill_openintro("five") +
   scale_x_continuous(labels = label_percent()) +
   theme(legend.position = "top")
@@ -423,9 +415,9 @@ ggplot(brexit, aes(y = region, fill = Opinion)) +
 #| fig-alt: 地区与意见的堆叠条形图，显示频数。
 #| fig-asp: 0.3
 #| out-width: 100%
-ggplot(brexit, aes(y = region, fill = Opinion)) +
+ggplot(brexit, aes(y = region, fill = 意见)) +
   geom_bar() +
-  labs(x = "频数", y = NULL) +
+  labs(x = "频数", y = NULL, fill = "意见") +
   scale_fill_openintro("five") +
   theme(legend.position = "top")
 ```
@@ -437,7 +429,7 @@ ggplot(brexit, aes(y = region, fill = Opinion)) +
 #| fig-asp: 0.4
 #| out-width: 100%
 #| fig-width: 10
-ggplot(brexit, aes(y = Opinion)) +
+ggplot(brexit, aes(y = 意见)) +
   geom_bar() +
   facet_grid(. ~ region, labeller = label_wrap_gen(width = 12)) +
   scale_x_continuous(breaks = c(0, 100, 200)) +
@@ -462,7 +454,7 @@ ggplot(brexit, aes(y = Opinion)) +
 默认颜色或彩虹色并不总是能最好地区分变量各个水平的选择。
 已有大量研究致力于寻找那些区分明显且对色觉不同的人群都清晰易辨的颜色组合。
 cividis 色阶适用于有序数据。
-[@Nunez:2018] @fig-brexit-viridis 展示了使用两种不同配色方案的同一图形。
+[@Nunez:2018] [图 -@fig-brexit-viridis]展示了使用两种不同配色方案的同一图形。
 
 \vspace{5mm}
 
@@ -475,7 +467,7 @@ cividis 色阶适用于有序数据。
 #| fig-alt: 使用两种不同配色方案的相同条形图。
 #| fig-asp: 0.4
 #| out-width: 100%
-p <- ggplot(brexit, aes(y = region, fill = Opinion)) +
+p <- ggplot(brexit, aes(y = region, fill = 意见)) +
   geom_bar(position = "fill") +
   labs(
     title = "你认为政府在处理英国脱欧问题上的表现如何？\n是好还是坏？",
@@ -483,7 +475,7 @@ p <- ggplot(brexit, aes(y = region, fill = Opinion)) +
     caption = "来源：bit.ly/2lCJZVg",
     x = NULL,
     y = NULL,
-    fill = NULL
+    fill = "意见"
   ) +
   theme(plot.title.position = "plot")
 

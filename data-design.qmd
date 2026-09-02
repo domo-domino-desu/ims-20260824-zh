@@ -38,7 +38,7 @@ terms_chp_2 <- c("population", "census", "sample")
 
 ### 参数与统计量
 
-在大多数统计分析过程中，手头的研究问题归根结底是要理解一个数值概括。这个（或这组）数字可能是你已经熟悉的量（如平均数），也可能是你通过本书学到的量（如最小二乘模型的斜率和截距，在 @sec-least-squares-regression 中给出）。
+在大多数统计分析过程中，手头的研究问题归根结底是要理解一个数值概括。这个（或这组）数字可能是你已经熟悉的量（如平均数），也可能是你通过本书学到的量（如最小二乘模型的斜率和截距，在 [第 -@sec-least-squares-regression 节]中给出）。
 
 数值概括既可以在观测样本上计算，也可以在整个总体上计算。然而，测量总体中的每个单位通常是不可行的。所以，一个“典型的”数值概括是从样本中计算出来的。但我们仍然可以构想计算阿根廷所有成年人的平均收入。
 
@@ -162,7 +162,7 @@ par(par_og) # restore original par
 
 ------------------------------------------------------------------------
 
-他们可能会选择不成比例的健康相关领域毕业生，如 @fig-pop-to-sub-sample-graduates 所示。
+他们可能会选择不成比例的健康相关领域毕业生，如 [图 -@fig-pop-to-sub-sample-graduates]所示。
 当手动选择样本时，我们面临选出**有偏**样本\index{sample bias}的风险，即使这种偏差是无意的。
 :::
 
@@ -389,7 +389,7 @@ terms_chp_2 <- c(terms_chp_2, "convenience sample")
 几乎所有的统计方法都建立在隐含随机性的概念之上。
 如果数据不是以随机方式从总体中收集的，那么这些统计方法——包括估计量及其相关的误差——就不可靠。
 这里我们探讨四种随机抽样技术：简单随机抽样、分层抽样、整群抽样和多阶段抽样。
-@fig-simple-stratified 和 @fig-cluster-multistage 提供了这些技术的图解。
+[图 -@fig-simple-stratified]和 [图 -@fig-cluster-multistage]提供了这些技术的图解。
 
 **简单随机抽样**\index{simple random sample}\index{sampling!simple random}可能是最直观的随机抽样形式。
 以美国职业棒球大联盟（MLB）球员的薪水为例，每名球员都是联盟30支球队中某一支的成员。
@@ -512,7 +512,7 @@ terms_chp_2 <- c(terms_chp_2, "experiment", "randomized experiment")
 
 1.  **控制。** 研究人员将处理分配给观测单位，并尽力**控制**任何可能存在的组间差异[^02-data-design-3]。例如，当患者以药片形式服药时，有些患者只是抿一小口水就吞下药片，而另一些患者可能会用一整杯水送服。为了控制饮水量的影响，医生可能会指示每位患者都用 12 盎司的一杯水送服药片。
 
-[^02-data-design-3]: 这与*对照组*是不同的概念，我们将在第二个原则和 @sec-reducing-bias-human-experiments 中讨论对照组。
+[^02-data-design-3]: 这与*对照组*是不同的概念，我们将在第二个原则和 [第 -@sec-reducing-bias-human-experiments 节]中讨论对照组。
 
 ```{r}
 #| include: false
@@ -569,7 +569,7 @@ terms_chp_2 <- c(
 
 \index{replication} \index{lurking variable}
 
-4.  **区组化。**\index{blocking} 研究者有时知道或怀疑，除处理外，还有其他变量会影响响应变量。在这种情况下，他们可以先根据此变量将个体分组形成**区组（blocks）**，然后在每个区组内将观测随机分配到各处理组。这种策略常常被称为**区组化**。例如，如果我们正在研究某种药物对心脏病发作的影响，我们可能先将研究中的患者分为低风险和高风险区组，然后从每个区组中随机分配一半患者到对照组，另一半到处理组，如 @fig-blocking 所示。这种策略确保每个处理组都有相同数量的低风险患者和相同数量的高风险患者。
+4.  **区组化。**\index{blocking} 研究者有时知道或怀疑，除处理外，还有其他变量会影响响应变量。在这种情况下，他们可以先根据此变量将个体分组形成**区组（blocks）**，然后在每个区组内将观测随机分配到各处理组。这种策略常常被称为**区组化**。例如，如果我们正在研究某种药物对心脏病发作的影响，我们可能先将研究中的患者分为低风险和高风险区组，然后从每个区组中随机分配一半患者到对照组，另一半到处理组，如 [图 -@fig-blocking]所示。这种策略确保每个处理组都有相同数量的低风险患者和相同数量的高风险患者。
 
 ```{r}
 #| include: false
@@ -666,7 +666,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
 
 
 ::: {.guidedpractice data-latex=""}
-回顾一下 @sec-case-study-stents-strokes 节中研究人员测试支架是否能有效降低高风险患者中风风险的研究。
+回顾一下 [第 -@sec-case-study-stents-strokes 节]中研究人员测试支架是否能有效降低高风险患者中风风险的研究。
 这是一项实验吗？
 这项研究采用盲法了吗？
 是双盲吗？[^02-data-design-7]
@@ -678,7 +678,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
     由于没有采用盲法，这项研究也不可能实现双盲。
 
 ::: {.guidedpractice data-latex=""}
-对于 @sec-case-study-stents-strokes 节中的研究，研究人员当时能使用安慰剂吗？
+对于 [第 -@sec-case-study-stents-strokes 节]中的研究，研究人员当时能使用安慰剂吗？
 如果能，那个安慰剂会是什么样的？[^02-data-design-8]
 :::
 
@@ -698,7 +698,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
 ## 观察性研究 {#sec-observational-studies}
 
 那些未明确施加（或明确未施加）处理的研究被称为**观察性研究**\index{study!observational}\index{observational study}。
-例如，@sec-data-basics 中描述的贷款数据和县数据的相关研究都会被认为是观察性的，因为它们依赖于**观测数据**。
+例如， [第 -@sec-data-basics 节]中描述的贷款数据和县数据的相关研究都会被认为是观察性的，因为它们依赖于**观测数据**。
 
 ```{r}
 #| include: false
@@ -715,7 +715,7 @@ terms_chp_2 <- c(terms_chp_2, "observational study")
 这是否意味着防晒霜*导致*了皮肤癌？
 
 不！
-一些先前的研究告诉我们，使用防晒霜实际上会降低皮肤癌风险，所以或许存在另一个变量可以解释防晒霜使用与皮肤癌之间的这种假想关联，如 @fig-sun-causes-cancer 所示。
+一些先前的研究告诉我们，使用防晒霜实际上会降低皮肤癌风险，所以或许存在另一个变量可以解释防晒霜使用与皮肤癌之间的这种假想关联，如 [图 -@fig-sun-causes-cancer]所示。
 一个缺失的重要信息是日晒。
 如果某人整天暴露在阳光下，他们就更有可能使用防晒霜*并且*更有可能患上皮肤癌。
 在简单的观测性调查中，日晒这一因素未被考虑进来。
@@ -753,7 +753,7 @@ par(par_og) # restore original par
 尽管论证从观察性研究中得出因果结论的一种方法是穷尽寻找混杂变量，但无法保证所有混杂变量都能被考察或测量。
 
 ::: {.guidedpractice data-latex=""}
-@fig-county-multi-unit-homeownership 显示了在一个县内，住房拥有率与多单元结构住房单元百分比之间的负关联。
+[图 -@fig-county-multi-unit-homeownership]显示了在一个县内，住房拥有率与多单元结构住房单元百分比之间的负关联。
 然而，得出这两个变量之间存在因果关系的结论是不合理的。
 请给出一个可能解释这种负关联的变量。[^02-data-design-10]
 :::
@@ -789,9 +789,9 @@ terms_chp_2 <- c(terms_chp_2, "prospective study", "retrospective study")
 一名熟练的分析师应当充分了解自己正在处理的数据类型，以及如何将数据可视化，从而全面理解各个变量。
 然而，数据的来源也同样重要。
 在本章中，我们讨论了随机化实验以及如何从总体中抽取良好、随机、有代表性的样本。
-当我们讨论推断方法时（从[第 -@sec-foundations-randomization 章]开始），能够得出的结论将取决于数据是如何收集的。
-@fig-randsampValloc 总结了抽样方法和分配方法如何与推断的范围相关联。[^02-data-design-11]
-当从给定的数据分析中得出结论时，经常回顾 @fig-randsampValloc 这张图是很重要的。
+当我们讨论推断方法时（从 [第 -@sec-foundations-randomization 章]开始），能够得出的结论将取决于数据是如何收集的。
+[图 -@fig-randsampValloc]总结了抽样方法和分配方法如何与推断的范围相关联。[^02-data-design-11]
+当从给定的数据分析中得出结论时，经常回顾 [图 -@fig-randsampValloc]这张图是很重要的。
 
 [^02-data-design-11]: 改编自 @ISCAM 和 @sleuth 中的类似图表。
 
@@ -815,7 +815,7 @@ knitr::include_graphics("images/randsampValloc.png")
 
 ### 术语
 
-本章介绍的术语列在@tbl-terms-chp-2中。
+本章介绍的术语列在 [表 -@tbl-terms-chp-2]中。
 如果你不确定某些术语的含义，我们建议你返回正文复习其定义。
 你应该能轻易地识别出它们，因为它们在文中以**粗体**标示。
 
@@ -832,7 +832,7 @@ make_terms_table(terms_chp_2)
 
 ## 练习 {#sec-chp2-exercises}
 
-奇数编号练习的答案可在[附录 -@sec-exercise-solutions-02]中找到。
+奇数编号练习的答案可在 [附录 -@sec-exercise-solutions-02]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_02-ex-data-design.qmd >}}

@@ -3,21 +3,21 @@
 虽然本教材的上一部分——[推断基础](https://openintro-ims2.netlify.app/foundations-of-inference)——介绍了统计推断的核心内容，但本部分将提供在特定情境下应用统计推断的具体细节。
 理解不同推断方法所特有的细微差别，有助于传达最终的分析结果。
 
--   [第 -@sec-inference-one-prop 章] 提供了关于单个比例推断的具体细节。
+-  [第 -@sec-inference-one-prop 章]提供了关于单个比例推断的具体细节。
 
--   [第 -@sec-inference-two-props 章] 提供了关于比较两个比例推断的具体细节。
+-  [第 -@sec-inference-two-props 章]提供了关于比较两个比例推断的具体细节。
 
--   [第 -@sec-inference-tables 章] 提供了关于二维表推断的具体细节。
+-  [第 -@sec-inference-tables 章]提供了关于二维表推断的具体细节。
 
--   [第 -@sec-inference-one-mean 章] 提供了关于单个均值推断的具体细节。
+-  [第 -@sec-inference-one-mean 章]提供了关于单个均值推断的具体细节。
 
--   [第 -@sec-inference-two-means 章] 提供了关于比较两个独立均值推断的具体细节。
+-  [第 -@sec-inference-two-means 章]提供了关于比较两个独立均值推断的具体细节。
 
--   [第 -@sec-inference-paired-means 章] 提供了关于比较配对均值推断的具体细节。
+-  [第 -@sec-inference-paired-means 章]提供了关于比较配对均值推断的具体细节。
 
--   [第 -@sec-inference-many-means 章] 提供了关于比较多个均值推断的具体细节。
+-  [第 -@sec-inference-many-means 章]提供了关于比较多个均值推断的具体细节。
 
--   [第 -@sec-inference-applications 章] 包含了一个基于“Redundant adjectives”（冗余形容词）案例研究的应用，本书本部分中关于均值的各个主题在此得到了充分展开。
+-  [第 -@sec-inference-applications 章]包含了一个基于“冗余形容词”案例研究的应用，本书本部分中关于均值的各个主题在此得到了充分展开。
 
 在学习本部分的详细内容后，你应该能很好地理解推断方法在应用于不同数据结构时的异同。
 此外，你应该能够将计算方法以及数学技术应用于当前面临的推断问题。

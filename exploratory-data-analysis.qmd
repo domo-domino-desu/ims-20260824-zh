@@ -2,8 +2,8 @@
 
 获得数据集后，理解手头数据的特征至关重要。有时，把握数据最有效的方式是通过汇总统计量或其他数值度量。然而，图表常常胜过千言万语。懂得如何最好地传达数据背后的含义，是交流分析结果极其重要的一个方面。
 
--   分类数据是 [第 -@sec-explore-categorical 章] 的重点。该章介绍了用于传达分类数据信息的数值汇总和图形汇总方法。
--   数值数据是 [第 -@sec-explore-numerical 章] 的重点。该章介绍了用于传达数值数据信息的数值汇总和图形汇总方法。
--   [第 -@sec-explore-applications 章] 深入探讨了创建可视化时的重要注意事项。
+-   分类数据是 [第 -@sec-explore-categorical 章]的重点。该章介绍了用于传达分类数据信息的数值汇总和图形汇总方法。
+-   数值数据是 [第 -@sec-explore-numerical 章]的重点。该章介绍了用于传达数值数据信息的数值汇总和图形汇总方法。
+-  [第 -@sec-explore-applications 章]深入探讨了创建可视化时的重要注意事项。
 
 虽然本书不依赖特定软件，但熟悉数值汇总和图形汇总的最佳方式之一，是使用统计软件练习分析不同的数据集。例如，如果你有兴趣使用 R，不妨尝试研读 [《R for Data Science》](https://r4ds.hadley.nz/) (https://r4ds.hadley.nz) 中的部分章节，特别是 [整体概览](https://r4ds.hadley.nz/whole-game) 和 [可视化](https://r4ds.hadley.nz/visualize) 这两部分。

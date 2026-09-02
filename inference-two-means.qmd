@@ -7,7 +7,7 @@ source("_common.R")
 
 
 ::: {.chapterintro data-latex=""}
-现在，我们将 [第 -@sec-inference-one-mean 章] 中的方法进行推广，把置信区间和假设检验应用于来自两个组（第 1 组和第 2 组）的总体均值差：$\mu_1 - \mu_2.$
+现在，我们将 [第 -@sec-inference-one-mean 章]中的方法进行推广，把置信区间和假设检验应用于来自两个组（第 1 组和第 2 组）的总体均值差：$\mu_1 - \mu_2.$
 
 在接下来的研究中，我们将基于样本确定 $\mu_1 - \mu_2$ 的合理点估计，你可能已经猜到它的形式了：$\bar{x}_1 - \bar{x}_2.$ \index{point estimate!difference in means}\index{difference in means!point estimate} 接着，我们将通过三种不同的方法进行推断分析：使用随机化检验，使用自助法进行区间估计，以及如果验证了点估计可以用正态分布进行建模，则计算该点估计的标准误并应用数学框架。
 :::
@@ -45,7 +45,7 @@ terms_chp_20 <- c("point estimate")
 
 ### 观测数据
 
-学生在这两场考试中表现的汇总统计量如 @tbl-summaryStatsForTwoVersionsOfExams 所示，并在 @fig-boxplotTwoVersionsOfExams 中以图形展示。
+学生在这两场考试中表现的汇总统计量如 [表 -@tbl-summaryStatsForTwoVersionsOfExams]所示，并在 [图 -@fig-boxplotTwoVersionsOfExams]中以图形展示。
 
 ```{r}
 #| label: tbl-summaryStatsForTwoVersionsOfExams
@@ -120,16 +120,16 @@ ggplot(classdata, aes(x = exam, y = m1, color = exam)) +
 
 ### 统计量的变异性
 
-在 [第 -@sec-foundations-randomization 章] 中，统计量的变异性（之前是指 $\hat{p}_1 - \hat{p}_2$）是通过在两个处理组间多次打乱重排观测后可视化呈现的。
+在 [第 -@sec-foundations-randomization 章]中，统计量的变异性（之前是指 $\hat{p}_1 - \hat{p}_2$）是通过在两个处理组间多次打乱重排观测后可视化呈现的。
 打乱重排的过程实现了原假设模型（即处理没有效果）。
 在考试例子中，原假设是考试 A 和考试 B 同样困难，因此两次考试的平均分应该相同。
 如果考试确实同样困难，*由于自然变异性*，我们有时会预期学生在考试 A 上表现得稍好一点 $(\bar{x}_A > \bar{x}_B)$，有时则预期学生在考试 B 上表现得稍好一点 $(\bar{x}_B > \bar{x}_A)$。当前的问题是：$\bar{x}_A - \bar{x}_B=3.1$ 是否表明考试 A 比考试 B 更容易？
 
-@fig-rand2means 展示了将考试版本随机分配给观测到的考试分数的过程。
+[图 -@fig-rand2means]展示了将考试版本随机分配给观测到的考试分数的过程。
 如果原假设为真，那么每份考试的分数都应代表学生在该内容上的真实能力。
 他们得到的是考试 A 还是考试 B 应该无关紧要。
 通过重新分配哪个学生得到哪种考试，我们能够理解仅由自然变异性引起的平均考试分数差异是如何变化的。
-@fig-rand2means 中只展示了随机化过程的一次迭代，从而得到一个模拟的平均分差异。
+[图 -@fig-rand2means]中只展示了随机化过程的一次迭代，从而得到一个模拟的平均分差异。
 
 ```{r}
 #| label: fig-rand2means
@@ -143,7 +143,7 @@ include_graphics("images/rand2means.png")
 
 
 
-基于 @fig-rand2means 的思路，@fig-randexams 展示了在 1,000 次随机模拟中模拟统计量 $\bar{x}_{1, sim} - \bar{x}_{2, sim}$ 的值。
+基于 [图 -@fig-rand2means]的思路， [图 -@fig-randexams]展示了在 1,000 次随机模拟中模拟统计量 $\bar{x}_{1, sim} - \bar{x}_{2, sim}$ 的值。
 我们可以看到，仅凭偶然，分数差异可以在 -10 分到 +10 分之间的任何位置。
 
 ```{r}
@@ -172,7 +172,7 @@ classdata |>
 ### 观测统计量与原假设统计量
 
 随机化检验的目标是评估观测数据，此处关注的统计量是$\bar{x}_A - \bar{x}_B=3.1.$随机化分布使我们能够判断，如果两次考试难度相同，那么3.1分的差异是否超出了仅由分数的自然变异性所能预期的范围。
-通过在 @fig-randexamspval 图中标出数值3.1，我们可以衡量3.1与原假设下生成的随机化差值有多大的差异或相似程度。
+通过在 [图 -@fig-randexamspval]图中标出数值3.1，我们可以衡量3.1与原假设下生成的随机化差值有多大的差异或相似程度。
 
 ```{r}
 #| label: fig-randexamspval
@@ -207,7 +207,7 @@ classdata |>
 
 
 ::: {.workedexample data-latex=""}
-估算 @fig-randexamspval 中描绘的 p 值，并在案例研究的背景下给出结论。
+估算 [图 -@fig-randexamspval]中描绘的 p 值，并在案例研究的背景下给出结论。
 
 ------------------------------------------------------------------------
 
@@ -235,7 +235,7 @@ classdata |>
 在提供一个基于实际数据进行自助分析的完整示例之前，我们回到虚构的 Awesome Auto 示例，以此可视化两样本自助法的设定。
 考虑一个扩展的场景，其研究问题集中于比较一个 Awesome Auto 特许经营店（第1组）与另一个不同的 Awesome Auto 特许经营店（第2组）的汽车平均价格。
 自助法的过程可以*分别*应用于*每组*，并且每次都重新计算均值差。
-@fig-bootmeans2means 直观地描述了当关注的统计量基于两个独立样本计算时的自助过程。
+[图 -@fig-bootmeans2means]直观地描述了当关注的统计量基于两个独立样本计算时的自助过程。
 分析过程与单样本情况类似，但现在关注的（单一）统计量是*样本均值差*。
 也就是说，分别对每组进行自助重抽样，但将结果合并以得到一个自助均值差。
 重复此过程将产生 $k$ 个自助均值差，而直方图将描述与均值差相关的自然抽样变异性。
@@ -263,9 +263,9 @@ include_graphics("images/bootmeans2means.png")
 ### 观测数据
 
 使用胚胎干细胞治疗是否有助于改善心脏病发作后的心脏功能？
-@tbl-statsSheepEscStudy 包含了一项在心脏病发作的绵羊身上测试 ESCs 的实验的汇总统计量。
+[表 -@tbl-statsSheepEscStudy]包含了一项在心脏病发作的绵羊身上测试 ESCs 的实验的汇总统计量。
 这些绵羊中的每一只都被随机分配到 ESC 组或对照组，并在研究中测量了它们心脏泵血能力的变化。
-[@Menard:2005] @fig-stem-cell-histograms 提供了两个数据集的直方图。
+[@Menard:2005] [图 -@fig-stem-cell-histograms]提供了两个数据集的直方图。
 正值对应于泵血能力增加，这通常意味着更强的恢复能力。
 我们的目标是确定 ESCs 相对于对照组对心脏泵血能力变化影响的 95% 置信区间。
 
@@ -314,11 +314,11 @@ $$\bar{x}_{esc} - \bar{x}_{control}\   =\ 3.50 - (-4.33)\   =\ 7.83$$
 
 ### 统计量的变异性
 
-正如我们在 @sec-two-prop-boot-ci 中所见，我们将使用自助法来估计在重复抽样时与样本均值差相关的变异性。
+正如我们在 [第 -@sec-two-prop-boot-ci 节]中所见，我们将使用自助法来估计在重复抽样时与样本均值差相关的变异性。
 这种方法类似于两个比例的情形：分别从每组（此处是 ESCs 组和对照组）*分别*有放回抽取一个样本，计算样本均值，然后取它们的差值。
 重复整个过程多次，即可产生样本均值差的自助分布（*无需*原假设的假定）。
 
-@fig-bootexamsci 显示了均值差的变异性，并叠加绘制了 90% 百分位置信区间和标准误置信区间。
+[图 -@fig-bootexamsci]显示了均值差的变异性，并叠加绘制了 90% 百分位置信区间和标准误置信区间。
 
 ```{r}
 #| label: fig-bootexamsci
@@ -450,7 +450,7 @@ boot_2mean |>
 
 ### 观测数据
 
-该数据集中的四个观测单位如 @tbl-babySmokeDF 所示。
+该数据集中的四个观测单位如 [表 -@tbl-babySmokeDF]所示。
 我们特别关注两个变量：`weight` 和 `smoke`。
 `weight` 变量代表新生儿的体重，`smoke` 变量描述母亲在孕期是否吸烟。
 
@@ -489,7 +489,7 @@ births14 |>
 -   $H_A:$ 吸烟与不吸烟母亲所生新生儿的平均出生体重存在差异 $(\mu_{n} - \mu_{s} \neq 0).$
 :::
 
-@tbl-births14-summary-stats 展示了数据中的样本统计量。
+[表 -@tbl-births14-summary-stats]展示了数据中的样本统计量。
 我们可以看到，吸烟母亲所生婴儿的平均出生体重低于不吸烟母亲所生婴儿的。
 
 ```{r}
@@ -563,7 +563,7 @@ births14_sample_stats |>
 我们检查使用 $t$ 分布来对样本均值差进行建模所需满足的两个条件。
 
 -   因为数据来自简单随机样本，所以观测是独立的（无论是样本内还是样本之间）。
--   由于两组都超过 30 个观测，我们在 @fig-babySmokePlotOfTwoGroupsToExamineSkew 中检查数据，看是否有特别极端的离群值，结果没有发现。
+-   由于两组都超过 30 个观测，我们在 [图 -@fig-babySmokePlotOfTwoGroupsToExamineSkew]中检查数据，看是否有特别极端的离群值，结果没有发现。
 
 由于两个条件都满足，样本均值差可以用 $t$ 分布来建模。
 
@@ -594,7 +594,7 @@ births14_nona |>
 
 
 ::: {.guidedpractice data-latex=""}
-@tbl-births14-summary-stats 中的汇总统计量可能对本次引导练习有帮助。
+[表 -@tbl-births14-summary-stats]中的汇总统计量可能对本次引导练习有帮助。
 总体均值差 $\mu_{n} - \mu_{s}$ 的点估计是什么？[^20-inference-two-means-4]
 :::
 
@@ -664,14 +664,14 @@ p 值小于可辨识水平 0.05，因此我们拒绝原假设。
 我们都知道吸烟有害健康，你可能也听说过孕期吸烟不仅对母亲有害，对婴儿同样有害。
 事实上，烟草业的一些人竟然胆敢将此吹捧为吸烟的*好处*：
 
-> *这是真的。吸烟女性生下的婴儿更小，但他们和从不吸烟女性生下的婴儿一样健康。而且有些女性更愿意生小一点的婴儿。* —— 菲利普莫里斯公司董事会主席约瑟夫·卡尔曼，于 CBS《面对全国》节目，1971年1月3日
+> *这是真的。吸烟女性生下的婴儿更小，但他们和从不吸烟女性生下的婴儿一样健康。而且有些女性更愿意生小一点的婴儿。* —— Philip Morris 公司董事会主席 Joseph Cullman（约瑟夫·卡尔曼），于 CBS《面对全国》节目，1971年1月3日
 
 此外，母亲吸烟与不吸烟所生婴儿之间的健康差异并不仅限于体重差异。[^20-inference-two-means-6]
 
-[^20-inference-two-means-6]: 你可以观看约翰·奥利弗在《上周今夜秀》上的一期节目 [*Last Week Tonight*](youtu.be/6UsHHOCH4q8)，了解烟草行业现今的劣迹。
+[^20-inference-two-means-6]: 你可以观看 John Oliver（约翰·奥利弗）在《上周今夜秀》上的一期节目 [*Last Week Tonight*](youtu.be/6UsHHOCH4q8)，了解烟草行业现今的劣迹。
     请注意，其中含有一些成人语言。
 
-关于独立样本 t 检验的检验功效的一个小注记（回顾 @sec-pow 节中关于检验功效的讨论）。事实证明，这里给出的独立样本 t 检验的检验功效通常低于 @sec-mathpaired 节中讨论的配对 t 检验。不过，取决于数据收集的方式，我们并不总是有对数据进行配对的机制，从而降低观测间固有的变异性。
+关于独立样本 t 检验的检验功效的一个小注记（回顾 [第 -@sec-pow 节]中关于检验功效的讨论）。事实证明，这里给出的独立样本 t 检验的检验功效通常低于 [第 -@sec-mathpaired 节]中讨论的配对 t 检验。不过，取决于数据收集的方式，我们并不总是有对数据进行配对的机制，从而降低观测间固有的变异性。
 
 \clearpage
 
@@ -736,7 +736,7 @@ terms_chp_20 <- c(terms_chp_20, "SE difference in means")
 首先，我们检查独立性条件。
 由于绵羊被随机化分配到各组，因此组内和组间的独立性条件得以满足。
 
-@fig-stem-cell-histograms 并未显示任何一组中存在明显的离群值。
+[图 -@fig-stem-cell-histograms]并未显示任何一组中存在明显的离群值。
 （ESC 组看起来确实变异性稍大，但这与存在明显的离群值不同。）
 
 两个条件都满足后，我们可以使用 $t$ 分布来对样本均值差进行建模。
@@ -802,13 +802,13 @@ $$
 ### 总结
 
 在本章中，我们将单均值的推断方法推广到了均值差的问题上。
-你可能已经注意到，这与将单比例推断（[第 -@sec-inference-one-prop 章]）推广到比例差推断（[第 -@sec-inference-two-props 章]）的章节有相似之处。
+你可能已经注意到，这与将单比例推断（ [第 -@sec-inference-one-prop 章]）推广到比例差推断（ [第 -@sec-inference-two-props 章]）的章节有相似之处。
 当考虑样本均值差时（实际上，当考虑许多定量统计量时），我们使用 t 分布来描述 t 统计量（样本均值的标准化差值）的抽样分布。
 置信水平的概念以及假设检验结论可能产生的错误类型，都与前面章节中看到的类似（参见 [第 -@sec-foundations-decision-errors 章]）。
 
 ### 术语
 
-本章介绍的术语列在 @tbl-terms-chp-20 中。
+本章介绍的术语列在 [表 -@tbl-terms-chp-20]中。
 如果你不确定其中某些术语的含义，我们建议你返回正文复习它们的定义。
 你应该能轻易地发现它们，因为它们是以**粗体文本**显示的。
 
@@ -825,7 +825,7 @@ make_terms_table(terms_chp_20)
 
 ## 练习 {#sec-chp20-exercises}
 
-奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-20] 中找到。
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-20]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_20-ex-inference-two-means.qmd >}}

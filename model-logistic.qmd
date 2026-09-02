@@ -44,7 +44,7 @@ terms_chp_09 <- c("logistic regression", "generalized linear model")
 
 实验中使用并被随机分配的名字是经过挑选的，以便它们主要能被识别为属于黑人或白人；研究中未考虑其他种族。
 虽然没有任何名字能绝对地被推断为属于黑人或白人，但研究人员进行了一项调查以检查名字与种族的关联；未通过该调查检查的名字在实验中被排除使用。
-你可以在 @tbl-resume-names 中找到通过了调查测试并最终在研究中使用的完整名字列表。
+你可以在 [表 -@tbl-resume-names]中找到通过了调查测试并最终在研究中使用的完整名字列表。
 例如，Lakisha 是一个根据他们的调查会被解读为黑人女性的名字，而 Greg 则是一个通常被解读为与白人男性有关联的名字。
 
 \clearpage
@@ -142,7 +142,7 @@ resume <- resume |>
 
 我们关注的响应变量是雇主是否给申请人回了电话，我们将考虑 8 个被随机分配的属性，其中特别关注种族和性别变量。
 种族和性别在美国属于受保护类别，这意味着法律不允许将它们作为招聘或雇佣决策的因素。
-表 @tbl-resume-variables 列出了所考虑的全部属性。
+[表 -@tbl-resume-variables]列出了所考虑的全部属性。
 
 ```{r}
 #| label: tbl-resume-variables
@@ -222,7 +222,7 @@ $$
 logit(p_i) = \log_{e}\left( \frac{p_i}{1-p_i} \right)
 $$
 
-**logit 变换**\index{logit transformation} 如 @fig-logit-transformation 所示。
+**logit 变换**\index{logit transformation} 如 [图 -@fig-logit-transformation]所示。
 下面，我们使用 $p_i$ 的 logit 变换重写 $Y_i$ 与其预测变量关系的方程：
 
 ```{r}
@@ -347,7 +347,7 @@ b.  如果简历确实列出了一些荣誉，概率会是多少？
 
 a.  如果考虑所发出简历中随机选择的一份，且它没有列出荣誉，那么 `honors` 取值为 0，模型方程右侧等于 -2.4998。求解 $p_i$：$\frac{e^{-2.4998}}{1 + e^{-2.4998}} = 0.076$。正如我们在单变量和多元回归中用“帽子”标记 $y_i$ 的拟合值一样，我们对这个概率也做同样的处理：$\hat{p}_i = 0.076{}$。
 
-b.  如果简历列出了一些荣誉，那么模型方程右侧是 $-2.4998 + 0.8668 \times 1 = -1.6330$，对应的概率 $\hat{p}_i = 0.163$。请注意，在正式计算该值之前，我们可以在 @fig-logit-transformation 中查看 -2.4998 和 -1.6330 来估计概率。
+b.  如果简历列出了一些荣誉，那么模型方程右侧是 $-2.4998 + 0.8668 \times 1 = -1.6330$，对应的概率 $\hat{p}_i = 0.163$。请注意，在正式计算该值之前，我们可以在 [图 -@fig-logit-transformation]中查看 -2.4998 和 -1.6330 来估计概率。
 :::
 
 虽然知道简历是否列出了荣誉在预测雇主是否会回电时提供了一些信号，但我们希望同时纳入多个不同的变量，以了解不同的简历特征如何影响收到回电的机会。
@@ -356,8 +356,8 @@ b.  如果简历列出了一些荣誉，那么模型方程右侧是 $-2.4998 + 0
 
 ## 多变量的逻辑斯谛模型
 
-我们使用统计软件拟合了包含 @tbl-resume-variables 中描述的所有 8 个预测变量的逻辑斯谛回归模型。
-与多元回归类似，其结果可以汇总表的形式呈现，如 @tbl-resume-full-fit 所示。
+我们使用统计软件拟合了包含 [表 -@tbl-resume-variables]中描述的所有 8 个预测变量的逻辑斯谛回归模型。
+与多元回归类似，其结果可以汇总表的形式呈现，如 [表 -@tbl-resume-full-fit]所示。
 
 ```{r}
 #| label: tbl-resume-full-fit
@@ -398,7 +398,7 @@ resume_full_fit |>
 
 
 就像多元回归一样，我们可以从模型中剔除一些变量。
-这里我们将使用一个称为 **Akaike 信息准则（AIC）**\index{AIC}\index{Akaike information criterion} 的统计量，它类似于我们在多元回归中使用的调整 $R^2$。
+这里我们将使用一个称为**赤池信息准则（AIC）**\index{AIC}\index{Akaike information criterion}的统计量；该准则得名于赤池弘次（Hirotugu Akaike），它类似于我们在多元回归中使用的调整 $R^2$。
 AIC 是一种在许多学科中广泛使用的流行模型选择方法，并因其强调模型不确定性和简约性而受到推崇。
 AIC 通过根据 AIC 值将模型从好到差进行排序，从而选择“最佳”模型。
 在计算模型的 AIC 时，会对包含额外的变量施加惩罚。
@@ -406,7 +406,7 @@ AIC 通过根据 AIC 值将模型从好到差进行排序，从而选择“最�
 当使用 AIC 进行模型选择时，AIC 值较低的模型被认为是“更好的”。请记住，在使用调整 $R^2$ 时，我们选择的则是值较高的模型。
 需要注意的是，AIC 提供的是模型相对于其他模型的质量信息，但并不能提供关于模型整体质量的信息。
 
-@tbl-resume-full-fit-aic 提供了 AIC 和用于拟合模型的观测数。我们也可以从 @tbl-resume-full-fit 得知，拟合了八个变量（包括截距在内共九个系数）。
+[表 -@tbl-resume-full-fit-aic]提供了 AIC 和用于拟合模型的观测数。我们也可以从 [表 -@tbl-resume-full-fit]得知，拟合了八个变量（包括截距在内共九个系数）。
 
 ```{r}
 #| label: tbl-resume-full-fit-aic
@@ -445,7 +445,7 @@ resume_full_fit |>
   column_spec(1:2, width = "10em", monospace = TRUE)
 ```
 
-我们将使用后向消去法寻找 AIC 较低的模型。@tbl-resume-fit-aic 给出了 @tbl-resume-fit 中变量所对应模型的 AIC 值。请注意，使用的观测数相同，但变量少了一个（`college_degree` 已从模型中剔除）。
+我们将使用后向消去法寻找 AIC 较低的模型。 [表 -@tbl-resume-fit-aic]给出了 [表 -@tbl-resume-fit]中变量所对应模型的 AIC 值。请注意，使用的观测数相同，但变量少了一个（`college_degree` 已从模型中剔除）。
 
 ```{r}
 #| label: tbl-resume-fit-aic
@@ -483,7 +483,7 @@ resume_fit |>
   column_spec(1:2, width = "10em", monospace = TRUE)
 ```
 
-根据 AIC 准则，变量 `college_degree` 被剔除（不含 `college_degree` 的模型的 AIC 值比全模型的 AIC 值更小），从而得到了变量更少、在 @tbl-resume-fit 中汇总的模型，这也是本节剩余部分将使用的模型。
+根据 AIC 准则，变量 `college_degree` 被剔除（不含 `college_degree` 的模型的 AIC 值比全模型的 AIC 值更小），从而得到了变量更少、在 [表 -@tbl-resume-fit]中汇总的模型，这也是本节剩余部分将使用的模型。
 
 ```{r}
 #| include: false
@@ -538,12 +538,12 @@ resume_fit |>
 模型结果表明，潜在雇主更青睐名字通常被解读为白人的简历。
 :::
 
-在 @tbl-resume-full-fit 的全模型中，$\texttt{race}_{\texttt{White}}$ 的系数与 @tbl-resume-fit 中显示的模型的系数几乎相同。
+在 [表 -@tbl-resume-full-fit]的全模型中，$\texttt{race}_{\texttt{White}}$ 的系数与 [表 -@tbl-resume-fit]中显示的模型的系数几乎相同。
 实验中的预测变量经过了精心设计，因此系数估计值通常不会因模型中包含的其他预测变量的不同而受到很大影响，这与该研究旨在辨别出哪些效应对获得回调至关重要的动机是一致的。
 在大多数观测数据中，随着模型中包含的其他变量的不同，点估计值发生轻微变化（有时甚至是大幅变化）是很常见的。
 
 ::: {.workedexample data-latex=""}
-使用 @tbl-resume-fit 中汇总的模型，估计一名在芝加哥求职、拥有 14 年工作经验、无荣誉、无军队经历、提供了电子邮箱地址、且从名字推断为白人男性的候选人收到回调的概率。
+使用 [表 -@tbl-resume-fit]中汇总的模型，估计一名在芝加哥求职、拥有 14 年工作经验、无荣誉、无军队经历、提供了电子邮箱地址、且从名字推断为白人男性的候选人收到回调的概率。
 
 ------------------------------------------------------------------------
 
@@ -644,7 +644,7 @@ $$
 
 ### 术语
 
-本章引入的术语列于 @tbl-terms-chp-09。
+本章引入的术语列于 [表 -@tbl-terms-chp-09]。
 如果你不确定其中某些术语的含义，我们建议你回到正文中复习它们的定义。
 你应该能很容易地找到它们，因为它们在正文中以**粗体文本**出现。
 
@@ -663,7 +663,7 @@ make_terms_table(terms_chp_09)
 
 ## 练习 {#sec-chp09-exercises}
 
-奇数编号练习的答案可在[附录 -@sec-exercise-solutions-09]中找到。
+奇数编号练习的答案可在 [附录 -@sec-exercise-solutions-09]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_09-ex-model-logistic.qmd >}}

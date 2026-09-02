@@ -17,8 +17,8 @@ source("_common.R")
 这个变量是数值变量，因为我们可以合理地讨论两笔贷款规模的数值差异。
 另一方面，区号和邮政编码则不是数值变量，它们是分类变量。
 
-在整个章节中，我们将使用在 @sec-data-basics 中介绍过的 `loan50` 和 `county` 数据集来应用数值方法。
-如果你需要复习这两个数据集中任何一个的变量，请查阅表 @tbl-loan-50-variables 和 @tbl-county-variables。
+在整个章节中，我们将使用在 [第 -@sec-data-basics 节]中介绍过的 `loan50` 和 `county` 数据集来应用数值方法。
+如果你需要复习这两个数据集中任何一个的变量，请查阅 [表 -@tbl-loan-50-variables]和 [表 -@tbl-county-variables]。
 
 ::: {.data data-latex=""}
 [`county`](http://openintrostat.github.io/usdata/reference/county.html) 数据可以在 [**usdata**](http://openintrostat.github.io/usdata) R 包中找到，[`loan50`](http://openintrostat.github.io/openintro/reference/loan50.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
@@ -27,10 +27,10 @@ source("_common.R")
 ## 配对数据的散点图 {#sec-scatterplots}
 
 **散点图**\index{plot!scatterplot}\index{scatterplot} 为两个数值变量提供了逐个观测单位的视图。
-在 @fig-county-multi-unit-homeownership 中，散点图被用来考察 `county` 数据集中房屋自有率与多单元结构（例如公寓）住房单元百分比之间的关系。
-@fig-loan50-amount-income 展示了另一个散点图，它比较了 `loan50` 数据集中借款人的总收入 `total_income` 和他们所借款项 `loan_amount` 的大小。
+在 [图 -@fig-county-multi-unit-homeownership]中，散点图被用来考察 `county` 数据集中房屋自有率与多单元结构（例如公寓）住房单元百分比之间的关系。
+[图 -@fig-loan50-amount-income]展示了另一个散点图，它比较了 `loan50` 数据集中借款人的总收入 `total_income` 和他们所借款项 `loan_amount` 的大小。
 在任何散点图中，每个点代表一个观测单位。
-由于 `loan50` 中有 `r nrow(loan50)` 个观测单位，因此 @fig-loan50-amount-income 中有 `r nrow(loan50)` 个点。
+由于 `loan50` 中有 `r nrow(loan50)` 个观测单位，因此 [图 -@fig-loan50-amount-income]中有 `r nrow(loan50)` 个点。
 
 ```{r}
 #| include: false
@@ -54,7 +54,7 @@ ggplot(loan50, aes(x = total_income, y = loan_amount)) +
 
 
 
-观察 @fig-loan50-amount-income，我们可以看到图左侧有许多收入低于 \$100,000 的借款人，同时还有少数收入超过 \$250,000 的借款人。
+观察 [图 -@fig-loan50-amount-income]，我们可以看到图左侧有许多收入低于 \$100,000 的借款人，同时还有少数收入超过 \$250,000 的借款人。
 
 ```{r}
 #| label: fig-median-hh-income-poverty
@@ -83,7 +83,7 @@ ggplot(county, aes(x = poverty / 100, y = median_hh_income)) +
 \vspace{-5mm}
 
 ::: {.workedexample data-latex=""}
-@fig-median-hh-income-poverty 展示了美国 `r nrow(county)` 个县的家庭收入中位数与贫困率的图形。
+[图 -@fig-median-hh-income-poverty]展示了美国 `r nrow(county)` 个县的家庭收入中位数与贫困率的图形。
 关于这些变量之间的关系，我们能说些什么？
 
 ------------------------------------------------------------------------
@@ -123,7 +123,7 @@ terms_chp_05 <- c(terms_chp_05, "nonlinear")
 
 有时我们会对单个变量的分布感兴趣。
 在这些情况下，点图提供了最基本的展示方式。
-**点图**\index{plot!dot}\index{dot plot}是一种单变量的散点图；图 @fig-loan-int-rate-dotplot 展示了一个使用 `r nrow(loan50)` 笔贷款利率的例子。
+**点图**\index{plot!dot}\index{dot plot}是一种单变量的散点图； [图 -@fig-loan-int-rate-dotplot]展示了一个使用 `r nrow(loan50)` 笔贷款利率的例子。
 
 ```{r}
 #| include: false
@@ -178,7 +178,7 @@ terms_chp_05 <- c(terms_chp_05, "mean", "average", "distribution")
 
 
 样本均值通常用 $\bar{x}$ 表示。字母 $x$ 在这里充当一个通用占位符，代表我们所关心的变量，而 $x$ 上的横线表示我们关注的是平均利率，对于这 50 笔贷款而言是 `r round(loan50_interest_rate_mean, 2)`%.
-将均值视为分布的平衡点很有帮助，均值在 @fig-loan-int-rate-dotplot 中用一个三角形标示。
+将均值视为分布的平衡点很有帮助，均值在 [图 -@fig-loan-int-rate-dotplot]中用一个三角形标示。
 
 ::: {.important data-latex=""}
 **均值。**
@@ -236,7 +236,7 @@ $x_2$ 呢？
 ------------------------------------------------------------------------
 
 样本均值 `r round(loan50_interest_rate_mean, 2)` 提供了对 $\mu_x$ 的粗略估计。虽然它并不完美，但这是我们对所研究总体中所有贷款平均利率的唯一最佳猜测，即**点估计**\index{point estimate}。
-在 [第 -@sec-foundations-randomization 章] 及后续章节中，我们将开发一些工具来表征点估计（如样本均值）的准确性。
+在 [第 -@sec-foundations-randomization 章]及后续章节中，我们将开发一些工具来表征点估计（如样本均值）的准确性。
 你可能已经猜到，基于较大样本的点估计往往比基于较小样本的点估计更准确。
 :::
 
@@ -250,7 +250,7 @@ terms_chp_05 <- c(terms_chp_05, "point estimate")
 均值很有用，因为它允许我们将一个度量指标重新缩放或标准化，使其更容易解释和比较。
 假设我们想了解一种新药是否比标准药更有效地治疗哮喘发作。
 一项针对1500名成人的试验就此展开，其中500人接受新药，1000人作为对照组接受标准药。
-该试验的结果汇总于 @tbl-drug-asthma-results。
+该试验的结果汇总于 [表 -@tbl-drug-asthma-results]。
 
 ```{r}
 #| label: tbl-drug-asthma-results
@@ -327,7 +327,7 @@ terms_chp_05 <- c(terms_chp_05, "weighted mean")
 
 点图显示了每个观测的确切值。它们对于小型数据集很有用，但当样本量较大时会变得难以阅读。我们不再展示每个观测的值，而是倾向于将其视为属于一个*分组*（bin）。例如，在 `loan50` 数据集中，我们创建了一个频数表，用于统计利率在 5.0% 到 7.5% 之间的贷款数量，然后是利率在 7.5% 到 10.0% 之间的贷款数量，依此类推。
 如果观测值恰好落在分组的边界上（例如，10.00%），则将其分配到较低的分组中。
-分组计数结果见 @tbl-binnedIntRateAmountTable，分组后的计数在 @fig-loan50IntRateHist 中以条形绘制，这样的图形称为**直方图**\index{plot!histogram}\index{histogram}。请注意，该直方图类似于 @fig-loan-int-rate-dotplot 中堆叠点图的一个分组更粗的版本。
+分组计数结果见 [表 -@tbl-binnedIntRateAmountTable]，分组后的计数在 [图 -@fig-loan50IntRateHist]中以条形绘制，这样的图形称为**直方图**\index{plot!histogram}\index{histogram}。请注意，该直方图类似于 [图 -@fig-loan-int-rate-dotplot]中堆叠点图的一个分组更粗的版本。
 
 ```{r}
 #| include: false
@@ -391,7 +391,7 @@ terms_chp_05 <- c(terms_chp_05, "data density")
 
 
 
-直方图特别便于理解数据分布的形状。@fig-loan50IntRateHist 表明，大多数贷款利率低于 15%，而只有少数贷款的利率高于 20%。
+直方图特别便于理解数据分布的形状。 [图 -@fig-loan50IntRateHist]表明，大多数贷款利率低于 15%，而只有少数贷款的利率高于 20%。
 当一个变量的分布以这种方式向右衰减，并且有一个较长的右**尾部**\index{tail}时，其形状被称为**右偏的**\index{right skewed}。[^05-explore-numerical-5]
 
 [^05-explore-numerical-5]: 描述右偏数据的其他方式：向右偏、向高端偏或向正端偏。
@@ -415,7 +415,7 @@ ggplot(loan50, aes(x = interest_rate)) +
 
 
 
-@fig-loan50IntRateDensity 展示了一个**密度图**\index{plot!density}\index{density plot}，它是平滑后的直方图。如何绘制密度图（即如何精确平滑直方图）的技术细节超出了本书的范畴，但你会注意到，观测值的形状、尺度和展布在直方图和密度图中的显示方式是相似的。
+[图 -@fig-loan50IntRateDensity]展示了一个**密度图**\index{plot!density}\index{density plot}，它是平滑后的直方图。如何绘制密度图（即如何精确平滑直方图）的技术细节超出了本书的范畴，但你会注意到，观测值的形状、尺度和展布在直方图和密度图中的显示方式是相似的。
 
 ```{r}
 #| include: false
@@ -444,7 +444,7 @@ terms_chp_05 <- c(
 :::
 
 ::: {.guidedpractice data-latex=""}
-除了均值（因为它已被标出），你在点图（@fig-loan-int-rate-dotplot）中能看到哪些在直方图（@fig-loan50IntRateHist）中看不到的信息？[^05-explore-numerical-6]
+除了均值（因为它已被标出），你在点图（ [图 -@fig-loan-int-rate-dotplot]）中能看到哪些在直方图（ [图 -@fig-loan50IntRateHist]）中看不到的信息？[^05-explore-numerical-6]
 :::
 
 [^05-explore-numerical-6]: 单个贷款的利率。
@@ -458,7 +458,7 @@ terms_chp_05 <- c(
 
 \clearpage
 
-@fig-singleBiMultiModalPlots 展示了分别具有一个、两个或三个显著峰的直方图。
+[图 -@fig-singleBiMultiModalPlots]展示了分别具有一个、两个或三个显著峰的直方图。
 这样的分布分别称为**单峰的**\index{unimodal}、**双峰的**\index{bimodal}和**多峰的**\index{multimodal}分布。
 任何具有两个以上显著峰的分布都称为多峰的分布。
 请注意，在单峰的分布中有一个显著峰，以及第二个不太显著的峰，但由于它仅比相邻的区间多出几个观测，因此未被计入。
@@ -504,7 +504,7 @@ p_uni + p_bi + p_multi
 ```
 
 ::: {.workedexample data-latex=""}
-@fig-loan50IntRateHist 显示 `interest_rate` 只有一个显著众数。
+[图 -@fig-loan50IntRateHist]显示 `interest_rate` 只有一个显著众数。
 该分布是单峰的、双峰的还是多峰的呢？
 
 ------------------------------------------------------------------------
@@ -639,10 +639,10 @@ terms_chp_05 <- c(terms_chp_05, "standard deviation")
 
 ::: {.guidedpractice data-latex=""}
 一个好的分布形状描述应该包括众数形态以及分布是对称的还是偏向某一侧的。
-以 @fig-severalDiffDistWithSdOf1 为例，解释为什么这样的描述很重要。[^05-explore-numerical-9]
+以 [图 -@fig-severalDiffDistWithSdOf1]为例，解释为什么这样的描述很重要。[^05-explore-numerical-9]
 :::
 
-[^05-explore-numerical-9]: @fig-severalDiffDistWithSdOf1 展示了三个看起来相当不同的分布，但它们都有相同的均值、方差和标准差。
+[^05-explore-numerical-9]: [图 -@fig-severalDiffDistWithSdOf1]展示了三个看起来相当不同的分布，但它们都有相同的均值、方差和标准差。
     我们可以用众数形态来区分第一个图（双峰的）和最后两个图（单峰的）。
     我们可以用偏态来区分最后一个图（右偏的）和前两个图。
     虽然像直方图这样的图能展现更完整的全貌，但我们可以使用众数形态和形状（对称性/偏态）来刻画分布的基本特征。
@@ -785,7 +785,7 @@ ggplot(dists_mean0_sd1, aes(x = x)) +
 
 
 ::: {.workedexample data-latex=""}
-使用 @fig-loan50IntRateHist 中的直方图描述 `interest_rate` 变量的分布。
+使用 [图 -@fig-loan50IntRateHist]中的直方图描述 `interest_rate` 变量的分布。
 描述应结合分布的中心、变异性和形状，并应结合实际背景。同时注意任何特别异常的观测。
 
 ------------------------------------------------------------------------
@@ -796,14 +796,14 @@ ggplot(dists_mean0_sd1, aes(x = x)) +
 :::
 
 在实际应用中，方差和标准差有时被作为达成某种目的的工具，这里的“目的”是能够准确估计与样本统计量相关的不确定性。
-例如，在 [第 -@sec-foundations-mathematical 章] 中，标准差被用于计算，以帮助我们理解样本均值在不同样本之间的变化程度。
+例如，在 [第 -@sec-foundations-mathematical 章]中，标准差被用于计算，以帮助我们理解样本均值在不同样本之间的变化程度。
 
 \clearpage
 
 ## 箱线图、四分位数和中位数 {#sec-boxplots}
 
 **箱线图**\index{plot!box}\index{box plot}使用五个统计量来汇总一个数据集，同时识别出异常观测。
-@fig-loan-int-rate-boxplot-dotplot 展示了 `loan50` 数据集中 `interest_rate` 变量的点图和箱线图。^[箱线图由玛丽·埃莉诺·斯皮尔引入，她认为箱线图是一种特殊的条形图，详见 @Spear1952 第166页。箱线图常被误认为是约翰·图基提出的，他是第一个将其称为“箱须图”的人。]
+[图 -@fig-loan-int-rate-boxplot-dotplot]展示了 `loan50` 数据集中 `interest_rate` 变量的点图和箱线图。^[箱线图由 Mary Eleanor Spear（玛丽·埃莉诺·斯皮尔）引入，她认为箱线图是一种特殊的条形图，详见 @Spear1952 第166页。箱线图常被误认为是 John Tukey（约翰·图基）提出的，他是第一个将其称为“箱须图”的人。]
 
 ```{r}
 #| include: false
@@ -851,8 +851,8 @@ ggplot(loan50, aes(x = interest_rate)) +
 
 箱内的黑线代表**中位数**\index{median}，它将数据平分为两半。
 50% 的数据低于该值，50% 的数据高于该值。由于在 `loan50` 数据集中有 `r nrow(loan50)` 个观测（偶数个），中位数被定义为最接近第 $50^{th}$ 百分位的两个观测的平均数。
-@tbl-loan50-int-rate-sorted 按升序列出了所有的利率。
-我们可以看到第 $25^{th}$ 和第 $26^{th}$ 个值都是 `r sort(loan50$interest_rate)[25]`，这对应于 @fig-loan-int-rate-boxplot-dotplot-2 中的粗线。
+[表 -@tbl-loan50-int-rate-sorted]按升序列出了所有的利率。
+我们可以看到第 $25^{th}$ 和第 $26^{th}$ 个值都是 `r sort(loan50$interest_rate)[25]`，这对应于 [图 -@fig-loan-int-rate-boxplot-dotplot-2]中的粗线。
 
 ```{r}
 #| label: tbl-loan50-int-rate-sorted
@@ -961,7 +961,7 @@ terms_chp_05 <- c(terms_chp_05, "outlier", "whiskers")
 :::
 
 ::: {.guidedpractice data-latex=""}
-使用 @fig-loan-int-rate-boxplot-dotplot-2 中的箱线图，估计 `loan50` 数据集中 `interest_rate` 变量的 $Q_1,$ $Q_3,$ 和 IQR 的取值。[^05-explore-numerical-11]
+使用 [图 -@fig-loan-int-rate-boxplot-dotplot-2]中的箱线图，估计 `loan50` 数据集中 `interest_rate` 变量的 $Q_1,$ $Q_3,$ 和 IQR 的取值。[^05-explore-numerical-11]
 :::
 
 [^05-explore-numerical-11]: 这些视觉估计会因人而异：$Q_1 \approx$ 8%, $Q_3 \approx$ 14%, IQR $\approx$ 14 - 8 = 6%.
@@ -973,7 +973,7 @@ terms_chp_05 <- c(terms_chp_05, "outlier", "whiskers")
 `interest_rate` 数据集的**样本统计量** \index{sample statistic}会如何受到那个 26.3% 的观测值的影响？
 如果这笔贷款的利率是 15% 而不是 26.3%，情况又会怎样？
 如果那个 26.3% 的观测值更大，比如 35% 呢？这些汇总统计量 \index{summary statistic}又会发生什么变化？
-这三个假设的场景已与原始数据一同绘制在 @fig-loan-int-rate-robust-ex 中，@tbl-robustOrNotTable 中计算了每个场景下的样本统计量。
+这三个假设的场景已与原始数据一同绘制在 [图 -@fig-loan-int-rate-robust-ex]中， [表 -@tbl-robustOrNotTable]中计算了每个场景下的样本统计量。
 
 ```{r}
 #| label: tbl-robustOrNotTable
@@ -1043,7 +1043,7 @@ loan50_robust_check |>
 #|   最上面的图是原始数据，其中高亮点是最大值 26.3%。第二幅图展示了
 #|   将高亮点从 26.3% 移到 15% 后的利率分布。
 #|   第三幅图展示了将高亮点从 26.3% 移到 35% 后的利率分布，以及统计量相应的变化。
-#|   @tbl--robustOrNotTable 中给出了三种情况下的汇总统计量。
+#|   [表 -@tbl--robustOrNotTable]中给出了三种情况下的汇总统计量。
 #| fig-asp: 0.3
 #| fig-width: 5
 ggplot(loan50_original, aes(x = interest_rate)) +
@@ -1112,7 +1112,7 @@ terms_chp_05 <- c(terms_chp_05, "robust statistics")
 
 
 ::: {.workedexample data-latex=""}
-在 @tbl-robustOrNotTable 的三种情景下，中位数和四分位距（IQR）都没有变化。
+在 [表 -@tbl-robustOrNotTable]的三种情景下，中位数和四分位距（IQR）都没有变化。
 为什么会这样呢？
 
 ------------------------------------------------------------------------
@@ -1146,11 +1146,11 @@ terms_chp_05 <- c(terms_chp_05, "robust statistics")
 ## 变换数据 {#sec-transforming-data}
 
 当数据呈现严重偏态时，我们有时会对它们进行**变换**，以便更容易建模。
-图 @fig-county-unemployed-pop-transform-1 和 @fig-county-unemployed-pop-transform-2 展示了右偏的分布：美国所有县的失业人口百分比分布和人口分布。
+[图 -@fig-county-unemployed-pop-transform-1]和 [图 -@fig-county-unemployed-pop-transform-2]展示了右偏的分布：美国所有县的失业人口百分比分布和人口分布。
 人口分布比失业百分比分布的偏态更严重，因此对数变换导致分布形状产生了更大的变化。
 
 ::: {.workedexample data-latex=""}
-考虑图 @fig-county-unemployed-pop-transform-3 中所示的县人口直方图，它呈现出极端的偏态。
+考虑 [图 -@fig-county-unemployed-pop-transform-3]中所示的县人口直方图，它呈现出极端的偏态。
 该图的什么特征使其无法发挥作用？
 
 ------------------------------------------------------------------------
@@ -1216,7 +1216,7 @@ ggplot(county_complete, aes(x = log(pop_2019, base = 10))) +
 
 有一些标准的变换可能对严重右偏的数据很有用，这类数据的大部分取值为正但集中在零附近。
 **变换**\index{transformation}是使用函数对数据进行重新缩放。
-例如，绘制失业率和县人口的对数（以 10 为底）的图，会得到图 @fig-county-unemployed-pop-transform-2 中的新直方图。
+例如，绘制失业率和县人口的对数（以 10 为底）的图，会得到 [图 -@fig-county-unemployed-pop-transform-2]中的新直方图。
 变换后的数据是对称的，任何潜在的离群值与原始数据集相比看起来都不再那么极端。
 通过约束离群值和极端偏态，变换通常使建立统计模型变得更容易。
 
@@ -1228,10 +1228,10 @@ terms_chp_05 <- c(terms_chp_05, "transformation")
 
 
 变换也可以应用于散点图中的一个或两个变量。
-图 @fig-county-pop-change-transform-1 展示了 2010 年至 2017 年人口变化相对于 2010 年人口的散点图。
+[图 -@fig-county-pop-change-transform-1]展示了 2010 年至 2017 年人口变化相对于 2010 年人口的散点图。
 由于人口变量偏态非常严重，因此很难从中解读出任何有趣的模式。
-然而，如果我们对人口变量应用 log$_{10}$ 变换，如 @fig-county-pop-change-transform-2 所示，变量间的正关联就显现了出来。
-事实上，当我们在 [第 -@sec-model-slr 章] 中探讨拟合回归线的方法时，我们可能会有兴趣为这些数据拟合一条趋势线。
+然而，如果我们对人口变量应用 log$_{10}$ 变换，如 [图 -@fig-county-pop-change-transform-2]所示，变量间的正关联就显现了出来。
+事实上，当我们在 [第 -@sec-model-slr 章]中探讨拟合回归线的方法时，我们可能会有兴趣为这些数据拟合一条趋势线。
 
 \clearpage
 
@@ -1278,7 +1278,7 @@ ggplot(county, aes(y = pop_change, x = log(pop2010, base = 10))) +
 
 `county` 数据集提供了许多数值变量，我们可以用点图、散点图或箱线图来绘制它们，但这些图形可能会忽略数据的地理属性。
 当遇到地理数据时，我们应该创建一幅**强度图**\index{plot!intensity map}\index{intensity map}，其中使用颜色来显示变量的较高值和较低值。
-图 @fig-county-intensity-maps 显示了以下变量的强度图：以百分比表示的贫困率（`poverty`）、以百分比表示的失业率（`unemployment_rate`）、以百分比表示的房屋自有率（`homeownership`）以及以千美元为单位的家庭收入中位数（`median_hh_income`）。
+[图 -@fig-county-intensity-maps]显示了以下变量的强度图：以百分比表示的贫困率（`poverty`）、以百分比表示的失业率（`unemployment_rate`）、以百分比表示的房屋自有率（`homeownership`）以及以千美元为单位的家庭收入中位数（`median_hh_income`）。
 颜色图例指示了哪些颜色对应哪些值。
 强度图通常对于获取任何特定县的精确值帮助不大，但它们对于观察地理趋势和产生有趣的研究问题或假设非常有帮助。
 
@@ -1289,7 +1289,7 @@ terms_chp_05 <- c(terms_chp_05, "intensity map")
 
 
 ::: {.workedexample data-latex=""}
-在图 @fig-county-intensity-maps-1 和 @fig-county-intensity-maps-2 的贫困率和失业率强度图中，有哪些明显的特征？
+在 [图 -@fig-county-intensity-maps-1]和 [图 -@fig-county-intensity-maps-2]的贫困率和失业率强度图中，有哪些明显的特征？
 
 ------------------------------------------------------------------------
 
@@ -1303,7 +1303,7 @@ terms_chp_05 <- c(terms_chp_05, "intensity map")
 :::
 
 ::: {.guidedpractice data-latex=""}
-在图 @fig-county-intensity-maps-4 的家庭收入中位数强度图中，有哪些明显的特征？[^05-explore-numerical-14]
+在 [图 -@fig-county-intensity-maps-4]的家庭收入中位数强度图中，有哪些明显的特征？[^05-explore-numerical-14]
 :::
 
 [^05-explore-numerical-14]: 答案可能因人而异。
@@ -1455,7 +1455,7 @@ ggplot(map_county, aes(x = long, y = lat, group = group)) +
 
 ### 术语
 
-本章引入的术语在 @tbl-terms-chp-05 中列出。
+本章引入的术语在 [表 -@tbl-terms-chp-05]中列出。
 如果你不确定其中某些术语的含义，我们建议你回顾正文，复习它们的定义。
 你应该能够轻易地识别它们，因为它们是**加粗文本**。
 
@@ -1472,7 +1472,7 @@ make_terms_table(terms_chp_05)
 
 ## 练习 {#sec-chp5-exercises}
 
-奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-05] 中找到。
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-05]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_05-ex-explore-numerical.qmd >}}

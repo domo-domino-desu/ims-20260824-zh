@@ -7,7 +7,7 @@ source("_common.R")
 
 
 ::: {.chapterintro data-latex=""}
-在[第 -@sec-model-slr 章]介绍的单预测变量线性回归模型的基础上，现在来拟合包含两个或更多预测变量的多元线性回归模型。
+在 [第 -@sec-model-slr 章]介绍的单预测变量线性回归模型的基础上，现在来拟合包含两个或更多预测变量的多元线性回归模型。
 通过考虑不同解释变量如何共同作用，我们可以揭示预测变量与响应变量之间复杂的关系。
 处理多个变量时的一个挑战是，有时很难确定哪些变量应纳入模型。
 模型构建是一个内容广泛的主题，我们在此仅作初步探讨，通过定义和使用调整后的 $R^2$ 值来入门。
@@ -40,7 +40,7 @@ loans <- loans_full_schema |>
 
 
 
-我们将考虑来自点对点（P2P）贷款机构 Lending Club 的贷款数据，这是我们在[第 -@sec-data-hello 章]中首次遇到的数据集。
+我们将考虑来自点对点（P2P）贷款机构 Lending Club 的贷款数据，这是我们在 [第 -@sec-data-hello 章]中首次遇到的数据集。
 贷款数据包括贷款条款以及借款人的信息。
 我们希望深入了解的结果变量是贷款的利率。
 例如，在其他所有特征保持不变的情况下，借款人已有的债务金额是否会产生影响？
@@ -57,10 +57,10 @@ n_rows_to_show_string <- "six"
 
 
 该数据集包含 `r nrow(loans)` 笔贷款的信息，我们将考察可用变量的一个子集，其中一些是前面章节未曾介绍过的新变量。
-数据集中的前 `r n_rows_to_show_string` 个观测如 @tbl-loans-data-matrix 所示，每个变量的描述如 @tbl-loans-variables 所示。
+数据集中的前 `r n_rows_to_show_string` 个观测如 [表 -@tbl-loans-data-matrix]所示，每个变量的描述如 [表 -@tbl-loans-variables]所示。
 请注意，过去的破产记录变量（`bankruptcy`）是一个指示变量，如果借款人记录中有破产记录则取值为 1，否则取值为 0。
 使用指示变量代替类别名称，使得这些变量可以在回归中直接使用。
-另外两个变量是分类变量（`verified_income` 和 `issue_month`），每个都可以取几个不同的非数值之一；我们将在 @sec-ind-and-cat-predictors 中讨论如何在模型中处理这些变量。
+另外两个变量是分类变量（`verified_income` 和 `issue_month`），每个都可以取几个不同的非数值之一；我们将在 [第 -@sec-ind-and-cat-predictors 节]中讨论如何在模型中处理这些变量。
 
 ::: {.data data-latex=""}
 [`loans_full_schema`](http://openintrostat.github.io/openintro/reference/loans_full_schema.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
@@ -128,7 +128,7 @@ $$
 \widehat{\texttt{interest\_rate}} = 12.34 + 0.74 \times \texttt{bankruptcy}
 $$
 
-该模型的结果如 @tbl-int-rate-bankruptcy 所示。
+该模型的结果如 [表 -@tbl-int-rate-bankruptcy]所示。
 
 ```{r}
 #| label: tbl-int-rate-bankruptcy
@@ -163,11 +163,11 @@ m_bankruptcy |>
 
 该变量取两个值之一：借款人有破产记录时取 1，否则取 0。
 斜率为 0.74 意味着模型预测有破产记录的借款人的利率比无破产记录的借款人高出 0.74%。
-（回顾二水平分类预测变量的解释，请参见 @sec-categorical-predictor-two-levels。）
+（回顾二水平分类预测变量的解释，请参见 [第 -@sec-categorical-predictor-two-levels 节]。）
 :::
 
 假设我们使用一个三水平分类变量（如 `verified_income`）来拟合模型。
-软件输出的结果如 @tbl-int-rate-ver-income 所示。
+软件输出的结果如 [表 -@tbl-int-rate-ver-income]所示。
 该回归输出为这个变量提供了多行结果。
 每一行代表 `verified_income` 每个水平的相对差异。
 然而，其中缺少了一个水平：`Not Verified`。
@@ -323,9 +323,9 @@ $$
 SSE = e_1^2 + e_2^2 + \dots + e_{10000}^2 = \sum_{i=1}^{10000} e_i^2 = \sum_{i=1}^{10000} \left(y_i - \hat{y}_i\right)^2
 $$
 
-其中 $y_i$ 和 $\hat{y}_i$ 分别表示观测利率及其根据模型的估计值。一共计算了 10,000 个残差，每个观测对应一个。注意，这些值是样本统计量，如果观测数据是我们想要进行推断的目标总体的一个随机样本，那么它们就是总体参数 $\beta_0$, $\beta_1$, $\beta_2$, $\cdots$, $\beta_9$ 的估计值。我们将在 [第 -@sec-inf-model-mlr 章] 讨论基于线性模型的推断，目前我们将专注于计算样本统计量 $b_i$。
+其中 $y_i$ 和 $\hat{y}_i$ 分别表示观测利率及其根据模型的估计值。一共计算了 10,000 个残差，每个观测对应一个。注意，这些值是样本统计量，如果观测数据是我们想要进行推断的目标总体的一个随机样本，那么它们就是总体参数 $\beta_0$, $\beta_1$, $\beta_2$, $\cdots$, $\beta_9$ 的估计值。我们将在 [第 -@sec-inf-model-mlr 章]讨论基于线性模型的推断，目前我们将专注于计算样本统计量 $b_i$。
 
-我们通常使用计算机来最小化平方和并计算点估计，如 @tbl-loans-full 中的输出样例所示。利用该输出，我们可以识别出 $b_i$，就像在单预测变量的情况下所做的那样。
+我们通常使用计算机来最小化平方和并计算点估计，如 [表 -@tbl-loans-full]中的输出样例所示。利用该输出，我们可以识别出 $b_i$，就像在单预测变量的情况下所做的那样。
 
 ```{r}
 #| label: tbl-loans-full
@@ -361,7 +361,7 @@ $$
 :::
 
 ::: {.workedexample data-latex=""}
-利用 @tbl-loans-full 中的回归输出写出回归模型。这个模型中有多少个预测变量？
+利用 [表 -@tbl-loans-full]中的回归输出写出回归模型。这个模型中有多少个预测变量？
 
 ------------------------------------------------------------------------
 
@@ -388,7 +388,7 @@ $$
 [^08-model-mlr-4]: 在其他条件不变的情况下，过去12个月内每增加一次对申请人信用的查询，我们预计贷款利率平均会提高0.23点。
 
 ::: {.guidedpractice data-latex=""}
-使用全模型计算 @tbl-loans-data-matrix 中第一个观测的残差。[^08-model-mlr-5]
+使用全模型计算 [表 -@tbl-loans-data-matrix]中第一个观测的残差。[^08-model-mlr-5]
 :::
 
 [^08-model-mlr-5]: 要计算残差，我们首先需要预测值，这可以通过将值代入之前的方程来得到。
@@ -397,7 +397,7 @@ $$
     观测到的利率为 14.07%，由此得到的残差为 $e_1 = 14.07 - 17.84 = -3.77$。
 
 ::: {.workedexample data-latex=""}
-在 @sec-ind-and-cat-predictors 中，我们对 `bankruptcy` 计算出的斜率系数是0.74，而此处该系数是0.39。
+在 [第 -@sec-ind-and-cat-predictors 节]中，我们对 `bankruptcy` 计算出的斜率系数是0.74，而此处该系数是0.39。
 为什么单一预测变量模型与多个预测变量模型之间的系数值会存在差异？
 
 ------------------------------------------------------------------------
@@ -430,7 +430,7 @@ terms_chp_08 <- c(terms_chp_08, "multicollinearity", "collinear")
 
 ## 调整决定系数
 
-我们最初在 @sec-r-squared 中使用 $R^2$ 来确定模型解释的结果变量的变异程度：
+我们最初在 [第 -@sec-r-squared 节]中使用 $R^2$ 来确定模型解释的结果变量的变异程度：
 
 $$
 R^2 = 1 - \frac{\text{残差变异性}}{\text{结果变量变异性}}
@@ -505,7 +505,7 @@ terms_chp_08 <- c(terms_chp_08, "degrees of freedom")
 
 [^08-model-mlr-9]: 未调整的 $R^2$ 将保持不变，而调整 $R^2$ 会下降。
 
-调整 $R^2$ 也可以用于我们在 [第 -@sec-model-slr 章] 中介绍的单预测变量回归模型。
+调整 $R^2$ 也可以用于我们在 [第 -@sec-model-slr 章]中介绍的单预测变量回归模型。
 然而，当只有 $k = 1$ 个预测变量时，调整 $R^2$ 与常规 $R^2$ 非常接近，因此当模型只有一个预测变量时，这种细微差别通常并不重要。
 
 ## 模型选择 {#sec-model-selection}
@@ -564,7 +564,7 @@ terms_chp_08 <- c(terms_chp_08, "backward elimination", "forward selection")
 
 调整后 $R^2$ 描述了模型拟合的强度，它是评估哪些预测变量正在为模型增值的有用工具，这里的*增值*意味着它们（很可能）提高了预测未来结果的准确率。
 
-考虑两个模型，它们分别如 @tbl-loans-full-for-model-selection 和 @tbl-loans-full-except-issue-month 所示。
+考虑两个模型，它们分别如 [表 -@tbl-loans-full-for-model-selection]和 [表 -@tbl-loans-full-except-issue-month]所示。
 第一张表汇总了全模型，因为它包含了所有预测变量，而第二张表未包含 `issue_month` 变量。
 
 ```{r}
@@ -667,7 +667,7 @@ m_full_minus_issue_month_w_rsq |>
 :::
 
 ::: {.workedexample data-latex=""}
-`loans` 数据集全模型的结果如 @tbl-loans-full-for-model-selection 所示。
+`loans` 数据集全模型的结果如 [表 -@tbl-loans-full-for-model-selection]所示。
 我们应如何按照后向消去法策略进行？
 
 ------------------------------------------------------------------------
@@ -697,7 +697,7 @@ m_full_minus_issue_month_w_rsq |>
 -   剔除 `issue_month` 和 `credit_checks`：0.24801
 
 这些模型中没有一个能带来调整后 $R^2$ 的提升，因此我们不再剔除任何剩余的预测变量。
-也就是说，经过后向消去法，我们最终得到的是一个剔除了 `issue_month` 但保留其他所有预测变量的模型，可以利用 @tbl-loans-full-except-issue-month 中的系数对其进行总结。
+也就是说，经过后向消去法，我们最终得到的是一个剔除了 `issue_month` 但保留其他所有预测变量的模型，可以利用 [表 -@tbl-loans-full-except-issue-month]中的系数对其进行总结。
 
 \vspace{-5mm}
 
@@ -786,7 +786,7 @@ $$
 ### 其他模型选择策略
 
 以调整后的 $R^2$ 值作为决策准则的逐步选择法，只是众多常用模型选择策略中的一种。
-逐步选择法也可以使用调整后的 $R^2$ 值以外的决策准则来执行，例如 p 值（你将从 [第 -@sec-inf-model-slr 章] 往后的章节中学到），或是 AIC（Akaike 信息准则）或 BIC（贝叶斯信息准则）（你可能会在更进阶的课程中学到这些准则）。
+逐步选择法也可以使用调整后的 $R^2$ 值以外的决策准则来执行，例如 p 值（你将从 [第 -@sec-inf-model-slr 章]往后的章节中学到），或是 AIC（赤池信息准则）或 BIC（Bayes（贝叶斯）信息准则）（你可能会在更进阶的课程中学到这些准则）。
 
 另外，也可以根据专家意见或研究重点来选择在模型中纳入或排除哪些预测变量。
 事实上，许多统计学家不鼓励*仅仅*使用逐步回归进行模型选择，而是主张采用一种更周全的方法，仔细考虑研究重点和数据的特征。
@@ -806,7 +806,7 @@ $$
 
 ### 术语
 
-本章介绍的术语列于 @tbl-terms-chp-08。
+本章介绍的术语列于 [表 -@tbl-terms-chp-08]。
 如果你不确定某些术语的含义，建议你回顾正文中的定义。
 因为它们在正文中以**粗体**显示，你应该很容易辨认出它们。
 
@@ -823,7 +823,7 @@ make_terms_table(terms_chp_08)
 
 ## 练习 {#sec-chp8-exercises}
 
-奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-08] 中找到。
+奇数编号练习的答案可以在 [附录 -@sec-exercise-solutions-08]中找到。
 
 ::: {.exercises data-latex=""}
 {{< include exercises/_08-ex-model-mlr.qmd >}}

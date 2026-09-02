@@ -51,7 +51,7 @@
 
 * 多个数据集被添加或更新。例如，关于 2022 年北卡罗来纳州达勒姆市空气质量的 [`pm25_2022_durham`](http://openintrostat.github.io/openintro/reference/pm25_2022_durham.html) 数据可以在 [**openintro**](https://openintrostat.github.io/openintro/) R 包中找到。
 
-* [第 -@sec-data-applications 章] 进行了重写，更新了背景和数据示例。此外，在 [第 -@sec-data-applications 章] 中，我们探讨了辛普森悖论。
+* [第 -@sec-data-applications 章]进行了重写，更新了背景和数据示例。此外，在 [第 -@sec-data-applications 章]中，我们探讨了 Simpson（辛普森）悖论。
 
 * 在全书的正文和练习中，“statistically significant”（统计显著的）已被改为“statistically discernible”（统计上可辨识的），以便与“significant”一词更口语化的用法保持距离。
 
@@ -77,7 +77,7 @@
 [^preface-1]: “指导练习”旨在拓展您的思维，您可以通过查看任何“指导练习”的脚注解答来自我检查。
 
 每章末尾也提供了练习。
-奇数编号练习的解答在 [附录 -@sec-exercise-solutions] 中给出。
+奇数编号练习的解答在 [附录 -@sec-exercise-solutions]中给出。
 
 \clearpage
 

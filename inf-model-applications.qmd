@@ -21,8 +21,8 @@ source("_common.R")
 :::
 
 `mariokart` 数据集包含了 141 次拍卖的结果。
-该数据集的前四个观测显示在 @tbl-mariokart-data-frame 中，每个变量的描述显示在 @tbl-mariokart-var-def 中。
-请注意，`condition`（状况）和 `stock_photo`（库存照片）变量是**指示变量**\index{indicator variable}\index{variable!indicator}，类似于 [第 -@sec-inf-model-mlr 章] 中 `loans` 数据集里的 `bankruptcy`（破产）变量。
+该数据集的前四个观测显示在 [表 -@tbl-mariokart-data-frame]中，每个变量的描述显示在 [表 -@tbl-mariokart-var-def]中。
+请注意，`condition`（状况）和 `stock_photo`（库存照片）变量是**指示变量**\index{indicator variable}\index{variable!indicator}，类似于 [第 -@sec-inf-model-mlr 章]中 `loans` 数据集里的 `bankruptcy`（破产）变量。
 
 ```{r}
 #| label: tbl-mariokart-data-frame
@@ -79,7 +79,7 @@ mariokart_var_def |>
 
 ### 线性模型的数学方法
 
-在 @tbl-mariokart-model-output 中，我们拟合了一个以游戏状况为预测变量、拍卖价格为结果变量的线性回归模型。
+在 [表 -@tbl-mariokart-model-output]中，我们拟合了一个以游戏状况为预测变量、拍卖价格为结果变量的线性回归模型。
 
 $$E[\texttt{price}] = \beta_0 + \beta_1\times \texttt{cond\_new}$$
 
@@ -113,7 +113,7 @@ lm(price ~ cond_new, data = mariokart) |>
 :::
 
 [^27-inf-model-applications-1]: 回归线方程可写为 $\widehat{\texttt{price}} = 47.15 + 10.90\times \texttt{cond\_new}$。
-    查看 @tbl-mariokart-model-output 中的回归输出，我们可以看到 `cond_new` 的 p 值非常接近零，这表明在使用这个单变量模型时，有强证据表明该系数异于零。
+    查看 [表 -@tbl-mariokart-model-output]中的回归输出，我们可以看到 `cond_new` 的 p 值非常接近零，这表明在使用这个单变量模型时，有强证据表明该系数异于零。
     变量 `cond_new` 是一个二水平分类变量，当游戏为新品时取值为 1，当游戏为二手时取值为 0。
     这意味着，10.90 的模型系数预测新品游戏的价格将比二手游戏高出 \$10.90。
 
@@ -127,7 +127,7 @@ $$
 E[\texttt{price}] = \beta_0 + \beta_1 \times \texttt{cond\_new} + \beta_2\times \texttt{stock\_photo} + \beta_3 \times \texttt{duration} + \beta_4 \times  \texttt{wheels}
 $$
 
-@tbl-mariokart-full-model-output 总结了全模型。
+[表 -@tbl-mariokart-full-model-output]总结了全模型。
 根据该输出，我们确定了每个系数的点估计及其相应的影响（利用用于计算 p 值的标准误信息来衡量）。
 
 ```{r}
@@ -149,7 +149,7 @@ lm(price ~ cond_new + stock_photo + duration + wheels, data = mariokart) |>
 
 
 ::: {.guidedpractice data-latex=""}
-使用 @tbl-mariokart-full-model-output 中的点估计，写出该模型的方程。
+使用 [表 -@tbl-mariokart-full-model-output]中的点估计，写出该模型的方程。
 模型中有多少个预测变量？
 估计了多少个系数？[^27-inf-model-applications-2]
 :::
@@ -165,13 +165,13 @@ $\beta_4$ 的点估计是多少？[^27-inf-model-applications-3]
     点估计为 $b_4 = 7.29$
 
 ::: {.guidedpractice data-latex=""}
-使用 @tbl-mariokart-full-model-output 中确定的方程，计算 @tbl-mariokart-data-frame 中第一个观测的残差。[^27-inf-model-applications-4]
+使用 [表 -@tbl-mariokart-full-model-output]中确定的方程，计算 [表 -@tbl-mariokart-data-frame]中第一个观测的残差。[^27-inf-model-applications-4]
 :::
 
 [^27-inf-model-applications-4]: $e_i = y_i - \hat{y_i} = 51.55 - 49.62 = 1.93$.
 
 ::: {.workedexample data-latex=""}
-在 @tbl-mariokart-model-output 中，使用简单线性回归时，我们估计出 `cond_new` 的系数为 $b_1 = 10.90$，标准误为 $SE_{b_1} = 1.26$。
+在 [表 -@tbl-mariokart-model-output]中，使用简单线性回归时，我们估计出 `cond_new` 的系数为 $b_1 = 10.90$，标准误为 $SE_{b_1} = 1.26$。
 为什么这个估计值与多元回归环境下的估计值可能不同？
 
 ------------------------------------------------------------------------
@@ -213,7 +213,7 @@ mariokart |>
 
 
 ::: {.workedexample data-latex=""}
-在图 @fig-mariokart-rand-dist 中，红线（观察到的斜率）远离直方图的主体。
+在 [图 -@fig-mariokart-rand-dist]中，红线（观察到的斜率）远离直方图的主体。
 解释为什么随机置换数据集产生的斜率与观察到的斜率截然不同。
 
 ------------------------------------------------------------------------
@@ -225,7 +225,7 @@ mariokart |>
 :::
 
 ::: {.guidedpractice data-latex=""}
-利用图 @fig-mariokart-rand-dist 中的直方图，求出 p 值，并根据该问题背景得出假设检验的结论。[^27-inf-model-applications-5]
+利用 [图 -@fig-mariokart-rand-dist]中的直方图，求出 p 值，并根据该问题背景得出假设检验的结论。[^27-inf-model-applications-5]
 :::
 
 [^27-inf-model-applications-5]: 观察到的斜率为 10.9，它完全不在置换斜率的取值范围（大约 -5 到 +5）内。因为观察到的斜率在原假设分布下不是一个合理取值，所以 p 值实际上为零。我们拒绝原假设，并宣称游戏的新旧状况与其预测的平均价格之间存在关联。
@@ -235,7 +235,7 @@ mariokart |>
 请解释。[^27-inf-model-applications-6]
 :::
 
-[^27-inf-model-applications-6]: 表 @tbl-mariokart-model-output 中的 p 值实际上也为零，因此当采用数学模型方法时，同样会拒绝原假设。通常，进行推断的数学方法和计算方法会给出相当一致的答案。
+[^27-inf-model-applications-6]: [表 -@tbl-mariokart-model-output]中的 p 值实际上也为零，因此当采用数学模型方法时，同样会拒绝原假设。通常，进行推断的数学方法和计算方法会给出相当一致的答案。
 
 尽管我们已经知道游戏的状况与其价格之间存在关联，但我们可能更感兴趣的是价格的差异，此处在回归中由斜率表示。
 也就是说，$\beta_1$ 代表了新*马里奥卡丁车*游戏与二手游戏之间价格差异的总体参数值。
@@ -263,7 +263,7 @@ mariokart |>
 ```
 
 ::: {.workedexample data-latex=""}
-@fig-mariokart-boot-dist 展示了从原始数据的自助样本中得到的斜率估计值。
+[图 -@fig-mariokart-boot-dist]展示了从原始数据的自助样本中得到的斜率估计值。
 利用该直方图，估计斜率的标准误。
 你的估计值与数学模型输出中提供的斜率标准误的值相似吗？
 
@@ -272,18 +272,18 @@ mariokart |>
 斜率似乎在约 8 到 14 之间变化。
 根据经验法则，我们知道，如果一个变量服从钟形分布，那么大多数观测将落在距离中心 2 个标准误的范围内。
 因此，标准误的一个粗略近似值是 1.5。
-@tbl-mariokart-model-output 中给出的标准误是 1.26，这与使用自助法计算的值相差不大。
+[表 -@tbl-mariokart-model-output]中给出的标准误是 1.26，这与使用自助法计算的值相差不大。
 :::
 
 ::: {.guidedpractice data-latex=""}
-使用 @fig-mariokart-boot-dist 创建真实斜率的 90% 自助法标准误置信区间。
+使用 [图 -@fig-mariokart-boot-dist]创建真实斜率的 90% 自助法标准误置信区间。
 结合背景解释该区间。[^27-inf-model-applications-7]
 :::
 
 [^27-inf-model-applications-7]: 使用自助标准误法，我们知道正态百分位数是 $z^\star = 1.645$，由此得到的置信区间为 $b_1 \pm 1.645 \cdot SE \rightarrow 10.9 \pm 1.645 \cdot 1.5 \rightarrow (8.43, 13.37)$。对于全新的游戏，其平均价格比二手游戏高出 8.43 美元到 13.37 美元，置信水平为 90%。
 
 ::: {.guidedpractice data-latex=""}
-使用 @fig-mariokart-boot-dist 创建真实斜率的 90% 自助法百分位置信区间。
+使用 [图 -@fig-mariokart-boot-dist]创建真实斜率的 90% 自助法百分位置信区间。
 结合背景解释该区间。[^27-inf-model-applications-8]
 :::
 
@@ -293,13 +293,13 @@ mariokart |>
 
 ### 交叉验证
 
-在 [第 -@sec-model-mlr 章] 中，模型是通过 $R^2_{adj}$ 进行比较的。然而，在 [第 -@sec-inf-model-mlr 章] 中，我们引入了一种计算方法来比较模型，即每次移除一部分数据，并评估变量对被留出观测的预测效果。
+在 [第 -@sec-model-mlr 章]中，模型是通过 $R^2_{adj}$ 进行比较的。然而，在 [第 -@sec-inf-model-mlr 章]中，我们引入了一种计算方法来比较模型，即每次移除一部分数据，并评估变量对被留出观测的预测效果。
 
-@fig-mariokart-cv-residuals 是通过对与 @tbl-mariokart-model-output 和 @tbl-mariokart-full-model-output 中变量相同的模型进行交叉验证而创建的。
+[图 -@fig-mariokart-cv-residuals]是通过对与 [表 -@tbl-mariokart-model-output]和 [表 -@tbl-mariokart-full-model-output]中变量相同的模型进行交叉验证而创建的。
 我们应用了 3 折交叉验证，因此每次移除 1/3 的数据，同时使用 2/3 的观测来构建每个模型（首先仅基于 `cond_new`，然后基于 `cond_new`、`stock_photo`、`duration` 和 `wheels`）。
 请注意，每次移除 1/3 的数据后，得到的模型会产生略为不同的模型系数。
 
-@fig-mariokart-cv-residuals 中的点代表了每个观测代入交叉验证模型后的预测值（x轴）和残差（y轴）。
+[图 -@fig-mariokart-cv-residuals]中的点代表了每个观测代入交叉验证模型后的预测值（x轴）和残差（y轴）。
 换句话说，模型是在不使用该观测（位于那 1/3 中）的情况下（使用另外 2/3 的数据）构建的。
 这些残差让我们了解模型在预测那些不属于原始数据集的观测（例如，未来研究）时表现如何。
 
@@ -400,20 +400,20 @@ mario_CV2$pred |>
 
 
 ::: {.guidedpractice data-latex=""}
-在 @fig-mariokart-cv-residuals-2 中，注意大约在预测值 = 50 且预测误差 = 10 处的点。
+在 [图 -@fig-mariokart-cv-residuals-2]中，注意大约在预测值 = 50 且预测误差 = 10 处的点。
 估计该观测的观测值和预测值。[^27-inf-model-applications-9]
 :::
 
 [^27-inf-model-applications-9]: 预测值大约为 $\widehat{\texttt{price}} = \$50.$，观测值大约为 $\texttt{price}_i = \$60$ 玩家（使用 $e_i = y_i - \hat{y}_i).$
 
 ::: {.guidedpractice data-latex=""}
-在 @fig-mariokart-cv-residuals-2 中，对于大约在预测值 = 50 且预测误差 = 10 的同一个点，描述是哪个（或哪些）交叉验证折被用于构建其预测模型。[^27-inf-model-applications-10]
+在 [图 -@fig-mariokart-cv-residuals-2]中，对于大约在预测值 = 50 且预测误差 = 10 的同一个点，描述是哪个（或哪些）交叉验证折被用于构建其预测模型。[^27-inf-model-applications-10]
 :::
 
 [^27-inf-model-applications-10]: 该点似乎位于第 2 折中，因此第 1 折和第 3 折被用于构建预测模型。
 
 ::: {.guidedpractice data-latex=""}
-通过观察 @fig-mariokart-cv-residuals 中交叉验证预测误差（在 y 轴上）的散布情况，对于这些数据，最终报告应选择哪个模型？[^27-inf-model-applications-11]
+通过观察 [图 -@fig-mariokart-cv-residuals]中交叉验证预测误差（在 y 轴上）的散布情况，对于这些数据，最终报告应选择哪个模型？[^27-inf-model-applications-11]
 :::
 
 [^27-inf-model-applications-11]: 在 `cond_new` 模型上的交叉验证残差大致在 -15 到 15 之间波动，而基于四个预测变量模型的交叉验证残差波动较小，大致在 -10 到 10 之间。

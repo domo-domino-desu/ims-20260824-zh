@@ -76,10 +76,27 @@ options(dplyr.print_min = 6, dplyr.print_max = 6)
 
 # ggplot2 theme and colors -----------------------------------------------------
 
+ims_plot_family <- "Noto Sans CJK SC"
+
+# Keep the Chinese glyphs sans serif even when an individual plot replaces the
+# global theme later in a chapter or exercise.
+theme_minimal <- function(..., base_family = ims_plot_family) {
+  ggplot2::theme_minimal(..., base_family = base_family)
+}
+theme_void <- function(..., base_family = ims_plot_family) {
+  ggplot2::theme_void(..., base_family = base_family)
+}
+
 if (knitr::is_html_output()) {
-  ggplot2::theme_set(ggplot2::theme_minimal(base_size = 13))
+  ggplot2::theme_set(ggplot2::theme_minimal(
+    base_size = 13,
+    base_family = ims_plot_family
+  ))
 } else if (knitr::is_latex_output()) {
-  ggplot2::theme_set(ggplot2::theme_minimal(base_size = 12))
+  ggplot2::theme_set(ggplot2::theme_minimal(
+    base_size = 12,
+    base_family = ims_plot_family
+  ))
 }
 
 ggplot2::update_geom_defaults("point", list(color = openintro::IMSCOL["blue","full"],

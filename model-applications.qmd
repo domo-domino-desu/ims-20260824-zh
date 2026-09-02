@@ -12,7 +12,7 @@ library(ggpubr)
 
 在自家社区附近走走，你可能就会看到几处待售房屋，也许还能在网上查到它们的价格。你会注意到，房屋价格的制定有些随意——房主可以自行决定挂牌价，而影响这一决定的标准有很多，例如，可比房屋的售价（房地产行业术语中的 "comps"）、需要多快将房屋售出等等。
 
-在本案例研究中，我们将利用当前的房屋销售数据，将确定房屋挂牌价的过程形式化。2020年11月，从 [Zillow](https://www.zillow.com) 抓取了北卡罗来纳州达勒姆市 Duke Forest 社区 `r nrow(duke_forest)` 栋房屋的信息。数据收集时，这些房屋均为近期售出。该项目的目标是建立一个模型，根据特定房屋的特征来预测其售价。前四栋房屋的数据如 @tbl-duke-data-frame 所示，各变量的描述见 @tbl-duke-variables。
+在本案例研究中，我们将利用当前的房屋销售数据，将确定房屋挂牌价的过程形式化。2020年11月，从 [Zillow](https://www.zillow.com) 抓取了北卡罗来纳州达勒姆市 Duke Forest 社区 `r nrow(duke_forest)` 栋房屋的信息。数据收集时，这些房屋均为近期售出。该项目的目标是建立一个模型，根据特定房屋的特征来预测其售价。前四栋房屋的数据如 [表 -@tbl-duke-data-frame]所示，各变量的描述见 [表 -@tbl-duke-variables]。
 
 ::: {.data data-latex=""}
 [`duke_forest`](http://openintrostat.github.io/openintro/reference/duke_forest.html) 数据可以在 [**openintro**](http://openintrostat.github.io/openintro) R 包中找到。
@@ -72,7 +72,7 @@ duke_forest_var_def |>
 
 ### 与 `price` 的关联
 
-如前所述，收集数据的目标是建立一个房屋售价的模型。虽然使用多个预测变量可能比仅使用一个更好，但我们还是先从了解变量本身及其与价格的关系开始。@fig-single-scatter 展示了将价格描述为各预测变量函数的散点图。所有变量似乎都与价格呈正向关联（变量的值越高，对应的价格也越高）。
+如前所述，收集数据的目标是建立一个房屋售价的模型。虽然使用多个预测变量可能比仅使用一个更好，但我们还是先从了解变量本身及其与价格的关系开始。 [图 -@fig-single-scatter]展示了将价格描述为各预测变量函数的散点图。所有变量似乎都与价格呈正向关联（变量的值越高，对应的价格也越高）。
 
 ```{r}
 #| label: fig-single-scatter
@@ -143,7 +143,7 @@ pr_bed + pr_bath + pr_area + pr_year + pr_cool + pr_lot + plot_layout(ncol = 2)
 
 
 ::: {.guidedpractice data-latex=""}
-在 @fig-single-scatter 中，对于预测变量 `cooling` 似乎没有计算相关系数值。
+在 [图 -@fig-single-scatter]中，对于预测变量 `cooling` 似乎没有计算相关系数值。
 这是为什么？
 这个变量还能在线性模型中使用吗？[^10-model-applications-1]
 :::
@@ -153,7 +153,7 @@ pr_bed + pr_bath + pr_area + pr_year + pr_cool + pr_lot + plot_layout(ncol = 2)
     不过，它*可以*通过编码（例如，中央空调编码为 `1`，其他编码为 `0`）作为二元指示变量在线性模型中使用。
 
 ::: {.workedexample data-latex=""}
-在 @fig-single-scatter 中，哪个变量在预测房价时似乎信息最丰富？
+在 [图 -@fig-single-scatter]中，哪个变量在预测房价时似乎信息最丰富？
 请给出两条理由支持你的答案。
 
 ------------------------------------------------------------------------
@@ -169,7 +169,7 @@ pr_bed + pr_bath + pr_area + pr_year + pr_cool + pr_lot + plot_layout(ncol = 2)
 ### 用 `area` 为 `price` 建模
 
 我们拟合了一个用 `area` 预测 `price` 的线性模型。
-得到的模型信息见 @tbl-price-slr。
+得到的模型信息见 [表 -@tbl-price-slr]。
 
 ```{r}
 #| label: tbl-price-slr
@@ -219,13 +219,13 @@ m_small_w_rsq |>
 [^10-model-applications-2]: 房屋面积每增加一平方英尺，我们预期此类房屋的平均价格会增加 159 美元。
 
 ::: {.guidedpractice data-latex=""}
-根据 @tbl-price-slr 中的输出，写出用 `area` 预测 `price` 的模型。[^10-model-applications-3]
+根据 [表 -@tbl-price-slr]中的输出，写出用 `area` 预测 `price` 的模型。[^10-model-applications-3]
 :::
 
 [^10-model-applications-3]: $\widehat{\texttt{price}} = 116,652 + 159 \times \texttt{area}$
 
 线性模型的残差可用于评估线性模型是否合适。
-@fig-price-resid-slr 绘制了以残差$e_i = y_i - \hat{y}_i$为 $y$ 轴、拟合值（或预测值）$\hat{y}_i$ 为 $x$ 轴的散点图。
+[图 -@fig-price-resid-slr]绘制了以残差$e_i = y_i - \hat{y}_i$为 $y$ 轴、拟合值（或预测值）$\hat{y}_i$ 为 $x$ 轴的散点图。
 
 ```{r}
 #| label: fig-price-resid-slr
@@ -265,7 +265,7 @@ duke_forest |>
 ### 使用多个变量对 `price` 建模
 
 看来，如果在线性模型中使用不止一个预测变量，房价的预测可能会更准确。
-@tbl-price-mlr 展示了 `price` 对 `area`、`bed`、`bath`、`year_built`、`cooling` 和 `lot` 进行回归的线性模型输出。
+[表 -@tbl-price-mlr]展示了 `price` 对 `area`、`bed`、`bath`、`year_built`、`cooling` 和 `lot` 进行回归的线性模型输出。
 
 ```{r}
 #| label: tbl-price-mlr
@@ -309,7 +309,7 @@ m_full_w_rsq |>
 
 
 ::: {.workedexample data-latex=""}
-使用 @tbl-price-mlr，写出以六个预测变量预测价格的线性模型。
+使用 [表 -@tbl-price-mlr]，写出以六个预测变量预测价格的线性模型。
 
 ------------------------------------------------------------------------
 
@@ -367,7 +367,7 @@ m_lot_r_sq_adj <- update(m_full, . ~ . - lot, data = duke_forest) |>
 
 
 ::: {.workedexample data-latex=""}
-住房数据全模型的结果如 @tbl-price-mlr 所示。按照后向消去法策略，我们应该如何进行？
+住房数据全模型的结果如 [表 -@tbl-price-mlr]所示。按照后向消去法策略，我们应该如何进行？
 
 ------------------------------------------------------------------------
 
@@ -383,7 +383,7 @@ m_lot_r_sq_adj <- update(m_full, . ~ . - lot, data = duke_forest) |>
 
 不含 `bed` 的模型调整后 $R^2$ 最高，为 `r m_bed_r_sq_adj`，高于全模型的调整后 $R^2$。
 因为剔除 `bed` 能得到一个比全模型调整后 $R^2$ 更高的模型，所以我们从模型中剔除 `bed`。
-将卧室数量从模型中剔除可能显得有些违反直觉。毕竟，我们预期卧室更多的房屋价格更高，而且在 @fig-single-scatter 中也能看到卧室数量与售价之间存在清晰的关联。但是，请注意 `area` 仍在模型中，而且房屋面积和卧室数量很可能高度关联。因此，由于加入了 `area`，模型已经包含了关于“房屋有多少可用空间”的信息。
+将卧室数量从模型中剔除可能显得有些违反直觉。毕竟，我们预期卧室更多的房屋价格更高，而且在 [图 -@fig-single-scatter]中也能看到卧室数量与售价之间存在清晰的关联。但是，请注意 `area` 仍在模型中，而且房屋面积和卧室数量很可能高度关联。因此，由于加入了 `area`，模型已经包含了关于“房屋有多少可用空间”的信息。
 
 由于我们在第一步已从模型中剔除一个预测变量，现在需要检查是否应该进一步剔除更多预测变量。我们现在的基线调整后 $R^2$ 是 `r m_bed_r_sq_adj`。我们又拟合了一组新模型，这些模型考虑在已剔除 `bed` 的基础上，再分别剔除其余各个预测变量：
 
@@ -431,7 +431,7 @@ m_lot_r_sq_adj <- update(m_full_no_bed, . ~ . - lot, data = duke_forest) |>
 这些模型中没有一个能提高调整后 $R^2$，因此我们不再剔除任何剩余的预测变量。
 :::
 
-也就是说，经过后向消去后，我们得到的模型保留了除 `bed` 外的所有预测变量，我们可以用 @tbl-price-full-except-bed 中的系数来总结该模型。
+也就是说，经过后向消去后，我们得到的模型保留了除 `bed` 外的所有预测变量，我们可以用 [表 -@tbl-price-full-except-bed]中的系数来总结该模型。
 
 ```{r}
 #| label: tbl-price-full-except-bed
@@ -488,8 +488,8 @@ $$
 $$
 
 ::: {.workedexample data-latex=""}
-排除 `bed` 变量后包含所有预测变量的模型的残差图见 @fig-price-resid-mlr-nobed。
-@fig-price-resid-mlr-nobed 中的残差与 @fig-price-resid-slr 中的残差相比如何？
+排除 `bed` 变量后包含所有预测变量的模型的残差图见 [图 -@fig-price-resid-mlr-nobed]。
+[图 -@fig-price-resid-mlr-nobed]中的残差与 [图 -@fig-price-resid-slr]中的残差相比如何？
 
 ------------------------------------------------------------------------
 
@@ -554,7 +554,7 @@ new_house_resid <- 804133 - new_house_pred
 :::
 
 [^10-model-applications-7]: 残差为 \$506,563 是相当大的。
-    请注意，@fig-price-resid-mlr-nobed 中的较大残差（少数房屋除外）更接近 \$0（大约是前者的一半）。
+    请注意， [图 -@fig-price-resid-mlr-nobed]中的较大残差（少数房屋除外）更接近 \$0（大约是前者的一半）。
     在我们了解到这栋房屋位于加利福尼亚州后，我们意识到这个模型完全不应该应用于这栋新房屋！
     原始数据来自北卡罗来纳州达勒姆，基于北卡罗来纳州达勒姆数据建立的模型应仅用于探索北卡罗来纳州达勒姆房屋的价格模式。
 

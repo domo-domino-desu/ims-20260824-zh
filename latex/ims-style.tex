@@ -99,10 +99,8 @@
 %
 % 1 Page Parameters
 % 1.1
-\setlength\paperheight{11in}
-\setlength\paperwidth{8.5in}
-\newcommand{\officialtextheight}{9.7in}
-\newcommand{\officialtextwidth}{6.1in}
+\newcommand{\officialtextheight}{251mm}
+\newcommand{\officialtextwidth}{165mm}
 %\setlength\paperheight{10in}
 %\setlength\paperwidth{8in}
 %\newcommand{\officialtextheight}{8.7in}
@@ -121,6 +119,18 @@
 % 1.2.2 Slightly offset
 \setlength\oddsidemargin{0.08in}
 \setlength\evensidemargin{-0.08in}
+% Use an A4 page with a slightly wider inner margin for binding.
+% geometry supersedes the legacy US-letter dimensions and offsets above.
+\geometry{
+  a4paper,
+  inner=25mm,
+  outer=20mm,
+  top=22mm,
+  bottom=24mm,
+  headheight=14pt,
+  headsep=7mm,
+  footskip=12mm
+}
 % 1.2.3 Significant offset
 % WARNING: The chapter pages will show partially hidden page numbers.
 %\setlength\oddsidemargin{0.2in}
@@ -144,7 +154,7 @@
 \fancyhead[RE]{\leftmark}
 \fancyhead[LO]{\rightmark}
 \fancyfoot[c]{}
-\fancyheadoffset[RO,LE]{0.9in}
+\fancyheadoffset[RO,LE]{0pt}
 
 % 6.6 Hyperreferences
 \newcommand{\oiRedirect}[2]{\href{http://www.openintro.org/redirect.php?go=#1&referrer=\referrer}{#2}}
@@ -172,7 +182,7 @@
 
 \titleformat{\chapter}[display]
 {\color{oiB}\normalfont\Huge\bfseries\Helvetica}
-{\color{oiB}第 \thechapter 章}{1em}{#1}
+{\color{oiB}第{\thechapter}章}{1em}{#1}
 
 \titleformat{\section}
 {\color{oiB}\normalfont\Large\bfseries\Helvetica}
@@ -559,8 +569,12 @@ $\:$ \\
 % Reduce space between chapters in TOC
 
 \usepackage{tocbasic}
+% Chapter headings already spell out “第…章” in the body.  In the TOC,
+% use the compact Arabic number used by the original book.
+\ctexset{chapter={name={,},number=\arabic{chapter}}}
 \DeclareTOCStyleEntry[
   beforeskip=.5em plus 1pt,% default is 1em plus 1pt
+  numwidth=2.5em,
   pagenumberformat=\textbf
 ]{tocline}{chapter}
 
