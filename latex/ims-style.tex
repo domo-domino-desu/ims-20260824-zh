@@ -101,34 +101,21 @@
 % 1.1
 \newcommand{\officialtextheight}{251mm}
 \newcommand{\officialtextwidth}{165mm}
-%\setlength\paperheight{10in}
-%\setlength\paperwidth{8in}
-%\newcommand{\officialtextheight}{8.7in}
-%\newcommand{\officialtextwidth}{6in}
-\newcommand{\officialvoffset}{-0.6in}
-\setlength\textheight{\officialtextheight}
-\setlength\textwidth{\officialtextwidth}
-\setlength\voffset{\officialvoffset}
 \renewcommand{\baselinestretch}{1.0}
 
 % 1.2 Margin Size
-\setlength\hoffset{0.25in}
-% 1.2.1 Even
-\setlength\oddsidemargin{0in}
-\setlength\evensidemargin{0in}
-% 1.2.2 Slightly offset
-\setlength\oddsidemargin{0.08in}
-\setlength\evensidemargin{-0.08in}
-% Use an A4 page with a slightly wider inner margin for binding.
-% geometry supersedes the legacy US-letter dimensions and offsets above.
+% Keep geometry as the sole source of page dimensions.  The old template
+% supplied a negative voffset and manual text dimensions, which placed the
+% fancyhdr header outside the physical page after switching to A4.
 \geometry{
   a4paper,
   inner=25mm,
   outer=20mm,
-  top=22mm,
+  top=25mm,
   bottom=24mm,
-  headheight=14pt,
-  headsep=7mm,
+  includehead,
+  headheight=16pt,
+  headsep=6mm,
   footskip=12mm
 }
 % 1.2.3 Significant offset
