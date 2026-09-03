@@ -18,7 +18,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
-      R_LIBS_USER: ${{ github.workspace }}/.r-lib
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -42,18 +41,11 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Cache R packages
-        uses: actions/cache@v4
-        with:
-          path: .r-lib
-          key: ${{ runner.os }}-r-${{ hashFiles('DESCRIPTION', '_common.R', '.github/workflows/build_book.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-r-
-
       - name: Install required R packages
-        run: |
-          Rscript -e 'install.packages(c("remotes", "rmarkdown", "ragg"), repos = Sys.getenv("RSPM"))'
-          Rscript -e 'remotes::install_deps(dependencies = c("Depends", "Imports", "Suggests"), upgrade = "never")'
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          dependencies: '"hard"'
+          extra-packages: any::rmarkdown any::ragg
 
       - name: Install plot fonts
         run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
