@@ -28,16 +28,8 @@ jobs:
           tinytex: true
           version: 1.4.553
 
-      - name: Set up R
-        uses: r-lib/actions/setup-r@v2
-        with:
-          use-public-rspm: true
-
       - name: Install plot fonts
         run: sudo apt-get update && sudo apt-get install -y fonts-noto-cjk
-
-      - name: Install required R packages
-        run: Rscript -e 'install.packages(c("knitr", "rmarkdown"), repos = Sys.getenv("RSPM"))'
 
       - name: Install Chinese TeX support
         run: |
@@ -47,7 +39,10 @@ jobs:
           "$tlmgr" install collection-langchinese fontsetup newcomputermodern selnolig tabularray underscore
 
       - name: Render PDF
-        run: quarto render --to pdf
+        # The committed _freeze results are the source of truth for CI.  Using
+        # `auto` here would re-execute every changed QMD and require the full
+        # R dependency stack merely to typeset the already-frozen results.
+        run: quarto render --to pdf --use-freezer
 
       - name: Package PDF
         run: |
