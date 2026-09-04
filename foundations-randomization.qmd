@@ -253,7 +253,6 @@ terms_chp_11 <- c(terms_chp_11, "permutation test")
 
 
 
-\clearpage
 
 在**模拟**\index{simulation}中，我们将 48 份人事档案（35 份标记为“晋升”，13 份标记为“不晋升”）彻底洗牌，然后将它们分成两个新的堆。
 请注意，通过保持 35 份晋升和 13 份未晋升，我们假设有 35 位银行经理会晋升文件中内容对应的个人，且与文件上注明的性别**独立**。
@@ -327,7 +326,6 @@ sex_discrimination_rand_1 |>
 [^11-foundations-randomization-4]: $18/24 - 17/24=0.042$ 或约为 4.2% 偏向男性员工。
     这个由于偶然性产生的差异远小于在实际组中观察到的差异。
 
-\clearpage
 
 [图 -@fig-sex-rand-shuffle-1-sort]表明，原始数据中的晋升率差异远大于模拟组中的差异 (0.292 \> 0.042)。
 在本案例研究中，我们感兴趣的量始终是晋升率的差异。
@@ -397,7 +395,6 @@ sex_discrimination |>
 
 
 
-\clearpage
 
 注意，这些模拟的比例差异分布以 0 为中心。
 在原假设下，我们的模拟没有对男性和女性人事档案做任何区分。
@@ -461,7 +458,6 @@ terms_chp_11 <- c(terms_chp_11, "statistical inference")
 在本节中，我们将探讨研究人员为美国西南部一所大学的学生进行的一项实验，该实验研究的就是这个问题。
 [@Frederick:2009]
 
-\clearpage
 
 ### 观测数据
 
@@ -825,7 +821,6 @@ terms_chp_11 <- c(terms_chp_11, "p-value", "test statistic")
 
 
 
-\clearpage
 
 ::: {.workedexample data-latex=""}
 在性别歧视研究中，歧视率之差就是我们的检验统计量。
@@ -902,7 +897,6 @@ p 值是 0.006。
 我们将在 [第 -@sec-foundations-decision-errors 章]中讨论何时选择不同于0.05的阈值。
 :::
 
-\clearpage
 
 ## 章节回顾 {#sec-chp11-review}
 
@@ -980,7 +974,6 @@ make_terms_table(terms_chp_11)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp11-exercises}
 

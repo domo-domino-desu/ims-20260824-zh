@@ -133,7 +133,6 @@ terms_chp_1 <- c(terms_chp_1, "summary statistic")
 首先，这与医生们的预期相反，他们原本预期支架会*降低*卒中发生率。
 其次，它引出了一个统计问题：数据是否显示了组间"真实"的差异？
 
-\clearpage
 
 这第二个问题很微妙。
 假设你抛一枚硬币 100 次。
@@ -475,7 +474,6 @@ par(par_og) # restore original par
 考察 \index{summary statistic}**汇总统计量**可以为每个问题的具体情况提供数值上的见解。
 或者，也可以使用图形对数据进行可视化探索，这有可能比汇总统计量提供更多见解。
 
-\clearpage
 
 \index{scatterplot}**散点图**是一种用于研究两个数值变量之间关系的图形。
 [图 -@fig-county-multi-unit-homeownership]展示了变量 `homeownership`（自有住房率）和 `multi_unit`（多单元结构住房单元百分比）之间的关系。
@@ -759,7 +757,6 @@ make_terms_table(terms_chp_1)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp1-exercises}
 

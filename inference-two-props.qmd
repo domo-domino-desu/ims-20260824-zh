@@ -797,7 +797,6 @@ normTail(L = -0.17, U = 0.17, col = IMSCOL["blue", "full"])
 这些考量突显了医疗与治疗建议的复杂性。
 研究医学治疗的专家和委员会会运用类似上述的考量，基于现有证据提供其最佳建议。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp17-review}
 
@@ -825,7 +824,6 @@ make_terms_table(terms_chp_17)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp17-exercises}
 

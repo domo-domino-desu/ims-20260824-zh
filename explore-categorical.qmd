@@ -292,7 +292,6 @@ ggplot(loans) +
 
 
 
-\clearpage
 
 ## 行比例与列比例
 
@@ -914,7 +913,6 @@ county |>
 
 
 
-\clearpage
 
 ## 章节回顾 {#sec-chp4-review}
 
@@ -940,7 +938,6 @@ make_terms_table(terms_chp_04)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp4-exercises}
 

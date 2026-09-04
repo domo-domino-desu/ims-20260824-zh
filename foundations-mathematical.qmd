@@ -306,7 +306,6 @@ ggplot(normals, aes(x = x)) +
 
 
 
-\clearpage
 
 如果一个正态分布的均值为 $\mu$，标准差为 $\sigma,$ 我们可以将该分布记作 $N(\mu, \sigma).$ [图 -@fig-twoSampleNormalsStacked]中的两个分布可以记作
 
@@ -410,7 +409,6 @@ p_sat /
 
 
 
-\clearpage
 
 前一个示例的解决方案依赖于一种称为 z 统计量的标准化技术，这种方法最常用于近似正态分布的观测（但也可以用于任何分布）。
 一个观测的 **z 统计量**\index{Z score} 定义为其落在均值之上或之下的标准差个数。
@@ -1405,7 +1403,6 @@ for (i in 1:num.sim) {
 
 \index{confidence interval}
 
-\clearpage
 
 ## 章节回顾 {#sec-chp13-review}
 
@@ -1442,7 +1439,6 @@ inference_method_summary_table |>
 
 
 
-\clearpage
 
 ### 术语
 
@@ -1459,7 +1455,6 @@ make_terms_table(terms_chp_13)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp13-exercises}
 

@@ -117,7 +117,6 @@ terms_chp_05 <- c(terms_chp_05, "nonlinear")
 [^05-explore-numerical-2]: 想象一下，你的纵轴代表某种“好的”事物，而横轴代表一种只有适度才好、过量则有害的事物。
     健康与饮水量符合这个描述：我们需要一些水才能生存，但饮用过多则会产生毒性，甚至致人死亡。
 
-\clearpage
 
 ## 点图和均值 {#sec-dotplots}
 
@@ -215,7 +214,6 @@ $x_2$ 呢？
 然而，总体均值有一个特殊的符号：$\mu.$ 符号 $\mu$ 是希腊字母 *mu*，代表总体中所有观测的平均数。
 有时会使用下标，例如 $_x,$ 来表示总体均值是针对哪个变量的，例如 $\mu_x.$ 通常，精确测量总体均值的成本太高，因此我们经常使用样本均值 $\bar{x}$ 来估计 $\mu.$
 
-\clearpage
 
 ::: {.content-visible when-format="html"}
 ::: {.pronunciation data-latex=""}
@@ -302,7 +300,6 @@ $$ \frac{\$11000}{625\text{ hours}} = \$17.60\text{ per hour} $$
 通过了解自己的平均小时工资，Emilio现在将他的收入转换成了一个标准单位，更容易与他可能考虑的许多其他工作进行比较。
 :::
 
-\clearpage
 
 ::: {.workedexample data-latex=""}
 假设我们想计算美国的人均收入。为此，我们可能首先想到对 `county` 数据集中3,142个县的人均收入求均值。那么，更好的方法是什么？
@@ -456,7 +453,6 @@ terms_chp_05 <- c(
 在数学课上，众数有时被定义为数据集中出现次数最多的值。
 然而，对于许多现实世界的数据集，往往没有任何观测值具有相同的值，这使得该定义在数据分析中不切实际。
 
-\clearpage
 
 [图 -@fig-singleBiMultiModalPlots]展示了分别具有一个、两个或三个显著峰的直方图。
 这样的分布分别称为**单峰的**\index{unimodal}、**双峰的**\index{bimodal}和**多峰的**\index{multimodal}分布。
@@ -569,7 +565,6 @@ x_{50} - \bar{x} &= `r round(loan50$interest_rate[50], 2)` - `r round(loan50_int
 \end{aligned}
 $$
 
-\clearpage
 
 如果我们把这些离差平方再取平均值，结果就等于样本**方差**\index{variance}，记作 $s^2$：
 
@@ -647,7 +642,6 @@ terms_chp_05 <- c(terms_chp_05, "standard deviation")
     我们可以用偏态来区分最后一个图（右偏的）和前两个图。
     虽然像直方图这样的图能展现更完整的全貌，但我们可以使用众数形态和形状（对称性/偏态）来刻画分布的基本特征。
 
-\clearpage
 
 ```{r}
 #| label: sdRuleForIntRate
@@ -798,7 +792,6 @@ ggplot(dists_mean0_sd1, aes(x = x)) +
 在实际应用中，方差和标准差有时被作为达成某种目的的工具，这里的“目的”是能够准确估计与样本统计量相关的不确定性。
 例如，在 [第 -@sec-foundations-mathematical 章]中，标准差被用于计算，以帮助我们理解样本均值在不同样本之间的变化程度。
 
-\clearpage
 
 ## 箱线图、四分位数和中位数 {#sec-boxplots}
 
@@ -900,7 +893,6 @@ terms_chp_05 <- c(terms_chp_05, "median")
 如果观测数为偶数，则中间会有两个值，中位数取这两个值的平均数。
 :::
 
-\clearpage
 
 构建箱线图的第二步是绘制一个矩形来代表数据中间的 50%。箱子的长度被称为**四分位距**\index{interquartile range}，简称 **IQR**\index{IQR}。和标准差一样，它是数据\index{variability}变异性的一个度量。数据的变异性越大，标准差和 IQR 往往也越大。箱子的两个边界分别称为**第一四分位数**\index{first quartile}（第 $25^{th}$ 百分位数，即 25% 的数据低于此值）和**第三四分位数**\index{third quartile}（第 $75^{th}$ 百分位数，即 75% 的数据低于此值），它们通常分别记为 $Q_1$ 和 $Q_3$。
 
@@ -966,7 +958,6 @@ terms_chp_05 <- c(terms_chp_05, "outlier", "whiskers")
 
 [^05-explore-numerical-11]: 这些视觉估计会因人而异：$Q_1 \approx$ 8%, $Q_3 \approx$ 14%, IQR $\approx$ 14 - 8 = 6%.
 
-\clearpage
 
 ## 稳健统计量
 
@@ -1092,7 +1083,6 @@ ggplot(loan50_35, aes(x = interest_rate)) +
 
 
 
-\clearpage
 
 ::: {.guidedpractice data-latex=""}
 极端观测对哪个影响更大，是均值还是中位数？
@@ -1141,7 +1131,6 @@ terms_chp_05 <- c(terms_chp_05, "robust statistics")
 
 无论选择哪种中心性统计量（均值或中位数），对大多数分析而言，仅仅考虑中心性是不够的，这一点非常重要。其他统计量，如上侧和下侧百分位数、四分位距（IQR）或标准差，提供了关于观测值变异性的信息。而通过图形表示来可视化数据，通常能提供理解与研究问题相关的完整数据全貌所需的大量信息。
 
-\clearpage
 
 ## 变换数据 {#sec-transforming-data}
 
@@ -1233,7 +1222,6 @@ terms_chp_05 <- c(terms_chp_05, "transformation")
 然而，如果我们对人口变量应用 log$_{10}$ 变换，如 [图 -@fig-county-pop-change-transform-2]所示，变量间的正关联就显现了出来。
 事实上，当我们在 [第 -@sec-model-slr 章]中探讨拟合回归线的方法时，我们可能会有兴趣为这些数据拟合一条趋势线。
 
-\clearpage
 
 ```{r}
 #| label: fig-county-pop-change-transform
@@ -1310,7 +1298,6 @@ terms_chp_05 <- c(terms_chp_05, "intensity map")
     高收入与都市区之间存在一些对应关系，我们可以在地图上看到颜色较深的点（代表较高的家庭收入中位数），不过也有不少例外。
     你可以试着寻找一些你熟悉的大城市，然后看看能否在地图上找到它们对应的深色斑点。
 
-\clearpage
 
 ```{r}
 #| label: county-map-prep
@@ -1441,7 +1428,6 @@ ggplot(map_county, aes(x = long, y = lat, group = group)) +
 
 
 
-\clearpage
 
 ## 章节回顾 {#sec-chp5-review}
 
@@ -1468,7 +1454,6 @@ make_terms_table(terms_chp_05)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp5-exercises}
 

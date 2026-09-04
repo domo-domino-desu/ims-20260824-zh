@@ -51,7 +51,6 @@ ggplot(target, aes(x = x, y = y)) +
 
 
 
-\clearpage
 
 线性回归是一种统计方法，用于为数据拟合直线，其中两个变量 $x$ 和 $y$ 的关系可以用带误差的直线建模：
 
@@ -151,7 +150,6 @@ ggplot(bad, aes(x = x, y = y)) +
 
 
 
-\clearpage
 
 ### 使用线性回归预测刷尾负鼠头部长度
 
@@ -210,7 +208,6 @@ ggplot(possum, aes(x = total_l, y = head_l)) +
 我们希望用一条直线来描述刷尾负鼠头长与总长之间的关系。
 在这个例子中，我们将使用总长作为预测变量 $x,$ 来预测刷尾负鼠的头长 $y.$ 我们可以目测拟合线性关系，如 [图 -@fig-scattHeadLTotalLLine]所示。
 
-\clearpage
 
 ```{r}
 #| label: fig-scattHeadLTotalLLine
@@ -309,7 +306,6 @@ p_age
 在 [第 -@sec-model-mlr 章]中，我们将学习如何在模型中纳入多个预测变量。
 在此之前，我们首先需要更深入地了解如何利用单个预测变量来最优地构建线性模型。
 
-\clearpage
 
 ### 残差 {#sec-resids}
 
@@ -511,7 +507,6 @@ ggplot(m_head_total_aug, aes(x = .fitted, y = .resid)) +
 
 
 
-\clearpage
 
 ::: {.workedexample data-latex=""}
 残差图的一个目的是在拟合模型后，识别数据中仍然明显的特征或模式。
@@ -637,7 +632,6 @@ $$
 
 其中 $\bar{x},$ $\bar{y},$ $s_x,$ 和 $s_y$ 分别是每个变量的样本均值和标准差。
 
-\clearpage
 
 [图 -@fig-posNegCorPlots]展示了八个散点图及其对应的相关系数。
 只有当关联完全线性时，相关系数才等于 -1 或 +1。
@@ -717,7 +711,6 @@ simulated_scatter |>
 [^07-model-slr-4]: 我们把这个任务留给你来完成。
     总的来说，你画的曲线应该贴近大多数点，并能反映数据的整体趋势。
 
-\clearpage
 
 ::: {.workedexample data-latex=""}
 下方展示的图描绘了各国不同作物产量之间的各种关联。
@@ -878,7 +871,6 @@ $$
 我们可以看到，关联的形状没有改变，相关系数也没有改变。
 图中唯一的视觉变化是坐标轴的*标签*。
 
-\clearpage
 
 ```{r}
 #| label: fig-bdims-units
@@ -1008,7 +1000,6 @@ $$
 e_{1}^2 + e_{2}^2 + \dots + e_{n}^2
 $$
 
-\clearpage
 
 这条满足最小二乘准则的直线在 [图 -@fig-elmhurstScatterW2Lines]中表示为实线，通常被称为**最小二乘回归线**\index{least squares line}。
 以下是选择最小二乘法，而非尝试最小化未经任何平方的残差绝对值之和的四个可能理由：
@@ -1243,7 +1234,6 @@ $$
 最终的最小二乘回归方程，无论被预测变量是通用的 “$y$” 还是像 “aid” 这样的命名变量，都必须始终在被预测变量上方加上一个“帽子”符号。
 :::
 
-\clearpage
 
 ::: {.workedexample data-latex=""}
 假设一位高中毕业生正在考虑就读 Elmhurst 学院。
@@ -1328,7 +1318,6 @@ $$
 r = -0.499 \rightarrow R^2 = 0.25
 $$
 
-\clearpage
 
 ::: {.guidedpractice data-latex=""}
 如果一个线性模型有一个非常强的负相关关系，相关系数为 -0.97，那么预测变量能解释结果变量中的多少变异？[^07-model-slr-8]
@@ -1412,7 +1401,6 @@ $$
 
 [^07-model-slr-10]: $SST$ 可以通过计算结果变量的样本方差 $s^2$ 并乘以 $n-1$ 得到。
 
-\clearpage
 
 ### 具有两个水平的分类预测变量 {#sec-categorical-predictor-two-levels}
 
@@ -1833,7 +1821,6 @@ p_4 +
   plot_layout(ncol = 3, heights = c(2, 1))
 ```
 
-\clearpage
 
 观察 [图 -@fig-outlier-plots-1]和 [图 -@fig-outlier-plots-2]中的残差图。
 在图 C、D 和 E 中，你很可能会发现一些观测：它们既在 x 轴方向上远离其余数据点，也不在其余数据的趋势轨迹上。
@@ -1877,7 +1864,6 @@ terms_chp_07 <- c(
 忽略异常（且有趣）情况的模型往往表现不佳。
 例如，如果一家金融公司忽略了最大的市场波动——这些“离群值”——他们将很快因为做出考虑不周的投资而破产。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp7-review}
 
@@ -1904,7 +1890,6 @@ make_terms_table(terms_chp_07)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp7-exercises}
 

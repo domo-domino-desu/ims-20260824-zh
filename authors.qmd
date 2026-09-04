@@ -13,7 +13,7 @@ Duke University, Posit, PBC.\
 [mine\@openintro.org](mailto:mine@openintro.org){.email}
 :::
 
-Mine Çetinkaya-Rundel 是杜克大学统计科学系实践教授，也是 Posit 的开发者教育专家。Mine 的工作侧重于统计学和数据科学教学法的创新，尤其强调计算、可复现研究、以学生为中心的学习、开源教育，以及用于提高女性和 STEM 领域代表性不足的少数群体留存率的教学方法。她致力于将计算整合到本科统计学课程中，使用可复现研究方法和分析真实且复杂的数据集。她还组织了 [ASA DataFest](https://ww2.amstat.org/education/datafest/)，这是一项为期两天的年度竞赛，本科生团队在竞赛中努力从一个丰富而复杂的数据集中发掘洞见。自 [OpenIntro](https://www.openintro.org/) 项目创立以来，Mine 便参与其中，作为该项目的一部分，她合著了四本开源统计学入门教材（包括这本！）。她还是 [datasciencebox.org](https://datasciencebox.org/) 的创建者和维护者，并在 Coursera 上教授广受欢迎的 Statistics with R MOOC。
+Mine Çetinkaya-Rundel 是杜克大学统计科学系实践教授，也是 Posit 的开发者教育专家。Mine 的工作侧重于统计学和数据科学教学法的创新，尤其强调计算、可复现研究、以学生为中心的学习、开源教育，以及创新教学方法以提高女性和其他 STEM 领域代表性不足的少数群体留存率。她致力于将计算整合到本科统计学课程中，使用可复现研究方法，分析真实且复杂的数据集。她还组织了 [ASA DataFest](https://ww2.amstat.org/education/datafest/)，这是一项为期两天的年度竞赛，本科生团队在竞赛中努力从一个丰富而复杂的数据集中发掘洞见。自 [OpenIntro](https://www.openintro.org/) 项目创立以来，Mine 便参与其中，作为该项目的一部分，她合著了四本开源统计学入门教材（包括这本！）。她还是 [datasciencebox.org](https://datasciencebox.org/) 的创建者和维护者，并在 Coursera 上教授广受欢迎的 Statistics with R 慕课。
 \newline
 
 <br>

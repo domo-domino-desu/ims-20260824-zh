@@ -82,7 +82,6 @@ terms_chp_2 <- c(terms_chp_2, "anecdotal evidence")
 例如，相比于另外六个四年就毕业的人，我们更可能记得遇到的那两个花了7年才毕业的人。
 因此，我们不应只关注最不寻常的观测单位，而应检查一个由许多能更好代表总体的观测单位组成的样本。
 
-\clearpage
 
 ### 从总体中抽样
 
@@ -264,7 +263,6 @@ terms_chp_2 <- c(terms_chp_2, "bias", "simple random sample")
 
 
 
-\clearpage
 
 进行简单随机抽样有助于将偏差降至最低。
 然而，偏差也可能在其他环节中出现。
@@ -495,7 +493,6 @@ par(par_og) # restore original par
 简单随机样本可能会从所有 30 个村庄中抽取个体，这可能导致数据收集成本高昂。分层抽样将是一个挑战，因为我们不清楚如何构建由相似个体组成的层。然而，整群抽样或多阶段抽样看起来是很好的选择。使用多阶段抽样，我们可以先随机选择一半的村庄，然后从每个选中的村庄中随机选择 10 个人。与简单随机抽样相比，这可以大大降低数据收集成本，并且整群样本仍然能提供可靠的信息，即使我们需要用比本书介绍的方法更高级的方法来分析这些数据。
 :::
 
-\clearpage
 
 ## 实验 {#sec-experiments}
 
@@ -624,7 +621,6 @@ terms_chp_2 <- c(terms_chp_2, "treatment group", "control group")
 
 
 
-\clearpage
 
 试想一下，如果你是研究中的一名受试者。
 如果你在处理组，你会得到一种令人期待的新药，你预期它会对你有帮助。
@@ -693,7 +689,6 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
 然而，如果我们不使用假手术，我们可能会推广一种昂贵却并无真实效果的处理；如果发生这种情况，资金和其他资源将从其他已知有效的处理中被转移走。
 最终，这是一种两难的境地，我们无法同时完美地保护那些自愿参与研究的患者，以及未来可能从该处理中受益（或不受益）的患者。
 
-\clearpage
 
 ## 观察性研究 {#sec-observational-studies}
 
@@ -780,7 +775,6 @@ terms_chp_2 <- c(terms_chp_2, "prospective study", "retrospective study")
 
 
 
-\clearpage
 
 ## 章节回顾 {#sec-chp2-review}
 
@@ -828,7 +822,6 @@ make_terms_table(terms_chp_2)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp2-exercises}
 

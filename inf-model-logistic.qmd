@@ -737,7 +737,6 @@ logCV2 |>
 然而，添加变量并不总是能带来更好的预测，因为存在相关性的或噪声变量可能会削弱真正用于预测状态的变量集合所携带的信号。
 我们鼓励你在未来探索统计主题时，深入学习多元模型和交叉验证。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp27-review}
 
@@ -771,7 +770,6 @@ make_terms_table(terms_chp_26)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp26-exercises}
 

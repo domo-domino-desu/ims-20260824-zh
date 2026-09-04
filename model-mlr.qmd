@@ -544,7 +544,6 @@ terms_chp_08 <- c(terms_chp_08, "stepwise selection")
 
 
 
-\clearpage
 
 **后向消去法**\index{backward elimination}从全模型开始——即包含所有潜在预测变量的模型。预测变量被逐一从模型中剔除，直到模型无法进一步改进为止。
 
@@ -791,7 +790,6 @@ $$
 另外，也可以根据专家意见或研究重点来选择在模型中纳入或排除哪些预测变量。
 事实上，许多统计学家不鼓励*仅仅*使用逐步回归进行模型选择，而是主张采用一种更周全的方法，仔细考虑研究重点和数据的特征。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp8-review}
 
@@ -819,7 +817,6 @@ make_terms_table(terms_chp_08)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp8-exercises}
 

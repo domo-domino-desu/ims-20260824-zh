@@ -1034,7 +1034,6 @@ $$ T = \frac{98.8 - 93.29}{1.66} = 3.32 $$
 z 统计量和 t 统计量的计算方式完全相同，概念也一致：它们都表示观测值与原假设值之间相距多少个标准误。
 :::
 
-\clearpage
 
 ## 章节回顾 {#sec-chp19-review}
 
@@ -1064,7 +1063,6 @@ make_terms_table(terms_chp_19)
 
 
 
-\clearpage
 
 ## 习题 {#sec-chp19-exercises}
 

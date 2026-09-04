@@ -28,7 +28,6 @@ source("_common.R")
 
 [^18-inference-tables-1]: 对于不如作者年长的读者来说，iPod 基本上就是一个没有任何蜂窝网络服务的 iPhone（假设它是较后期的型号）。早期的型号功能更简单。
 
-\clearpage
 
 作为研究中卖家的参与者并不知道，买家正与研究人员合作，以评估不同问题对促使卖家披露 iPod 过去存在问题之可能性的影响。
 照剧本行事的买家以这样的开场白开始：“好的，我想我应该先说。这么说你已经用这个 iPod 两年了……”，然后以以下三个问题之一结束：
@@ -553,7 +552,6 @@ diabetes2 |>
 
 注意，在分析 2×2 列联表（即两个变量都只有两个可能选项）时，一个指导原则是使用 [第 -@sec-inference-two-props 章]中介绍的两比例方法。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp18-review}
 
@@ -581,7 +579,6 @@ make_terms_table(terms_chp_18)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp18-exercises}
 

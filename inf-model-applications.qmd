@@ -75,7 +75,6 @@ mariokart_var_def |>
 
 
 
-\clearpage
 
 ### 线性模型的数学方法
 
@@ -425,7 +424,6 @@ mario_CV2$pred |>
 
 [^27-inf-model-applications-12]: 对于具有四个预测变量的模型，其 CV SSE 更小（几乎是另一个模型的一半！）。使用单一数值标准（CV SSE）使我们能够做出决策，选择具有四个预测变量的模型。
 
-\clearpage
 
 ## 交互式 R 教程 {#inferential-modeling-tutorials}
 

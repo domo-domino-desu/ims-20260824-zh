@@ -28,7 +28,6 @@ source("_common.R")
 
 作为替代方案， [图 -@fig-pie-to-bar-2]提供了一个条形图。请注意，现在识别各类别之间差异的量值变得容易得多，同时也不会被图像的其他方面分散注意力。通常，条形图比饼图更容易被读者理解，尤其是在所绘制的分类数据具有不止几个水平时。
 
-\clearpage
 
 ```{r}
 expenses <- tribble(
@@ -129,7 +128,6 @@ expenses |>
 
 
 
-\clearpage
 
 ### 讲述故事
 
@@ -232,7 +230,6 @@ ggplot(duke_hires, aes(x = month, y = n, group = year)) +
 > -   非常差
 > -   不知道
 
-\clearpage
 
 ```{r}
 brexit <- tibble(
@@ -379,7 +376,6 @@ ggplot(brexit, aes(y = region, fill = 意见)) +
 
 :::
 
-\clearpage
 
 ### 明确目的
 
@@ -446,7 +442,6 @@ ggplot(brexit, aes(y = 意见)) +
 调查中地区和意见这两个变量的三种不同表示形式。
 :::
 
-\clearpage
 
 ### 选择有意义的颜色
 
@@ -495,7 +490,6 @@ p +
 标签应当清晰明了，并为方便读者而水平排列。
 不要遗漏标题，且如果可能，请标明数据来源。
 
-\clearpage
 
 ## 交互式 R 教程 {#sec-explore-tutorials}
 

@@ -36,7 +36,6 @@ terms_chp_25 <- c("inference on multiple linear regression")
 我们将这个修改后的数据集称为 `loans`。
 :::
 
-\clearpage
 
 现在，我们的目标是创建一个模型，使用变量 `debt_to_income`、`term` 和 `credit_checks` 来预测 `interest_rate`。
 正如你在 [第 -@sec-model-mlr 章]中学到的，最小二乘法可用于寻找线性模型的系数估计值。
@@ -143,7 +142,6 @@ terms_chp_25 <- c(terms_chp_25, "multiple predictors")
 
 有时，一组预测变量会以不同寻常的方式影响模型，这通常源于预测变量本身存在相关。
 
-\clearpage
 
 ## 多重共线性 {#sec-inf-mult-reg-collin}
 
@@ -285,7 +283,6 @@ ggplot(money, aes(y = total_amount, x = number_of_low_coins)) +
 
 
 
-\clearpage
 
 以 `number_of_coins`（硬币总数）作为预测变量， [表 -@tbl-coinhigh]提供的系数最小二乘估计值为 0.13。
 对于盘子中每多出的一枚硬币，我们预测该学生会多拥有 US\$0.13。
@@ -397,7 +394,6 @@ knitr::include_graphics("images/totalsame.png")
 
 :::
 
-\clearpage
 
 使用总 `number_of_coins` 和 `number_of_low_coins` 这两个变量作为预测变量， [表 -@tbl-coinhighlow]给出了两个系数的最小二乘估计值，分别为 0.21 和 -0.16。现在，模型中有两个变量，解释也变得更加微妙。
 
@@ -979,7 +975,6 @@ massCV1 |>
 
 
 
-\clearpage
 
 [图 -@fig-peng-mass1]显示，独立预测以真实值为中心分布（即误差以零为中心分布），但当仅使用 `bill_length_mm` 来预测 `body_mass_g` 时，预测偏差可能高达 1,000 克。
 另一方面，当使用 `bill_length_mm`、`bill_depth_mm`、`flipper_length_mm`、`sex` 和 `species` 来预测 `body_mass_g` 时，如 [图 -@fig-peng-mass2]所示，预测误差似乎大约只有前者的一半。
@@ -993,7 +988,6 @@ massCV1 |>
 在 [第 -@sec-inf-model-logistic 章]的逻辑斯谛回归中，我们将再次使用交叉验证。
 我们鼓励你在构建和使用各种多元模型时，同时考虑标准推断方法（如 p 值）和计算方法（如交叉验证）。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp25-review}
 
@@ -1019,7 +1013,6 @@ make_terms_table(terms_chp_25)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp25-exercises}
 

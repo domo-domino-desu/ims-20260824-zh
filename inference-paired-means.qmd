@@ -606,7 +606,6 @@ ucla_textbooks_f18 |>
 每本教材在数据集中都有两个对应的价格：一个来自 UCLA 书店，一个来自亚马逊。
 当两组观测之间存在这种特殊的对应关系时，它们被称为**配对**数据。
 
-\clearpage
 
 ### 统计量的变异性
 
@@ -702,7 +701,6 @@ boot_diff |>
 
 
 
-\clearpage
 
 ## 配对均值差的数学模型 {#sec-mathpaired}
 
@@ -803,7 +801,6 @@ ucla_textbooks_f18 |>
 既然这些条件得到满足，我们就可以继续使用 $t$ 分布。
 :::
 
-\clearpage
 
 ### 观测统计量与原假设统计量的对比
 
@@ -878,7 +875,6 @@ axis(1, at, labels, cex.axis = 0.9)
 数据提供了证据表明，就 UCLA 课程用书而言，亚马逊的平均价格与 UCLA 书店不同。
 :::
 
-\clearpage
 
 回顾一下，误差界是由标准误定义的。
 $\bar{x}_{diff}$ 的误差界可以直接从 $SE(\bar{x}_{diff}).$ 得到
@@ -934,7 +930,6 @@ terms_chp_21 <- c(terms_chp_21, "paired difference t-test", "paired difference C
 
 
 
-\clearpage
 
 ## 章节回顾 {#sec-chp21-review}
 
@@ -960,7 +955,6 @@ make_terms_table(terms_chp_21)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp21-exercises}
 

@@ -185,7 +185,6 @@ mlb_players_18_vars |>
 对外野手上垒率的一个好估计是，仅针对那些守备位置为外野的球员，取其 `OBP` 的样本均值：$\bar{x}_{OF} = 0.320.$
 :::
 
-\clearpage
 
 ## 比较多组均值的随机化检验 {#sec-randANOVA}
 
@@ -334,7 +333,6 @@ $$F = \frac{MSG}{MSE}$$
 -   大样本且无极端离群值
 :::
 
-\clearpage
 
 ### 统计量的变异性
 
@@ -510,7 +508,6 @@ classdata |>
 
 我们回到 [表 -@tbl-mlbHRPerABSummaryTable]中的棒球例子，来演示应用于方差分析（ANOVA）场景的数学模型。
 
-\clearpage
 
 ### 统计量的变异性
 
@@ -675,7 +672,6 @@ mlb_players_18 |>
 
 
 
-\clearpage
 
 ## 章节回顾 {#sec-chp22-review}
 
@@ -702,7 +698,6 @@ make_terms_table(terms_chp_22)
 
 
 
-\clearpage
 
 ## 练习 {#sec-chp22-exercises}
 

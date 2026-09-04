@@ -342,7 +342,6 @@ $$
 
 有关更多单比例置信区间的示例，请参阅 [第 -@sec-ConfidenceIntervals 节]。
 
-\clearpage
 
 ### 改变置信水平
 
@@ -589,7 +588,6 @@ $$
 当假设检验的成功—失败条件不满足时，我们可以使用原假设值 $p_0$ 来模拟 $\hat{p}$ 的原假设分布，如 [第 -@sec-one-prop-null-boot 节]所示。
 遗憾的是，处理非独立观测（例如，对研究对象在研究前后进行的重复测量）的方法超出了本书的范围。
 
-\clearpage
 
 ## 章节回顾 {#sec-chp16-review}
 
@@ -616,7 +614,6 @@ make_terms_table(terms_chp_16)
 
 
 
-\clearpage
 
 ## 练习题 {#sec-chp16-exercises}
 

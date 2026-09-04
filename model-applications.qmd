@@ -164,7 +164,6 @@ pr_bed + pr_bath + pr_area + pr_year + pr_cool + pr_lot + plot_layout(ncol = 2)
 然而，请记住相关系数对离群值非常敏感，因此即使变量高度相关，也始终有必要查看散点图。
 :::
 
-\clearpage
 
 ### 用 `area` 为 `price` 建模
 
@@ -251,7 +250,6 @@ duke_forest |>
 
 
 
-\clearpage
 
 ::: {.guidedpractice data-latex=""}
 残差图的什么特征表明线性模型是合适的？
@@ -476,7 +474,6 @@ m_full_no_bed_w_rsq |>
 
 
 
-\clearpage
 
 那么，基于此模型预测售价的线性模型如下：
 
@@ -558,7 +555,6 @@ new_house_resid <- 804133 - new_house_pred
     在我们了解到这栋房屋位于加利福尼亚州后，我们意识到这个模型完全不应该应用于这栋新房屋！
     原始数据来自北卡罗来纳州达勒姆，基于北卡罗来纳州达勒姆数据建立的模型应仅用于探索北卡罗来纳州达勒姆房屋的价格模式。
 
-\clearpage
 
 ## 交互式 R 教程 {#sec-model-tutorials}
 
