@@ -35,6 +35,10 @@ local function render_crossref(cite)
         prefix, suffix = "式", ""
       elseif prefix:match("附录") then
         prefix, suffix = "附录", ""
+      elseif prefix == "" and suffix == "" then
+        -- Source text in the normalized form `第[-@sec-id]章/节` supplies
+        -- both Chinese affixes; emit only the reference number.
+        prefix, suffix = "", ""
       else
         prefix = "第"
         suffix = suffix:match("章") and "章" or "节"
@@ -114,6 +118,13 @@ function Header(header)
 end
 
 function CodeBlock(block)
+  -- The same list-nesting issue can occur in HTML when knitr emits a
+  -- multi-output cell.  Re-parse the generated fenced div so the figures and
+  -- tables remain real HTML instead of appearing as literal `:::` text.
+  if FORMAT:match("html") and block.text:match("^:::+%s+{%.cell[%s}]") then
+    return pandoc.read(block.text, "markdown").blocks
+  end
+
   -- knitr indents cell wrappers inside long exercise lists.  Pandoc can then
   -- mistake the generated fenced div for literal code and print the `:::`
   -- markers.  Parse only those known generated cells back into Markdown.

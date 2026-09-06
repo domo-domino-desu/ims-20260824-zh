@@ -81,7 +81,7 @@
 
 \clearpage
 
-3.  **“黑人的命也是命”。** 2020年6月在美国进行的一项《华盛顿邮报》-沙尔学校民意调查，通过随机抽取全国1006名成年人样本，询问受访者是支持还是反对乔治·弗洛伊德被杀后在美国各城市发生的抗议活动。
+3.  **“黑人的命也是命”。** 2020年6月在美国进行的一项《华盛顿邮报》-沙尔学校民意调查，通过随机抽取全国1006名成年人样本，询问受访者是支持还是反对 George Floyd 被杀后在美国各城市发生的抗议活动。
     该调查还收集了受访者的年龄信息。
     [@survey:blmWaPoScar:2020] 结果汇总在下方的堆叠条形图中。
 
@@ -354,7 +354,7 @@
 
 \vfill
 
-8.  **弗洛伦斯·南丁格尔。** 弗洛伦斯·南丁格尔是克里米亚战争中的一名护士，也是一位早期的统计学家。
+8.  **Florence Nightingale。** Florence Nightingale 是克里米亚战争中的一名护士，也是一位早期的统计学家。
     在她的笔记中，她写道：“在比较一家医院与另一家医院的死亡率时，任何不能提供所有观测单位的年龄、性别和疾病信息的统计量，都理所当然地被视为毫无价值。” [@nightingale:1859]
 
     a.  南丁格尔描述了比较不同医院死亡率时需要考虑的三个混杂变量。
@@ -421,6 +421,6 @@ a.  选举后，众议院的民主党阵营是更保守还是更自由？请解�
 
 [^_04-ex-explore-categorical-4]: 本练习中使用的 `flights` 数据可以在 [**nycflights13**](https://github.com/tidyverse/nycflights13) R 包中找到。
 
-[^_04-ex-explore-categorical-5]: 这个难题被称为辛普森悖论，在 [第 -@sec-data-applications 章] 中有所探讨。
+[^_04-ex-explore-categorical-5]: 这个难题被称为辛普森悖论，在第[-@sec-data-applications]章 中有所探讨。
 
-[^_04-ex-explore-categorical-6]: 这个难题被称为辛普森悖论，在 [第 -@sec-data-applications 章] 中有所探讨。
+[^_04-ex-explore-categorical-6]: 这个难题被称为辛普森悖论，在第[-@sec-data-applications]章 中有所探讨。

@@ -38,7 +38,7 @@ terms_chp_2 <- c("population", "census", "sample")
 
 ### 参数与统计量
 
-在大多数统计分析过程中，手头的研究问题归根结底是要理解一个数值概括。这个（或这组）数字可能是你已经熟悉的量（如平均数），也可能是你通过本书学到的量（如最小二乘模型的斜率和截距，在 [第 -@sec-least-squares-regression 节]中给出）。
+在大多数统计分析过程中，手头的研究问题归根结底是要理解一个数值概括。这个（或这组）数字可能是你已经熟悉的量（如平均数），也可能是你通过本书学到的量（如最小二乘模型的斜率和截距，在第[-@sec-least-squares-regression]节中给出）。
 
 数值概括既可以在观测样本上计算，也可以在整个总体上计算。然而，测量总体中的每个单位通常是不可行的。所以，一个“典型的”数值概括是从样本中计算出来的。但我们仍然可以构想计算阿根廷所有成年人的平均收入。
 
@@ -509,7 +509,7 @@ terms_chp_2 <- c(terms_chp_2, "experiment", "randomized experiment")
 
 1.  **控制。** 研究人员将处理分配给观测单位，并尽力**控制**任何可能存在的组间差异[^02-data-design-3]。例如，当患者以药片形式服药时，有些患者只是抿一小口水就吞下药片，而另一些患者可能会用一整杯水送服。为了控制饮水量的影响，医生可能会指示每位患者都用 12 盎司的一杯水送服药片。
 
-[^02-data-design-3]: 这与*对照组*是不同的概念，我们将在第二个原则和 [第 -@sec-reducing-bias-human-experiments 节]中讨论对照组。
+[^02-data-design-3]: 这与*对照组*是不同的概念，我们将在第二个原则和第[-@sec-reducing-bias-human-experiments]节中讨论对照组。
 
 ```{r}
 #| include: false
@@ -662,7 +662,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
 
 
 ::: {.guidedpractice data-latex=""}
-回顾一下 [第 -@sec-case-study-stents-strokes 节]中研究人员测试支架是否能有效降低高风险患者中风风险的研究。
+回顾一下第[-@sec-case-study-stents-strokes]节中研究人员测试支架是否能有效降低高风险患者中风风险的研究。
 这是一项实验吗？
 这项研究采用盲法了吗？
 是双盲吗？[^02-data-design-7]
@@ -674,7 +674,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
     由于没有采用盲法，这项研究也不可能实现双盲。
 
 ::: {.guidedpractice data-latex=""}
-对于 [第 -@sec-case-study-stents-strokes 节]中的研究，研究人员当时能使用安慰剂吗？
+对于第[-@sec-case-study-stents-strokes]节中的研究，研究人员当时能使用安慰剂吗？
 如果能，那个安慰剂会是什么样的？[^02-data-design-8]
 :::
 
@@ -693,7 +693,7 @@ terms_chp_2 <- c(terms_chp_2, "double-blind")
 ## 观察性研究 {#sec-observational-studies}
 
 那些未明确施加（或明确未施加）处理的研究被称为**观察性研究**\index{study!observational}\index{observational study}。
-例如， [第 -@sec-data-basics 节]中描述的贷款数据和县数据的相关研究都会被认为是观察性的，因为它们依赖于**观测数据**。
+例如，第[-@sec-data-basics]节中描述的贷款数据和县数据的相关研究都会被认为是观察性的，因为它们依赖于**观测数据**。
 
 ```{r}
 #| include: false
@@ -783,7 +783,7 @@ terms_chp_2 <- c(terms_chp_2, "prospective study", "retrospective study")
 一名熟练的分析师应当充分了解自己正在处理的数据类型，以及如何将数据可视化，从而全面理解各个变量。
 然而，数据的来源也同样重要。
 在本章中，我们讨论了随机化实验以及如何从总体中抽取良好、随机、有代表性的样本。
-当我们讨论推断方法时（从 [第 -@sec-foundations-randomization 章]开始），能够得出的结论将取决于数据是如何收集的。
+当我们讨论推断方法时（从第[-@sec-foundations-randomization]章开始），能够得出的结论将取决于数据是如何收集的。
 [图 -@fig-randsampValloc]总结了抽样方法和分配方法如何与推断的范围相关联。[^02-data-design-11]
 当从给定的数据分析中得出结论时，经常回顾 [图 -@fig-randsampValloc]这张图是很重要的。
 

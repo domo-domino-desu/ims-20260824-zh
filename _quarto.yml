@@ -83,7 +83,13 @@ crossref:
   sec-prefix: "节"
 
 format:
+  html:
+    fig-format: svg
+    fig-align: center
+    filters:
+      - latex/ims-filter.lua
   pdf:
+    fig-format: pdf
     filters:
       - latex/ims-filter.lua
     papersize: a4
@@ -119,7 +125,6 @@ execute:
 
 knitr:
   opts_chunk: 
-    dev: "ragg_png"
     fig-asp: 0.618  # 1 / phi
     fig-width: 8
 

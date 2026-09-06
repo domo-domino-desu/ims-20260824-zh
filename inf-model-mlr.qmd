@@ -9,7 +9,7 @@ source("_common.R")
 
 
 ::: {.chapterintro data-latex=""}
-在 [第 -@sec-model-mlr 章]中，我们使用了最小二乘回归法来估计线性模型，这些模型在给定多个解释变量的情况下预测特定的结果变量。
+在第[-@sec-model-mlr]章中，我们使用了最小二乘回归法来估计线性模型，这些模型在给定多个解释变量的情况下预测特定的结果变量。
 这里，我们将讨论每个变量是否单独作为结果变量的统计上可辨识的预测变量，或者说模型是否在没有该变量的情况下也同样有效。
 也就是说，和之前一样，我们应用推断方法来探究一个变量是否可能来自其特定系数为零的总体。
 如果某个线性模型系数在总体中确实为零，那么使用最小二乘法得到的该系数估计值将在零附近波动。
@@ -28,7 +28,7 @@ terms_chp_25 <- c("inference on multiple linear regression")
 
 ## 软件输出的多元回归结果 {#sec-inf-mult-reg-soft}
 
-回忆一下 [第 -@sec-model-mlr 章]中的 `loans` 数据。
+回忆一下第[-@sec-model-mlr]章中的 `loans` 数据。
 
 ::: {.data data-latex=""}
 [`loans_full_schema`](http://openintrostat.github.io/openintro/reference/loans_full_schema.html) 数据可在 R 包 [**openintro**](http://openintrostat.github.io/openintro) 中找到。
@@ -38,7 +38,7 @@ terms_chp_25 <- c("inference on multiple linear regression")
 
 
 现在，我们的目标是创建一个模型，使用变量 `debt_to_income`、`term` 和 `credit_checks` 来预测 `interest_rate`。
-正如你在 [第 -@sec-model-mlr 章]中学到的，最小二乘法可用于寻找线性模型的系数估计值。
+正如你在第[-@sec-model-mlr]章中学到的，最小二乘法可用于寻找线性模型的系数估计值。
 未知的总体模型可以写为：
 
 $$
@@ -101,7 +101,7 @@ $$
 
 [表 -@tbl-loansmodel]不仅提供了系数的估计值，还提供了关于推断分析（即假设检验）的信息，而这正是本章的重点。
 
-在 [第 -@sec-inf-model-slr 章]中你已学到，对于**单预测变量**[^25-inf-model-mlr-1]的线性模型，其假设检验可以写作：\index{variable!predictor}\index{predictor variable}
+在第[-@sec-inf-model-slr]章中你已学到，对于**单预测变量**[^25-inf-model-mlr-1]的线性模型，其假设检验可以写作：\index{variable!predictor}\index{predictor variable}
 
 [^25-inf-model-mlr-1]: 在前面章节中，使用的术语是**解释变量** \index{variable!explanatory}\index{explanatory variable} 而非**预测变量**。
     这两个词是同义的，并在不同章节中分别使用，以符合大多数分析者的习惯：检验时用解释变量，建模时用预测变量。
@@ -469,7 +469,7 @@ Things I didn't talk about but could:
 
 ## 用于预测误差的交叉验证 {#sec-inf-mult-reg-cv}
 
-在 [第 -@sec-inf-mult-reg-soft 节]中，我们计算了每个模型系数的 p 值。
+在第[-@sec-inf-mult-reg-soft]节中，我们计算了每个模型系数的 p 值。
 p 值能让人了解哪些变量对模型重要；然而，关于变量选择更全面的处理方法值得在后续课程或教科书中进行。
 在这里，我们使用**交叉验证**\index{cross-validation} **预测误差**\index{prediction error}来关注哪些变量对预测我们关注的响应变量是重要的。
 通常，线性模型也用于对单个观测进行预测。
@@ -985,7 +985,7 @@ massCV1 |>
 我们对交叉验证进行了非常简要的概述并提供了应用示例。
 交叉验证是一种用于模型构建和模型验证的计算方法，可以作为依赖 p 值的替代方案。
 虽然 p 值在理解模型系数方面发挥着作用，但在全书中，我们不断介绍旨在拓宽数据分析统计方法的计算方法。
-在 [第 -@sec-inf-model-logistic 章]的逻辑斯谛回归中，我们将再次使用交叉验证。
+在第[-@sec-inf-model-logistic]章的逻辑斯谛回归中，我们将再次使用交叉验证。
 我们鼓励你在构建和使用各种多元模型时，同时考虑标准推断方法（如 p 值）和计算方法（如交叉验证）。
 
 
@@ -993,7 +993,7 @@ massCV1 |>
 
 ### 小结
 
-基于 [第 -@sec-model-mlr 章]的建模思想，我们现在介绍了评估系数（基于 p 值）和评估模型（交叉验证）的方法。
+基于第[-@sec-model-mlr]章的建模思想，我们现在介绍了评估系数（基于 p 值）和评估模型（交叉验证）的方法。
 在单一模型中处理多个变量时，有许多重要方面需要考虑，而我们仅浅谈了其中几个主题。
 请记住，多重共线性可能导致系数解释变得困难。
 本书未涉及但对多元回归模型很重要的一个主题是交互作用，我们希望你随着建模技能的不断提升，能更多地了解变量如何共同作用。

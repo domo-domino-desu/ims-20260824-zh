@@ -101,7 +101,13 @@
 % 1.1
 \newcommand{\officialtextheight}{251mm}
 \newcommand{\officialtextwidth}{165mm}
-\renewcommand{\baselinestretch}{1.0}
+% Chinese body text: no extra paragraph gap, two-em first-line indent, and a
+% slightly more generous baseline than the Latin-oriented default.
+\AtBeginDocument{%
+  \setlength{\parskip}{0pt}%
+  \setlength{\parindent}{2em}%
+  \linespread{1.2}\selectfont
+}
 
 % 1.2 Margin Size
 % Keep geometry as the sole source of page dimensions.  The old template
@@ -166,6 +172,24 @@
   \fi}
 
 % Chapter and section titles
+
+% Keep only the appendix letter in the table-of-contents number box.  The
+% visible chapter heading is formatted independently by titlesec below.
+\ctexset{appendix/name={,}}
+
+% Start every top-level section on a new page except the first section in a
+% chapter.  A chapter may contain introductory prose before that first section,
+% so track the first section structurally rather than testing page position.
+\newif\ifimsfirstsection
+\imsfirstsectionfalse
+\AddToHook{cmd/chapter/before}{\global\imsfirstsectiontrue}
+\AddToHook{cmd/section/before}{%
+  \ifimsfirstsection
+    \global\imsfirstsectionfalse
+  \else
+    \clearpage
+  \fi
+}
 
 \titleformat{\chapter}[display]
 {\color{oiB}\normalfont\Huge\bfseries\Helvetica}

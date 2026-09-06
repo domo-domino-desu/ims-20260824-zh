@@ -10,7 +10,7 @@ source("_common.R")
 \vspace{-5mm}
 
 ::: {.chapterintro data-latex=""}
-现在，我们将 [第 -@sec-inference-one-prop 章]中的方法推广，对两组（第 1 组和第 2 组）总体比例之差 $p_1 - p_2.$ 应用置信区间和假设检验。
+现在，我们将第[-@sec-inference-one-prop]章中的方法推广，对两组（第 1 组和第 2 组）总体比例之差 $p_1 - p_2.$ 应用置信区间和假设检验。
 
 在接下来的研究中，我们将根据样本，为 $p_1 - p_2$ 找到一个合理的点估计；你可能已经猜到它的形式了：$\hat{p}_1 - \hat{p}_2.$ \index{point estimate!difference of proportions}\index{difference of proportions!point estimate}接着，我们将用三种不同的方法进行推断分析：使用随机化检验，使用自助法进行区间估计，以及在确认这个点估计可以用正态分布建模后，计算该点估计的标准误，并应用相应的数学框架。
 :::
@@ -28,7 +28,7 @@ terms_chp_17 <- c("point estimate")
 
 ### 观测数据
 
-让我们再看一看在 [第 -@sec-two-sided-hypotheses 节]中介绍过的心肺复苏（CPR）研究。
+让我们再看一看在第[-@sec-two-sided-hypotheses]节中介绍过的心肺复苏（CPR）研究。
 该实验对因心脏病发作接受 CPR 并随后入院的患者进行了两种处理。
 每位患者都被随机分配到两组之一：接受抗凝血剂的处理组，或不接受抗凝血剂的对照组。
 我们关心的结果变量是患者是否至少存活 24 小时。
@@ -80,7 +80,7 @@ cpr |>
 
 在这项研究中，CPR 后接受抗凝血剂的患者中，存活比例较高，为$\hat{p}_T = \frac{14}{40} = 0.35,$；未接受抗凝血剂的患者中，存活比例为 $\hat{p}_C = \frac{11}{50} = 0.22.$。不过，仅凭这些观察到的比例，我们还无法判断这一差异（$\hat{p}_T - \hat{p}_C = 0.35 - 0.22 = 0.13$）是否提供了*有说服力的证据*，表明 CPR 后使用抗凝血剂是有效的。
 
-正如我们在 [第 -@sec-foundations-randomization 章]中看到的那样，在假设原假设为真的前提下，我们可以把响应（`survived` 或 `died`）重新随机分配到各处理条件，并计算可能出现的比例差。
+正如我们在第[-@sec-foundations-randomization]章中看到的那样，在假设原假设为真的前提下，我们可以把响应（`survived` 或 `died`）重新随机分配到各处理条件，并计算可能出现的比例差。
 我们将观测随机分配到两组的过程在 [图 -@fig-fullrand]中进行了总结和可视化。
 
 ### 统计量的变异性
@@ -144,15 +144,15 @@ cpr |>
 
 \chaptermark{比例差异的自助法置信区间}
 
-在 [第 -@sec-two-prop-errors 节]中，我们利用随机化分布来理解当原假设 $H_0: p_1 - p_2 = 0$ 成立时 $\hat{p}_1 - \hat{p}_2$ 的分布。现在，通过自助法，我们研究 $\hat{p}_1 - \hat{p}_2$ 的变异性，而无需假设原假设成立。
+在第[-@sec-two-prop-errors]节中，我们利用随机化分布来理解当原假设 $H_0: p_1 - p_2 = 0$ 成立时 $\hat{p}_1 - \hat{p}_2$ 的分布。现在，通过自助法，我们研究 $\hat{p}_1 - \hat{p}_2$ 的变异性，而无需假设原假设成立。
 
 ### 观测数据
 
-重新考虑来自 [第 -@sec-two-prop-errors 节]的 CPR 数据，该数据由 [表 -@tbl-cpr-summary]提供。同样，我们使用样本比例之差作为感兴趣的观测统计量。此处，统计量的值为：$\hat{p}_T - \hat{p}_C = 0.35 - 0.22 = 0.13.$
+重新考虑来自第[-@sec-two-prop-errors]节的 CPR 数据，该数据由 [表 -@tbl-cpr-summary]提供。同样，我们使用样本比例之差作为感兴趣的观测统计量。此处，统计量的值为：$\hat{p}_T - \hat{p}_C = 0.35 - 0.22 = 0.13.$
 
 ### 样本比例差异的变异性
 
-应用于两个样本的自助法是 [第 -@sec-foundations-bootstrapping 章]中所述方法的扩展。现在，我们有两个样本，因此每个样本都估计它们所来源的总体。在 CPR 研究中，`treatment` 样本估计所有已经（或将要）接受处理的个体总体；`control` 样本估计所有不接受处理作为对照的个体总体。 [图 -@fig-boot2proppops]扩展了 [图 -@fig-boot1]，以展示同时从两个样本进行自助法的过程。
+应用于两个样本的自助法是第[-@sec-foundations-bootstrapping]章中所述方法的扩展。现在，我们有两个样本，因此每个样本都估计它们所来源的总体。在 CPR 研究中，`treatment` 样本估计所有已经（或将要）接受处理的个体总体；`control` 样本估计所有不接受处理作为对照的个体总体。 [图 -@fig-boot2proppops]扩展了 [图 -@fig-boot1]，以展示同时从两个样本进行自助法的过程。
 
 ```{r}
 #| label: fig-boot2proppops
@@ -224,7 +224,7 @@ include_graphics("images/boot2prop2.png")
 [图 -@fig-boot2samp1]可视化了这一过程，而 [图 -@fig-bootCPR1000]展示了 CPR 数据的 1000 个自助比例之差。
 请注意，CPR 数据中两个组别的人数分别为 40 和 50，而图示例子中两组的人数分别为 7 和 9。
 因此，在图示的例子中，样本比例分布的变异性更高。
-正如您将在 [第 -@sec-math-2prop 节]中讨论的数学模型中所见，较大的样本量会导致比例之差的标准误更小。
+正如您将在第[-@sec-math-2prop]节中讨论的数学模型中所见，较大的样本量会导致比例之差的标准误更小。
 
 ```{r}
 #| label: fig-boot2samp1
@@ -282,7 +282,7 @@ cpr_boot_90_upper_perc <- cpr_boot_90 |> pull(upper)
 
 
 
-正如在 [第 -@sec-foundations-bootstrapping 章]中所述，自助置信区间可以直接根据 [图 -@fig-bootCPR1000]中的自助差值计算得出。
+正如在第[-@sec-foundations-bootstrapping]章中所述，自助置信区间可以直接根据 [图 -@fig-bootCPR1000]中的自助差值计算得出。
 由分布的百分位数构建的区间称为**百分位区间**\index{bootstrap!percentile interval}\index{percentile interval}。
 注意，这里我们通过求自助差值的第 $5^{th}$ 和 $95^{th}$ 百分位数值来计算 90% 置信区间。
 自助分布的第 5 百分位比例是 `r cpr_boot_90_lower_perc`，第 95 百分位比例是 `r cpr_boot_90_upper_perc`。
@@ -344,7 +344,7 @@ cpr_boot_90_upper_se <- round((14 / 40 - 11 / 50) + 2 * cpr_boot_se, 3)
 
 另一种方法是，我们可以利用自助差值的变异性来计算差值的标准误。
 由此产生的区间称为 **SE 区间**\index{SE interval}\index{bootstrap!SE interval}。
-[第 -@sec-math-2prop 节]详细介绍了样本比例之差标准误的数学模型，但自助分布通常能极好地估计样本统计量抽样分布的变异性。
+第[-@sec-math-2prop]节详细介绍了样本比例之差标准误的数学模型，但自助分布通常能极好地估计样本统计量抽样分布的变异性。
 
 ```{r}
 #| include: false
@@ -369,7 +369,7 @@ $$
 
 我们有 95% 的把握认为 $p_T - p_C$ 的真实值介于 `r cpr_boot_90_lower_se` 和 `r cpr_boot_90_upper_se` 之间。
 再次强调，包含零值的宽置信区间表明，该研究几乎没有提供关于抗凝血剂有效性的证据。
-对于其他百分比，例如 90% 自助标准误置信区间，我们将使用标准正态分布给出的分位数，如 [第 -@sec-normalDist 节]和 [图 -@fig-er6895997]所示。
+对于其他百分比，例如 90% 自助标准误置信区间，我们将使用标准正态分布给出的分位数，如第[-@sec-normalDist]节和 [图 -@fig-er6895997]所示。
 
 ### 95% mean? 意味着什么？ {#sec-ci-meaning-95}
 
@@ -738,7 +738,7 @@ $$
 
 在前一个例子中，合并比例被用来检查成功—失败条件[^17-inference-two-props-5]。在下一个例子中，我们会看到合并比例发挥作用的另一个地方：标准误的计算。
 
-[^17-inference-two-props-5]: 有关不要求满足成功—失败条件的两比例假设检验的示例，请参见 [第 -@sec-two-prop-errors 节]。
+[^17-inference-two-props-5]: 有关不要求满足成功—失败条件的两比例假设检验的示例，请参见第[-@sec-two-prop-errors]节。
 
 ::: {.workedexample data-latex=""}
 计算两个组乳腺癌死亡率差异的点估计，并使用合并比例 $\hat{p}_{\textit{pool}} = 0.0112$ 来计算标准误。

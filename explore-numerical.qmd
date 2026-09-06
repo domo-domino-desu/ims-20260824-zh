@@ -17,7 +17,7 @@ source("_common.R")
 这个变量是数值变量，因为我们可以合理地讨论两笔贷款规模的数值差异。
 另一方面，区号和邮政编码则不是数值变量，它们是分类变量。
 
-在整个章节中，我们将使用在 [第 -@sec-data-basics 节]中介绍过的 `loan50` 和 `county` 数据集来应用数值方法。
+在整个章节中，我们将使用在第[-@sec-data-basics]节中介绍过的 `loan50` 和 `county` 数据集来应用数值方法。
 如果你需要复习这两个数据集中任何一个的变量，请查阅 [表 -@tbl-loan-50-variables]和 [表 -@tbl-county-variables]。
 
 ::: {.data data-latex=""}
@@ -234,7 +234,7 @@ $x_2$ 呢？
 ------------------------------------------------------------------------
 
 样本均值 `r round(loan50_interest_rate_mean, 2)` 提供了对 $\mu_x$ 的粗略估计。虽然它并不完美，但这是我们对所研究总体中所有贷款平均利率的唯一最佳猜测，即**点估计**\index{point estimate}。
-在 [第 -@sec-foundations-randomization 章]及后续章节中，我们将开发一些工具来表征点估计（如样本均值）的准确性。
+在第[-@sec-foundations-randomization]章及后续章节中，我们将开发一些工具来表征点估计（如样本均值）的准确性。
 你可能已经猜到，基于较大样本的点估计往往比基于较小样本的点估计更准确。
 :::
 
@@ -790,13 +790,13 @@ ggplot(dists_mean0_sd1, aes(x = x)) +
 :::
 
 在实际应用中，方差和标准差有时被作为达成某种目的的工具，这里的“目的”是能够准确估计与样本统计量相关的不确定性。
-例如，在 [第 -@sec-foundations-mathematical 章]中，标准差被用于计算，以帮助我们理解样本均值在不同样本之间的变化程度。
+例如，在第[-@sec-foundations-mathematical]章中，标准差被用于计算，以帮助我们理解样本均值在不同样本之间的变化程度。
 
 
 ## 箱线图、四分位数和中位数 {#sec-boxplots}
 
 **箱线图**\index{plot!box}\index{box plot}使用五个统计量来汇总一个数据集，同时识别出异常观测。
-[图 -@fig-loan-int-rate-boxplot-dotplot]展示了 `loan50` 数据集中 `interest_rate` 变量的点图和箱线图。^[箱线图由 Mary Eleanor Spear（玛丽·埃莉诺·斯皮尔）引入，她认为箱线图是一种特殊的条形图，详见 @Spear1952 第166页。箱线图常被误认为是 John Tukey（约翰·图基）提出的，他是第一个将其称为“箱须图”的人。]
+[图 -@fig-loan-int-rate-boxplot-dotplot]展示了 `loan50` 数据集中 `interest_rate` 变量的点图和箱线图。^[箱线图由 Mary Eleanor Spear 引入，她认为箱线图是一种特殊的条形图，详见 @Spear1952 第166页。箱线图常被误认为是 John Tukey 提出的，他是第一个将其称为“箱须图”的人。]
 
 ```{r}
 #| include: false
@@ -1220,7 +1220,7 @@ terms_chp_05 <- c(terms_chp_05, "transformation")
 [图 -@fig-county-pop-change-transform-1]展示了 2010 年至 2017 年人口变化相对于 2010 年人口的散点图。
 由于人口变量偏态非常严重，因此很难从中解读出任何有趣的模式。
 然而，如果我们对人口变量应用 log$_{10}$ 变换，如 [图 -@fig-county-pop-change-transform-2]所示，变量间的正关联就显现了出来。
-事实上，当我们在 [第 -@sec-model-slr 章]中探讨拟合回归线的方法时，我们可能会有兴趣为这些数据拟合一条趋势线。
+事实上，当我们在第[-@sec-model-slr]章中探讨拟合回归线的方法时，我们可能会有兴趣为这些数据拟合一条趋势线。
 
 
 ```{r}

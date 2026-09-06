@@ -700,9 +700,9 @@ terms_chp_1 <- c(
 为了检验解释变量（跑者是否饮用了能量饮料）和响应变量（比赛用时）之间是否真的存在因果关系，研究人员会抽取一个由个体组成的样本并将其分成若干组。
 每组中的个体被*分配*一种处理。
 当个体被随机分配到某个组时，该实验称为**随机化实验**\index{study!randomized experiment}\index{randomized experiment}。
-随机分配将研究中的参与者组织成在所有方面都大致相等的组，从而使我们能够控制可能影响结果变量的任何混杂变量（例如，健康水平、比赛经验等）。（关于混杂变量的更多信息，参见 [第 -@sec-principles-experimental-design 节]。）
+随机分配将研究中的参与者组织成在所有方面都大致相等的组，从而使我们能够控制可能影响结果变量的任何混杂变量（例如，健康水平、比赛经验等）。（关于混杂变量的更多信息，参见第[-@sec-principles-experimental-design]节。）
 例如，实验中的每位跑者可以被随机分配（比如通过抛硬币的方式）到两组之一：第一组接受**安慰剂**\index{placebo}（假处理，在此例中是无热量饮料），第二组接受高热量能量饮料。
-关于另一个实验的例子，参见 [第 -@sec-case-study-stents-strokes 节]中的案例研究，尽管该研究未使用安慰剂。
+关于另一个实验的例子，参见第[-@sec-case-study-stents-strokes]节中的案例研究，尽管该研究未使用安慰剂。
 
 ```{r}
 #| include: false
@@ -714,7 +714,7 @@ terms_chp_1 <- c(terms_chp_1, "experiment", "randomized experiment", "placebo")
 当研究人员以不直接干扰数据产生过程的方式收集数据时，他们进行的是**观察性研究**\index{study!observational}\index{observational study}。
 例如，研究人员可能通过调查、查阅医疗或公司记录，或跟踪一个**队列**\index{cohort}\index{study!cohort}的许多相似个体来收集信息，从而形成关于某些疾病为何可能发生的假设。
 在每种情况下，研究人员仅仅是观测产生的数据。
-一般而言，观察性研究可以提供变量之间自然发生的**关联**的证据，但它们自身无法显示**因果**联系，因为它们没有提供控制混杂变量的机制。（关于混杂变量的更多信息，参见 [第 -@sec-principles-experimental-design 节]。）
+一般而言，观察性研究可以提供变量之间自然发生的**关联**的证据，但它们自身无法显示**因果**联系，因为它们没有提供控制混杂变量的机制。（关于混杂变量的更多信息，参见第[-@sec-principles-experimental-design]节。）
 
 ```{r}
 #| include: false
@@ -728,7 +728,7 @@ terms_chp_1 <- c(terms_chp_1, "observational study", "cohort")
 一般而言，关联并不意味着因果。
 随机化实验的一个优势是，用这样的研究更容易确立因果关系。
 其主要原因是观察性研究不控制混杂变量，因此用观察性研究确立因果关系需要高级的统计方法（这些方法超出了本书的范围）。
-在 [第 -@sec-principles-experimental-design 节]讨论实验时，我们会重新探讨混杂的概念。
+在第[-@sec-principles-experimental-design]节讨论实验时，我们会重新探讨混杂的概念。
 :::
 
 \vspace{10mm}

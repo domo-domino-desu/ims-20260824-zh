@@ -57,9 +57,15 @@ suppressMessages(library(mosaicData))
 #)
 
 if (knitr::is_html_output()) {
-  knitr::opts_chunk$set(out.width = "90%")
+  knitr::opts_chunk$set(
+    dev = "svglite",
+    out.width = "90%"
+  )
 } else if (knitr::is_latex_output()) {
-  knitr::opts_chunk$set(out.width = "80%")
+  knitr::opts_chunk$set(
+    dev = "cairo_pdf",
+    out.width = "80%"
+  )
 }
 
 # knit options -----------------------------------------------------------------

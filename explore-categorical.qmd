@@ -14,8 +14,8 @@ source("_common.R")
 掌握本章所介绍的内容对于理解本书其余部分介绍的方法和技术至关重要。
 :::
 
-在本章中，我们将使用你在 [第 -@sec-data-hello 章]中见过的 Lending Club 贷款数据。
-[第 -@sec-data-hello 章]中的 `loan50` 数据集代表了一个更大的名为 `loans` 的贷款数据集的一个样本。
+在本章中，我们将使用你在第[-@sec-data-hello]章中见过的 Lending Club 贷款数据。
+第[-@sec-data-hello]章中的 `loan50` 数据集代表了一个更大的名为 `loans` 的贷款数据集的一个样本。
 这个更大的数据集包含了通过 Lending Club 发放的 10,000 笔贷款的信息。
 我们将研究 `homeownership`（在 `loans` 数据中，其取值可以是 `rent`、`mortgage`（有按揭）或 `own`）与 `application_type`（表示贷款申请是与伴侣共同提交的还是个人单独提交的）之间的关系。
 
@@ -669,10 +669,10 @@ county |>
 
 
 
-我们可以通过颜色，根据某一分类变量的不同水平，来拆分针对数值变量绘制的直方图（关于直方图的介绍，参见 [第 -@sec-histograms 节]）。
+我们可以通过颜色，根据某一分类变量的不同水平，来拆分针对数值变量绘制的直方图（关于直方图的介绍，参见第[-@sec-histograms]节）。
 这一用法的一个示例见 [图 -@fig-countyIncomeSplitByPopGain-1]。
 **并列箱线图**\index{plot!side-by-side box}\index{side-by-side box plot}是另一种传统的跨组比较工具。
-其示例见 [图 -@fig-countyIncomeSplitByPopGain-2]，图中包含两个箱线图（关于箱线图的介绍，参见 [第 -@sec-boxplots 节]），每组一个，它们被放置在同一绘图窗口中并使用相同的尺度绘制。
+其示例见 [图 -@fig-countyIncomeSplitByPopGain-2]，图中包含两个箱线图（关于箱线图的介绍，参见第[-@sec-boxplots]节），每组一个，它们被放置在同一绘图窗口中并使用相同的尺度绘制。
 
 ```{r}
 #| include: false
@@ -739,7 +739,7 @@ county |>
 [^04-explore-categorical-4]: 答案会不尽相同。
     并列箱线图特别适用于比较中心和离散程度，而空心直方图则更适用于观察分布的形状、偏态、众数以及潜在的异常情况。
 
-另一个用于跨组比较数值数据的有用可视化是**山脊图（ridge plot）**\index{plot!ridge}\index{ridge plot}，它将不同组的密度图（关于密度图的介绍，参见 [第 -@sec-boxplots 节]）组合到单一绘图窗口的相同尺度上绘制。
+另一个用于跨组比较数值数据的有用可视化是**山脊图（ridge plot）**\index{plot!ridge}\index{ridge plot}，它将不同组的密度图（关于密度图的介绍，参见第[-@sec-boxplots]节）组合到单一绘图窗口的相同尺度上绘制。
 [图 -@fig-countyIncomeSplitByPopGainRidge]展示了一个县家庭收入中位数分布的山脊图，该分布按人口是否增长进行了划分。
 
 ```{r}

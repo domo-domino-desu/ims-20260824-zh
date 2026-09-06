@@ -22,7 +22,7 @@ source("_common.R")
 
 `mariokart` 数据集包含了 141 次拍卖的结果。
 该数据集的前四个观测显示在 [表 -@tbl-mariokart-data-frame]中，每个变量的描述显示在 [表 -@tbl-mariokart-var-def]中。
-请注意，`condition`（状况）和 `stock_photo`（库存照片）变量是**指示变量**\index{indicator variable}\index{variable!indicator}，类似于 [第 -@sec-inf-model-mlr 章]中 `loans` 数据集里的 `bankruptcy`（破产）变量。
+请注意，`condition`（状况）和 `stock_photo`（库存照片）变量是**指示变量**\index{indicator variable}\index{variable!indicator}，类似于第[-@sec-inf-model-mlr]章中 `loans` 数据集里的 `bankruptcy`（破产）变量。
 
 ```{r}
 #| label: tbl-mariokart-data-frame
@@ -292,7 +292,7 @@ mariokart |>
 
 ### 交叉验证
 
-在 [第 -@sec-model-mlr 章]中，模型是通过 $R^2_{adj}$ 进行比较的。然而，在 [第 -@sec-inf-model-mlr 章]中，我们引入了一种计算方法来比较模型，即每次移除一部分数据，并评估变量对被留出观测的预测效果。
+在第[-@sec-model-mlr]章中，模型是通过 $R^2_{adj}$ 进行比较的。然而，在第[-@sec-inf-model-mlr]章中，我们引入了一种计算方法来比较模型，即每次移除一部分数据，并评估变量对被留出观测的预测效果。
 
 [图 -@fig-mariokart-cv-residuals]是通过对与 [表 -@tbl-mariokart-model-output]和 [表 -@tbl-mariokart-full-model-output]中变量相同的模型进行交叉验证而创建的。
 我们应用了 3 折交叉验证，因此每次移除 1/3 的数据，同时使用 2/3 的观测来构建每个模型（首先仅基于 `cond_new`，然后基于 `cond_new`、`stock_photo`、`duration` 和 `wheels`）。

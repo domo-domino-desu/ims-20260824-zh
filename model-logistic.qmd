@@ -395,7 +395,7 @@ resume_full_fit |>
 
 
 就像多元回归一样，我们可以从模型中剔除一些变量。
-这里我们将使用一个称为**赤池信息准则（AIC）**\index{AIC}\index{Akaike information criterion}的统计量；该准则得名于赤池弘次（Hirotugu Akaike），它类似于我们在多元回归中使用的调整 $R^2$。
+这里我们将使用一个称为**赤池信息准则（AIC）**\index{AIC}\index{Akaike information criterion}的统计量；该准则得名于赤池弘次，它类似于我们在多元回归中使用的调整 $R^2$。
 AIC 是一种在许多学科中广泛使用的流行模型选择方法，并因其强调模型不确定性和简约性而受到推崇。
 AIC 通过根据 AIC 值将模型从好到差进行排序，从而选择“最佳”模型。
 在计算模型的 AIC 时，会对包含额外的变量施加惩罚。
